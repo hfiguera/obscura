@@ -1,0 +1,51 @@
+{
+  "assets": {
+    "config.json": {
+      "bytes": 1713,
+      "sha256": "403cbfc2806f2bc3a89de5a1aaff0998391b11bd33a5530e43da874f401f776a"
+    },
+    "model.onnx": {
+      "bytes": 1113805888,
+      "sha256": "5b2cf59261be026c6eaadb47c5eb545007b95bad381aed7e3b8a2fe730ed5eb0"
+    },
+    "tokenizer.json": {
+      "bytes": 16335516,
+      "sha256": "8d5a786a62a72797fcd2f23663c3f8665bc81e6f10043004c66490810b3d0d82"
+    }
+  },
+  "environment": {
+    "numpy": "2.2.6",
+    "onnx": "1.17.0",
+    "onnxruntime": "1.20.1",
+    "optimum": "unknown",
+    "python": "3.11.15",
+    "tokenizers": "0.21.4",
+    "torch": "2.5.1",
+    "transformers": "4.53.3"
+  },
+  "license": "cc-by-nc-nd-4.0",
+  "model_id": "iiiorg/piiranha-v1-detect-personal-information",
+  "onnx": {
+    "inputs": [
+      "input_ids",
+      "attention_mask"
+    ],
+    "ir_version": 7,
+    "opset": [
+      {
+        "domain": "",
+        "version": 12
+      }
+    ],
+    "outputs": [
+      "logits"
+    ],
+    "providers": [
+      "CPUExecutionProvider"
+    ]
+  },
+  "output_dir": ".cache/piiranha-v1-onnx",
+  "redistribution": "Local evaluation only; do not commit or redistribute converted weights.",
+  "revision": "255acde67a2f34cf452eb42e365b24d2957352fc",
+  "source_dir": ".cache/piiranha-v1-hf"
+}

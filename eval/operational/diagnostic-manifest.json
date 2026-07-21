@@ -1,0 +1,310 @@
+{
+  "reports": [
+    {
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "requested_backend": "emily",
+            "source": "option"
+          },
+          "entities": [
+            "person",
+            "organization",
+            "location"
+          ],
+          "model_alias": "tner_roberta_large_ontonotes5",
+          "model_id": "tner/roberta-large-ontonotes5",
+          "model_license": "unknown",
+          "model_policy": {
+            "aggregation_strategy": "same",
+            "alignment_mode": "expand",
+            "context_required_below_labels": {
+              "FAC": 0.99,
+              "LOC": 0.96,
+              "ORG": 0.99
+            },
+            "context_required_below_thresholds": {
+              "organization": 0.98
+            },
+            "context_required_labels": [
+              "FAC"
+            ],
+            "context_words_by_entity": {
+              "location": [
+                "address",
+                "city",
+                "country",
+                "facility",
+                "headquartered",
+                "hospital",
+                "in",
+                "located",
+                "location",
+                "office",
+                "state"
+              ],
+              "organization": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "context_words_by_label": {
+              "FAC": [
+                "airport",
+                "building",
+                "campus",
+                "facility",
+                "headquarters",
+                "hospital",
+                "office"
+              ],
+              "GPE": [
+                "address",
+                "city",
+                "country",
+                "headquartered",
+                "located",
+                "office",
+                "state"
+              ],
+              "LOC": [
+                "address",
+                "city",
+                "country",
+                "geography",
+                "located",
+                "location",
+                "region",
+                "state"
+              ],
+              "ORG": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "labels_to_ignore": [
+              "B-CARDINAL",
+              "I-CARDINAL",
+              "B-DATE",
+              "I-DATE",
+              "B-EVENT",
+              "I-EVENT",
+              "B-LANGUAGE",
+              "I-LANGUAGE",
+              "B-LAW",
+              "I-LAW",
+              "B-MONEY",
+              "I-MONEY",
+              "B-NORP",
+              "I-NORP",
+              "B-ORDINAL",
+              "I-ORDINAL",
+              "B-PERCENT",
+              "I-PERCENT",
+              "B-PRODUCT",
+              "I-PRODUCT",
+              "B-QUANTITY",
+              "I-QUANTITY",
+              "B-TIME",
+              "I-TIME",
+              "B-WORK_OF_ART",
+              "I-WORK_OF_ART"
+            ],
+            "negative_context_reject_labels": [
+              "GPE"
+            ],
+            "negative_context_words_by_label": {
+              "GPE": [
+                "account",
+                "case",
+                "code",
+                "invoice",
+                "order",
+                "payment",
+                "product",
+                "reference",
+                "ticket"
+              ]
+            },
+            "per_entity_thresholds": {
+              "location": 0.8,
+              "organization": 0.95
+            },
+            "per_label_thresholds": {
+              "FAC": 0.97,
+              "GPE": 0.9,
+              "LOC": 0.92,
+              "ORG": 0.98,
+              "PERSON": 0.72
+            },
+            "weak_context_words_by_label": {
+              "FAC": [
+                "in"
+              ]
+            }
+          },
+          "model_status": "experimental",
+          "tokenizer_id": "tner/roberta-large-ontonotes5"
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "balanced",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "experiment": {
+        "behavior_changes_allowed": false,
+        "diagnostics_enabled": true,
+        "id": "balanced_canonical_r1",
+        "kind": "instrumented",
+        "repetition": 1,
+        "sample_mode": "mixed"
+      },
+      "files": {
+        "json": "eval/operational/diagnostic-reports/balanced-balanced_canonical_r1-apple_emily.json",
+        "json_sha256": "04461cb16bd83cc3d8c55845507cbc256fbdde8691f6c050596966f19626e2df",
+        "markdown": "eval/operational/diagnostic-reports/balanced-balanced_canonical_r1-apple_emily.md",
+        "markdown_sha256": "4bcf5b63e51911393e506e82739c66479bc2e606d2781a86285d2a9573165476"
+      },
+      "generated_at": "2026-07-18T14:56:41.732467Z",
+      "id": "balanced-balanced_canonical_r1-apple_emily",
+      "instrumentation_overhead": {
+        "control": {
+          "p95_latency_ms": 170.0,
+          "throughput_rps": 36.0849766322823
+        },
+        "control_experiment_id": "balanced_control_10m_canonical_r1",
+        "instrumented": {
+          "p95_latency_ms": 150.0,
+          "throughput_rps": 35.624158963370036
+        },
+        "output_probe_match": true,
+        "p95_latency_delta_ratio": -0.11764705882352941,
+        "same_concurrency": true,
+        "same_duration": true,
+        "same_profile": true,
+        "same_sample_mode": true,
+        "same_source_commit": true,
+        "status": "measured",
+        "throughput_delta_ratio": -0.012770346884470664
+      },
+      "profile": "balanced",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "b762a1a0c84ea31a8178395c42da0dbcfcb70ccc"
+      },
+      "workload": {
+        "completed": 21376,
+        "concurrency": 4,
+        "elapsed_ms": 600042.236,
+        "requested_duration_ms": 600000,
+        "throughput_rps": 35.624158963370036
+      }
+    },
+    {
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "backend_source": "option",
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "parity_warning": "python_original_bf16_qkv_backend_limited",
+            "parity_warning_reason": "Emily GPU BF16 QKV dot/matmul does not currently match Python OPF exactly; use BinaryBackend for Python-original numeric parity validation.",
+            "requested_backend": "emily"
+          },
+          "checkpoint_configured": true
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "openmed_pii",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "experiment": {
+        "behavior_changes_allowed": false,
+        "diagnostics_enabled": true,
+        "id": "openmed_canonical_r1",
+        "kind": "instrumented",
+        "repetition": 1,
+        "sample_mode": "mixed"
+      },
+      "files": {
+        "json": "eval/operational/diagnostic-reports/openmed_pii-openmed_canonical_r1-apple_emily.json",
+        "json_sha256": "5882e645e83eee4b39909275fe73004859e28255f198110db246d254e22b9a09",
+        "markdown": "eval/operational/diagnostic-reports/openmed_pii-openmed_canonical_r1-apple_emily.md",
+        "markdown_sha256": "6ed85a9d1ce92b39fc4dabbb0c00a2ae852c7315ddf6a7f9eccd078853cdb4c5"
+      },
+      "generated_at": "2026-07-18T15:59:35.397856Z",
+      "id": "openmed_pii-openmed_canonical_r1-apple_emily",
+      "instrumentation_overhead": {
+        "control": {
+          "p95_latency_ms": 4.1e3,
+          "throughput_rps": 3.161422944705786
+        },
+        "control_experiment_id": "openmed_control_30m_canonical_r1",
+        "instrumented": {
+          "p95_latency_ms": 3.6e3,
+          "throughput_rps": 3.3002496559891528
+        },
+        "output_probe_match": true,
+        "p95_latency_delta_ratio": -0.12195121951219512,
+        "same_concurrency": true,
+        "same_duration": true,
+        "same_profile": true,
+        "same_sample_mode": true,
+        "same_source_commit": true,
+        "status": "measured",
+        "throughput_delta_ratio": 0.04391272971427317
+      },
+      "profile": "openmed_pii",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "b762a1a0c84ea31a8178395c42da0dbcfcb70ccc"
+      },
+      "workload": {
+        "completed": 5955,
+        "concurrency": 4,
+        "elapsed_ms": 1804408.945,
+        "requested_duration_ms": 1800000,
+        "throughput_rps": 3.3002496559891528
+      }
+    }
+  ],
+  "schema_version": 1
+}

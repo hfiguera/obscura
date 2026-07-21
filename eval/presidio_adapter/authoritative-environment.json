@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "python": {
+    "implementation": "CPython",
+    "version": "3.11.15"
+  },
+  "installer": {
+    "pip": "26.1.1",
+    "pip_tools": "7.5.3"
+  },
+  "packages": {
+    "presidio_analyzer": {
+      "version": "2.2.363",
+      "source_revision": "5c0ac333534955601f0649cff3e323ca5d5d7345",
+      "source": "https://pypi.org/project/presidio-analyzer/2.2.363/"
+    },
+    "presidio_evaluator": {
+      "version": "0.2.5",
+      "source_revision": "2e9741154a3857712307b776cc2cd5f13c95c34b",
+      "source": "https://github.com/microsoft/presidio-research"
+    },
+    "spacy": {
+      "version": "3.8.13",
+      "source": "https://pypi.org/project/spacy/3.8.13/",
+      "note": "presidio-analyzer 2.2.363 explicitly excludes spaCy 3.8.14"
+    },
+    "en_core_web_lg": {
+      "version": "3.8.0",
+      "source": "https://github.com/explosion/spacy-models/releases/tag/en_core_web_lg-3.8.0",
+      "wheel_sha256": "293e9547a655b25499198ab15a525b05b9407a75f10255e405e8c3854329ab63"
+    }
+  },
+  "reference_sources": {
+    "presidio": "16ab0fd8818f76c98de487534e96f98689531e84",
+    "presidio_research": "2e9741154a3857712307b776cc2cd5f13c95c34b"
+  }
+}

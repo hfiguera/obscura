@@ -1,0 +1,1884 @@
+{
+  "profile": "accurate",
+  "runtime": {
+    "otp": "29",
+    "elixir": "1.20.2",
+    "obscura_dependencies": {
+      "axon": "0.8.1",
+      "bumblebee": "0.7.0",
+      "emily": "0.7.2",
+      "ex_phone_number": "0.4.11",
+      "exla": "not_loaded",
+      "jason": "1.4.5",
+      "mix_lock_sha256": "4aa7357b1d60965b2d48c71ab9140e113c27778598afa1c6bcb5c11a6b420591",
+      "nx": "0.12.1",
+      "obscura": "0.1.0-dev",
+      "ortex": "not_loaded",
+      "req": "not_loaded",
+      "safetensors": "0.1.3"
+    }
+  },
+  "status": "complete",
+  "source": {
+    "source_commit": "9ebb01b70ffa427ac8ce2bfd6fbaa276e9fc21d9",
+    "dirty_worktree": false
+  },
+  "resources": {
+    "source": {
+      "beam": "erlang_memory",
+      "gpu": "emily_memory",
+      "rss": "os_ps_sampling"
+    },
+    "warm_peak_beam_bytes": 331144787,
+    "warm_peak_rss_bytes": 3390078976,
+    "warm_peak_gpu_bytes": 2976963398,
+    "sustained_memory_growth_bytes": -99385344,
+    "sustained_peak_beam_bytes": 188340459,
+    "sustained_peak_rss_bytes": 3285762048,
+    "sustained_peak_gpu_bytes": 2976528790,
+    "scheduler_run_queue_peak": 9
+  },
+  "dataset": {
+    "id": "generated_large_template_heldout",
+    "name": "generated_large",
+    "split": "template_heldout",
+    "sha256": "b84d6553a3fc27a5c664a1c2f95be15291ea16b83501e109d411fe237e380e26",
+    "sample_count": 648,
+    "sample_ids_sha256": "abd254573ceacfd0a8472a48633db7a98e134c1be9e1c9301dda4e22ee372018",
+    "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+    "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+    "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf"
+  },
+  "environment": {
+    "profile": "accurate",
+    "actual": {
+      "primary": {
+        "backend": "emily",
+        "backend_metadata": {
+          "source": "option",
+          "emily_device": "gpu",
+          "emily_fallback": "raise",
+          "requested_backend": "emily",
+          "backend_proven": true,
+          "fallback_occurred": false,
+          "actual_device": "gpu",
+          "exla_enabled": false,
+          "actual_backend": "emily"
+        },
+        "entities": [
+          "person",
+          "organization",
+          "location"
+        ],
+        "model_alias": "tner_roberta_large_ontonotes5",
+        "model_id": "tner/roberta-large-ontonotes5",
+        "tokenizer_id": "tner/roberta-large-ontonotes5",
+        "model_license": "unknown",
+        "model_status": "experimental",
+        "model_policy": {
+          "per_label_thresholds": {
+            "FAC": 0.97,
+            "GPE": 0.9,
+            "LOC": 0.92,
+            "ORG": 0.98,
+            "PERSON": 0.72
+          },
+          "weak_context_words_by_label": {
+            "FAC": [
+              "in"
+            ]
+          },
+          "per_entity_thresholds": {
+            "location": 0.8,
+            "organization": 0.95
+          },
+          "alignment_mode": "expand",
+          "negative_context_words_by_label": {
+            "GPE": [
+              "account",
+              "case",
+              "code",
+              "invoice",
+              "order",
+              "payment",
+              "product",
+              "reference",
+              "ticket"
+            ]
+          },
+          "negative_context_reject_labels": [
+            "GPE"
+          ],
+          "aggregation_strategy": "same",
+          "labels_to_ignore": [
+            "B-CARDINAL",
+            "I-CARDINAL",
+            "B-DATE",
+            "I-DATE",
+            "B-EVENT",
+            "I-EVENT",
+            "B-LANGUAGE",
+            "I-LANGUAGE",
+            "B-LAW",
+            "I-LAW",
+            "B-MONEY",
+            "I-MONEY",
+            "B-NORP",
+            "I-NORP",
+            "B-ORDINAL",
+            "I-ORDINAL",
+            "B-PERCENT",
+            "I-PERCENT",
+            "B-PRODUCT",
+            "I-PRODUCT",
+            "B-QUANTITY",
+            "I-QUANTITY",
+            "B-TIME",
+            "I-TIME",
+            "B-WORK_OF_ART",
+            "I-WORK_OF_ART"
+          ],
+          "context_words_by_label": {
+            "FAC": [
+              "airport",
+              "building",
+              "campus",
+              "facility",
+              "headquarters",
+              "hospital",
+              "office"
+            ],
+            "GPE": [
+              "address",
+              "city",
+              "country",
+              "headquartered",
+              "located",
+              "office",
+              "state"
+            ],
+            "LOC": [
+              "address",
+              "city",
+              "country",
+              "geography",
+              "located",
+              "location",
+              "region",
+              "state"
+            ],
+            "ORG": [
+              "company",
+              "employer",
+              "organization",
+              "works at",
+              "work at",
+              "affiliated with"
+            ]
+          },
+          "context_words_by_entity": {
+            "location": [
+              "address",
+              "city",
+              "country",
+              "facility",
+              "headquartered",
+              "hospital",
+              "in",
+              "located",
+              "location",
+              "office",
+              "state"
+            ],
+            "organization": [
+              "company",
+              "employer",
+              "organization",
+              "works at",
+              "work at",
+              "affiliated with"
+            ]
+          },
+          "context_required_labels": [
+            "FAC"
+          ],
+          "context_required_below_labels": {
+            "FAC": 0.99,
+            "LOC": 0.96,
+            "ORG": 0.99
+          },
+          "context_required_below_thresholds": {
+            "organization": 0.98
+          }
+        }
+      },
+      "location": {
+        "backend": "emily",
+        "backend_metadata": {
+          "source": "option",
+          "emily_device": "gpu",
+          "emily_fallback": "raise",
+          "requested_backend": "emily",
+          "backend_proven": true,
+          "fallback_occurred": false,
+          "actual_device": "gpu",
+          "exla_enabled": false,
+          "actual_backend": "emily"
+        },
+        "entities": [
+          "person",
+          "organization",
+          "location"
+        ],
+        "model_alias": "jean_baptiste_roberta_large_ner_english",
+        "model_id": "Jean-Baptiste/roberta-large-ner-english",
+        "tokenizer_id": "FacebookAI/roberta-large",
+        "model_license": "MIT",
+        "model_status": "experimental",
+        "model_policy": {
+          "per_label_thresholds": {
+            "LOC": 0.92,
+            "ORG": 0.98,
+            "PER": 0.72
+          },
+          "per_entity_thresholds": {
+            "location": 0.8,
+            "organization": 0.95
+          },
+          "alignment_mode": "expand",
+          "aggregation_strategy": "same",
+          "labels_to_ignore": [
+            "MISC",
+            "B-MISC",
+            "I-MISC"
+          ],
+          "context_words_by_label": {
+            "LOC": [
+              "address",
+              "city",
+              "country",
+              "located",
+              "location",
+              "office",
+              "state"
+            ],
+            "ORG": [
+              "company",
+              "employer",
+              "organization",
+              "works at",
+              "work at",
+              "affiliated with"
+            ]
+          },
+          "context_words_by_entity": {
+            "location": [
+              "address",
+              "city",
+              "country",
+              "located",
+              "location",
+              "office",
+              "state"
+            ],
+            "organization": [
+              "company",
+              "employer",
+              "organization",
+              "works at",
+              "work at",
+              "affiliated with"
+            ]
+          },
+          "context_required_below_labels": {
+            "LOC": 0.96,
+            "ORG": 0.99
+          },
+          "context_required_below_thresholds": {
+            "organization": 0.98
+          }
+        }
+      }
+    },
+    "requested_device": "gpu",
+    "emily_fallback": "raise",
+    "platform": "apple_emily",
+    "linux_exla": {
+      "reason": "not_a_linux_runner",
+      "status": "unavailable",
+      "measured": false
+    },
+    "requested_backend": "emily",
+    "backend_proven": true,
+    "fallback_occurred": false
+  },
+  "limitations": [
+    "nx_lazy_compile_not_independently_timed",
+    "inline_nx_queue_time_unavailable",
+    "gpu_memory_available_only_for_emily",
+    "linux_exla_not_measured_on_apple_runner"
+  ],
+  "schema_version": 1,
+  "generated_at": "2026-07-21T01:28:56.275514Z",
+  "resilience": {
+    "timeout": {
+      "status": "passed",
+      "result": {
+        "error": {
+          "code": "request_timeout",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      }
+    },
+    "overload": {
+      "status": "passed",
+      "rejected_request": {
+        "error": {
+          "code": "overloaded",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      },
+      "bounded_in_flight": 1
+    },
+    "serving_crash_recovery": {
+      "status": "passed",
+      "request_during_recovery": {
+        "error": {
+          "code": "serving_unavailable",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      },
+      "request_after_recovery": {
+        "status": "ok"
+      },
+      "runtime_rebuilt": false
+    },
+    "privacy_check": {
+      "status": "passed",
+      "raw_values_retained": false,
+      "report_payload_policy": "identifiers_hashes_metrics_and_safe_errors_only"
+    }
+  },
+  "asset_evidence": {
+    "source": "eval/authoritative/manifest.json",
+    "dependencies": {
+      "axon": "0.8.1",
+      "bumblebee": "0.7.0",
+      "emily": "0.7.2",
+      "ex_phone_number": "0.4.11",
+      "exla": "not_loaded",
+      "jason": "1.4.5",
+      "mix_lock_sha256": "4aa7357b1d60965b2d48c71ab9140e113c27778598afa1c6bcb5c11a6b420591",
+      "nx": "0.12.1",
+      "obscura": "0.1.0-dev",
+      "ortex": "not_loaded",
+      "req": "not_loaded",
+      "safetensors": "0.1.3"
+    },
+    "asset_hashes": {
+      "facebook_roberta_tokenizer.json": "847bbeab6174d66a88898f729d52fa8d355fafe1bea101cf960dd404581df70e",
+      "jean_config.json": "639a9091157fc28a286db1dd27b919b316a7d579c57f24feaf6504d823a472e4",
+      "jean_pytorch_model.bin": "689bbe69ce7fb4aedd7dbe43be806cb67e4e2d512ffa5de81d1ab0c89e87d654",
+      "tner_config.json": "beec098b8c2718d2f1661e5d1ee5c5e7a3188ac46e39ddff55a71d79eb033bee",
+      "tner_pytorch_model.bin": "086ca77eeb470435ab2cf9b496f72edde4195d02d559d5c2fb2096c417a07297",
+      "tner_tokenizer.json": "33465117406b9007673e8ba283f7f1383d9b5094df947481af60eec94ed7d7bd"
+    },
+    "source_manifest_sha256": "2ec5ff1f07e494b4885ee3799c49c3e37c5d2814b5689306efd94ea549d4615f",
+    "source_entry_id": "accurate:generated_large:template_heldout",
+    "models": {
+      "immutable_revisions": {
+        "FacebookAI/roberta-large": "722cf37b1afa9454edce342e7895e588b6ff1d59",
+        "Jean-Baptiste/roberta-large-ner-english": "8f3abc1ef81ffbbb0e80568d4fed1dd10d459548",
+        "tner/roberta-large-ontonotes5": "0bce50f7884d5bb040469c907c897d4b061ccbb4"
+      },
+      "report": {
+        "execution": {
+          "active_models": [
+            "primary",
+            "location"
+          ],
+          "requested_entities": [
+            "credit_card",
+            "email",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "url",
+            "us_ssn"
+          ],
+          "scoped_routing": true,
+          "secondary_gate": "primary_output"
+        },
+        "models": {
+          "location": {
+            "entities": [
+              "person",
+              "organization",
+              "location"
+            ],
+            "model_alias": "jean_baptiste_roberta_large_ner_english",
+            "model_id": "Jean-Baptiste/roberta-large-ner-english",
+            "model_license": "MIT",
+            "model_policy": {
+              "aggregation_strategy": "same",
+              "alignment_mode": "expand",
+              "context_required_below_labels": {
+                "LOC": 0.96,
+                "ORG": 0.99
+              },
+              "context_required_below_thresholds": {
+                "organization": 0.98
+              },
+              "context_words_by_entity": {
+                "location": [
+                  "address",
+                  "city",
+                  "country",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "organization": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "context_words_by_label": {
+                "LOC": [
+                  "address",
+                  "city",
+                  "country",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "ORG": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "labels_to_ignore": [
+                "MISC",
+                "B-MISC",
+                "I-MISC"
+              ],
+              "per_entity_thresholds": {
+                "location": 0.8,
+                "organization": 0.95
+              },
+              "per_label_thresholds": {
+                "LOC": 0.92,
+                "ORG": 0.98,
+                "PER": 0.72
+              }
+            },
+            "model_status": "experimental",
+            "tokenizer_id": "FacebookAI/roberta-large"
+          },
+          "primary": {
+            "entities": [
+              "person",
+              "organization",
+              "location"
+            ],
+            "model_alias": "tner_roberta_large_ontonotes5",
+            "model_id": "tner/roberta-large-ontonotes5",
+            "model_license": "unknown",
+            "model_policy": {
+              "aggregation_strategy": "same",
+              "alignment_mode": "expand",
+              "context_required_below_labels": {
+                "FAC": 0.99,
+                "LOC": 0.96,
+                "ORG": 0.99
+              },
+              "context_required_below_thresholds": {
+                "organization": 0.98
+              },
+              "context_required_labels": [
+                "FAC"
+              ],
+              "context_words_by_entity": {
+                "location": [
+                  "address",
+                  "city",
+                  "country",
+                  "facility",
+                  "headquartered",
+                  "hospital",
+                  "in",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "organization": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "context_words_by_label": {
+                "FAC": [
+                  "airport",
+                  "building",
+                  "campus",
+                  "facility",
+                  "headquarters",
+                  "hospital",
+                  "office"
+                ],
+                "GPE": [
+                  "address",
+                  "city",
+                  "country",
+                  "headquartered",
+                  "located",
+                  "office",
+                  "state"
+                ],
+                "LOC": [
+                  "address",
+                  "city",
+                  "country",
+                  "geography",
+                  "located",
+                  "location",
+                  "region",
+                  "state"
+                ],
+                "ORG": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "labels_to_ignore": [
+                "B-CARDINAL",
+                "I-CARDINAL",
+                "B-DATE",
+                "I-DATE",
+                "B-EVENT",
+                "I-EVENT",
+                "B-LANGUAGE",
+                "I-LANGUAGE",
+                "B-LAW",
+                "I-LAW",
+                "B-MONEY",
+                "I-MONEY",
+                "B-NORP",
+                "I-NORP",
+                "B-ORDINAL",
+                "I-ORDINAL",
+                "B-PERCENT",
+                "I-PERCENT",
+                "B-PRODUCT",
+                "I-PRODUCT",
+                "B-QUANTITY",
+                "I-QUANTITY",
+                "B-TIME",
+                "I-TIME",
+                "B-WORK_OF_ART",
+                "I-WORK_OF_ART"
+              ],
+              "negative_context_reject_labels": [
+                "GPE"
+              ],
+              "negative_context_words_by_label": {
+                "GPE": [
+                  "account",
+                  "case",
+                  "code",
+                  "invoice",
+                  "order",
+                  "payment",
+                  "product",
+                  "reference",
+                  "ticket"
+                ]
+              },
+              "per_entity_thresholds": {
+                "location": 0.8,
+                "organization": 0.95
+              },
+              "per_label_thresholds": {
+                "FAC": 0.97,
+                "GPE": 0.9,
+                "LOC": 0.92,
+                "ORG": 0.98,
+                "PERSON": 0.72
+              },
+              "weak_context_words_by_label": {
+                "FAC": [
+                  "in"
+                ]
+              }
+            },
+            "model_status": "experimental",
+            "tokenizer_id": "tner/roberta-large-ontonotes5"
+          }
+        },
+        "policy": {
+          "context_policy": "none",
+          "primary_entities": [
+            "person",
+            "organization",
+            "location"
+          ],
+          "secondary_entities": [
+            "location"
+          ],
+          "secondary_threshold": 0.999,
+          "trigger": "missing",
+          "uncertainty_threshold": 0.97
+        },
+        "profile": "hybrid_ner_tner_jean_location_cascade"
+      }
+    }
+  },
+  "runtime_reuse": {
+    "normal_runtime_builds": 1,
+    "per_request_rebuild_detected": false,
+    "lifecycle_stage_counts": {
+      "backend_configuration": 2,
+      "serving_construction": 2,
+      "model_registry": 2,
+      "dependency_validation": 2,
+      "compiler_start": 2,
+      "model_load": 2,
+      "tokenizer_load": 2
+    },
+    "anti_pattern": {
+      "reason": "isolated_to_avoid_polluting_canonical_runtime_reuse",
+      "status": "measured",
+      "method": "process_cold_per_request_projection",
+      "canonical": false,
+      "process_cold_ms": 1720.101,
+      "warm_p50_ms": 41.966499999999996,
+      "projected_overhead_ratio": 40.98747810753816
+    }
+  },
+  "cold_lifecycle": {
+    "status": "measured",
+    "stages": [
+      {
+        "component": "ner_serving",
+        "duration_ms": 1.02,
+        "stage": "model_registry",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 38.802,
+        "stage": "backend_configuration",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 2.675,
+        "stage": "dependency_validation",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 0.0,
+        "stage": "compiler_start",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 594.882,
+        "stage": "model_load",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 35.552,
+        "stage": "tokenizer_load",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 2.378,
+        "stage": "serving_construction",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 0.003,
+        "stage": "model_registry",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 0.03,
+        "stage": "backend_configuration",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 0.001,
+        "stage": "dependency_validation",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 0.0,
+        "stage": "compiler_start",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 547.761,
+        "stage": "model_load",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 32.459,
+        "stage": "tokenizer_load",
+        "status": "ok"
+      },
+      {
+        "component": "ner_serving",
+        "duration_ms": 1.015,
+        "stage": "serving_construction",
+        "status": "ok"
+      }
+    ],
+    "mix_task_ready_ms": 1410.265,
+    "total_ready_ms": 1720.101,
+    "os_process_total_ready_ms": 1720.101,
+    "fresh_os_process": true,
+    "assets_preprovisioned": true,
+    "network_downloads_allowed": false,
+    "application_start_ms": 6.062,
+    "runtime_preparation_ms": 1262.933,
+    "first_inference_ms": 72.778,
+    "stage_counts": {
+      "backend_configuration": 2,
+      "compiler_start": 2,
+      "dependency_validation": 2,
+      "model_load": 2,
+      "model_registry": 2,
+      "serving_construction": 2,
+      "tokenizer_load": 2
+    },
+    "compile_timing": {
+      "reason": "nx_serving_does_not_expose_lazy_compile_separately",
+      "status": "combined_with_first_inference"
+    }
+  },
+  "resolved_profile": "hybrid_ner_tner_jean_location_cascade",
+  "preparation": {
+    "stages": [
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "model_registry",
+        "duration_ms": 0.947
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "backend_configuration",
+        "duration_ms": 40.132
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "dependency_validation",
+        "duration_ms": 3.371
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "compiler_start",
+        "duration_ms": 0.0
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "model_load",
+        "duration_ms": 633.832
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "tokenizer_load",
+        "duration_ms": 35.942
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "serving_construction",
+        "duration_ms": 2.141
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "model_registry",
+        "duration_ms": 0.003
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "backend_configuration",
+        "duration_ms": 0.019
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "dependency_validation",
+        "duration_ms": 0.001
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "compiler_start",
+        "duration_ms": 0.0
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "model_load",
+        "duration_ms": 554.6
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "tokenizer_load",
+        "duration_ms": 31.876
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "stage": "serving_construction",
+        "duration_ms": 0.893
+      }
+    ],
+    "in_process_runtime_preparation_ms": 1310.332
+  },
+  "hardware": {
+    "cpu": "Apple M4 Max",
+    "os_version": "25.5.0",
+    "os": "darwin",
+    "memory_bytes": 137438953472,
+    "architecture": "aarch64-apple-darwin25.5.0",
+    "host_fingerprint": "b8b70debd229c244017f0ff39b9671114ac2990ba24a7571c364977e6fa7e46c",
+    "logical_processors": 16
+  },
+  "warm_load": {
+    "concurrency_results": [
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "latency_ms": {
+          "max": 45.242999999999995,
+          "mean": 33.63182021604938,
+          "p50": 41.966499999999996,
+          "p95": 43.7755,
+          "p99": 44.5925,
+          "method": "mean_of_repetition_percentiles"
+        },
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 1,
+                  "steady": 0,
+                  "peak": 1
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.048177124345680514,
+                  "steady": 0.008847527546149776,
+                  "peak": 0.048177124345680514
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 92553437,
+                "steady": 101962919,
+                "peak": 112026023
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2834718888,
+                  "steady": 2967510322,
+                  "peak": 2976425294
+                },
+                "peak_bytes": 2976425294,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 144591123,
+                  "steady": 11857581,
+                  "peak": 144649015
+                }
+              },
+              "sample_count": 427,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3319857152,
+                "steady": 3063988224,
+                "peak": 3319857152
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 21744.533,
+            "latency_ms": {
+              "count": 648,
+              "max": 45.412,
+              "mean": 33.536820987654316,
+              "p50": 41.762,
+              "p95": 43.674,
+              "p99": 44.519
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 45.391,
+              "mean": 33.52347993827161,
+              "p50": 41.748,
+              "p95": 43.661,
+              "p99": 44.512
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 1,
+            "throughput_rps": 29.800594015976337,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 0,
+                  "steady": 0,
+                  "peak": 1
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.0385498049718777,
+                  "steady": 0.010364724907424187,
+                  "peak": 0.0385498049718777
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 94099995,
+                "steady": 115618035,
+                "peak": 117219331
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2834718888,
+                  "steady": 2834719948,
+                  "peak": 2976425294
+                },
+                "peak_bytes": 2976425294,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 144649015,
+                  "steady": 144647955,
+                  "peak": 144649015
+                }
+              },
+              "sample_count": 429,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3061858304,
+                "steady": 3064332288,
+                "peak": 3077898240
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 21868.498,
+            "latency_ms": {
+              "count": 648,
+              "max": 45.074,
+              "mean": 33.726819444444445,
+              "p50": 42.171,
+              "p95": 43.877,
+              "p99": 44.666
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 45.063,
+              "mean": 33.71448456790121,
+              "p50": 42.162,
+              "p95": 43.87,
+              "p99": 44.652
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 1,
+            "throughput_rps": 29.631664689545666,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 1,
+        "throughput_rps": {
+          "count": 2,
+          "max": 29.800594015976337,
+          "mean": 29.716129352761,
+          "p50": 29.631664689545666,
+          "p95": 29.800594015976337,
+          "p99": 29.800594015976337
+        },
+        "repetition_count": 2,
+        "stable_output": true
+      },
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "latency_ms": {
+          "max": 81.89,
+          "mean": 59.77838194444446,
+          "p50": 74.4445,
+          "p95": 78.779,
+          "p99": 80.43350000000001,
+          "method": "mean_of_repetition_percentiles"
+        },
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 0,
+                  "steady": 0,
+                  "peak": 2
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.06552152307570959,
+                  "steady": 0.0059913710098465954,
+                  "peak": 0.06552152307570959
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 97640619,
+                "steady": 113550427,
+                "peak": 124257595
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2834718888,
+                  "steady": 2884636862,
+                  "peak": 2976459086
+                },
+                "peak_bytes": 2976459086,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 144649015,
+                  "steady": 94736745,
+                  "peak": 144654719
+                }
+              },
+              "sample_count": 378,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3072950272,
+                "steady": 3092676608,
+                "peak": 3105144832
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 19279.512,
+            "latency_ms": {
+              "count": 648,
+              "max": 80.568,
+              "mean": 59.39635185185187,
+              "p50": 73.881,
+              "p95": 78.26,
+              "p99": 79.671
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 80.552,
+              "mean": 59.29566975308643,
+              "p50": 73.774,
+              "p95": 78.167,
+              "p99": 79.656
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 2,
+            "throughput_rps": 33.61080923625038,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 1,
+                  "steady": 1,
+                  "peak": 2
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.053071405827917965,
+                  "steady": 0.008238323412680373,
+                  "peak": 0.053071405827917965
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 97664515,
+                "steady": 100600475,
+                "peak": 128420395
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2834718888,
+                  "steady": 2834718888,
+                  "peak": 2976459086
+                },
+                "peak_bytes": 2976459086,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 144654719,
+                  "steady": 144654719,
+                  "peak": 144654719
+                }
+              },
+              "sample_count": 383,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3095658496,
+                "steady": 3088171008,
+                "peak": 3105734656
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 19527.883,
+            "latency_ms": {
+              "count": 648,
+              "max": 83.212,
+              "mean": 60.16041203703706,
+              "p50": 75.008,
+              "p95": 79.298,
+              "p99": 81.196
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 83.193,
+              "mean": 60.053458333333325,
+              "p50": 74.989,
+              "p95": 79.228,
+              "p99": 81.186
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 2,
+            "throughput_rps": 33.18332048589189,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 2,
+        "throughput_rps": {
+          "count": 2,
+          "max": 33.61080923625038,
+          "mean": 33.39706486107114,
+          "p50": 33.18332048589189,
+          "p95": 33.61080923625038,
+          "p99": 33.61080923625038
+        },
+        "repetition_count": 2,
+        "stable_output": true
+      },
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "latency_ms": {
+          "max": 162.6685,
+          "mean": 118.65276851851854,
+          "p50": 148.82,
+          "p95": 157.943,
+          "p99": 159.9365,
+          "method": "mean_of_repetition_percentiles"
+        },
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 2,
+                  "steady": 0,
+                  "peak": 3
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.0886413334846276,
+                  "steady": 0.0058703234605869525,
+                  "peak": 0.0886413334846276
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 97622251,
+                "steady": 113492395,
+                "peak": 158327795
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2834718888,
+                  "steady": 2974859283,
+                  "peak": 2976528790
+                },
+                "peak_bytes": 2976545174,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 144654719,
+                  "steady": 4591268,
+                  "peak": 144731663
+                }
+              },
+              "sample_count": 367,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3108503552,
+                "steady": 3129720832,
+                "peak": 3149643776
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 18688.648,
+            "latency_ms": {
+              "count": 648,
+              "max": 156.875,
+              "mean": 115.1611527777777,
+              "p50": 145.286,
+              "p95": 152.306,
+              "p99": 154.225
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 156.067,
+              "mean": 114.80086111111116,
+              "p50": 144.904,
+              "p95": 151.973,
+              "p99": 153.952
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 4,
+            "throughput_rps": 34.673455244060456,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 0,
+                  "steady": 0,
+                  "peak": 4
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.1003556338360691,
+                  "steady": 0.005746325490358568,
+                  "peak": 0.1003556338360691
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 97670443,
+                "steady": 113572747,
+                "peak": 156802587
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2834718888,
+                  "steady": 2947612381,
+                  "peak": 2976528790
+                },
+                "peak_bytes": 2976528790,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 144731663,
+                  "steady": 31838170,
+                  "peak": 144731663
+                }
+              },
+              "sample_count": 389,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3127902208,
+                "steady": 3120431104,
+                "peak": 3148218368
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 19818.783,
+            "latency_ms": {
+              "count": 648,
+              "max": 168.462,
+              "mean": 122.14438425925937,
+              "p50": 152.354,
+              "p95": 163.58,
+              "p99": 165.648
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 167.647,
+              "mean": 121.75061882716047,
+              "p50": 152.194,
+              "p95": 163.336,
+              "p99": 165.554
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 4,
+            "throughput_rps": 32.69625586999969,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 4,
+        "throughput_rps": {
+          "count": 2,
+          "max": 34.673455244060456,
+          "mean": 33.684855557030076,
+          "p50": 32.69625586999969,
+          "p95": 34.673455244060456,
+          "p99": 34.673455244060456
+        },
+        "repetition_count": 2,
+        "stable_output": true
+      },
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "latency_ms": {
+          "max": 491.4705,
+          "mean": 311.636699845679,
+          "p50": 363.91,
+          "p95": 441.929,
+          "p99": 479.9315,
+          "method": "mean_of_repetition_percentiles"
+        },
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 2,
+                  "steady": 0,
+                  "peak": 3
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.15083980390404544,
+                  "steady": 0.00206499501126907,
+                  "peak": 0.15083980390404544
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 97690451,
+                "steady": 121404491,
+                "peak": 216258563
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2834722068,
+                  "steady": 2915032640,
+                  "peak": 2976684582
+                },
+                "peak_bytes": 2976684582,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 144728483,
+                  "steady": 64570735,
+                  "peak": 144880287
+                }
+              },
+              "sample_count": 443,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3137290240,
+                "steady": 3198418944,
+                "peak": 3228942336
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 22569.125,
+            "latency_ms": {
+              "count": 648,
+              "max": 464.299,
+              "mean": 277.66082098765446,
+              "p50": 327.809,
+              "p95": 386.776,
+              "p99": 450.461
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 464.281,
+              "mean": 276.53559722222195,
+              "p50": 326.241,
+              "p95": 385.268,
+              "p99": 449.39
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 8,
+            "throughput_rps": 28.711790997657197,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 0,
+                  "steady": 0,
+                  "peak": 4
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.12210852276408221,
+                  "steady": 6.130514309173419e-4,
+                  "peak": 0.12210852276408221
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 97803427,
+                "steady": 121169227,
+                "peak": 213473891
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2834718888,
+                  "steady": 2936080516,
+                  "peak": 2976635430
+                },
+                "peak_bytes": 2976668198,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 144884491,
+                  "steady": 43522863,
+                  "peak": 144884491
+                }
+              },
+              "sample_count": 551,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3215032320,
+                "steady": 3194781696,
+                "peak": 3231547392
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 28098.459,
+            "latency_ms": {
+              "count": 648,
+              "max": 518.642,
+              "mean": 345.61257870370355,
+              "p50": 400.011,
+              "p95": 497.082,
+              "p99": 509.402
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 517.074,
+              "mean": 344.41424691358026,
+              "p50": 399.565,
+              "p95": 496.307,
+              "p99": 508.182
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 8,
+            "throughput_rps": 23.061762924436533,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 8,
+        "throughput_rps": {
+          "count": 2,
+          "max": 28.711790997657197,
+          "mean": 25.886776961046863,
+          "p50": 23.061762924436533,
+          "p95": 28.711790997657197,
+          "p99": 28.711790997657197
+        },
+        "repetition_count": 2,
+        "stable_output": true
+      },
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "latency_ms": {
+          "max": 1102.309,
+          "mean": 786.7687484567894,
+          "p50": 959.6395,
+          "p95": 1066.5700000000002,
+          "p99": 1095.273,
+          "method": "mean_of_repetition_percentiles"
+        },
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 3,
+                  "steady": 0,
+                  "peak": 5
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.18796775354759673,
+                  "steady": 0.0010750088483694924,
+                  "peak": 0.18796775354759673
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 97828267,
+                "steady": 175152099,
+                "peak": 331144787
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2963315814,
+                  "steady": 2973839955,
+                  "peak": 2976930630
+                },
+                "peak_bytes": 2976963398,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 16287565,
+                  "steady": 8146632,
+                  "peak": 145164187
+                }
+              },
+              "sample_count": 658,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3203399680,
+                "steady": 3284942848,
+                "peak": 3367337984
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 33526.366,
+            "latency_ms": {
+              "count": 648,
+              "max": 1129.36,
+              "mean": 824.2537021604927,
+              "p50": 1024.525,
+              "p95": 1101.094,
+              "p99": 1122.11
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 1128.192,
+              "mean": 820.5231728395054,
+              "p50": 1020.404,
+              "p95": 1097.631,
+              "p99": 1118.902
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 16,
+            "throughput_rps": 19.32807152436384,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 3,
+                  "steady": 0,
+                  "peak": 9
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.19039150164151808,
+                  "steady": 6.734835716611775e-4,
+                  "peak": 0.19039150164151808
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 97995547,
+                "steady": 174956571,
+                "peak": 323046827
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2973822735,
+                  "steady": 2964400054,
+                  "peak": 2976848710
+                },
+                "peak_bytes": 2976947014,
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 6066700,
+                  "steady": 17586533,
+                  "peak": 145167367
+                }
+              },
+              "sample_count": 598,
+              "os_rss": {
+                "status": "measured",
+                "initial": 3269935104,
+                "steady": 3298328576,
+                "peak": 3390078976
+              }
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 30474.524,
+            "latency_ms": {
+              "count": 648,
+              "max": 1075.258,
+              "mean": 749.2837947530861,
+              "p50": 894.754,
+              "p95": 1032.046,
+              "p99": 1068.436
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 1073.781,
+              "mean": 745.4763456790125,
+              "p50": 890.088,
+              "p95": 1028.244,
+              "p99": 1062.986
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "concurrency": 16,
+            "throughput_rps": 21.26366272365731,
+            "output_fingerprint": "78ad3b1693cd48993634d9aa37a61237f3453c43625b79e66b70b572a47984f1",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 16,
+        "throughput_rps": {
+          "count": 2,
+          "max": 21.26366272365731,
+          "mean": 20.295867124010574,
+          "p50": 19.32807152436384,
+          "p95": 21.26366272365731,
+          "p99": 21.26366272365731
+        },
+        "repetition_count": 2,
+        "stable_output": true
+      }
+    ],
+    "warmup_requests": 1,
+    "runtime_reused": true,
+    "deterministic_sample_order": true
+  },
+  "sustained_load": {
+    "status": "measured",
+    "failed": 0,
+    "rejected": 0,
+    "resources": {
+      "scheduler": {
+        "run_queue": {
+          "status": "measured",
+          "initial": 0,
+          "steady": 0,
+          "peak": 3
+        },
+        "utilization": {
+          "status": "measured",
+          "initial": 0.08798853158932761,
+          "steady": 0.0042037838703453895,
+          "peak": 0.08798853158932761
+        }
+      },
+      "beam": {
+        "status": "measured",
+        "initial": 98012131,
+        "steady": 114862659,
+        "peak": 188340459
+      },
+      "gpu": {
+        "status": "measured",
+        "source": "emily_memory",
+        "active_bytes": {
+          "status": "measured",
+          "initial": 2834718888,
+          "steady": 2974853579,
+          "peak": 2976528790
+        },
+        "peak_bytes": 2976528790,
+        "cache_bytes": {
+          "status": "measured",
+          "initial": 145189707,
+          "steady": 5055016,
+          "peak": 145189707
+        }
+      },
+      "sample_count": 1179,
+      "os_rss": {
+        "status": "measured",
+        "initial": 3266592768,
+        "steady": 3167207424,
+        "peak": 3285762048
+      }
+    },
+    "completed": 1450,
+    "timed_out": 0,
+    "elapsed_ms": 60109.495,
+    "concurrency": 4,
+    "throughput_rps": 24.122644850035755,
+    "requested_duration_ms": 60000,
+    "stop_reason": "duration",
+    "worker_count": 4,
+    "latency_drift_ratio": 1.087272079554367,
+    "memory_growth_bytes": -99385344,
+    "requested_request_count": null,
+    "first_half_mean_latency_ms": 159.0591797603196,
+    "second_half_mean_latency_ms": 172.9406051502146
+  },
+  "benchmark_settings": {
+    "repetitions": 2,
+    "concurrency": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "sustained_duration_ms": 60000,
+    "sustained_request_count": null,
+    "request_timeout_ms": 300000,
+    "model_downloads_allowed": false
+  }
+}

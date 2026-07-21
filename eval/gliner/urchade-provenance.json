@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "status": "verified_for_experimental_evaluation",
+  "verified_on": "2026-07-20",
+  "components": [
+    {
+      "role": "candidate_checkpoint",
+      "id": "urchade/gliner_multi_pii-v1",
+      "revision": "1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d",
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/urchade/gliner_multi_pii-v1/tree/1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d"
+    },
+    {
+      "role": "pii_fine_tuning_dataset",
+      "id": "urchade/synthetic-pii-ner-mistral-v1",
+      "revision": "392d6853aaec28075253565350e0d17b9e0ffc0d",
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/datasets/urchade/synthetic-pii-ner-mistral-v1/tree/392d6853aaec28075253565350e0d17b9e0ffc0d"
+    },
+    {
+      "role": "base_gliner_checkpoint",
+      "id": "urchade/gliner_multi-v2.1",
+      "revision": "853ce23e47e519248ba3ec5953f002a80bffdedd",
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/urchade/gliner_multi-v2.1/tree/853ce23e47e519248ba3ec5953f002a80bffdedd",
+      "note": "The candidate model card names this base checkpoint but does not record the exact training revision. This revision is the last base repository state before the candidate was published."
+    },
+    {
+      "role": "base_gliner_dataset",
+      "id": "urchade/pile-mistral-v0.1",
+      "revision": "7ce9b4f5612e8f451bd45c4a4eb95dbe5b164415",
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/datasets/urchade/pile-mistral-v0.1/tree/7ce9b4f5612e8f451bd45c4a4eb95dbe5b164415"
+    },
+    {
+      "role": "encoder",
+      "id": "microsoft/mdeberta-v3-base",
+      "revision": "a0484667b22365f84929a935b5e50a51f71f159d",
+      "license": "MIT",
+      "source": "https://huggingface.co/microsoft/mdeberta-v3-base/tree/a0484667b22365f84929a935b5e50a51f71f159d",
+      "note": "The candidate config names this encoder but does not record its exact training revision."
+    },
+    {
+      "role": "gliner_export_implementation",
+      "id": "urchade/GLiNER",
+      "revision": "910a1aefb300f17bb67d31d4a92890c8d78aaa4b",
+      "version": "0.2.27",
+      "package_sha256": "90373a3f6166977d4ca807c5daf6e3ea1fa21a5c40d862f3e63764cba442abae",
+      "license": "Apache-2.0",
+      "source": "https://github.com/urchade/GLiNER/tree/910a1aefb300f17bb67d31d4a92890c8d78aaa4b"
+    }
+  ],
+  "decision": {
+    "license_chain_clear_for_experimental_evaluation": true,
+    "production_promotion_requires_project_owner_review": true,
+    "upstream_training_revisions_fully_recorded": false
+  }
+}

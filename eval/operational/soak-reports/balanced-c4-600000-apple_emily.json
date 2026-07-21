@@ -1,0 +1,1699 @@
+{
+  "profile": "balanced",
+  "runtime": {
+    "otp": "29",
+    "elixir": "1.20.2",
+    "obscura_dependencies": {
+      "axon": "0.8.1",
+      "bumblebee": "0.7.0",
+      "emily": "0.7.2",
+      "ex_phone_number": "0.4.11",
+      "exla": "not_loaded",
+      "jason": "1.4.5",
+      "mix_lock_sha256": "29d69abd7c9a8baac995020b78dca168b28a514637d6f855ba4dcaf4fe5d4595",
+      "nx": "0.12.1",
+      "obscura": "0.1.0-dev",
+      "ortex": "not_loaded",
+      "req": "not_loaded",
+      "safetensors": "0.1.3"
+    }
+  },
+  "status": "complete",
+  "source": {
+    "dirty_worktree": false,
+    "source_commit": "fd3dc8ebfbf26baa4b65b86f6b73e8f9000bbfef"
+  },
+  "asset_evidence": {
+    "generated_large_template_heldout": {
+      "source": "eval/authoritative/manifest.json",
+      "dependencies": {
+        "axon": "0.8.1",
+        "bumblebee": "0.7.0",
+        "emily": "0.7.2",
+        "ex_phone_number": "0.4.11",
+        "exla": "not_loaded",
+        "jason": "1.4.5",
+        "mix_lock_sha256": "29d69abd7c9a8baac995020b78dca168b28a514637d6f855ba4dcaf4fe5d4595",
+        "nx": "0.12.1",
+        "obscura": "0.1.0-dev",
+        "ortex": "not_loaded",
+        "req": "not_loaded",
+        "safetensors": "0.1.3"
+      },
+      "models": {
+        "immutable_revisions": {
+          "tner/roberta-large-ontonotes5": "0bce50f7884d5bb040469c907c897d4b061ccbb4"
+        },
+        "report": {
+          "entities": [
+            "person",
+            "organization",
+            "location"
+          ],
+          "model_alias": "tner_roberta_large_ontonotes5",
+          "model_id": "tner/roberta-large-ontonotes5",
+          "model_license": "unknown",
+          "model_policy": {
+            "aggregation_strategy": "same",
+            "alignment_mode": "expand",
+            "context_required_below_labels": {
+              "FAC": 0.99,
+              "LOC": 0.96,
+              "ORG": 0.99
+            },
+            "context_required_below_thresholds": {
+              "organization": 0.98
+            },
+            "context_required_labels": [
+              "FAC"
+            ],
+            "context_words_by_entity": {
+              "location": [
+                "address",
+                "city",
+                "country",
+                "facility",
+                "headquartered",
+                "hospital",
+                "in",
+                "located",
+                "location",
+                "office",
+                "state"
+              ],
+              "organization": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "context_words_by_label": {
+              "FAC": [
+                "airport",
+                "building",
+                "campus",
+                "facility",
+                "headquarters",
+                "hospital",
+                "office"
+              ],
+              "GPE": [
+                "address",
+                "city",
+                "country",
+                "headquartered",
+                "located",
+                "office",
+                "state"
+              ],
+              "LOC": [
+                "address",
+                "city",
+                "country",
+                "geography",
+                "located",
+                "location",
+                "region",
+                "state"
+              ],
+              "ORG": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "labels_to_ignore": [
+              "B-CARDINAL",
+              "I-CARDINAL",
+              "B-DATE",
+              "I-DATE",
+              "B-EVENT",
+              "I-EVENT",
+              "B-LANGUAGE",
+              "I-LANGUAGE",
+              "B-LAW",
+              "I-LAW",
+              "B-MONEY",
+              "I-MONEY",
+              "B-NORP",
+              "I-NORP",
+              "B-ORDINAL",
+              "I-ORDINAL",
+              "B-PERCENT",
+              "I-PERCENT",
+              "B-PRODUCT",
+              "I-PRODUCT",
+              "B-QUANTITY",
+              "I-QUANTITY",
+              "B-TIME",
+              "I-TIME",
+              "B-WORK_OF_ART",
+              "I-WORK_OF_ART"
+            ],
+            "negative_context_reject_labels": [
+              "GPE"
+            ],
+            "negative_context_words_by_label": {
+              "GPE": [
+                "account",
+                "case",
+                "code",
+                "invoice",
+                "order",
+                "payment",
+                "product",
+                "reference",
+                "ticket"
+              ]
+            },
+            "per_entity_thresholds": {
+              "location": 0.8,
+              "organization": 0.95
+            },
+            "per_label_thresholds": {
+              "FAC": 0.97,
+              "GPE": 0.9,
+              "LOC": 0.92,
+              "ORG": 0.98,
+              "PERSON": 0.72
+            },
+            "weak_context_words_by_label": {
+              "FAC": [
+                "in"
+              ]
+            }
+          },
+          "model_status": "experimental",
+          "tokenizer_id": "tner/roberta-large-ontonotes5"
+        }
+      },
+      "asset_hashes": {
+        "tner_config.json": "beec098b8c2718d2f1661e5d1ee5c5e7a3188ac46e39ddff55a71d79eb033bee",
+        "tner_pytorch_model.bin": "086ca77eeb470435ab2cf9b496f72edde4195d02d559d5c2fb2096c417a07297",
+        "tner_tokenizer.json": "33465117406b9007673e8ba283f7f1383d9b5094df947481af60eec94ed7d7bd"
+      },
+      "source_entry_id": "balanced:generated_large:template_heldout",
+      "source_manifest_sha256": "7e8d0a82acbac4c02f5cec96b457a00037de2eaee621ed86a37653cb1cb7aea2"
+    },
+    "nemotron_pii_test_subset_all": {
+      "source": "eval/authoritative/manifest.json",
+      "dependencies": {
+        "axon": "0.8.1",
+        "bumblebee": "0.7.0",
+        "emily": "0.7.2",
+        "ex_phone_number": "0.4.11",
+        "exla": "not_loaded",
+        "jason": "1.4.5",
+        "mix_lock_sha256": "29d69abd7c9a8baac995020b78dca168b28a514637d6f855ba4dcaf4fe5d4595",
+        "nx": "0.12.1",
+        "obscura": "0.1.0-dev",
+        "ortex": "not_loaded",
+        "req": "not_loaded",
+        "safetensors": "0.1.3"
+      },
+      "models": {
+        "immutable_revisions": {
+          "tner/roberta-large-ontonotes5": "0bce50f7884d5bb040469c907c897d4b061ccbb4"
+        },
+        "report": {
+          "entities": [
+            "person",
+            "organization",
+            "location"
+          ],
+          "model_alias": "tner_roberta_large_ontonotes5",
+          "model_id": "tner/roberta-large-ontonotes5",
+          "model_license": "unknown",
+          "model_policy": {
+            "aggregation_strategy": "same",
+            "alignment_mode": "expand",
+            "context_required_below_labels": {
+              "FAC": 0.99,
+              "LOC": 0.96,
+              "ORG": 0.99
+            },
+            "context_required_below_thresholds": {
+              "organization": 0.98
+            },
+            "context_required_labels": [
+              "FAC"
+            ],
+            "context_words_by_entity": {
+              "location": [
+                "address",
+                "city",
+                "country",
+                "facility",
+                "headquartered",
+                "hospital",
+                "in",
+                "located",
+                "location",
+                "office",
+                "state"
+              ],
+              "organization": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "context_words_by_label": {
+              "FAC": [
+                "airport",
+                "building",
+                "campus",
+                "facility",
+                "headquarters",
+                "hospital",
+                "office"
+              ],
+              "GPE": [
+                "address",
+                "city",
+                "country",
+                "headquartered",
+                "located",
+                "office",
+                "state"
+              ],
+              "LOC": [
+                "address",
+                "city",
+                "country",
+                "geography",
+                "located",
+                "location",
+                "region",
+                "state"
+              ],
+              "ORG": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "labels_to_ignore": [
+              "B-CARDINAL",
+              "I-CARDINAL",
+              "B-DATE",
+              "I-DATE",
+              "B-EVENT",
+              "I-EVENT",
+              "B-LANGUAGE",
+              "I-LANGUAGE",
+              "B-LAW",
+              "I-LAW",
+              "B-MONEY",
+              "I-MONEY",
+              "B-NORP",
+              "I-NORP",
+              "B-ORDINAL",
+              "I-ORDINAL",
+              "B-PERCENT",
+              "I-PERCENT",
+              "B-PRODUCT",
+              "I-PRODUCT",
+              "B-QUANTITY",
+              "I-QUANTITY",
+              "B-TIME",
+              "I-TIME",
+              "B-WORK_OF_ART",
+              "I-WORK_OF_ART"
+            ],
+            "negative_context_reject_labels": [
+              "GPE"
+            ],
+            "negative_context_words_by_label": {
+              "GPE": [
+                "account",
+                "case",
+                "code",
+                "invoice",
+                "order",
+                "payment",
+                "product",
+                "reference",
+                "ticket"
+              ]
+            },
+            "per_entity_thresholds": {
+              "location": 0.8,
+              "organization": 0.95
+            },
+            "per_label_thresholds": {
+              "FAC": 0.97,
+              "GPE": 0.9,
+              "LOC": 0.92,
+              "ORG": 0.98,
+              "PERSON": 0.72
+            },
+            "weak_context_words_by_label": {
+              "FAC": [
+                "in"
+              ]
+            }
+          },
+          "model_status": "experimental",
+          "tokenizer_id": "tner/roberta-large-ontonotes5"
+        }
+      },
+      "asset_hashes": {
+        "tner_config.json": "beec098b8c2718d2f1661e5d1ee5c5e7a3188ac46e39ddff55a71d79eb033bee",
+        "tner_pytorch_model.bin": "086ca77eeb470435ab2cf9b496f72edde4195d02d559d5c2fb2096c417a07297",
+        "tner_tokenizer.json": "33465117406b9007673e8ba283f7f1383d9b5094df947481af60eec94ed7d7bd"
+      },
+      "source_entry_id": "balanced:nemotron_pii_test_subset:all",
+      "source_manifest_sha256": "7e8d0a82acbac4c02f5cec96b457a00037de2eaee621ed86a37653cb1cb7aea2"
+    },
+    "synth_dataset_v2_all": {
+      "source": "eval/authoritative/manifest.json",
+      "dependencies": {
+        "axon": "0.8.1",
+        "bumblebee": "0.7.0",
+        "emily": "0.7.2",
+        "ex_phone_number": "0.4.11",
+        "exla": "not_loaded",
+        "jason": "1.4.5",
+        "mix_lock_sha256": "29d69abd7c9a8baac995020b78dca168b28a514637d6f855ba4dcaf4fe5d4595",
+        "nx": "0.12.1",
+        "obscura": "0.1.0-dev",
+        "ortex": "not_loaded",
+        "req": "not_loaded",
+        "safetensors": "0.1.3"
+      },
+      "models": {
+        "immutable_revisions": {
+          "tner/roberta-large-ontonotes5": "0bce50f7884d5bb040469c907c897d4b061ccbb4"
+        },
+        "report": {
+          "entities": [
+            "person",
+            "organization",
+            "location"
+          ],
+          "model_alias": "tner_roberta_large_ontonotes5",
+          "model_id": "tner/roberta-large-ontonotes5",
+          "model_license": "unknown",
+          "model_policy": {
+            "aggregation_strategy": "same",
+            "alignment_mode": "expand",
+            "context_required_below_labels": {
+              "FAC": 0.99,
+              "LOC": 0.96,
+              "ORG": 0.99
+            },
+            "context_required_below_thresholds": {
+              "organization": 0.98
+            },
+            "context_required_labels": [
+              "FAC"
+            ],
+            "context_words_by_entity": {
+              "location": [
+                "address",
+                "city",
+                "country",
+                "facility",
+                "headquartered",
+                "hospital",
+                "in",
+                "located",
+                "location",
+                "office",
+                "state"
+              ],
+              "organization": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "context_words_by_label": {
+              "FAC": [
+                "airport",
+                "building",
+                "campus",
+                "facility",
+                "headquarters",
+                "hospital",
+                "office"
+              ],
+              "GPE": [
+                "address",
+                "city",
+                "country",
+                "headquartered",
+                "located",
+                "office",
+                "state"
+              ],
+              "LOC": [
+                "address",
+                "city",
+                "country",
+                "geography",
+                "located",
+                "location",
+                "region",
+                "state"
+              ],
+              "ORG": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "labels_to_ignore": [
+              "B-CARDINAL",
+              "I-CARDINAL",
+              "B-DATE",
+              "I-DATE",
+              "B-EVENT",
+              "I-EVENT",
+              "B-LANGUAGE",
+              "I-LANGUAGE",
+              "B-LAW",
+              "I-LAW",
+              "B-MONEY",
+              "I-MONEY",
+              "B-NORP",
+              "I-NORP",
+              "B-ORDINAL",
+              "I-ORDINAL",
+              "B-PERCENT",
+              "I-PERCENT",
+              "B-PRODUCT",
+              "I-PRODUCT",
+              "B-QUANTITY",
+              "I-QUANTITY",
+              "B-TIME",
+              "I-TIME",
+              "B-WORK_OF_ART",
+              "I-WORK_OF_ART"
+            ],
+            "negative_context_reject_labels": [
+              "GPE"
+            ],
+            "negative_context_words_by_label": {
+              "GPE": [
+                "account",
+                "case",
+                "code",
+                "invoice",
+                "order",
+                "payment",
+                "product",
+                "reference",
+                "ticket"
+              ]
+            },
+            "per_entity_thresholds": {
+              "location": 0.8,
+              "organization": 0.95
+            },
+            "per_label_thresholds": {
+              "FAC": 0.97,
+              "GPE": 0.9,
+              "LOC": 0.92,
+              "ORG": 0.98,
+              "PERSON": 0.72
+            },
+            "weak_context_words_by_label": {
+              "FAC": [
+                "in"
+              ]
+            }
+          },
+          "model_status": "experimental",
+          "tokenizer_id": "tner/roberta-large-ontonotes5"
+        }
+      },
+      "asset_hashes": {
+        "tner_config.json": "beec098b8c2718d2f1661e5d1ee5c5e7a3188ac46e39ddff55a71d79eb033bee",
+        "tner_pytorch_model.bin": "086ca77eeb470435ab2cf9b496f72edde4195d02d559d5c2fb2096c417a07297",
+        "tner_tokenizer.json": "33465117406b9007673e8ba283f7f1383d9b5094df947481af60eec94ed7d7bd"
+      },
+      "source_entry_id": "balanced:synth_dataset_v2:all",
+      "source_manifest_sha256": "7e8d0a82acbac4c02f5cec96b457a00037de2eaee621ed86a37653cb1cb7aea2"
+    }
+  },
+  "memory_analysis": {
+    "duration_ms": 599523.839,
+    "sample_count": 599,
+    "metrics": {
+      "in_flight": {
+        "maximum": 4,
+        "status": "measured",
+        "final": 4.0,
+        "minimum": 2,
+        "median": 4.0,
+        "baseline": 4.0,
+        "noise_budget_bytes": 1048576.0,
+        "absolute_growth": 0.0,
+        "trend": "plateau",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 3.943479711823446,
+          "r_squared": 8.477750232096515e-4,
+          "slope_bytes_per_minute": 0.0039847936953457015,
+          "slope_bytes_per_ms": 6.64132282557617e-8
+        },
+        "first_half_growth": 0,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 4.004097772626926,
+          "r_squared": 0.005135676690260715,
+          "slope_bytes_per_minute": -0.00349495461590641,
+          "slope_bytes_per_ms": -5.824924359844016e-8
+        },
+        "percentage_growth": 0.0,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 4.0,
+          "minimum": 4.0,
+          "median": 4.0
+        },
+        "second_half_growth": 0
+      },
+      "os_rss": {
+        "maximum": 1711538176,
+        "status": "measured",
+        "final": 1697398784.0,
+        "minimum": 1660010496,
+        "median": 1688502272.0,
+        "baseline": 1670987776.0,
+        "noise_budget_bytes": 1670987.776,
+        "absolute_growth": 26411008.0,
+        "trend": "inconclusive",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 1697329752.3689098,
+          "r_squared": 7.466825231194907e-4,
+          "slope_bytes_per_minute": -104752.4195048989,
+          "slope_bytes_per_ms": -1.7458736584149819
+        },
+        "first_half_growth": 17612800,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 1676624210.6859655,
+          "r_squared": 0.5762991367596855,
+          "slope_bytes_per_minute": 2469545.5764710233,
+          "slope_bytes_per_ms": 41.15909294118372
+        },
+        "percentage_growth": 1.5805626096932022,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 1702526976.0,
+          "minimum": 1673740288.0,
+          "median": 1689763840.0
+        },
+        "second_half_growth": 7143424
+      },
+      "beam_atom": {
+        "maximum": 1094106,
+        "status": "measured",
+        "final": 1094106.0,
+        "minimum": 1093907,
+        "median": 1094106.0,
+        "baseline": 1093907.0,
+        "noise_budget_bytes": 1048576.0,
+        "absolute_growth": 199.0,
+        "trend": "plateau",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 1094106.0,
+          "r_squared": 1.0,
+          "slope_bytes_per_minute": 0.0,
+          "slope_bytes_per_ms": 0.0
+        },
+        "first_half_growth": 199,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 1094104.6753376916,
+          "r_squared": 0.004995352180109269,
+          "slope_bytes_per_minute": 0.19873184838189098,
+          "slope_bytes_per_ms": 3.3121974730315163e-6
+        },
+        "percentage_growth": 0.01819167442936191,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 1094106.0,
+          "minimum": 1094106.0,
+          "median": 1094106.0
+        },
+        "second_half_growth": 0
+      },
+      "beam_binary": {
+        "maximum": 6480664,
+        "status": "measured",
+        "final": 5681840.0,
+        "minimum": 4858672,
+        "median": 5882440.0,
+        "baseline": 4858672.0,
+        "noise_budget_bytes": 1048576.0,
+        "absolute_growth": 823168.0,
+        "trend": "plateau",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 5856183.606887996,
+          "r_squared": 6.942311276914026e-4,
+          "slope_bytes_per_minute": 2426.916122243196,
+          "slope_bytes_per_ms": 0.040448602037386594
+        },
+        "first_half_growth": 748800,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 5853943.511855814,
+          "r_squared": 0.004308796529115533,
+          "slope_bytes_per_minute": 4449.761246149317,
+          "slope_bytes_per_ms": 0.07416268743582195
+        },
+        "percentage_growth": 16.942242653959767,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 6032680.0,
+          "minimum": 5743096.0,
+          "median": 5875624.0
+        },
+        "second_half_growth": 49672
+      },
+      "beam_ets": {
+        "maximum": 1459608,
+        "status": "measured",
+        "final": 1459608.0,
+        "minimum": 1454424,
+        "median": 1459608.0,
+        "baseline": 1454424.0,
+        "noise_budget_bytes": 1048576.0,
+        "absolute_growth": 5184.0,
+        "trend": "plateau",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 1459608.0,
+          "r_squared": 1.0,
+          "slope_bytes_per_minute": 0.0,
+          "slope_bytes_per_ms": 0.0
+        },
+        "first_half_growth": 5184,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 1459573.4922140385,
+          "r_squared": 0.004995352180939716,
+          "slope_bytes_per_minute": 5.177014582973481,
+          "slope_bytes_per_ms": 8.628357638289135e-5
+        },
+        "percentage_growth": 0.3564297618851174,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 1459608.0,
+          "minimum": 1459608.0,
+          "median": 1459608.0
+        },
+        "second_half_growth": 0
+      },
+      "beam_processes": {
+        "maximum": 99639264,
+        "status": "measured",
+        "final": 78778488.0,
+        "minimum": 28096304,
+        "median": 73787032.0,
+        "baseline": 28096304.0,
+        "noise_budget_bytes": 1048576.0,
+        "absolute_growth": 50682184.0,
+        "trend": "inconclusive",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 75132577.36370546,
+          "r_squared": 9.512716543598199e-4,
+          "slope_bytes_per_minute": -60082.56698418731,
+          "slope_bytes_per_ms": -1.0013761164031219
+        },
+        "first_half_growth": 45190480,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 71868309.25564753,
+          "r_squared": 0.08401310408402374,
+          "slope_bytes_per_minute": 395362.8574834438,
+          "slope_bytes_per_ms": 6.589380958057397
+        },
+        "percentage_growth": 180.38737052389524,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 74541824.0,
+          "minimum": 68490048.0,
+          "median": 73920504.0
+        },
+        "second_half_growth": 3063904
+      },
+      "beam_system": {
+        "maximum": 66175873,
+        "status": "measured",
+        "final": 65423905.0,
+        "minimum": 64514037,
+        "median": 65582801.0,
+        "baseline": 64514037.0,
+        "noise_budget_bytes": 1048576.0,
+        "absolute_growth": 909868.0,
+        "trend": "plateau",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 65561330.354950644,
+          "r_squared": 5.72142999848646e-4,
+          "slope_bytes_per_minute": 2263.3345259138523,
+          "slope_bytes_per_ms": 0.03772224209856421
+        },
+        "first_half_growth": 788596,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 65549418.132425,
+          "r_squared": 0.006410021957990009,
+          "slope_bytes_per_minute": 5466.218923770373,
+          "slope_bytes_per_ms": 0.09110364872950623
+        },
+        "percentage_growth": 1.4103411324267308,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 65729345.0,
+          "minimum": 65438001.0,
+          "median": 65577041.0
+        },
+        "second_half_growth": 96424
+      },
+      "beam_total": {
+        "maximum": 165370617,
+        "status": "measured",
+        "final": 144202393.0,
+        "minimum": 92610341,
+        "median": 139389009.0,
+        "baseline": 92610341.0,
+        "noise_budget_bytes": 1048576.0,
+        "absolute_growth": 51592052.0,
+        "trend": "inconclusive",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 140693907.7186561,
+          "r_squared": 8.6950192679347e-4,
+          "slope_bytes_per_minute": -57819.232458273305,
+          "slope_bytes_per_ms": -0.9636538743045551
+        },
+        "first_half_growth": 45979076,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 137417727.38807252,
+          "r_squared": 0.08314921819124943,
+          "slope_bytes_per_minute": 400829.0764072132,
+          "slope_bytes_per_ms": 6.680484606786886
+        },
+        "percentage_growth": 55.70873775316301,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 140155713.0,
+          "minimum": 133548833.0,
+          "median": 139539145.0
+        },
+        "second_half_growth": 3160328
+      },
+      "emily_active": {
+        "maximum": 1559234946,
+        "status": "measured",
+        "final": 1492029908.0,
+        "minimum": 1417425044,
+        "median": 1542930786.0,
+        "baseline": 1417427176.0,
+        "noise_budget_bytes": 1417427.176,
+        "absolute_growth": 74602732.0,
+        "trend": "inconclusive",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 1481531362.118207,
+          "r_squared": 0.005836066731042422,
+          "slope_bytes_per_minute": 2806783.172893434,
+          "slope_bytes_per_ms": 46.779719548223895
+        },
+        "first_half_growth": 1578528,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 1515483827.1325831,
+          "r_squared": 0.005078419631944775,
+          "slope_bytes_per_minute": -1348398.103873401,
+          "slope_bytes_per_ms": -22.473301731223348
+        },
+        "percentage_growth": 5.26324972902876,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 1555466743.0,
+          "minimum": 1489882971.0,
+          "median": 1535572693.0
+        },
+        "second_half_growth": 1325157
+      },
+      "emily_cache": {
+        "maximum": 144695679,
+        "status": "measured",
+        "final": 70090815.0,
+        "minimum": 2885777,
+        "median": 19189937.0,
+        "baseline": 144588991.0,
+        "noise_budget_bytes": 1048576.0,
+        "absolute_growth": -74498176.0,
+        "trend": "inconclusive",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": 80629348.63712065,
+          "r_squared": 0.005863022716646071,
+          "slope_bytes_per_minute": -2813753.992994833,
+          "slope_bytes_per_ms": -46.89589988324721
+        },
+        "first_half_growth": -1473972,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": 46631562.41480926,
+          "r_squared": 0.0050696013375322035,
+          "slope_bytes_per_minute": 1347327.5754114634,
+          "slope_bytes_per_ms": 22.455459590191058
+        },
+        "percentage_growth": -51.52409978433282,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 71415972.0,
+          "minimum": 5620752.0,
+          "median": 18176213.0
+        },
+        "second_half_growth": -1325157
+      },
+      "mailbox_length": {
+        "maximum": 2,
+        "status": "measured",
+        "final": 0.0,
+        "minimum": 0,
+        "median": 0.0,
+        "baseline": 0.0,
+        "noise_budget_bytes": 1048576.0,
+        "absolute_growth": 0.0,
+        "trend": "plateau",
+        "final_half_regression": {
+          "status": "measured",
+          "intercept_bytes": -0.010671765570115843,
+          "r_squared": 8.454487767802776e-4,
+          "slope_bytes_per_minute": 0.0023142946138520588,
+          "slope_bytes_per_ms": 3.8571576897534316e-8
+        },
+        "first_half_growth": 0,
+        "full_regression": {
+          "status": "measured",
+          "intercept_bytes": -0.003104995131549764,
+          "r_squared": 0.0020849648385303787,
+          "slope_bytes_per_minute": 0.001290359438037909,
+          "slope_bytes_per_ms": 2.150599063396515e-8
+        },
+        "percentage_growth": null,
+        "rolling_median": {
+          "count": 540,
+          "maximum": 0.0,
+          "minimum": 0.0,
+          "median": 0.0
+        },
+        "second_half_growth": 0
+      }
+    },
+    "request_correlations": {
+      "os_rss": {
+        "status": "measured",
+        "sample_count": 599,
+        "coefficient": 0.7708028939646824
+      },
+      "beam_total": {
+        "status": "measured",
+        "sample_count": 599,
+        "coefficient": 0.30995235973466806
+      },
+      "emily_active": {
+        "status": "measured",
+        "sample_count": 599,
+        "coefficient": -0.06599898053637569
+      },
+      "emily_cache": {
+        "status": "measured",
+        "sample_count": 599,
+        "coefficient": 0.06595112132338807
+      }
+    },
+    "rolling_window_samples": 60
+  },
+  "memory_classification": {
+    "classification": "inconclusive",
+    "reasons": [
+      "rss_trend_inconclusive",
+      "live_allocator_trend_inconclusive"
+    ]
+  },
+  "post_soak": {
+    "gc_settle_ms": 1000,
+    "after_cache_clear": {
+      "run_queue": 0,
+      "host": {
+        "message_queue_len": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 22723,
+        "timed_out": 0,
+        "max_in_flight": 4,
+        "in_flight": 0
+      },
+      "beam_memory": {
+        "atom": 1094453,
+        "atom_used": 1094453,
+        "binary": 5467816,
+        "code": 21009778,
+        "ets": 1460872,
+        "processes": 26332296,
+        "processes_used": 26332016,
+        "system": 65191267,
+        "total": 91523563
+      },
+      "gpu_memory": {
+        "active": 1417425044,
+        "cache": 0,
+        "peak": 1559234946
+      },
+      "rss_bytes": 1605877760,
+      "scheduler_utilization": null
+    },
+    "after_gc": {
+      "run_queue": 0,
+      "host": {
+        "message_queue_len": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 22723,
+        "timed_out": 0,
+        "max_in_flight": 4,
+        "in_flight": 0
+      },
+      "beam_memory": {
+        "atom": 1094453,
+        "atom_used": 1094453,
+        "binary": 5467096,
+        "code": 21009778,
+        "ets": 1460872,
+        "processes": 26261208,
+        "processes_used": 26260928,
+        "system": 65190547,
+        "total": 91451755
+      },
+      "gpu_memory": {
+        "active": 1417425044,
+        "cache": 144695679,
+        "peak": 1559234946
+      },
+      "rss_bytes": 1608581120,
+      "scheduler_utilization": null
+    },
+    "after_idle": {
+      "run_queue": 0,
+      "host": {
+        "message_queue_len": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 22723,
+        "timed_out": 0,
+        "max_in_flight": 4,
+        "in_flight": 0
+      },
+      "beam_memory": {
+        "atom": 1094453,
+        "atom_used": 1094453,
+        "binary": 5467632,
+        "code": 21009778,
+        "ets": 1460872,
+        "processes": 27384544,
+        "processes_used": 27320096,
+        "system": 65194235,
+        "total": 92578779
+      },
+      "gpu_memory": {
+        "active": 1417425044,
+        "cache": 144695679,
+        "peak": 1559234946
+      },
+      "rss_bytes": 1607172096,
+      "scheduler_utilization": null
+    },
+    "before_idle": {
+      "run_queue": 0,
+      "host": {
+        "message_queue_len": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 22723,
+        "timed_out": 0,
+        "max_in_flight": 4,
+        "in_flight": 0
+      },
+      "beam_memory": {
+        "atom": 1094453,
+        "atom_used": 1094453,
+        "binary": 5467408,
+        "code": 21009778,
+        "ets": 1460872,
+        "processes": 28420240,
+        "processes_used": 28352952,
+        "system": 65194595,
+        "total": 93614835
+      },
+      "gpu_memory": {
+        "active": 1417425044,
+        "cache": 144695679,
+        "peak": 1559234946
+      },
+      "rss_bytes": 1681440768,
+      "scheduler_utilization": null
+    },
+    "cache_clear": {
+      "status": "executed"
+    },
+    "idle_duration_ms": 10000
+  },
+  "environment": {
+    "profile": "balanced",
+    "actual": {
+      "backend": "emily",
+      "backend_metadata": {
+        "source": "option",
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "requested_backend": "emily",
+        "emily_device": "gpu",
+        "actual_device": "gpu",
+        "actual_backend": "emily",
+        "exla_enabled": false
+      },
+      "entities": [
+        "person",
+        "organization",
+        "location"
+      ],
+      "model_id": "tner/roberta-large-ontonotes5",
+      "tokenizer_id": "tner/roberta-large-ontonotes5",
+      "model_alias": "tner_roberta_large_ontonotes5",
+      "model_license": "unknown",
+      "model_policy": {
+        "per_label_thresholds": {
+          "FAC": 0.97,
+          "GPE": 0.9,
+          "LOC": 0.92,
+          "ORG": 0.98,
+          "PERSON": 0.72
+        },
+        "aggregation_strategy": "same",
+        "alignment_mode": "expand",
+        "labels_to_ignore": [
+          "B-CARDINAL",
+          "I-CARDINAL",
+          "B-DATE",
+          "I-DATE",
+          "B-EVENT",
+          "I-EVENT",
+          "B-LANGUAGE",
+          "I-LANGUAGE",
+          "B-LAW",
+          "I-LAW",
+          "B-MONEY",
+          "I-MONEY",
+          "B-NORP",
+          "I-NORP",
+          "B-ORDINAL",
+          "I-ORDINAL",
+          "B-PERCENT",
+          "I-PERCENT",
+          "B-PRODUCT",
+          "I-PRODUCT",
+          "B-QUANTITY",
+          "I-QUANTITY",
+          "B-TIME",
+          "I-TIME",
+          "B-WORK_OF_ART",
+          "I-WORK_OF_ART"
+        ],
+        "per_entity_thresholds": {
+          "location": 0.8,
+          "organization": 0.95
+        },
+        "context_required_below_thresholds": {
+          "organization": 0.98
+        },
+        "context_required_below_labels": {
+          "FAC": 0.99,
+          "LOC": 0.96,
+          "ORG": 0.99
+        },
+        "context_words_by_entity": {
+          "location": [
+            "address",
+            "city",
+            "country",
+            "facility",
+            "headquartered",
+            "hospital",
+            "in",
+            "located",
+            "location",
+            "office",
+            "state"
+          ],
+          "organization": [
+            "company",
+            "employer",
+            "organization",
+            "works at",
+            "work at",
+            "affiliated with"
+          ]
+        },
+        "context_words_by_label": {
+          "FAC": [
+            "airport",
+            "building",
+            "campus",
+            "facility",
+            "headquarters",
+            "hospital",
+            "office"
+          ],
+          "GPE": [
+            "address",
+            "city",
+            "country",
+            "headquartered",
+            "located",
+            "office",
+            "state"
+          ],
+          "LOC": [
+            "address",
+            "city",
+            "country",
+            "geography",
+            "located",
+            "location",
+            "region",
+            "state"
+          ],
+          "ORG": [
+            "company",
+            "employer",
+            "organization",
+            "works at",
+            "work at",
+            "affiliated with"
+          ]
+        },
+        "context_required_labels": [
+          "FAC"
+        ],
+        "weak_context_words_by_label": {
+          "FAC": [
+            "in"
+          ]
+        },
+        "negative_context_words_by_label": {
+          "GPE": [
+            "account",
+            "case",
+            "code",
+            "invoice",
+            "order",
+            "payment",
+            "product",
+            "reference",
+            "ticket"
+          ]
+        },
+        "negative_context_reject_labels": [
+          "GPE"
+        ]
+      },
+      "model_status": "experimental"
+    },
+    "backend_proven": true,
+    "emily_fallback": "raise",
+    "fallback_occurred": false,
+    "platform": "apple_emily",
+    "requested_backend": "emily",
+    "requested_device": "gpu",
+    "linux_exla": {
+      "reason": "not_a_linux_runner",
+      "status": "unavailable",
+      "measured": false
+    }
+  },
+  "hardware": {
+    "cpu": "Apple M4 Max",
+    "os_version": "25.5.0",
+    "os": "darwin",
+    "architecture": "aarch64-apple-darwin25.5.0",
+    "host_fingerprint": "b8b70debd229c244017f0ff39b9671114ac2990ba24a7571c364977e6fa7e46c",
+    "logical_processors": 16,
+    "memory_bytes": 137438953472
+  },
+  "datasets": [
+    {
+      "id": "generated_large_template_heldout",
+      "name": "generated_large",
+      "split": "template_heldout",
+      "sha256": "b84d6553a3fc27a5c664a1c2f95be15291ea16b83501e109d411fe237e380e26",
+      "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+      "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+      "sample_count": 648,
+      "sample_ids_sha256": "abd254573ceacfd0a8472a48633db7a98e134c1be9e1c9301dda4e22ee372018",
+      "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf"
+    },
+    {
+      "id": "nemotron_pii_test_subset_all",
+      "name": "nemotron_pii_test_subset",
+      "split": "all",
+      "sha256": "a36582d34f64ba871a604eabd53a8d92f0628b76ddb027105ac0f9d9a3042577",
+      "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd",
+      "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+      "sample_count": 500,
+      "sample_ids_sha256": "14206c51fbdafb0c28331bd07e74a26a6beede594c3edf4246163df32844972c",
+      "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf"
+    },
+    {
+      "id": "synth_dataset_v2_all",
+      "name": "synth_dataset_v2",
+      "split": "all",
+      "sha256": "ec08a771ba8135314cafb60752b2295212222ba3a4cd75d73811839c699e0012",
+      "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc",
+      "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+      "sample_count": 1500,
+      "sample_ids_sha256": "4ae1a24321c77e5ec34560cfa25b5cecd3381f50fe4d69e5fc0ac69d0646b07c",
+      "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf"
+    }
+  ],
+  "generated_at": "2026-07-18T11:19:06.374811Z",
+  "limitations": [
+    "emily_allocator_statistics_are_not_physical_gpu_residency",
+    "sampling_is_periodic_not_kernel_high_water",
+    "linux_exla_not_measured_on_apple_runner",
+    "classification_is_bounded_to_this_duration_and_workload"
+  ],
+  "preparation": {
+    "in_process_runtime_preparation_ms": 794.998,
+    "stages": [
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "duration_ms": 1.617,
+        "stage": "model_registry"
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "duration_ms": 44.174,
+        "stage": "backend_configuration"
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "duration_ms": 3.451,
+        "stage": "dependency_validation"
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "duration_ms": 0.0,
+        "stage": "compiler_start"
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "duration_ms": 697.998,
+        "stage": "model_load"
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "duration_ms": 38.58,
+        "stage": "tokenizer_load"
+      },
+      {
+        "status": "ok",
+        "component": "ner_serving",
+        "duration_ms": 2.26,
+        "stage": "serving_construction"
+      }
+    ]
+  },
+  "resilience": {
+    "timeout": {
+      "status": "passed",
+      "result": {
+        "error": {
+          "code": "request_timeout",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      }
+    },
+    "overload": {
+      "status": "passed",
+      "bounded_in_flight": 1,
+      "rejected_request": {
+        "error": {
+          "code": "overloaded",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      }
+    },
+    "privacy_check": {
+      "status": "passed",
+      "raw_values_retained": false,
+      "report_payload_policy": "identifiers_hashes_metrics_and_safe_errors_only"
+    },
+    "serving_crash_recovery": {
+      "status": "passed",
+      "request_after_recovery": {
+        "status": "ok"
+      },
+      "request_during_recovery": {
+        "error": {
+          "code": "serving_unavailable",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      },
+      "runtime_rebuilt": false
+    }
+  },
+  "resolved_profile": "hybrid_ner_tner_conservative",
+  "runtime_reuse": {
+    "lifecycle_stage_counts": {
+      "model_registry": 1,
+      "backend_configuration": 1,
+      "dependency_validation": 1,
+      "compiler_start": 1,
+      "model_load": 1,
+      "tokenizer_load": 1,
+      "serving_construction": 1
+    },
+    "normal_runtime_builds": 1,
+    "per_request_rebuild_detected": false
+  },
+  "schema_version": 1,
+  "settings": {
+    "concurrency": 4,
+    "authoritative": true,
+    "duration_ms": 600000,
+    "sample_interval_ms": 1000,
+    "window_ms": 60000,
+    "idle_ms": 10000,
+    "model_downloads_allowed": false,
+    "request_timeout_ms": 300000
+  },
+  "workload": {
+    "status": "measured",
+    "failed": 0,
+    "windows": [
+      {
+        "index": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 3300,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 3300,
+          "max": 78.39,
+          "mean": 72.64031515151515,
+          "p50": 73.0,
+          "p95": 75.5,
+          "p99": 76.5
+        },
+        "throughput_rps": 55.0,
+        "measured_ms": 60000,
+        "start_ms": 0
+      },
+      {
+        "index": 1,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 2960,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 2960,
+          "max": 99.7,
+          "mean": 81.06865574324324,
+          "p50": 80.5,
+          "p95": 94.0,
+          "p99": 96.5
+        },
+        "throughput_rps": 49.333333333333336,
+        "measured_ms": 60000,
+        "start_ms": 60000
+      },
+      {
+        "index": 2,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 2000,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 2000,
+          "max": 186.397,
+          "mean": 119.9012265,
+          "p50": 125.0,
+          "p95": 140.0,
+          "p99": 170.0
+        },
+        "throughput_rps": 33.333333333333336,
+        "measured_ms": 60000,
+        "start_ms": 120000
+      },
+      {
+        "index": 3,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 2044,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 2044,
+          "max": 137.566,
+          "mean": 117.41879990215264,
+          "p50": 120.0,
+          "p95": 135.0,
+          "p99": 140.0
+        },
+        "throughput_rps": 34.06666666666667,
+        "measured_ms": 60000,
+        "start_ms": 180000
+      },
+      {
+        "index": 4,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 2272,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 2272,
+          "max": 171.225,
+          "mean": 105.62816593309859,
+          "p50": 110.0,
+          "p95": 115.0,
+          "p99": 125.0
+        },
+        "throughput_rps": 37.86666666666667,
+        "measured_ms": 60000,
+        "start_ms": 240000
+      },
+      {
+        "index": 5,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 2149,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 2149,
+          "max": 172.252,
+          "mean": 111.62394462540716,
+          "p50": 115.0,
+          "p95": 135.0,
+          "p99": 150.0
+        },
+        "throughput_rps": 35.81666666666667,
+        "measured_ms": 60000,
+        "start_ms": 300000
+      },
+      {
+        "index": 6,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 2053,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 2053,
+          "max": 314.23,
+          "mean": 117.00342766682903,
+          "p50": 120.0,
+          "p95": 145.0,
+          "p99": 175.0
+        },
+        "throughput_rps": 34.21666666666667,
+        "measured_ms": 60000,
+        "start_ms": 360000
+      },
+      {
+        "index": 7,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 2000,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 2000,
+          "max": 181.301,
+          "mean": 119.772964,
+          "p50": 120.0,
+          "p95": 150.0,
+          "p99": 165.0
+        },
+        "throughput_rps": 33.333333333333336,
+        "measured_ms": 60000,
+        "start_ms": 420000
+      },
+      {
+        "index": 8,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1955,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1955,
+          "max": 239.947,
+          "mean": 122.73576982097187,
+          "p50": 125.0,
+          "p95": 155.0,
+          "p99": 175.0
+        },
+        "throughput_rps": 32.583333333333336,
+        "measured_ms": 60000,
+        "start_ms": 480000
+      },
+      {
+        "index": 9,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1980,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1980,
+          "max": 401.621,
+          "mean": 121.25761212121212,
+          "p50": 125.0,
+          "p95": 155.0,
+          "p99": 180.0
+        },
+        "throughput_rps": 33.0,
+        "measured_ms": 60000,
+        "start_ms": 540000
+      },
+      {
+        "index": 10,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 4,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 4,
+          "max": 118.361,
+          "mean": 103.69825,
+          "p50": 105.0,
+          "p95": 120.0,
+          "p99": 120.0
+        },
+        "throughput_rps": 66.22955162599064,
+        "measured_ms": 60.39599999994971,
+        "start_ms": 600000
+      }
+    ],
+    "rejected": 0,
+    "completed": 22717,
+    "timed_out": 0,
+    "concurrency": 4,
+    "sample_interval_ms": 1000,
+    "elapsed_ms": 600060.396,
+    "dataset_coverage": {
+      "generated_large_template_heldout": {
+        "requests": 5690,
+        "unique_samples": 648,
+        "configured_samples": 648,
+        "unique_coverage_ratio": 1.0
+      },
+      "nemotron_pii_test_subset_all": {
+        "requests": 4500,
+        "unique_samples": 500,
+        "configured_samples": 500,
+        "unique_coverage_ratio": 1.0
+      },
+      "synth_dataset_v2_all": {
+        "requests": 12527,
+        "unique_samples": 1500,
+        "configured_samples": 1500,
+        "unique_coverage_ratio": 1.0
+      }
+    },
+    "output_stability": {
+      "probe": {
+        "stable": true,
+        "datasets": [
+          {
+            "stable": true,
+            "dataset": "generated_large_template_heldout"
+          },
+          {
+            "stable": true,
+            "dataset": "nemotron_pii_test_subset_all"
+          },
+          {
+            "stable": true,
+            "dataset": "synth_dataset_v2_all"
+          }
+        ]
+      },
+      "stable": true,
+      "fingerprint": "fd48c9467fb193096b03bee626589d43cea21438ea54fd6ff6ee732b5ee73e94",
+      "mismatches": 0,
+      "rechecks": 20069,
+      "unique_samples": 2648
+    },
+    "requested_duration_ms": 600000,
+    "resource_sample_count": 599,
+    "resource_sampling_coverage": 0.9983333333333333,
+    "stop_reason": "duration",
+    "throughput_rps": 37.85785589489229,
+    "window_duration_ms": 60000,
+    "worker_count": 4
+  }
+}

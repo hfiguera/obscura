@@ -1,0 +1,177 @@
+{
+  "environment": {
+    "gliner_module": "/Users/humberto/Projects/obscura/.gliner-urchade-venv/lib/python3.14/site-packages/gliner/__init__.py",
+    "machine": "arm64",
+    "packages": {
+      "gliner": "0.2.27",
+      "huggingface_hub": "0.36.2",
+      "onnx": "1.22.0",
+      "onnxruntime": "1.26.0",
+      "tokenizers": "0.21.4",
+      "torch": "2.12.0",
+      "transformers": "4.53.3"
+    },
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]"
+  },
+  "export": {
+    "config_contract": {
+      "has_rnn": true,
+      "max_len": 384,
+      "max_types": 25,
+      "max_width": 12,
+      "model_name": "microsoft/deberta-v3-large",
+      "model_type": null,
+      "span_mode": "markerV0",
+      "words_splitter_type": "whitespace"
+    },
+    "files": {
+      "added_tokens.json": {
+        "bytes": 86,
+        "sha256": "0a4df7f7953a90443fa51b6ca723242f6cb29e7fc34b1f27fc320c8e60de45b7"
+      },
+      "gliner_config.json": {
+        "bytes": 3495,
+        "sha256": "98d85277f2aa9062184946b48b1d0314843abf1bb75deee9c58345cadf07e004"
+      },
+      "model.onnx": {
+        "bytes": 1784424278,
+        "sha256": "c3d8eb90cb31bcd482dcf2af97d471f4e9e0211cb7a6426d0647ef897ae26737"
+      },
+      "special_tokens_map.json": {
+        "bytes": 970,
+        "sha256": "b2f1b2f15f29a6b6d9d6ea4eca1675d2c231a71477f151d48f79cc83a625ba21"
+      },
+      "spm.model": {
+        "bytes": 2464616,
+        "sha256": "c679fbf93643d19aab7ee10c0b99e460bdbc02fedf34b92b05af343b4af586fd"
+      },
+      "tokenizer.json": {
+        "bytes": 8649571,
+        "sha256": "953deb290bdcbd985bb91223801eeb4bea79021f0d2e24ebb764dcd2b0816cf9"
+      },
+      "tokenizer_config.json": {
+        "bytes": 1942,
+        "sha256": "54f0002b43462f0d49cdd63c25a4540e76e0ed5a198f123f3eb716ce120cddf0"
+      }
+    },
+    "onnx_contract": {
+      "inputs": [
+        {
+          "dtype": 7,
+          "name": "input_ids",
+          "shape": [
+            "batch_size",
+            "sequence_length"
+          ]
+        },
+        {
+          "dtype": 7,
+          "name": "attention_mask",
+          "shape": [
+            "batch_size",
+            "sequence_length"
+          ]
+        },
+        {
+          "dtype": 7,
+          "name": "words_mask",
+          "shape": [
+            "batch_size",
+            "sequence_length"
+          ]
+        },
+        {
+          "dtype": 7,
+          "name": "text_lengths",
+          "shape": [
+            "batch_size",
+            "value"
+          ]
+        },
+        {
+          "dtype": 7,
+          "name": "span_idx",
+          "shape": [
+            "batch_size",
+            "num_spans",
+            "idx"
+          ]
+        },
+        {
+          "dtype": 9,
+          "name": "span_mask",
+          "shape": [
+            "batch_size",
+            "num_spans"
+          ]
+        }
+      ],
+      "ir_version": 9,
+      "opsets": [
+        {
+          "domain": "",
+          "version": 19
+        }
+      ],
+      "outputs": [
+        {
+          "dtype": 1,
+          "name": "logits",
+          "shape": [
+            "batch_size",
+            "sequence_length",
+            "num_spans",
+            "num_classes"
+          ]
+        }
+      ]
+    },
+    "opset": 19,
+    "result": {
+      "onnx_path": ".cache/nvidia-gliner-export/model.onnx",
+      "quantized_path": null
+    }
+  },
+  "model": {
+    "files": {
+      "README.md": {
+        "bytes": 7285,
+        "sha256": "c9282ca08d92fe4f754f0d390d75555f6e595d71d504be986b020ee934eb171f"
+      },
+      "added_tokens.json": {
+        "bytes": 86,
+        "sha256": "0a4df7f7953a90443fa51b6ca723242f6cb29e7fc34b1f27fc320c8e60de45b7"
+      },
+      "gliner_config.json": {
+        "bytes": 3290,
+        "sha256": "798b48ffb6207757145b7c0df3dc81a147c9bef85a886e87da3ab3a11b8ac844"
+      },
+      "pytorch_model.bin": {
+        "bytes": 1782000995,
+        "sha256": "a4dfd0dcbd718acc86dca65fa99f1097d2796c8d7a681e1bc42f40f946c03802"
+      },
+      "special_tokens_map.json": {
+        "bytes": 970,
+        "sha256": "b2f1b2f15f29a6b6d9d6ea4eca1675d2c231a71477f151d48f79cc83a625ba21"
+      },
+      "spm.model": {
+        "bytes": 2464616,
+        "sha256": "c679fbf93643d19aab7ee10c0b99e460bdbc02fedf34b92b05af343b4af586fd"
+      },
+      "tokenizer.json": {
+        "bytes": 8649571,
+        "sha256": "953deb290bdcbd985bb91223801eeb4bea79021f0d2e24ebb764dcd2b0816cf9"
+      },
+      "tokenizer_config.json": {
+        "bytes": 1912,
+        "sha256": "90ccec9ada3be53f8ef5da7187ab669ba0a8ae7d5c4d3b7cf10550a24fd7994d"
+      }
+    },
+    "id": "nvidia/gliner-PII",
+    "license": "NVIDIA Open Model License",
+    "revision": "bd23e8ef4425fd04e34c5204ab49ffaa706eae79"
+  },
+  "schema_version": 1,
+  "status": "experimental_local_export"
+}

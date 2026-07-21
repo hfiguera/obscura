@@ -1,0 +1,55 @@
+name: Dependency-light CI
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  base:
+    name: Base library and quality gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      MIX_ENV: test
+      MIX_HOME: ${{ github.workspace }}/.mix
+      HEX_HOME: ${{ github.workspace }}/.hex
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          otp-version: 29.0.3
+          elixir-version: 1.20.2
+
+      - name: Restore dependency and PLT cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            deps
+            _build
+            .mix
+            .hex
+            priv/plts
+          key: base-${{ runner.os }}-${{ hashFiles('.tool-versions', 'mix.exs', 'mix.lock') }}
+          restore-keys: |
+            base-${{ runner.os }}-
+
+      - name: Install local Mix tools
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+
+      - name: Fetch dependencies
+        run: mix deps.get
+
+      - name: Run dependency-light validation
+        run: mix ci.base

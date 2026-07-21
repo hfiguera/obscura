@@ -1,0 +1,1814 @@
+{
+  "reports": [
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "generated_large_template_heldout",
+        "name": "generated_large",
+        "sample_count": 648,
+        "sample_ids_sha256": "abd254573ceacfd0a8472a48633db7a98e134c1be9e1c9301dda4e22ee372018",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+        "sha256": "b84d6553a3fc27a5c664a1c2f95be15291ea16b83501e109d411fe237e380e26",
+        "split": "template_heldout"
+      },
+      "environment": {
+        "actual": {
+          "location": {
+            "backend": "emily",
+            "backend_metadata": {
+              "actual_backend": "emily",
+              "actual_device": "gpu",
+              "backend_proven": true,
+              "emily_device": "gpu",
+              "emily_fallback": "raise",
+              "exla_enabled": false,
+              "fallback_occurred": false,
+              "requested_backend": "emily",
+              "source": "option"
+            },
+            "entities": [
+              "person",
+              "organization",
+              "location"
+            ],
+            "model_alias": "jean_baptiste_roberta_large_ner_english",
+            "model_id": "Jean-Baptiste/roberta-large-ner-english",
+            "model_license": "MIT",
+            "model_policy": {
+              "aggregation_strategy": "same",
+              "alignment_mode": "expand",
+              "context_required_below_labels": {
+                "LOC": 0.96,
+                "ORG": 0.99
+              },
+              "context_required_below_thresholds": {
+                "organization": 0.98
+              },
+              "context_words_by_entity": {
+                "location": [
+                  "address",
+                  "city",
+                  "country",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "organization": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "context_words_by_label": {
+                "LOC": [
+                  "address",
+                  "city",
+                  "country",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "ORG": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "labels_to_ignore": [
+                "MISC",
+                "B-MISC",
+                "I-MISC"
+              ],
+              "per_entity_thresholds": {
+                "location": 0.8,
+                "organization": 0.95
+              },
+              "per_label_thresholds": {
+                "LOC": 0.92,
+                "ORG": 0.98,
+                "PER": 0.72
+              }
+            },
+            "model_status": "experimental",
+            "tokenizer_id": "FacebookAI/roberta-large"
+          },
+          "primary": {
+            "backend": "emily",
+            "backend_metadata": {
+              "actual_backend": "emily",
+              "actual_device": "gpu",
+              "backend_proven": true,
+              "emily_device": "gpu",
+              "emily_fallback": "raise",
+              "exla_enabled": false,
+              "fallback_occurred": false,
+              "requested_backend": "emily",
+              "source": "option"
+            },
+            "entities": [
+              "person",
+              "organization",
+              "location"
+            ],
+            "model_alias": "tner_roberta_large_ontonotes5",
+            "model_id": "tner/roberta-large-ontonotes5",
+            "model_license": "unknown",
+            "model_policy": {
+              "aggregation_strategy": "same",
+              "alignment_mode": "expand",
+              "context_required_below_labels": {
+                "FAC": 0.99,
+                "LOC": 0.96,
+                "ORG": 0.99
+              },
+              "context_required_below_thresholds": {
+                "organization": 0.98
+              },
+              "context_required_labels": [
+                "FAC"
+              ],
+              "context_words_by_entity": {
+                "location": [
+                  "address",
+                  "city",
+                  "country",
+                  "facility",
+                  "headquartered",
+                  "hospital",
+                  "in",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "organization": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "context_words_by_label": {
+                "FAC": [
+                  "airport",
+                  "building",
+                  "campus",
+                  "facility",
+                  "headquarters",
+                  "hospital",
+                  "office"
+                ],
+                "GPE": [
+                  "address",
+                  "city",
+                  "country",
+                  "headquartered",
+                  "located",
+                  "office",
+                  "state"
+                ],
+                "LOC": [
+                  "address",
+                  "city",
+                  "country",
+                  "geography",
+                  "located",
+                  "location",
+                  "region",
+                  "state"
+                ],
+                "ORG": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "labels_to_ignore": [
+                "B-CARDINAL",
+                "I-CARDINAL",
+                "B-DATE",
+                "I-DATE",
+                "B-EVENT",
+                "I-EVENT",
+                "B-LANGUAGE",
+                "I-LANGUAGE",
+                "B-LAW",
+                "I-LAW",
+                "B-MONEY",
+                "I-MONEY",
+                "B-NORP",
+                "I-NORP",
+                "B-ORDINAL",
+                "I-ORDINAL",
+                "B-PERCENT",
+                "I-PERCENT",
+                "B-PRODUCT",
+                "I-PRODUCT",
+                "B-QUANTITY",
+                "I-QUANTITY",
+                "B-TIME",
+                "I-TIME",
+                "B-WORK_OF_ART",
+                "I-WORK_OF_ART"
+              ],
+              "negative_context_reject_labels": [
+                "GPE"
+              ],
+              "negative_context_words_by_label": {
+                "GPE": [
+                  "account",
+                  "case",
+                  "code",
+                  "invoice",
+                  "order",
+                  "payment",
+                  "product",
+                  "reference",
+                  "ticket"
+                ]
+              },
+              "per_entity_thresholds": {
+                "location": 0.8,
+                "organization": 0.95
+              },
+              "per_label_thresholds": {
+                "FAC": 0.97,
+                "GPE": 0.9,
+                "LOC": 0.92,
+                "ORG": 0.98,
+                "PERSON": 0.72
+              },
+              "weak_context_words_by_label": {
+                "FAC": [
+                  "in"
+                ]
+              }
+            },
+            "model_status": "experimental",
+            "tokenizer_id": "tner/roberta-large-ontonotes5"
+          }
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "accurate",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/accurate-generated_large_template_heldout-apple_emily.json",
+        "json_sha256": "cf4c623bcc521e2a84dd07827e026a43c06c89c945d7da4dfeacbdb0674bdf1c",
+        "markdown": "eval/operational/reports/accurate-generated_large_template_heldout-apple_emily.md",
+        "markdown_sha256": "443a76824d1161df656ed81ed7bfca5f74ada10d9e7d7fc7328d41c065425305"
+      },
+      "generated_at": "2026-07-21T01:28:56.275514Z",
+      "id": "accurate-generated_large_template_heldout-apple_emily",
+      "profile": "accurate",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "9ebb01b70ffa427ac8ce2bfd6fbaa276e9fc21d9"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "nemotron_pii_test_subset_all",
+        "name": "nemotron_pii_test_subset",
+        "sample_count": 500,
+        "sample_ids_sha256": "14206c51fbdafb0c28331bd07e74a26a6beede594c3edf4246163df32844972c",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd",
+        "sha256": "a36582d34f64ba871a604eabd53a8d92f0628b76ddb027105ac0f9d9a3042577",
+        "split": "all"
+      },
+      "environment": {
+        "actual": {
+          "location": {
+            "backend": "emily",
+            "backend_metadata": {
+              "actual_backend": "emily",
+              "actual_device": "gpu",
+              "backend_proven": true,
+              "emily_device": "gpu",
+              "emily_fallback": "raise",
+              "exla_enabled": false,
+              "fallback_occurred": false,
+              "requested_backend": "emily",
+              "source": "option"
+            },
+            "entities": [
+              "person",
+              "organization",
+              "location"
+            ],
+            "model_alias": "jean_baptiste_roberta_large_ner_english",
+            "model_id": "Jean-Baptiste/roberta-large-ner-english",
+            "model_license": "MIT",
+            "model_policy": {
+              "aggregation_strategy": "same",
+              "alignment_mode": "expand",
+              "context_required_below_labels": {
+                "LOC": 0.96,
+                "ORG": 0.99
+              },
+              "context_required_below_thresholds": {
+                "organization": 0.98
+              },
+              "context_words_by_entity": {
+                "location": [
+                  "address",
+                  "city",
+                  "country",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "organization": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "context_words_by_label": {
+                "LOC": [
+                  "address",
+                  "city",
+                  "country",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "ORG": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "labels_to_ignore": [
+                "MISC",
+                "B-MISC",
+                "I-MISC"
+              ],
+              "per_entity_thresholds": {
+                "location": 0.8,
+                "organization": 0.95
+              },
+              "per_label_thresholds": {
+                "LOC": 0.92,
+                "ORG": 0.98,
+                "PER": 0.72
+              }
+            },
+            "model_status": "experimental",
+            "tokenizer_id": "FacebookAI/roberta-large"
+          },
+          "primary": {
+            "backend": "emily",
+            "backend_metadata": {
+              "actual_backend": "emily",
+              "actual_device": "gpu",
+              "backend_proven": true,
+              "emily_device": "gpu",
+              "emily_fallback": "raise",
+              "exla_enabled": false,
+              "fallback_occurred": false,
+              "requested_backend": "emily",
+              "source": "option"
+            },
+            "entities": [
+              "person",
+              "organization",
+              "location"
+            ],
+            "model_alias": "tner_roberta_large_ontonotes5",
+            "model_id": "tner/roberta-large-ontonotes5",
+            "model_license": "unknown",
+            "model_policy": {
+              "aggregation_strategy": "same",
+              "alignment_mode": "expand",
+              "context_required_below_labels": {
+                "FAC": 0.99,
+                "LOC": 0.96,
+                "ORG": 0.99
+              },
+              "context_required_below_thresholds": {
+                "organization": 0.98
+              },
+              "context_required_labels": [
+                "FAC"
+              ],
+              "context_words_by_entity": {
+                "location": [
+                  "address",
+                  "city",
+                  "country",
+                  "facility",
+                  "headquartered",
+                  "hospital",
+                  "in",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "organization": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "context_words_by_label": {
+                "FAC": [
+                  "airport",
+                  "building",
+                  "campus",
+                  "facility",
+                  "headquarters",
+                  "hospital",
+                  "office"
+                ],
+                "GPE": [
+                  "address",
+                  "city",
+                  "country",
+                  "headquartered",
+                  "located",
+                  "office",
+                  "state"
+                ],
+                "LOC": [
+                  "address",
+                  "city",
+                  "country",
+                  "geography",
+                  "located",
+                  "location",
+                  "region",
+                  "state"
+                ],
+                "ORG": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "labels_to_ignore": [
+                "B-CARDINAL",
+                "I-CARDINAL",
+                "B-DATE",
+                "I-DATE",
+                "B-EVENT",
+                "I-EVENT",
+                "B-LANGUAGE",
+                "I-LANGUAGE",
+                "B-LAW",
+                "I-LAW",
+                "B-MONEY",
+                "I-MONEY",
+                "B-NORP",
+                "I-NORP",
+                "B-ORDINAL",
+                "I-ORDINAL",
+                "B-PERCENT",
+                "I-PERCENT",
+                "B-PRODUCT",
+                "I-PRODUCT",
+                "B-QUANTITY",
+                "I-QUANTITY",
+                "B-TIME",
+                "I-TIME",
+                "B-WORK_OF_ART",
+                "I-WORK_OF_ART"
+              ],
+              "negative_context_reject_labels": [
+                "GPE"
+              ],
+              "negative_context_words_by_label": {
+                "GPE": [
+                  "account",
+                  "case",
+                  "code",
+                  "invoice",
+                  "order",
+                  "payment",
+                  "product",
+                  "reference",
+                  "ticket"
+                ]
+              },
+              "per_entity_thresholds": {
+                "location": 0.8,
+                "organization": 0.95
+              },
+              "per_label_thresholds": {
+                "FAC": 0.97,
+                "GPE": 0.9,
+                "LOC": 0.92,
+                "ORG": 0.98,
+                "PERSON": 0.72
+              },
+              "weak_context_words_by_label": {
+                "FAC": [
+                  "in"
+                ]
+              }
+            },
+            "model_status": "experimental",
+            "tokenizer_id": "tner/roberta-large-ontonotes5"
+          }
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "accurate",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/accurate-nemotron_pii_test_subset_all-apple_emily.json",
+        "json_sha256": "0e388720213625b4905ca7dbd8059f3c222646efd369e760ff79e51111395a57",
+        "markdown": "eval/operational/reports/accurate-nemotron_pii_test_subset_all-apple_emily.md",
+        "markdown_sha256": "419555aa10d0414de8c440eb6a21968700af7cc8f9a0860a52150dfecbc17c37"
+      },
+      "generated_at": "2026-07-21T01:28:56.293714Z",
+      "id": "accurate-nemotron_pii_test_subset_all-apple_emily",
+      "profile": "accurate",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "9ebb01b70ffa427ac8ce2bfd6fbaa276e9fc21d9"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "synth_dataset_v2_all",
+        "name": "synth_dataset_v2",
+        "sample_count": 1500,
+        "sample_ids_sha256": "4ae1a24321c77e5ec34560cfa25b5cecd3381f50fe4d69e5fc0ac69d0646b07c",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc",
+        "sha256": "ec08a771ba8135314cafb60752b2295212222ba3a4cd75d73811839c699e0012",
+        "split": "all"
+      },
+      "environment": {
+        "actual": {
+          "location": {
+            "backend": "emily",
+            "backend_metadata": {
+              "actual_backend": "emily",
+              "actual_device": "gpu",
+              "backend_proven": true,
+              "emily_device": "gpu",
+              "emily_fallback": "raise",
+              "exla_enabled": false,
+              "fallback_occurred": false,
+              "requested_backend": "emily",
+              "source": "option"
+            },
+            "entities": [
+              "person",
+              "organization",
+              "location"
+            ],
+            "model_alias": "jean_baptiste_roberta_large_ner_english",
+            "model_id": "Jean-Baptiste/roberta-large-ner-english",
+            "model_license": "MIT",
+            "model_policy": {
+              "aggregation_strategy": "same",
+              "alignment_mode": "expand",
+              "context_required_below_labels": {
+                "LOC": 0.96,
+                "ORG": 0.99
+              },
+              "context_required_below_thresholds": {
+                "organization": 0.98
+              },
+              "context_words_by_entity": {
+                "location": [
+                  "address",
+                  "city",
+                  "country",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "organization": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "context_words_by_label": {
+                "LOC": [
+                  "address",
+                  "city",
+                  "country",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "ORG": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "labels_to_ignore": [
+                "MISC",
+                "B-MISC",
+                "I-MISC"
+              ],
+              "per_entity_thresholds": {
+                "location": 0.8,
+                "organization": 0.95
+              },
+              "per_label_thresholds": {
+                "LOC": 0.92,
+                "ORG": 0.98,
+                "PER": 0.72
+              }
+            },
+            "model_status": "experimental",
+            "tokenizer_id": "FacebookAI/roberta-large"
+          },
+          "primary": {
+            "backend": "emily",
+            "backend_metadata": {
+              "actual_backend": "emily",
+              "actual_device": "gpu",
+              "backend_proven": true,
+              "emily_device": "gpu",
+              "emily_fallback": "raise",
+              "exla_enabled": false,
+              "fallback_occurred": false,
+              "requested_backend": "emily",
+              "source": "option"
+            },
+            "entities": [
+              "person",
+              "organization",
+              "location"
+            ],
+            "model_alias": "tner_roberta_large_ontonotes5",
+            "model_id": "tner/roberta-large-ontonotes5",
+            "model_license": "unknown",
+            "model_policy": {
+              "aggregation_strategy": "same",
+              "alignment_mode": "expand",
+              "context_required_below_labels": {
+                "FAC": 0.99,
+                "LOC": 0.96,
+                "ORG": 0.99
+              },
+              "context_required_below_thresholds": {
+                "organization": 0.98
+              },
+              "context_required_labels": [
+                "FAC"
+              ],
+              "context_words_by_entity": {
+                "location": [
+                  "address",
+                  "city",
+                  "country",
+                  "facility",
+                  "headquartered",
+                  "hospital",
+                  "in",
+                  "located",
+                  "location",
+                  "office",
+                  "state"
+                ],
+                "organization": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "context_words_by_label": {
+                "FAC": [
+                  "airport",
+                  "building",
+                  "campus",
+                  "facility",
+                  "headquarters",
+                  "hospital",
+                  "office"
+                ],
+                "GPE": [
+                  "address",
+                  "city",
+                  "country",
+                  "headquartered",
+                  "located",
+                  "office",
+                  "state"
+                ],
+                "LOC": [
+                  "address",
+                  "city",
+                  "country",
+                  "geography",
+                  "located",
+                  "location",
+                  "region",
+                  "state"
+                ],
+                "ORG": [
+                  "company",
+                  "employer",
+                  "organization",
+                  "works at",
+                  "work at",
+                  "affiliated with"
+                ]
+              },
+              "labels_to_ignore": [
+                "B-CARDINAL",
+                "I-CARDINAL",
+                "B-DATE",
+                "I-DATE",
+                "B-EVENT",
+                "I-EVENT",
+                "B-LANGUAGE",
+                "I-LANGUAGE",
+                "B-LAW",
+                "I-LAW",
+                "B-MONEY",
+                "I-MONEY",
+                "B-NORP",
+                "I-NORP",
+                "B-ORDINAL",
+                "I-ORDINAL",
+                "B-PERCENT",
+                "I-PERCENT",
+                "B-PRODUCT",
+                "I-PRODUCT",
+                "B-QUANTITY",
+                "I-QUANTITY",
+                "B-TIME",
+                "I-TIME",
+                "B-WORK_OF_ART",
+                "I-WORK_OF_ART"
+              ],
+              "negative_context_reject_labels": [
+                "GPE"
+              ],
+              "negative_context_words_by_label": {
+                "GPE": [
+                  "account",
+                  "case",
+                  "code",
+                  "invoice",
+                  "order",
+                  "payment",
+                  "product",
+                  "reference",
+                  "ticket"
+                ]
+              },
+              "per_entity_thresholds": {
+                "location": 0.8,
+                "organization": 0.95
+              },
+              "per_label_thresholds": {
+                "FAC": 0.97,
+                "GPE": 0.9,
+                "LOC": 0.92,
+                "ORG": 0.98,
+                "PERSON": 0.72
+              },
+              "weak_context_words_by_label": {
+                "FAC": [
+                  "in"
+                ]
+              }
+            },
+            "model_status": "experimental",
+            "tokenizer_id": "tner/roberta-large-ontonotes5"
+          }
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "accurate",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/accurate-synth_dataset_v2_all-apple_emily.json",
+        "json_sha256": "08bd437f267a3028a888c6913029eab2902d08bcd7c196b0cbeb0dea6fed7e70",
+        "markdown": "eval/operational/reports/accurate-synth_dataset_v2_all-apple_emily.md",
+        "markdown_sha256": "bcc40c29df7256a761bd31aed5693767c2e1024a416a74e2f36d6b5d8d3eb753"
+      },
+      "generated_at": "2026-07-21T01:28:56.288877Z",
+      "id": "accurate-synth_dataset_v2_all-apple_emily",
+      "profile": "accurate",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "9ebb01b70ffa427ac8ce2bfd6fbaa276e9fc21d9"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "generated_large_template_heldout",
+        "name": "generated_large",
+        "sample_count": 648,
+        "sample_ids_sha256": "abd254573ceacfd0a8472a48633db7a98e134c1be9e1c9301dda4e22ee372018",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+        "sha256": "b84d6553a3fc27a5c664a1c2f95be15291ea16b83501e109d411fe237e380e26",
+        "split": "template_heldout"
+      },
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "requested_backend": "emily",
+            "source": "option"
+          },
+          "entities": [
+            "person",
+            "organization",
+            "location"
+          ],
+          "model_alias": "tner_roberta_large_ontonotes5",
+          "model_id": "tner/roberta-large-ontonotes5",
+          "model_license": "unknown",
+          "model_policy": {
+            "aggregation_strategy": "same",
+            "alignment_mode": "expand",
+            "context_required_below_labels": {
+              "FAC": 0.99,
+              "LOC": 0.96,
+              "ORG": 0.99
+            },
+            "context_required_below_thresholds": {
+              "organization": 0.98
+            },
+            "context_required_labels": [
+              "FAC"
+            ],
+            "context_words_by_entity": {
+              "location": [
+                "address",
+                "city",
+                "country",
+                "facility",
+                "headquartered",
+                "hospital",
+                "in",
+                "located",
+                "location",
+                "office",
+                "state"
+              ],
+              "organization": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "context_words_by_label": {
+              "FAC": [
+                "airport",
+                "building",
+                "campus",
+                "facility",
+                "headquarters",
+                "hospital",
+                "office"
+              ],
+              "GPE": [
+                "address",
+                "city",
+                "country",
+                "headquartered",
+                "located",
+                "office",
+                "state"
+              ],
+              "LOC": [
+                "address",
+                "city",
+                "country",
+                "geography",
+                "located",
+                "location",
+                "region",
+                "state"
+              ],
+              "ORG": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "labels_to_ignore": [
+              "B-CARDINAL",
+              "I-CARDINAL",
+              "B-DATE",
+              "I-DATE",
+              "B-EVENT",
+              "I-EVENT",
+              "B-LANGUAGE",
+              "I-LANGUAGE",
+              "B-LAW",
+              "I-LAW",
+              "B-MONEY",
+              "I-MONEY",
+              "B-NORP",
+              "I-NORP",
+              "B-ORDINAL",
+              "I-ORDINAL",
+              "B-PERCENT",
+              "I-PERCENT",
+              "B-PRODUCT",
+              "I-PRODUCT",
+              "B-QUANTITY",
+              "I-QUANTITY",
+              "B-TIME",
+              "I-TIME",
+              "B-WORK_OF_ART",
+              "I-WORK_OF_ART"
+            ],
+            "negative_context_reject_labels": [
+              "GPE"
+            ],
+            "negative_context_words_by_label": {
+              "GPE": [
+                "account",
+                "case",
+                "code",
+                "invoice",
+                "order",
+                "payment",
+                "product",
+                "reference",
+                "ticket"
+              ]
+            },
+            "per_entity_thresholds": {
+              "location": 0.8,
+              "organization": 0.95
+            },
+            "per_label_thresholds": {
+              "FAC": 0.97,
+              "GPE": 0.9,
+              "LOC": 0.92,
+              "ORG": 0.98,
+              "PERSON": 0.72
+            },
+            "weak_context_words_by_label": {
+              "FAC": [
+                "in"
+              ]
+            }
+          },
+          "model_status": "experimental",
+          "tokenizer_id": "tner/roberta-large-ontonotes5"
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "balanced",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/balanced-generated_large_template_heldout-apple_emily.json",
+        "json_sha256": "7a7b1624d0e3eab42b9b9ee6677498424c8aa1dc9cd52616be634a1ef390fab5",
+        "markdown": "eval/operational/reports/balanced-generated_large_template_heldout-apple_emily.md",
+        "markdown_sha256": "cb0a56c083d413c0f47e8fcb505531c9334d9f72eb0100f9c3fd4b34f883547e"
+      },
+      "generated_at": "2026-07-18T02:15:37.233252Z",
+      "id": "balanced-generated_large_template_heldout-apple_emily",
+      "profile": "balanced",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "ab84d4ce5a4f4c0c482228b94b30584b8e687de8"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "nemotron_pii_test_subset_all",
+        "name": "nemotron_pii_test_subset",
+        "sample_count": 500,
+        "sample_ids_sha256": "14206c51fbdafb0c28331bd07e74a26a6beede594c3edf4246163df32844972c",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd",
+        "sha256": "a36582d34f64ba871a604eabd53a8d92f0628b76ddb027105ac0f9d9a3042577",
+        "split": "all"
+      },
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "requested_backend": "emily",
+            "source": "option"
+          },
+          "entities": [
+            "person",
+            "organization",
+            "location"
+          ],
+          "model_alias": "tner_roberta_large_ontonotes5",
+          "model_id": "tner/roberta-large-ontonotes5",
+          "model_license": "unknown",
+          "model_policy": {
+            "aggregation_strategy": "same",
+            "alignment_mode": "expand",
+            "context_required_below_labels": {
+              "FAC": 0.99,
+              "LOC": 0.96,
+              "ORG": 0.99
+            },
+            "context_required_below_thresholds": {
+              "organization": 0.98
+            },
+            "context_required_labels": [
+              "FAC"
+            ],
+            "context_words_by_entity": {
+              "location": [
+                "address",
+                "city",
+                "country",
+                "facility",
+                "headquartered",
+                "hospital",
+                "in",
+                "located",
+                "location",
+                "office",
+                "state"
+              ],
+              "organization": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "context_words_by_label": {
+              "FAC": [
+                "airport",
+                "building",
+                "campus",
+                "facility",
+                "headquarters",
+                "hospital",
+                "office"
+              ],
+              "GPE": [
+                "address",
+                "city",
+                "country",
+                "headquartered",
+                "located",
+                "office",
+                "state"
+              ],
+              "LOC": [
+                "address",
+                "city",
+                "country",
+                "geography",
+                "located",
+                "location",
+                "region",
+                "state"
+              ],
+              "ORG": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "labels_to_ignore": [
+              "B-CARDINAL",
+              "I-CARDINAL",
+              "B-DATE",
+              "I-DATE",
+              "B-EVENT",
+              "I-EVENT",
+              "B-LANGUAGE",
+              "I-LANGUAGE",
+              "B-LAW",
+              "I-LAW",
+              "B-MONEY",
+              "I-MONEY",
+              "B-NORP",
+              "I-NORP",
+              "B-ORDINAL",
+              "I-ORDINAL",
+              "B-PERCENT",
+              "I-PERCENT",
+              "B-PRODUCT",
+              "I-PRODUCT",
+              "B-QUANTITY",
+              "I-QUANTITY",
+              "B-TIME",
+              "I-TIME",
+              "B-WORK_OF_ART",
+              "I-WORK_OF_ART"
+            ],
+            "negative_context_reject_labels": [
+              "GPE"
+            ],
+            "negative_context_words_by_label": {
+              "GPE": [
+                "account",
+                "case",
+                "code",
+                "invoice",
+                "order",
+                "payment",
+                "product",
+                "reference",
+                "ticket"
+              ]
+            },
+            "per_entity_thresholds": {
+              "location": 0.8,
+              "organization": 0.95
+            },
+            "per_label_thresholds": {
+              "FAC": 0.97,
+              "GPE": 0.9,
+              "LOC": 0.92,
+              "ORG": 0.98,
+              "PERSON": 0.72
+            },
+            "weak_context_words_by_label": {
+              "FAC": [
+                "in"
+              ]
+            }
+          },
+          "model_status": "experimental",
+          "tokenizer_id": "tner/roberta-large-ontonotes5"
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "balanced",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/balanced-nemotron_pii_test_subset_all-apple_emily.json",
+        "json_sha256": "52aecb997749070a8b02a3f85395f7c8be9a5ec29531871f797e4c419b872150",
+        "markdown": "eval/operational/reports/balanced-nemotron_pii_test_subset_all-apple_emily.md",
+        "markdown_sha256": "897c5cee4a3a795675156ab536cdcc0e4120c64f44ac7974482b8af07ee5bc7d"
+      },
+      "generated_at": "2026-07-18T02:15:37.248376Z",
+      "id": "balanced-nemotron_pii_test_subset_all-apple_emily",
+      "profile": "balanced",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "ab84d4ce5a4f4c0c482228b94b30584b8e687de8"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "synth_dataset_v2_all",
+        "name": "synth_dataset_v2",
+        "sample_count": 1500,
+        "sample_ids_sha256": "4ae1a24321c77e5ec34560cfa25b5cecd3381f50fe4d69e5fc0ac69d0646b07c",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc",
+        "sha256": "ec08a771ba8135314cafb60752b2295212222ba3a4cd75d73811839c699e0012",
+        "split": "all"
+      },
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "requested_backend": "emily",
+            "source": "option"
+          },
+          "entities": [
+            "person",
+            "organization",
+            "location"
+          ],
+          "model_alias": "tner_roberta_large_ontonotes5",
+          "model_id": "tner/roberta-large-ontonotes5",
+          "model_license": "unknown",
+          "model_policy": {
+            "aggregation_strategy": "same",
+            "alignment_mode": "expand",
+            "context_required_below_labels": {
+              "FAC": 0.99,
+              "LOC": 0.96,
+              "ORG": 0.99
+            },
+            "context_required_below_thresholds": {
+              "organization": 0.98
+            },
+            "context_required_labels": [
+              "FAC"
+            ],
+            "context_words_by_entity": {
+              "location": [
+                "address",
+                "city",
+                "country",
+                "facility",
+                "headquartered",
+                "hospital",
+                "in",
+                "located",
+                "location",
+                "office",
+                "state"
+              ],
+              "organization": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "context_words_by_label": {
+              "FAC": [
+                "airport",
+                "building",
+                "campus",
+                "facility",
+                "headquarters",
+                "hospital",
+                "office"
+              ],
+              "GPE": [
+                "address",
+                "city",
+                "country",
+                "headquartered",
+                "located",
+                "office",
+                "state"
+              ],
+              "LOC": [
+                "address",
+                "city",
+                "country",
+                "geography",
+                "located",
+                "location",
+                "region",
+                "state"
+              ],
+              "ORG": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "labels_to_ignore": [
+              "B-CARDINAL",
+              "I-CARDINAL",
+              "B-DATE",
+              "I-DATE",
+              "B-EVENT",
+              "I-EVENT",
+              "B-LANGUAGE",
+              "I-LANGUAGE",
+              "B-LAW",
+              "I-LAW",
+              "B-MONEY",
+              "I-MONEY",
+              "B-NORP",
+              "I-NORP",
+              "B-ORDINAL",
+              "I-ORDINAL",
+              "B-PERCENT",
+              "I-PERCENT",
+              "B-PRODUCT",
+              "I-PRODUCT",
+              "B-QUANTITY",
+              "I-QUANTITY",
+              "B-TIME",
+              "I-TIME",
+              "B-WORK_OF_ART",
+              "I-WORK_OF_ART"
+            ],
+            "negative_context_reject_labels": [
+              "GPE"
+            ],
+            "negative_context_words_by_label": {
+              "GPE": [
+                "account",
+                "case",
+                "code",
+                "invoice",
+                "order",
+                "payment",
+                "product",
+                "reference",
+                "ticket"
+              ]
+            },
+            "per_entity_thresholds": {
+              "location": 0.8,
+              "organization": 0.95
+            },
+            "per_label_thresholds": {
+              "FAC": 0.97,
+              "GPE": 0.9,
+              "LOC": 0.92,
+              "ORG": 0.98,
+              "PERSON": 0.72
+            },
+            "weak_context_words_by_label": {
+              "FAC": [
+                "in"
+              ]
+            }
+          },
+          "model_status": "experimental",
+          "tokenizer_id": "tner/roberta-large-ontonotes5"
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "balanced",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/balanced-synth_dataset_v2_all-apple_emily.json",
+        "json_sha256": "ec7aa0da4218794b4e1a8e33924d1af1e195e5ef10da1fa645820ab58ea22770",
+        "markdown": "eval/operational/reports/balanced-synth_dataset_v2_all-apple_emily.md",
+        "markdown_sha256": "7fa61fb30ea8ef48a89fe343d3571d43fa5ad992d30ed8fbf63d24e94f2bb41d"
+      },
+      "generated_at": "2026-07-18T02:15:37.243116Z",
+      "id": "balanced-synth_dataset_v2_all-apple_emily",
+      "profile": "balanced",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "ab84d4ce5a4f4c0c482228b94b30584b8e687de8"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "generated_large_template_heldout",
+        "name": "generated_large",
+        "sample_count": 648,
+        "sample_ids_sha256": "abd254573ceacfd0a8472a48633db7a98e134c1be9e1c9301dda4e22ee372018",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+        "sha256": "b84d6553a3fc27a5c664a1c2f95be15291ea16b83501e109d411fe237e380e26",
+        "split": "template_heldout"
+      },
+      "environment": {
+        "actual": {},
+        "backend_proven": true,
+        "emily_fallback": "not_applicable",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "fast",
+        "requested_backend": "beam_cpu",
+        "requested_device": "cpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/fast-generated_large_template_heldout-apple_emily.json",
+        "json_sha256": "39fdf886bd7129c2536f9afb85351a83b6dceb32629c3927303dd2e85a19c91f",
+        "markdown": "eval/operational/reports/fast-generated_large_template_heldout-apple_emily.md",
+        "markdown_sha256": "21dd4ed344fead5b0e0d663329fd730496d32704ab476f8b402fee9675accf94"
+      },
+      "generated_at": "2026-07-18T02:04:24.974548Z",
+      "id": "fast-generated_large_template_heldout-apple_emily",
+      "profile": "fast",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "ab84d4ce5a4f4c0c482228b94b30584b8e687de8"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "nemotron_pii_test_subset_all",
+        "name": "nemotron_pii_test_subset",
+        "sample_count": 500,
+        "sample_ids_sha256": "14206c51fbdafb0c28331bd07e74a26a6beede594c3edf4246163df32844972c",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd",
+        "sha256": "a36582d34f64ba871a604eabd53a8d92f0628b76ddb027105ac0f9d9a3042577",
+        "split": "all"
+      },
+      "environment": {
+        "actual": {},
+        "backend_proven": true,
+        "emily_fallback": "not_applicable",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "fast",
+        "requested_backend": "beam_cpu",
+        "requested_device": "cpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/fast-nemotron_pii_test_subset_all-apple_emily.json",
+        "json_sha256": "edcdb10e2ee6ee3d87400f71f3c71f4de5f14d9a453f1cf87e781632fcd1814a",
+        "markdown": "eval/operational/reports/fast-nemotron_pii_test_subset_all-apple_emily.md",
+        "markdown_sha256": "aabdfb954ab28a6dc139da068d478bd8b79c49b207c16966b16290397b8fbd92"
+      },
+      "generated_at": "2026-07-18T02:04:24.986476Z",
+      "id": "fast-nemotron_pii_test_subset_all-apple_emily",
+      "profile": "fast",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "ab84d4ce5a4f4c0c482228b94b30584b8e687de8"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "synth_dataset_v2_all",
+        "name": "synth_dataset_v2",
+        "sample_count": 1500,
+        "sample_ids_sha256": "4ae1a24321c77e5ec34560cfa25b5cecd3381f50fe4d69e5fc0ac69d0646b07c",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc",
+        "sha256": "ec08a771ba8135314cafb60752b2295212222ba3a4cd75d73811839c699e0012",
+        "split": "all"
+      },
+      "environment": {
+        "actual": {},
+        "backend_proven": true,
+        "emily_fallback": "not_applicable",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "fast",
+        "requested_backend": "beam_cpu",
+        "requested_device": "cpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/fast-synth_dataset_v2_all-apple_emily.json",
+        "json_sha256": "1f78e50058917192a635f38f5f7aed8ff0a64a8681c945d3e1da013115ffe9c8",
+        "markdown": "eval/operational/reports/fast-synth_dataset_v2_all-apple_emily.md",
+        "markdown_sha256": "3fb61c7b2a8ce5de13fa3e150babd1aca8d297efb42db51bcba7fca71c5f5fc2"
+      },
+      "generated_at": "2026-07-18T02:04:24.982221Z",
+      "id": "fast-synth_dataset_v2_all-apple_emily",
+      "profile": "fast",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "ab84d4ce5a4f4c0c482228b94b30584b8e687de8"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "generated_large_template_heldout",
+        "name": "generated_large",
+        "sample_count": 648,
+        "sample_ids_sha256": "abd254573ceacfd0a8472a48633db7a98e134c1be9e1c9301dda4e22ee372018",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+        "sha256": "b84d6553a3fc27a5c664a1c2f95be15291ea16b83501e109d411fe237e380e26",
+        "split": "template_heldout"
+      },
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "backend_source": "option",
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "parity_warning": "python_original_bf16_qkv_backend_limited",
+            "parity_warning_reason": "Emily GPU BF16 QKV dot/matmul does not currently match Python OPF exactly; use BinaryBackend for Python-original numeric parity validation.",
+            "requested_backend": "emily"
+          },
+          "checkpoint_configured": true,
+          "openmed_optimization": {
+            "decoder": "viterbi",
+            "default_policy_sha256": "36d8f073729a6691ed52c0f24a5508e04e4f0c6dc9d2c44af5a5bc710c20f882",
+            "id": "openmed_latency_v1",
+            "logprob_conversion": "raw_logits",
+            "matches_default": true,
+            "min_span_logprob": null,
+            "sequence_length_bucket_threshold": 129,
+            "sequence_length_buckets": [
+              192,
+              256,
+              384,
+              512,
+              768
+            ]
+          }
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "openmed_pii",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/openmed_pii-generated_large_template_heldout-apple_emily.json",
+        "json_sha256": "6061fd10cba25f6a9ccda699ad35c8e9edf01b5994250fbcc4b2f7d7b8734bf8",
+        "markdown": "eval/operational/reports/openmed_pii-generated_large_template_heldout-apple_emily.md",
+        "markdown_sha256": "14013fe23e88d82c0b06104a5865603d6bca66629190a248e8dc06c7010a6ccb"
+      },
+      "generated_at": "2026-07-19T02:10:07.078322Z",
+      "id": "openmed_pii-generated_large_template_heldout-apple_emily",
+      "profile": "openmed_pii",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "226edc36bf7bd39a1969ef7a112863ea6e0ba396"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "nemotron_pii_test_subset_all",
+        "name": "nemotron_pii_test_subset",
+        "sample_count": 500,
+        "sample_ids_sha256": "14206c51fbdafb0c28331bd07e74a26a6beede594c3edf4246163df32844972c",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd",
+        "sha256": "a36582d34f64ba871a604eabd53a8d92f0628b76ddb027105ac0f9d9a3042577",
+        "split": "all"
+      },
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "backend_source": "option",
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "parity_warning": "python_original_bf16_qkv_backend_limited",
+            "parity_warning_reason": "Emily GPU BF16 QKV dot/matmul does not currently match Python OPF exactly; use BinaryBackend for Python-original numeric parity validation.",
+            "requested_backend": "emily"
+          },
+          "checkpoint_configured": true,
+          "openmed_optimization": {
+            "decoder": "viterbi",
+            "default_policy_sha256": "36d8f073729a6691ed52c0f24a5508e04e4f0c6dc9d2c44af5a5bc710c20f882",
+            "id": "openmed_latency_v1",
+            "logprob_conversion": "raw_logits",
+            "matches_default": true,
+            "min_span_logprob": null,
+            "sequence_length_bucket_threshold": 129,
+            "sequence_length_buckets": [
+              192,
+              256,
+              384,
+              512,
+              768
+            ]
+          }
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "openmed_pii",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/openmed_pii-nemotron_pii_test_subset_all-apple_emily.json",
+        "json_sha256": "5fefbd0ac94a49879a6defe72f758dd2cd1079b59ee4dd69d9bcd2e53e71c0a4",
+        "markdown": "eval/operational/reports/openmed_pii-nemotron_pii_test_subset_all-apple_emily.md",
+        "markdown_sha256": "65ca017999e1b86d07e824df73964b0d652c350b37c4806f8c00b73bf6acd46c"
+      },
+      "generated_at": "2026-07-19T02:10:07.100790Z",
+      "id": "openmed_pii-nemotron_pii_test_subset_all-apple_emily",
+      "profile": "openmed_pii",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "226edc36bf7bd39a1969ef7a112863ea6e0ba396"
+      }
+    },
+    {
+      "dataset": {
+        "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+        "id": "synth_dataset_v2_all",
+        "name": "synth_dataset_v2",
+        "sample_count": 1500,
+        "sample_ids_sha256": "4ae1a24321c77e5ec34560cfa25b5cecd3381f50fe4d69e5fc0ac69d0646b07c",
+        "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf",
+        "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc",
+        "sha256": "ec08a771ba8135314cafb60752b2295212222ba3a4cd75d73811839c699e0012",
+        "split": "all"
+      },
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "backend_source": "option",
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "parity_warning": "python_original_bf16_qkv_backend_limited",
+            "parity_warning_reason": "Emily GPU BF16 QKV dot/matmul does not currently match Python OPF exactly; use BinaryBackend for Python-original numeric parity validation.",
+            "requested_backend": "emily"
+          },
+          "checkpoint_configured": true,
+          "openmed_optimization": {
+            "decoder": "viterbi",
+            "default_policy_sha256": "36d8f073729a6691ed52c0f24a5508e04e4f0c6dc9d2c44af5a5bc710c20f882",
+            "id": "openmed_latency_v1",
+            "logprob_conversion": "raw_logits",
+            "matches_default": true,
+            "min_span_logprob": null,
+            "sequence_length_bucket_threshold": 129,
+            "sequence_length_buckets": [
+              192,
+              256,
+              384,
+              512,
+              768
+            ]
+          }
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "openmed_pii",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/reports/openmed_pii-synth_dataset_v2_all-apple_emily.json",
+        "json_sha256": "be16797d80aa7699c3e9919191ed55e4494337edcc0b7140007932386089d34c",
+        "markdown": "eval/operational/reports/openmed_pii-synth_dataset_v2_all-apple_emily.md",
+        "markdown_sha256": "47e42fad7d9bb43b6dff395188036f088d3495afcea187ec2f79b69658e1feb9"
+      },
+      "generated_at": "2026-07-19T02:10:07.095785Z",
+      "id": "openmed_pii-synth_dataset_v2_all-apple_emily",
+      "profile": "openmed_pii",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "226edc36bf7bd39a1969ef7a112863ea6e0ba396"
+      }
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,13 @@
+# Reproducible, evaluation-only Piiranha Python reference and ONNX export.
+# Torch 2.5 is intentional: Optimum 1.27 is incompatible with the Torch 2.12
+# ONNX symbolic API used by the shared Presidio benchmark environment.
+huggingface-hub==0.36.2
+numpy==2.2.6
+onnx==1.17.0
+onnxruntime==1.20.1
+optimum==1.27.0
+safetensors==0.5.3
+sentencepiece==0.2.0
+tokenizers==0.21.4
+torch==2.5.1
+transformers==4.53.3

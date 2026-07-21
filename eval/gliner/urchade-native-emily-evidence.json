@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "status": "experimental_not_promoted",
+  "model": {
+    "id": "urchade/gliner_multi_pii-v1",
+    "revision": "1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d",
+    "reported_license": "Apache-2.0",
+    "weights_sha256": "cd7aa7a88fe1cdc03ac8e3c2940708d245a9744f4b7102d758e4d0618abb6829",
+    "tokenizer_sha256": "17662b53c286b4e0f8cdebf2ed10c6cac7132aa329880890e247e6cedf7c90fc",
+    "config_sha256": "08e4e3aa7ecdecd5003055af8bad5b0e3dabea82cca0ffdaca5145e6bd727f03",
+    "tensor_count": 224
+  },
+  "runtime": {
+    "adapter": "Obscura.Recognizer.GLiNER.Native",
+    "backend": "Emily.Backend",
+    "compiler": "Emily.Compiler",
+    "device": "gpu",
+    "backend_fallback": "raise",
+    "compiler_fallback": "raise",
+    "nx": "0.12.1",
+    "emily": "0.7.2"
+  },
+  "parity": {
+    "python_trace": "pass",
+    "cross_runtime_cases": 36,
+    "decoded_span_label_text_and_byte_offset_matches": 36,
+    "maximum_full_trace_absolute_difference": 0.0003184,
+    "maximum_cross_runtime_logit_absolute_difference": 0.00263596,
+    "maximum_decoded_score_absolute_difference": 0.0000023976,
+    "cross_runtime_logit_tolerance": 0.003,
+    "decoded_score_tolerance": 0.000005
+  },
+  "shape_policy": {
+    "buckets": [
+      [24, 12], [32, 16], [48, 24], [64, 32], [80, 48], [96, 64],
+      [128, 96], [192, 128], [256, 192], [384, 256], [576, 384],
+      [768, 512], [1024, 768], [1152, 768]
+    ],
+    "maximum_measured_input": {
+      "subword_tokens": 1068,
+      "words": 707,
+      "dataset": "nemotron_pii_test_subset"
+    },
+    "output_fingerprints_unchanged": true
+  },
+  "shared_eight_accuracy_and_latency": {
+    "generated_large_template_heldout": {
+      "precision": 0.7042105263157895,
+      "recall": 0.7384105960264901,
+      "f1": 0.7209051724137931,
+      "f2": 0.7313073895933537,
+      "true_positives": 669,
+      "false_positives": 281,
+      "false_negatives": 237,
+      "offset_mismatches": 92,
+      "wrong_entity_type": 22,
+      "unsupported_expected_spans": 964,
+      "mean_ms": 21.315989197530865,
+      "p50_ms": 18.774,
+      "p95_ms": 36.279,
+      "max_ms": 67.967,
+      "output_fingerprint_sha256": "fed7e215690c4817dba02d53484cf74d69ff62dc0fe323758a73b9330840bd7b"
+    },
+    "synth_dataset_v2": {
+      "precision": 0.575229801644896,
+      "recall": 0.8444602272727273,
+      "f1": 0.6843165467625899,
+      "f2": 0.7721782049616833,
+      "true_positives": 1189,
+      "false_positives": 878,
+      "false_negatives": 219,
+      "offset_mismatches": 140,
+      "wrong_entity_type": 27,
+      "unsupported_expected_spans": 1288,
+      "mean_ms": 23.358601333333326,
+      "p50_ms": 19.939,
+      "p95_ms": 40.339,
+      "max_ms": 89.004,
+      "output_fingerprint_sha256": "c3599f689da38efde00cc2e1769c92b67ea46cdcf728fe105045b729943fc679"
+    },
+    "nemotron_pii_test_subset": {
+      "precision": 0.4505703422053232,
+      "recall": 0.5262768319763138,
+      "f1": 0.48548992830317517,
+      "f2": 0.5091664279576052,
+      "true_positives": 711,
+      "false_positives": 867,
+      "false_negatives": 640,
+      "offset_mismatches": 347,
+      "wrong_entity_type": 27,
+      "unsupported_expected_spans": 2361,
+      "mean_ms": 254.9028639999999,
+      "p50_ms": 161.311,
+      "p95_ms": 790.71,
+      "max_ms": 1637.738,
+      "output_fingerprint_sha256": "6d6c99993419d54a17e246a694d84623543054ca6d85455ce520fcf397ea91ae"
+    }
+  },
+  "memory": {
+    "scenario": "20 repeated short requests after model construction",
+    "emily_active_bytes": 1155849448,
+    "emily_cache_bytes": 993255050,
+    "emily_peak_bytes": 2142822124
+  },
+  "decision": {
+    "native_implementation_complete": true,
+    "replace_ortex_cpu": false,
+    "replace_balanced": false,
+    "reason": "Parity passes, but accuracy is identical to the weaker Urchade Ortex profile and latency is not a consistent improvement over Ortex CPU."
+  }
+}

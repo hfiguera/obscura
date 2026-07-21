@@ -1,0 +1,10 @@
+gliner==0.2.27
+huggingface_hub==0.36.2
+numpy==2.4.6
+onnx==1.22.0
+onnxruntime==1.26.0
+safetensors==0.8.0
+sentencepiece==0.2.1
+tokenizers==0.21.4
+torch==2.12.0
+transformers==4.53.3

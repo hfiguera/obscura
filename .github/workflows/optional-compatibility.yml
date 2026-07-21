@@ -1,0 +1,51 @@
+name: Optional dependency compatibility
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 7 * * 2"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: optional-compatibility
+  cancel-in-progress: false
+
+jobs:
+  optional:
+    name: Parser, HTTP, Nx, GLiNER, and checkpoint contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      MIX_ENV: test
+      MIX_HOME: ${{ github.workspace }}/.mix
+      HEX_HOME: ${{ github.workspace }}/.hex
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          otp-version: 29.0.3
+          elixir-version: 1.20.2
+
+      - name: Restore dependency cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            deps
+            _build
+            .mix
+            .hex
+          key: optional-${{ runner.os }}-${{ hashFiles('.tool-versions', 'mix.exs', 'mix.lock') }}
+
+      - name: Install tools and dependencies
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+
+      - name: Run optional compatibility suite
+        run: mix ci.optional

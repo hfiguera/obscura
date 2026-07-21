@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "id": "tner_roberta_large_ontonotes5",
+      "status": "stable_profile_external_asset",
+      "profiles": ["balanced", "accurate"],
+      "profile_roles": {"balanced": "primary NER", "accurate": "cascade primary NER"},
+      "adapter": "bumblebee_token_classification",
+      "model_repository": "tner/roberta-large-ontonotes5",
+      "tokenizer_repository": "tner/roberta-large-ontonotes5",
+      "revision": "0bce50f7884d5bb040469c907c897d4b061ccbb4",
+      "revision_policy": "load the pinned immutable Hugging Face commit and record it in every authoritative benchmark",
+      "required_files": [],
+      "hashes": {},
+      "license": "checkpoint license metadata absent; OntoNotes training data is distributed under an LDC agreement; not distributed or sublicensed by Obscura",
+      "license_review_status": "unresolved_external_asset",
+      "license_reviewed_at": "2026-07-21",
+      "license_review_revision": "0bce50f7884d5bb040469c907c897d4b061ccbb4",
+      "license_sources": [
+        "https://huggingface.co/tner/roberta-large-ontonotes5",
+        "https://huggingface.co/datasets/tner/ontonotes5",
+        "https://catalog.ldc.upenn.edu/LDC2013T19"
+      ],
+      "network_on_explicit_prepare": true,
+      "bundled": false
+    },
+    {
+      "id": "jean_baptiste_roberta_large_ner_english",
+      "status": "stable_profile_external_asset",
+      "profiles": ["accurate"],
+      "profile_roles": {"accurate": "conditional location recovery"},
+      "adapter": "bumblebee_token_classification",
+      "model_repository": "Jean-Baptiste/roberta-large-ner-english",
+      "tokenizer_repository": "FacebookAI/roberta-large",
+      "revision": "8f3abc1ef81ffbbb0e80568d4fed1dd10d459548",
+      "tokenizer_revision": "722cf37b1afa9454edce342e7895e588b6ff1d59",
+      "revision_policy": "load both pinned immutable Hugging Face commits and record them in every authoritative benchmark",
+      "required_files": [],
+      "hashes": {},
+      "license": "MIT metadata for the fine-tuned model and base model; CoNLL-2003 training-data provenance remains deployer-reviewed; not distributed or sublicensed by Obscura",
+      "license_review_status": "conditional_deployer_review",
+      "license_reviewed_at": "2026-07-21",
+      "license_review_revision": "8f3abc1ef81ffbbb0e80568d4fed1dd10d459548",
+      "license_sources": [
+        "https://huggingface.co/Jean-Baptiste/roberta-large-ner-english",
+        "https://huggingface.co/FacebookAI/roberta-large",
+        "https://www.clips.uantwerpen.be/conll2003/ner/"
+      ],
+      "network_on_explicit_prepare": true,
+      "bundled": false
+    },
+    {
+      "id": "openmed_privacy_filter_nemotron_v2",
+      "status": "experimental_profile_asset",
+      "profiles": ["openmed_pii"],
+      "adapter": "native_privacy_filter",
+      "model_repository": "OpenMed/privacy-filter-nemotron-v2",
+      "tokenizer_repository": "internal Obscura.Tiktoken using checkpoint encoding metadata",
+      "revision": null,
+      "revision_policy": "pin and record the resolved immutable Hugging Face commit plus local file hashes",
+      "required_files": ["config.json", "model.safetensors"],
+      "optional_files": ["tokenizer.json", "tokenizer_config.json", "label_space_fine_v1.json"],
+      "supported_layouts": ["native", "python_original"],
+      "hashes": {},
+      "license": "checkpoint declares license as other without supplying operative terms; not distributed or sublicensed by Obscura",
+      "license_review_status": "unresolved_external_asset",
+      "license_reviewed_at": "2026-07-21",
+      "license_review_revision": "968247329d18998cc7d5338b941b52f1b2a9abd9",
+      "license_sources": [
+        "https://huggingface.co/OpenMed/privacy-filter-nemotron-v2",
+        "https://huggingface.co/openai/privacy-filter",
+        "https://huggingface.co/datasets/nvidia/Nemotron-PII",
+        "https://huggingface.co/datasets/gretelai/gretel-pii-masking-en-v1",
+        "https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1m"
+      ],
+      "network_on_explicit_prepare": true,
+      "bundled": false
+    },
+    {
+      "id": "urchade_gliner_multi_pii_v1",
+      "status": "experimental_adapter_asset",
+      "profiles": ["hybrid_gliner_urchade"],
+      "implementation_profiles": ["hybrid_gliner_urchade"],
+      "adapter": "gliner_ortex",
+      "model_repository": "urchade/gliner_multi_pii-v1",
+      "tokenizer_repository": "microsoft/mdeberta-v3-base",
+      "revision": "1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d",
+      "tokenizer_revision": "a0484667b22365f84929a935b5e50a51f71f159d",
+      "revision_policy": "use the pinned export lock and verify all generated hashes against eval/gliner/urchade-export-reference.json",
+      "required_files": ["model.onnx", "gliner_config.json", "tokenizer.json", "tokenizer_config.json"],
+      "optional_files": ["added_tokens.json", "special_tokens_map.json", "spm.model"],
+      "hashes": {
+        "model.onnx": "da317b3dafb6ea26c19bc8725d3c969f788a4669e52e080cf5f56a4e057581b5",
+        "tokenizer.json": "17662b53c286b4e0f8cdebf2ed10c6cac7132aa329880890e247e6cedf7c90fc"
+      },
+      "license": "Apache-2.0 checkpoint, base GLiNER model, and synthetic training dataset; MIT mDeBERTa tokenizer and encoder",
+      "license_review_status": "permissive_chain_documented",
+      "license_reviewed_at": "2026-07-21",
+      "license_review_revision": "1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d",
+      "license_sources": [
+        "https://huggingface.co/urchade/gliner_multi_pii-v1",
+        "https://huggingface.co/urchade/gliner_multi-v2.1",
+        "https://huggingface.co/datasets/urchade/synthetic-pii-ner-mistral-v1",
+        "https://huggingface.co/microsoft/mdeberta-v3-base"
+      ],
+      "network_on_explicit_prepare": true,
+      "bundled": false
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+self-hosted-runner:
+  labels:
+    - obscura-metal
+    - obscura-exla
+    - obscura-ortex
+    - obscura-remote

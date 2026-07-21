@@ -1,0 +1,18 @@
+[
+  {
+    "id": "tner_ref_1",
+    "text": "Rachel works at Google in Paris."
+  },
+  {
+    "id": "tner_ref_2",
+    "text": "Jacob Collier is an English artist from London."
+  },
+  {
+    "id": "tner_ref_3",
+    "text": "Maya Chen met Omar at Stanford Hospital in Palo Alto."
+  },
+  {
+    "id": "tner_ref_4",
+    "text": "Acme Analytics hired Priya Nair for the Denver office."
+  }
+]

@@ -1,0 +1,225 @@
+name: Real model and accelerator validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Controlled runner target
+        required: true
+        type: choice
+        default: apple
+        options:
+          - apple
+          - linux_exla
+          - gliner_ortex
+          - operational
+          - soak
+          - all
+  schedule:
+    - cron: "41 6 * * 6"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: obscura-model-validation
+  cancel-in-progress: false
+
+jobs:
+  apple-metal:
+    if: >-
+      ${{ vars.OBSCURA_ENABLE_APPLE_MODEL_CI == 'true' &&
+          (github.event_name == 'schedule' || inputs.target == 'apple' ||
+           inputs.target == 'operational' || inputs.target == 'all') }}
+    runs-on: [self-hosted, macOS, ARM64, obscura-metal]
+    timeout-minutes: 120
+    env:
+      MIX_ENV: test
+      OBSCURA_REAL_MODEL_BACKEND: emily
+      OBSCURA_PRIVACY_FILTER_BACKEND: emily
+      OBSCURA_EMILY_DEVICE: gpu
+      OBSCURA_EMILY_FALLBACK: raise
+      OBSCURA_PRIVACY_FILTER_CHECKPOINT: ${{ vars.OBSCURA_PRIVACY_FILTER_CHECKPOINT }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          otp-version: 29.0.3
+          elixir-version: 1.20.2
+
+      - name: Fetch Emily dependency graph
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+
+      - name: Validate Apple GPU product profiles
+        run: mix ci.real_model_smoke
+
+      - name: Run Apple operational matrix
+        if: ${{ vars.OBSCURA_ENABLE_OPERATIONAL_BENCHMARK_CI == 'true' }}
+        run: mix obscura.operational.benchmark
+
+  linux-exla:
+    if: >-
+      ${{ vars.OBSCURA_ENABLE_EXLA_MODEL_CI == 'true' &&
+          (github.event_name == 'schedule' || inputs.target == 'linux_exla' ||
+           inputs.target == 'operational' || inputs.target == 'all') }}
+    runs-on: [self-hosted, Linux, X64, obscura-exla]
+    timeout-minutes: 120
+    env:
+      MIX_ENV: test
+      OBSCURA_REAL_MODEL: "1"
+      OBSCURA_REAL_MODEL_BACKEND: exla
+      OBSCURA_PRIVACY_FILTER_BACKEND: exla
+      OBSCURA_PRIVACY_FILTER_CHECKPOINT: ${{ vars.OBSCURA_PRIVACY_FILTER_CHECKPOINT }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          otp-version: 29.0.3
+          elixir-version: 1.20.2
+
+      - name: Fetch EXLA dependency graph
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+
+      - name: Validate EXLA product profiles
+        run: mix ci.real_model_smoke
+
+      - name: Run EXLA operational matrix
+        if: ${{ vars.OBSCURA_ENABLE_OPERATIONAL_BENCHMARK_CI == 'true' }}
+        run: mix obscura.operational.benchmark
+
+  gliner-ortex:
+    if: >-
+      ${{ vars.OBSCURA_ENABLE_ORTEX_MODEL_CI == 'true' &&
+          (github.event_name == 'schedule' || inputs.target == 'gliner_ortex' || inputs.target == 'all') }}
+    runs-on: [self-hosted, macOS, ARM64, obscura-ortex]
+    timeout-minutes: 60
+    env:
+      MIX_ENV: test
+      OBSCURA_GLINER_ORTEX: "1"
+      OBSCURA_GLINER_URCHADE_MODEL_DIR: ${{ vars.OBSCURA_GLINER_URCHADE_MODEL_DIR }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          otp-version: 29.0.3
+          elixir-version: 1.20.2
+
+      - name: Fetch Ortex dependency graph
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+
+      - name: Run GLiNER Ortex real smoke
+        run: mix test --include gliner_ortex test/obscura/recognizer/gliner/real_model_test.exs
+
+      - name: Run Urchade parity and real smoke
+        if: ${{ vars.OBSCURA_GLINER_URCHADE_MODEL_DIR != '' }}
+        run: mix test --include gliner_urchade test/obscura/recognizer/gliner/urchade_parity_test.exs test/obscura/recognizer/gliner/urchade_real_model_test.exs
+
+  apple-soak:
+    if: >-
+      ${{ vars.OBSCURA_ENABLE_APPLE_SOAK_CI == 'true' &&
+          (github.event_name == 'schedule' || inputs.target == 'soak' ||
+           inputs.target == 'all') }}
+    runs-on: [self-hosted, macOS, ARM64, obscura-metal]
+    timeout-minutes: 240
+    env:
+      MIX_ENV: test
+      OBSCURA_REAL_MODEL_BACKEND: emily
+      OBSCURA_PRIVACY_FILTER_BACKEND: emily
+      OBSCURA_EMILY_DEVICE: gpu
+      OBSCURA_EMILY_FALLBACK: raise
+      OBSCURA_PRIVACY_FILTER_CHECKPOINT: ${{ vars.OBSCURA_PRIVACY_FILTER_CHECKPOINT }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          otp-version: 29.0.3
+          elixir-version: 1.20.2
+
+      - name: Fetch Emily dependency graph
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+
+      - name: Run canonical Apple soak matrix
+        run: |
+          mix obscura.operational.soak --profile openmed_pii --concurrency 4 --authoritative
+          mix obscura.operational.soak --profile openmed_pii --concurrency 1 --authoritative
+          mix obscura.operational.soak --profile balanced --concurrency 4 --authoritative
+          mix obscura.operational.soak --profile fast --concurrency 4 --authoritative
+
+      - name: Upload working soak reports
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: apple-soak-reports
+          path: eval/reports/operational/soak/
+          if-no-files-found: error
+
+  linux-exla-soak:
+    if: >-
+      ${{ vars.OBSCURA_ENABLE_EXLA_SOAK_CI == 'true' &&
+          (github.event_name == 'schedule' || inputs.target == 'soak' ||
+           inputs.target == 'all') }}
+    runs-on: [self-hosted, Linux, X64, obscura-exla]
+    timeout-minutes: 240
+    env:
+      MIX_ENV: test
+      OBSCURA_REAL_MODEL: "1"
+      OBSCURA_REAL_MODEL_BACKEND: exla
+      OBSCURA_PRIVACY_FILTER_BACKEND: exla
+      OBSCURA_PRIVACY_FILTER_CHECKPOINT: ${{ vars.OBSCURA_PRIVACY_FILTER_CHECKPOINT }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          otp-version: 29.0.3
+          elixir-version: 1.20.2
+
+      - name: Fetch EXLA dependency graph
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+
+      - name: Run canonical Linux soak matrix
+        run: |
+          mix obscura.operational.soak --profile openmed_pii --concurrency 4 --authoritative
+          mix obscura.operational.soak --profile openmed_pii --concurrency 1 --authoritative
+          mix obscura.operational.soak --profile balanced --concurrency 4 --authoritative
+          mix obscura.operational.soak --profile fast --concurrency 4 --authoritative
+
+      - name: Upload working soak reports
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: linux-exla-soak-reports
+          path: eval/reports/operational/soak/
+          if-no-files-found: error

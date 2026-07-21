@@ -1,0 +1,348 @@
+{
+  "reports": [
+    {
+      "classification": "inconclusive",
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "requested_backend": "emily",
+            "source": "option"
+          },
+          "entities": [
+            "person",
+            "organization",
+            "location"
+          ],
+          "model_alias": "tner_roberta_large_ontonotes5",
+          "model_id": "tner/roberta-large-ontonotes5",
+          "model_license": "unknown",
+          "model_policy": {
+            "aggregation_strategy": "same",
+            "alignment_mode": "expand",
+            "context_required_below_labels": {
+              "FAC": 0.99,
+              "LOC": 0.96,
+              "ORG": 0.99
+            },
+            "context_required_below_thresholds": {
+              "organization": 0.98
+            },
+            "context_required_labels": [
+              "FAC"
+            ],
+            "context_words_by_entity": {
+              "location": [
+                "address",
+                "city",
+                "country",
+                "facility",
+                "headquartered",
+                "hospital",
+                "in",
+                "located",
+                "location",
+                "office",
+                "state"
+              ],
+              "organization": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "context_words_by_label": {
+              "FAC": [
+                "airport",
+                "building",
+                "campus",
+                "facility",
+                "headquarters",
+                "hospital",
+                "office"
+              ],
+              "GPE": [
+                "address",
+                "city",
+                "country",
+                "headquartered",
+                "located",
+                "office",
+                "state"
+              ],
+              "LOC": [
+                "address",
+                "city",
+                "country",
+                "geography",
+                "located",
+                "location",
+                "region",
+                "state"
+              ],
+              "ORG": [
+                "company",
+                "employer",
+                "organization",
+                "works at",
+                "work at",
+                "affiliated with"
+              ]
+            },
+            "labels_to_ignore": [
+              "B-CARDINAL",
+              "I-CARDINAL",
+              "B-DATE",
+              "I-DATE",
+              "B-EVENT",
+              "I-EVENT",
+              "B-LANGUAGE",
+              "I-LANGUAGE",
+              "B-LAW",
+              "I-LAW",
+              "B-MONEY",
+              "I-MONEY",
+              "B-NORP",
+              "I-NORP",
+              "B-ORDINAL",
+              "I-ORDINAL",
+              "B-PERCENT",
+              "I-PERCENT",
+              "B-PRODUCT",
+              "I-PRODUCT",
+              "B-QUANTITY",
+              "I-QUANTITY",
+              "B-TIME",
+              "I-TIME",
+              "B-WORK_OF_ART",
+              "I-WORK_OF_ART"
+            ],
+            "negative_context_reject_labels": [
+              "GPE"
+            ],
+            "negative_context_words_by_label": {
+              "GPE": [
+                "account",
+                "case",
+                "code",
+                "invoice",
+                "order",
+                "payment",
+                "product",
+                "reference",
+                "ticket"
+              ]
+            },
+            "per_entity_thresholds": {
+              "location": 0.8,
+              "organization": 0.95
+            },
+            "per_label_thresholds": {
+              "FAC": 0.97,
+              "GPE": 0.9,
+              "LOC": 0.92,
+              "ORG": 0.98,
+              "PERSON": 0.72
+            },
+            "weak_context_words_by_label": {
+              "FAC": [
+                "in"
+              ]
+            }
+          },
+          "model_status": "experimental",
+          "tokenizer_id": "tner/roberta-large-ontonotes5"
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "balanced",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/soak-reports/balanced-c4-600000-apple_emily.json",
+        "json_sha256": "8f9b4abce85ad70e7bf2546187292ef269182eceabe13229efa1861fe5e60a7a",
+        "markdown": "eval/operational/soak-reports/balanced-c4-600000-apple_emily.md",
+        "markdown_sha256": "fa227c5c6a2f7fddc7911ba5696a56a201d32057754035b17338e51dc1559165"
+      },
+      "generated_at": "2026-07-18T11:19:06.374811Z",
+      "id": "balanced-c4-600000-apple_emily",
+      "profile": "balanced",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "fd3dc8ebfbf26baa4b65b86f6b73e8f9000bbfef"
+      },
+      "workload": {
+        "completed": 22717,
+        "concurrency": 4,
+        "elapsed_ms": 600060.396,
+        "requested_duration_ms": 600000,
+        "throughput_rps": 37.85785589489229
+      }
+    },
+    {
+      "classification": "inconclusive",
+      "environment": {
+        "actual": {},
+        "backend_proven": true,
+        "emily_fallback": "not_applicable",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "fast",
+        "requested_backend": "beam_cpu",
+        "requested_device": "cpu"
+      },
+      "files": {
+        "json": "eval/operational/soak-reports/fast-c4-600000-apple_emily.json",
+        "json_sha256": "0151ffb3e91e133a465ca9e5c9fbdc276897bd3c7ca9c8cf7c69631345d4336c",
+        "markdown": "eval/operational/soak-reports/fast-c4-600000-apple_emily.md",
+        "markdown_sha256": "27074f7d0ce447feeb328dfb304e7c4b5d8a7dcf460b5ba46b265f4e86d6c3c7"
+      },
+      "generated_at": "2026-07-18T11:08:27.251638Z",
+      "id": "fast-c4-600000-apple_emily",
+      "profile": "fast",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "fd3dc8ebfbf26baa4b65b86f6b73e8f9000bbfef"
+      },
+      "workload": {
+        "completed": 10591487,
+        "concurrency": 4,
+        "elapsed_ms": 600000.899,
+        "requested_duration_ms": 600000,
+        "throughput_rps": 17652.45188407626
+      }
+    },
+    {
+      "classification": "allocator_caching",
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "backend_source": "option",
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "parity_warning": "python_original_bf16_qkv_backend_limited",
+            "parity_warning_reason": "Emily GPU BF16 QKV dot/matmul does not currently match Python OPF exactly; use BinaryBackend for Python-original numeric parity validation.",
+            "requested_backend": "emily"
+          },
+          "checkpoint_configured": true
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "openmed_pii",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/soak-reports/openmed_pii-c1-600000-apple_emily.json",
+        "json_sha256": "713c5955b9e2e74b6c4a071a9e66491573927279f289010f5e2b759755381c52",
+        "markdown": "eval/operational/soak-reports/openmed_pii-c1-600000-apple_emily.md",
+        "markdown_sha256": "7abb5287c3905c8d5ab16f0c74537e68a76856b2e9d183d8c0a0fc1c86e8ea18"
+      },
+      "generated_at": "2026-07-18T11:30:20.108277Z",
+      "id": "openmed_pii-c1-600000-apple_emily",
+      "profile": "openmed_pii",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "fd3dc8ebfbf26baa4b65b86f6b73e8f9000bbfef"
+      },
+      "workload": {
+        "completed": 1013,
+        "concurrency": 1,
+        "elapsed_ms": 600424.366,
+        "requested_duration_ms": 600000,
+        "throughput_rps": 1.6871400585365317
+      }
+    },
+    {
+      "classification": "allocator_caching",
+      "environment": {
+        "actual": {
+          "backend": "emily",
+          "backend_metadata": {
+            "actual_backend": "emily",
+            "actual_device": "gpu",
+            "backend_proven": true,
+            "backend_source": "option",
+            "emily_device": "gpu",
+            "emily_fallback": "raise",
+            "exla_enabled": false,
+            "fallback_occurred": false,
+            "parity_warning": "python_original_bf16_qkv_backend_limited",
+            "parity_warning_reason": "Emily GPU BF16 QKV dot/matmul does not currently match Python OPF exactly; use BinaryBackend for Python-original numeric parity validation.",
+            "requested_backend": "emily"
+          },
+          "checkpoint_configured": true
+        },
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "linux_exla": {
+          "measured": false,
+          "reason": "not_a_linux_runner",
+          "status": "unavailable"
+        },
+        "platform": "apple_emily",
+        "profile": "openmed_pii",
+        "requested_backend": "emily",
+        "requested_device": "gpu"
+      },
+      "files": {
+        "json": "eval/operational/soak-reports/openmed_pii-c4-1800000-apple_emily.json",
+        "json_sha256": "559ea28d24bf6693f11938411e5cb3f77aaeca8111708983170e27bf67970a69",
+        "markdown": "eval/operational/soak-reports/openmed_pii-c4-1800000-apple_emily.md",
+        "markdown_sha256": "f948f4ab022c48af1ab7caa150eb25a0bc319553e3d5a98ef6298315120ab329"
+      },
+      "generated_at": "2026-07-18T12:01:30.986340Z",
+      "id": "openmed_pii-c4-1800000-apple_emily",
+      "profile": "openmed_pii",
+      "source": {
+        "dirty_worktree": false,
+        "source_commit": "fd3dc8ebfbf26baa4b65b86f6b73e8f9000bbfef"
+      },
+      "workload": {
+        "completed": 6404,
+        "concurrency": 4,
+        "elapsed_ms": 1802591.451,
+        "requested_duration_ms": 1800000,
+        "throughput_rps": 3.5526630265817234
+      }
+    }
+  ],
+  "schema_version": 1
+}

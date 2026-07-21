@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-07-20",
+  "status": "promotion_failed",
+  "candidate": {
+    "profile": "hybrid_gliner_urchade",
+    "model": "urchade/gliner_multi_pii-v1",
+    "revision": "1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d",
+    "runtime": "ortex",
+    "provider": "cpu",
+    "thresholds": {
+      "person": 0.5,
+      "location": 0.5,
+      "organization": 0.9
+    }
+  },
+  "baseline": {
+    "product_profile": "balanced",
+    "implementation_profile": "hybrid_ner_tner_conservative",
+    "model": "tner/roberta-large-ontonotes5",
+    "runtime": "bumblebee_nx",
+    "backend": "emily",
+    "device": "gpu",
+    "fallback": "raise"
+  },
+  "policy": {
+    "entities": [
+      "credit_card",
+      "email",
+      "ip_address",
+      "location",
+      "person",
+      "phone",
+      "url",
+      "us_ssn"
+    ],
+    "threshold_selection_dataset": "generated_large/template_train",
+    "heldout_or_external_tuning": false,
+    "repetitions": 2
+  },
+  "accuracy": [
+    {
+      "dataset": "generated_large/template_heldout",
+      "sample_count": 648,
+      "candidate": {
+        "precision": 0.7042105263157895,
+        "recall": 0.7384105960264901,
+        "f1": 0.7209051724137931,
+        "f2": 0.7313073895933537,
+        "tp": 669,
+        "fp": 281,
+        "fn": 237,
+        "offset_mismatches": 92,
+        "wrong_entity_type": 22,
+        "unsupported": 964,
+        "iou_f1": 0.6451301832208294,
+        "output_fingerprint": "fb84c56a6a8b6f946e425ebfa090c64ac8201ab642a6590a3c3df642e0c22942",
+        "mean_ms": [14.026407407407396, 14.000561728395038],
+        "p95_ms": [25.412, 25.472]
+      },
+      "baseline": {
+        "precision": 0.8236632536973834,
+        "recall": 0.7549530761209593,
+        "f1": 0.7878128400435256,
+        "f2": 0.767762460233298,
+        "tp": 724,
+        "fp": 155,
+        "fn": 235,
+        "offset_mismatches": 58,
+        "wrong_entity_type": 3,
+        "unsupported": 964,
+        "iou_f1": 0.7420675537359263,
+        "output_fingerprint": "f45add5d0009c5c619a608a4f842566114f8328074c6d525593e4382548ee517",
+        "mean_ms": [21.46443827160495, 21.788070987654322],
+        "p95_ms": [23.539, 24.119]
+      }
+    },
+    {
+      "dataset": "synth_dataset_v2",
+      "sample_count": 1500,
+      "candidate": {
+        "precision": 0.575229801644896,
+        "recall": 0.8444602272727273,
+        "f1": 0.6843165467625899,
+        "f2": 0.7721782049616833,
+        "tp": 1189,
+        "fp": 878,
+        "fn": 219,
+        "offset_mismatches": 140,
+        "wrong_entity_type": 27,
+        "unsupported": 1288,
+        "iou_f1": 0.6279376815421178,
+        "output_fingerprint": "455eb61584c12ae4218ffe83db25cdbdb1e6126640357207a4f9fdba7e4b9ecc",
+        "mean_ms": [15.339022666666667, 15.52336599999999],
+        "p95_ms": [29.917, 30.894]
+      },
+      "baseline": {
+        "precision": 0.8297455968688845,
+        "recall": 0.848,
+        "f1": 0.8387734915924827,
+        "f2": 0.8442851453604141,
+        "tp": 1272,
+        "fp": 261,
+        "fn": 228,
+        "offset_mismatches": 75,
+        "wrong_entity_type": 0,
+        "unsupported": 1288,
+        "iou_f1": 0.8017593465284323,
+        "output_fingerprint": "e217ae42a5828d1984a62782749c75a9454d43999f9ab86b246728f5ad9f4dea",
+        "mean_ms": [22.177867333333314, 22.155218000000033],
+        "p95_ms": [24.699, 24.583]
+      }
+    },
+    {
+      "dataset": "nemotron_pii_test_subset",
+      "sample_count": 500,
+      "candidate": {
+        "precision": 0.4505703422053232,
+        "recall": 0.5262768319763138,
+        "f1": 0.48548992830317517,
+        "f2": 0.5091664279576052,
+        "tp": 711,
+        "fp": 867,
+        "fn": 640,
+        "offset_mismatches": 347,
+        "wrong_entity_type": 27,
+        "unsupported": 2361,
+        "iou_f1": 0.4235486508585446,
+        "output_fingerprint": "dd3d36f5cb64c671081cbf3d3512a8ba08ba07cd8d7703507efe4a15f29e8a0c",
+        "mean_ms": [151.2214599999998, 150.3702],
+        "p95_ms": [494.393, 487.269]
+      },
+      "baseline": {
+        "precision": 0.8703319502074689,
+        "recall": 0.5790200138026225,
+        "f1": 0.6953999171156237,
+        "f2": 0.6205621301775146,
+        "tp": 839,
+        "fp": 125,
+        "fn": 610,
+        "offset_mismatches": 258,
+        "wrong_entity_type": 18,
+        "unsupported": 2361,
+        "iou_f1": 0.6104553119730186,
+        "output_fingerprint": "570c9656de12e4077c83d396d42b12f7f1720448e22259d620ae2feaef5d28ea",
+        "mean_ms": [24.167925999999973, 24.210580000000007],
+        "p95_ms": [26.477, 26.716]
+      }
+    }
+  ],
+  "open_class_heldout": {
+    "person": {
+      "precision": 0.7832167832167832,
+      "recall": 0.9593147751605996,
+      "f1": 0.8623676612127045
+    },
+    "location": {
+      "precision": 0.6977777777777778,
+      "recall": 0.4563953488372093,
+      "f1": 0.5518453427065027
+    },
+    "organization": {
+      "precision": 0.7570093457943925,
+      "recall": 0.7043478260869566,
+      "f1": 0.7297297297297296
+    }
+  },
+  "operational": {
+    "status": "candidate_characterization_only",
+    "promotion_eligible": false,
+    "provider_verified": true,
+    "provider_verification": "only_cpu_provider_requested",
+    "runtime_preparation_ms": 647.585,
+    "first_inference_ms": 57.915,
+    "runtime_builds": 1,
+    "per_request_rebuild_detected": false,
+    "resilience": {
+      "timeout": "passed",
+      "overload": "passed",
+      "serving_crash_recovery": "passed",
+      "privacy_check": "passed"
+    }
+  },
+  "gates": {
+    "provenance_for_evaluation": "passed",
+    "reproducible_export": "passed",
+    "python_ortex_parity": "passed",
+    "train_only_threshold_selection": "passed",
+    "reproducible_repetitions": "passed",
+    "accuracy_all_datasets": "failed",
+    "critical_entity_non_regression": "failed",
+    "offset_non_regression": "failed",
+    "equivalent_operational_comparison": "not_met",
+    "verified_accelerator_provider": "not_met"
+  },
+  "decision": {
+    "promote_candidate": false,
+    "change_balanced_implementation": false,
+    "candidate_stability": "experimental",
+    "balanced_stability": "experimental_due_to_unresolved_tner_licensing",
+    "authoritative_reports_promoted": false
+  }
+}

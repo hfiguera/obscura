@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "status": "reproduced_in_clean_pinned_venv",
+  "model": {
+    "id": "urchade/gliner_multi_pii-v1",
+    "revision": "1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d",
+    "files": {
+      "README.md": {
+        "bytes": 3040,
+        "sha256": "5922e242558f1608f734dd23bb4a26fd2986254202131aa1d86153692181953e"
+      },
+      "gliner_config.json": {
+        "bytes": 478,
+        "sha256": "2088bee85f50849dea2ab4cf411ab5cf3aaaf7c8a45c23412035978b2bc02801"
+      },
+      "pytorch_model.bin": {
+        "bytes": 1155900362,
+        "sha256": "3003753fba99e40645cf088c7367a2c6211fc174897dc64f1f9c147c29d18d2d"
+      }
+    }
+  },
+  "encoder": {
+    "id": "microsoft/mdeberta-v3-base",
+    "revision": "a0484667b22365f84929a935b5e50a51f71f159d",
+    "files": {
+      "config.json": {
+        "bytes": 579,
+        "sha256": "bcffcd343dc5efa5ef2d5a58d2b405eed108f01cc45b48d0a907b333ec41801f"
+      },
+      "spm.model": {
+        "bytes": 4305025,
+        "sha256": "13c8d666d62a7bc4ac8f040aab68e942c861f93303156cc28f5c7e885d86d6e3"
+      },
+      "tokenizer_config.json": {
+        "bytes": 52,
+        "sha256": "3f3978e0c036f2c2588cac34a6047cbb0af0b0dc1814254e291028529805496d"
+      }
+    }
+  },
+  "export": {
+    "opset": 19,
+    "files": {
+      "added_tokens.json": "030e747c4ca7992a3ac794c6fda9919352c88ae722e85178217cd083b450078d",
+      "gliner_config.json": "08e4e3aa7ecdecd5003055af8bad5b0e3dabea82cca0ffdaca5145e6bd727f03",
+      "model.onnx": "da317b3dafb6ea26c19bc8725d3c969f788a4669e52e080cf5f56a4e057581b5",
+      "special_tokens_map.json": "9463f61e1b109a8eb4688b829260d7c6b1e6dff04c98ff7269bb89e2b92369b9",
+      "spm.model": "13c8d666d62a7bc4ac8f040aab68e942c861f93303156cc28f5c7e885d86d6e3",
+      "tokenizer.json": "17662b53c286b4e0f8cdebf2ed10c6cac7132aa329880890e247e6cedf7c90fc",
+      "tokenizer_config.json": "928d015db8ce40c131beaf323a25ab913c8d7b7d20baf997bf42e0f6d3cd2f8b"
+    },
+    "inputs": [
+      "input_ids",
+      "attention_mask",
+      "words_mask",
+      "text_lengths",
+      "span_idx",
+      "span_mask"
+    ],
+    "output": "logits",
+    "config_contract": {
+      "model_type": null,
+      "span_mode": "markerV0",
+      "words_splitter_type": "whitespace",
+      "max_width": 12,
+      "max_len": 384,
+      "model_name": "microsoft/mdeberta-v3-base"
+    }
+  },
+  "environment": {
+    "python": "3.14",
+    "machine": "arm64",
+    "packages": {
+      "gliner": "0.2.27",
+      "huggingface_hub": "0.36.2",
+      "onnx": "1.22.0",
+      "onnxruntime": "1.26.0",
+      "tokenizers": "0.21.4",
+      "torch": "2.12.0",
+      "transformers": "4.53.3"
+    }
+  },
+  "reproducibility": {
+    "independent_exports_compared": 3,
+    "all_generated_asset_hashes_identical": true
+  }
+}

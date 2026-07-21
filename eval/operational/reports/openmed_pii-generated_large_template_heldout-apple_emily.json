@@ -1,0 +1,1360 @@
+{
+  "profile": "openmed_pii",
+  "runtime": {
+    "otp": "29",
+    "elixir": "1.20.2",
+    "obscura_dependencies": {
+      "axon": "0.8.1",
+      "bumblebee": "0.7.0",
+      "emily": "0.7.2",
+      "ex_phone_number": "0.4.11",
+      "exla": "not_loaded",
+      "jason": "1.4.5",
+      "mix_lock_sha256": "29d69abd7c9a8baac995020b78dca168b28a514637d6f855ba4dcaf4fe5d4595",
+      "nx": "0.12.1",
+      "obscura": "0.1.0-dev",
+      "ortex": "not_loaded",
+      "req": "not_loaded",
+      "safetensors": "0.1.3"
+    }
+  },
+  "status": "complete",
+  "source": {
+    "dirty_worktree": false,
+    "source_commit": "226edc36bf7bd39a1969ef7a112863ea6e0ba396"
+  },
+  "resources": {
+    "source": {
+      "beam": "erlang_memory",
+      "gpu": "emily_memory",
+      "rss": "os_ps_sampling"
+    },
+    "scheduler_run_queue_peak": 15,
+    "sustained_memory_growth_bytes": 7733248,
+    "sustained_peak_beam_bytes": 174280263,
+    "sustained_peak_gpu_bytes": 6072090726,
+    "sustained_peak_rss_bytes": 3806904320,
+    "warm_peak_beam_bytes": 177159255,
+    "warm_peak_gpu_bytes": 6131521648,
+    "warm_peak_rss_bytes": 51865468928
+  },
+  "cold_lifecycle": {
+    "status": "measured",
+    "total_ready_ms": 28763.889,
+    "mix_task_ready_ms": 28328.085,
+    "os_process_total_ready_ms": 28763.889,
+    "fresh_os_process": true,
+    "assets_preprovisioned": true,
+    "network_downloads_allowed": false,
+    "application_start_ms": 29.478,
+    "runtime_preparation_ms": 26559.983,
+    "first_inference_ms": 1667.196,
+    "stages": [
+      {
+        "component": "privacy_filter_serving",
+        "duration_ms": 15.808,
+        "stage": "backend_configuration",
+        "status": "ok"
+      },
+      {
+        "component": "privacy_filter_serving",
+        "duration_ms": 0.482,
+        "stage": "checkpoint_layout",
+        "status": "ok"
+      },
+      {
+        "component": "privacy_filter_serving",
+        "duration_ms": 0.545,
+        "stage": "checkpoint_validation",
+        "status": "ok"
+      },
+      {
+        "component": "privacy_filter_serving",
+        "duration_ms": 2.249,
+        "stage": "config_load",
+        "status": "ok"
+      },
+      {
+        "component": "privacy_filter_serving",
+        "duration_ms": 0.975,
+        "stage": "label_info_load",
+        "status": "ok"
+      },
+      {
+        "component": "privacy_filter_serving",
+        "duration_ms": 2.464,
+        "stage": "weights_load",
+        "status": "ok"
+      },
+      {
+        "component": "privacy_filter_serving",
+        "duration_ms": 0.0,
+        "stage": "dtypes_load",
+        "status": "ok"
+      },
+      {
+        "component": "privacy_filter_serving",
+        "duration_ms": 26531.593,
+        "stage": "parameter_load",
+        "status": "ok"
+      },
+      {
+        "component": "privacy_filter_serving",
+        "duration_ms": 0.035,
+        "stage": "serving_construction",
+        "status": "ok"
+      }
+    ],
+    "stage_counts": {
+      "backend_configuration": 1,
+      "checkpoint_layout": 1,
+      "checkpoint_validation": 1,
+      "config_load": 1,
+      "dtypes_load": 1,
+      "label_info_load": 1,
+      "parameter_load": 1,
+      "serving_construction": 1,
+      "weights_load": 1
+    },
+    "compile_timing": {
+      "reason": "nx_serving_does_not_expose_lazy_compile_separately",
+      "status": "combined_with_first_inference"
+    }
+  },
+  "dataset": {
+    "id": "generated_large_template_heldout",
+    "name": "generated_large",
+    "split": "template_heldout",
+    "sha256": "b84d6553a3fc27a5c664a1c2f95be15291ea16b83501e109d411fe237e380e26",
+    "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+    "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+    "sample_count": 648,
+    "sample_ids_sha256": "abd254573ceacfd0a8472a48633db7a98e134c1be9e1c9301dda4e22ee372018",
+    "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf"
+  },
+  "resilience": {
+    "timeout": {
+      "status": "passed",
+      "result": {
+        "error": {
+          "code": "request_timeout",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      }
+    },
+    "overload": {
+      "status": "passed",
+      "bounded_in_flight": 1,
+      "rejected_request": {
+        "error": {
+          "code": "overloaded",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      }
+    },
+    "privacy_check": {
+      "status": "passed",
+      "raw_values_retained": false,
+      "report_payload_policy": "identifiers_hashes_metrics_and_safe_errors_only"
+    },
+    "serving_crash_recovery": {
+      "status": "passed",
+      "request_after_recovery": {
+        "status": "ok"
+      },
+      "request_during_recovery": {
+        "error": {
+          "code": "serving_unavailable",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      },
+      "runtime_rebuilt": false
+    }
+  },
+  "environment": {
+    "profile": "openmed_pii",
+    "actual": {
+      "backend": "emily",
+      "backend_metadata": {
+        "backend_proven": true,
+        "emily_fallback": "raise",
+        "fallback_occurred": false,
+        "requested_backend": "emily",
+        "emily_device": "gpu",
+        "actual_backend": "emily",
+        "actual_device": "gpu",
+        "backend_source": "option",
+        "exla_enabled": false,
+        "parity_warning": "python_original_bf16_qkv_backend_limited",
+        "parity_warning_reason": "Emily GPU BF16 QKV dot/matmul does not currently match Python OPF exactly; use BinaryBackend for Python-original numeric parity validation."
+      },
+      "checkpoint_configured": true,
+      "openmed_optimization": {
+        "id": "openmed_latency_v1",
+        "sequence_length_buckets": [
+          192,
+          256,
+          384,
+          512,
+          768
+        ],
+        "sequence_length_bucket_threshold": 129,
+        "logprob_conversion": "raw_logits",
+        "default_policy_sha256": "36d8f073729a6691ed52c0f24a5508e04e4f0c6dc9d2c44af5a5bc710c20f882",
+        "matches_default": true,
+        "decoder": "viterbi",
+        "min_span_logprob": null
+      }
+    },
+    "backend_proven": true,
+    "emily_fallback": "raise",
+    "fallback_occurred": false,
+    "platform": "apple_emily",
+    "requested_backend": "emily",
+    "requested_device": "gpu",
+    "linux_exla": {
+      "reason": "not_a_linux_runner",
+      "status": "unavailable",
+      "measured": false
+    }
+  },
+  "hardware": {
+    "cpu": "Apple M4 Max",
+    "os_version": "25.5.0",
+    "os": "darwin",
+    "architecture": "aarch64-apple-darwin25.5.0",
+    "host_fingerprint": "b8b70debd229c244017f0ff39b9671114ac2990ba24a7571c364977e6fa7e46c",
+    "logical_processors": 16,
+    "memory_bytes": 137438953472
+  },
+  "asset_evidence": {
+    "source": "eval/authoritative/manifest.json",
+    "dependencies": {
+      "axon": "0.8.1",
+      "bumblebee": "0.7.0",
+      "emily": "0.7.2",
+      "ex_phone_number": "0.4.11",
+      "exla": "not_loaded",
+      "jason": "1.4.5",
+      "mix_lock_sha256": "29d69abd7c9a8baac995020b78dca168b28a514637d6f855ba4dcaf4fe5d4595",
+      "nx": "0.12.1",
+      "obscura": "0.1.0-dev",
+      "ortex": "not_loaded",
+      "req": "not_loaded",
+      "safetensors": "0.1.3"
+    },
+    "models": {
+      "immutable_revisions": {
+        "OpenMed/privacy-filter-nemotron-v2": "968247329d18998cc7d5338b941b52f1b2a9abd9"
+      },
+      "report": {
+        "architecture": "OpenAIPrivacyFilterForTokenClassification",
+        "backend": "emily",
+        "checkpoint": ".cache/privacy-filter/openmed-nemotron-v2",
+        "decoder": "viterbi",
+        "label_map_mode": "presidio_research",
+        "min_span_logprob": null,
+        "model_id": "OpenMed/privacy-filter-nemotron-v2",
+        "n_ctx": 128,
+        "pad_windows": false,
+        "profile": "privacy_filter_native"
+      }
+    },
+    "asset_hashes": {
+      "config.json": "f331f12762118fa98fa35d13821e938e367807f8c919b5727d4bcead04c07c06",
+      "label_space_fine_v1.json": "b274ffa488be5af2a70a58093edf79884b5a4a267535ed6cc495c5ba36d56fee",
+      "model.safetensors": "e27b99207fcc98834100a773037b4b1105f3569a0ced47c91b1538ed599fb645",
+      "tokenizer.json": "0614fe83cadab421296e664e1f48f4261fa8fef6e03e63bb75c20f38e37d07d3"
+    },
+    "source_entry_id": "openmed_pii:generated_large:template_heldout",
+    "source_manifest_sha256": "7e8d0a82acbac4c02f5cec96b457a00037de2eaee621ed86a37653cb1cb7aea2"
+  },
+  "benchmark_settings": {
+    "repetitions": 2,
+    "sustained_duration_ms": 60000,
+    "sustained_request_count": null,
+    "concurrency": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "model_downloads_allowed": false,
+    "request_timeout_ms": 300000
+  },
+  "generated_at": "2026-07-19T02:10:07.078322Z",
+  "limitations": [
+    "nx_lazy_compile_not_independently_timed",
+    "inline_nx_queue_time_unavailable",
+    "gpu_memory_available_only_for_emily",
+    "linux_exla_not_measured_on_apple_runner"
+  ],
+  "preparation": {
+    "stages": [
+      {
+        "status": "ok",
+        "component": "privacy_filter_serving",
+        "duration_ms": 17.156,
+        "stage": "backend_configuration"
+      },
+      {
+        "status": "ok",
+        "component": "privacy_filter_serving",
+        "duration_ms": 0.674,
+        "stage": "checkpoint_layout"
+      },
+      {
+        "status": "ok",
+        "component": "privacy_filter_serving",
+        "duration_ms": 0.821,
+        "stage": "checkpoint_validation"
+      },
+      {
+        "status": "ok",
+        "component": "privacy_filter_serving",
+        "duration_ms": 2.57,
+        "stage": "config_load"
+      },
+      {
+        "status": "ok",
+        "component": "privacy_filter_serving",
+        "duration_ms": 1.339,
+        "stage": "label_info_load"
+      },
+      {
+        "status": "ok",
+        "component": "privacy_filter_serving",
+        "duration_ms": 2.793,
+        "stage": "weights_load"
+      },
+      {
+        "status": "ok",
+        "component": "privacy_filter_serving",
+        "duration_ms": 0.0,
+        "stage": "dtypes_load"
+      },
+      {
+        "status": "ok",
+        "component": "privacy_filter_serving",
+        "duration_ms": 27690.183,
+        "stage": "parameter_load"
+      },
+      {
+        "status": "ok",
+        "component": "privacy_filter_serving",
+        "duration_ms": 0.04,
+        "stage": "serving_construction"
+      }
+    ],
+    "in_process_runtime_preparation_ms": 27722.739
+  },
+  "resolved_profile": "privacy_filter_native",
+  "runtime_reuse": {
+    "anti_pattern": {
+      "reason": "isolated_to_avoid_polluting_canonical_runtime_reuse",
+      "status": "measured",
+      "canonical": false,
+      "method": "process_cold_per_request_projection",
+      "process_cold_ms": 28763.889,
+      "projected_overhead_ratio": 129.17981905593817,
+      "warm_p50_ms": 222.6655
+    },
+    "lifecycle_stage_counts": {
+      "backend_configuration": 1,
+      "checkpoint_layout": 1,
+      "checkpoint_validation": 1,
+      "config_load": 1,
+      "label_info_load": 1,
+      "weights_load": 1,
+      "dtypes_load": 1,
+      "parameter_load": 1,
+      "serving_construction": 1
+    },
+    "normal_runtime_builds": 1,
+    "per_request_rebuild_detected": false
+  },
+  "schema_version": 1,
+  "sustained_load": {
+    "status": "measured",
+    "failed": 0,
+    "rejected": 0,
+    "resources": {
+      "scheduler": {
+        "run_queue": {
+          "status": "measured",
+          "initial": 0,
+          "peak": 4,
+          "steady": 0
+        },
+        "utilization": {
+          "status": "measured",
+          "initial": 0.04980041923351171,
+          "peak": 0.04980041923351171,
+          "steady": 6.107700558568744e-4
+        }
+      },
+      "beam": {
+        "status": "measured",
+        "initial": 130396031,
+        "peak": 174280263,
+        "steady": 140263199
+      },
+      "gpu": {
+        "status": "measured",
+        "source": "emily_memory",
+        "peak_bytes": 6072090726,
+        "active_bytes": {
+          "status": "measured",
+          "initial": 2799235038,
+          "peak": 6072090726,
+          "steady": 3884374356
+        },
+        "cache_bytes": {
+          "status": "measured",
+          "initial": 106408202828,
+          "peak": 106860840644,
+          "steady": 105688989242
+        }
+      },
+      "os_rss": {
+        "status": "measured",
+        "initial": 3782311936,
+        "peak": 3806904320,
+        "steady": 3790045184
+      },
+      "sample_count": 1172
+    },
+    "completed": 568,
+    "timed_out": 0,
+    "elapsed_ms": 60468.506,
+    "memory_growth_bytes": 7733248,
+    "concurrency": 4,
+    "throughput_rps": 9.393319557126151,
+    "first_half_mean_latency_ms": 454.8410534351145,
+    "latency_drift_ratio": 0.8769815436355071,
+    "requested_duration_ms": 60000,
+    "requested_request_count": null,
+    "second_half_mean_latency_ms": 398.88720915032684,
+    "stop_reason": "duration",
+    "worker_count": 4
+  },
+  "warm_load": {
+    "concurrency_results": [
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 1,
+                  "peak": 1,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.05152953684163742,
+                  "peak": 0.05152953684163742,
+                  "steady": 0.007707272182337681
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 129222307,
+                "peak": 136305763,
+                "steady": 129543147
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6131521648,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799234570,
+                  "peak": 5966908474,
+                  "steady": 3188055318
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 49617206054,
+                  "peak": 106876257076,
+                  "steady": 105800536248
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 51864715264,
+                "peak": 51865468928,
+                "steady": 36240392192
+              },
+              "sample_count": 2891
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 148057.921,
+            "concurrency": 1,
+            "latency_ms": {
+              "count": 648,
+              "max": 382.786,
+              "mean": 228.46196141975275,
+              "p50": 222.735,
+              "p95": 310.169,
+              "p99": 357.549
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 382.757,
+              "mean": 228.44676543209906,
+              "p50": 222.717,
+              "p95": 310.149,
+              "p99": 357.526
+            },
+            "throughput_rps": 4.376665534834843,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 1,
+                  "peak": 1,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.02490208812302591,
+                  "peak": 0.02490208812302591,
+                  "steady": 0.009085530419864919
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 126459335,
+                "peak": 137655351,
+                "steady": 130034047
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6067554690,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799234330,
+                  "peak": 6067554690,
+                  "steady": 3361237780
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 106189357236,
+                  "peak": 106871259956,
+                  "steady": 106019586746
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 36242800640,
+                "peak": 36248109056,
+                "steady": 32410550272
+              },
+              "sample_count": 2884
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 147746.052,
+            "concurrency": 1,
+            "latency_ms": {
+              "count": 648,
+              "max": 390.285,
+              "mean": 227.9804969135801,
+              "p50": 222.596,
+              "p95": 309.017,
+              "p99": 352.549
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 390.261,
+              "mean": 227.9656959876543,
+              "p50": 222.578,
+              "p95": 308.998,
+              "p99": 352.524
+            },
+            "throughput_rps": 4.385903996947411,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 1,
+        "latency_ms": {
+          "max": 386.5355,
+          "mean": 228.22122916666643,
+          "method": "mean_of_repetition_percentiles",
+          "p50": 222.6655,
+          "p95": 309.59299999999996,
+          "p99": 355.049
+        },
+        "repetition_count": 2,
+        "stable_output": true,
+        "throughput_rps": {
+          "count": 2,
+          "max": 4.385903996947411,
+          "mean": 4.381284765891127,
+          "p50": 4.376665534834843,
+          "p95": 4.385903996947411,
+          "p99": 4.385903996947411
+        }
+      },
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 2,
+                  "peak": 2,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.03121018312195764,
+                  "peak": 0.03121018312195764,
+                  "steady": 0.013540613658359938
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 126556655,
+                "peak": 146994583,
+                "steady": 133603759
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6067561310,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799235018,
+                  "peak": 6067561310,
+                  "steady": 3390157508
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 106581589508,
+                  "peak": 106874282552,
+                  "steady": 106000015122
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 32411271168,
+                "peak": 32453230592,
+                "steady": 32448004096
+              },
+              "sample_count": 1572
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 80800.618,
+            "concurrency": 2,
+            "latency_ms": {
+              "count": 648,
+              "max": 467.301,
+              "mean": 249.09503858024664,
+              "p50": 240.427,
+              "p95": 342.911,
+              "p99": 420.648
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 467.275,
+              "mean": 249.07593055555566,
+              "p50": 240.403,
+              "p95": 342.888,
+              "p99": 420.623
+            },
+            "throughput_rps": 8.019740641092621,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 2,
+                  "peak": 2,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.030342434087043544,
+                  "peak": 0.03216665907909366,
+                  "steady": 0.009836562758789752
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 130094327,
+                "peak": 147685655,
+                "steady": 133368855
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6067561194,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799235114,
+                  "peak": 6067561194,
+                  "steady": 3088585442
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 106590937516,
+                  "peak": 106874283088,
+                  "steady": 106301587188
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 32448200704,
+                "peak": 32461717504,
+                "steady": 32456540160
+              },
+              "sample_count": 1666
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 85585.379,
+            "concurrency": 2,
+            "latency_ms": {
+              "count": 648,
+              "max": 482.932,
+              "mean": 263.8613842592594,
+              "p50": 257.078,
+              "p95": 360.329,
+              "p99": 441.559
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 482.901,
+              "mean": 263.84010185185195,
+              "p50": 257.07,
+              "p95": 360.303,
+              "p99": 441.533
+            },
+            "throughput_rps": 7.571386696786141,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 2,
+        "latency_ms": {
+          "max": 475.1165,
+          "mean": 256.47821141975305,
+          "method": "mean_of_repetition_percentiles",
+          "p50": 248.7525,
+          "p95": 351.62,
+          "p99": 431.10350000000005
+        },
+        "repetition_count": 2,
+        "stable_output": true,
+        "throughput_rps": {
+          "count": 2,
+          "max": 8.019740641092621,
+          "mean": 7.795563668939382,
+          "p50": 7.571386696786141,
+          "p95": 8.019740641092621,
+          "p99": 8.019740641092621
+        }
+      },
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 2,
+                  "peak": 4,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.05015954206284453,
+                  "peak": 0.055014364369529827,
+                  "steady": 0.004571999958331875
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 130079687,
+                "peak": 146964799,
+                "steady": 133810575
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6067597222,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799236374,
+                  "peak": 6025601372,
+                  "steady": 2813714194
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 106590936256,
+                  "peak": 106874318068,
+                  "steady": 106576507136
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 32455491584,
+                "peak": 32578666496,
+                "steady": 32569344000
+              },
+              "sample_count": 1536
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 79073.267,
+            "concurrency": 4,
+            "latency_ms": {
+              "count": 648,
+              "max": 926.402,
+              "mean": 486.9236126543207,
+              "p50": 471.263,
+              "p95": 655.838,
+              "p99": 744.44
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 926.374,
+              "mean": 486.89514043209863,
+              "p50": 471.239,
+              "p95": 655.803,
+              "p99": 744.401
+            },
+            "throughput_rps": 8.194931417213354,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 2,
+                  "peak": 4,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.04645900483606762,
+                  "peak": 0.05203904166273575,
+                  "steady": 0.012284871210904725
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 130806623,
+                "peak": 151943239,
+                "steady": 134373239
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6067596034,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799235714,
+                  "peak": 6067596034,
+                  "steady": 3179186282
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 106590985616,
+                  "peak": 106875745688,
+                  "steady": 106216507304
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 32571031552,
+                "peak": 32588578816,
+                "steady": 32567771136
+              },
+              "sample_count": 1387
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 71543.976,
+            "concurrency": 4,
+            "latency_ms": {
+              "count": 648,
+              "max": 847.138,
+              "mean": 440.51720216049375,
+              "p50": 429.445,
+              "p95": 600.419,
+              "p99": 658.096
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 847.115,
+              "mean": 440.49292592592536,
+              "p50": 429.394,
+              "p95": 600.387,
+              "p99": 658.05
+            },
+            "throughput_rps": 9.057366339270828,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 4,
+        "latency_ms": {
+          "max": 886.77,
+          "mean": 463.72040740740727,
+          "method": "mean_of_repetition_percentiles",
+          "p50": 450.354,
+          "p95": 628.1285,
+          "p99": 701.268
+        },
+        "repetition_count": 2,
+        "stable_output": true,
+        "throughput_rps": {
+          "count": 2,
+          "max": 9.057366339270828,
+          "mean": 8.626148878242091,
+          "p50": 8.194931417213354,
+          "p95": 9.057366339270828,
+          "p99": 9.057366339270828
+        }
+      },
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 5,
+                  "peak": 8,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.0725582775673464,
+                  "peak": 0.08899209217219513,
+                  "steady": 0.013572569885615803
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 130865351,
+                "peak": 162765271,
+                "steady": 134945111
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6067661254,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799237882,
+                  "peak": 5760712160,
+                  "steady": 3165262502
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 106596455704,
+                  "peak": 106875797916,
+                  "steady": 106230521264
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 32571867136,
+                "peak": 32689537024,
+                "steady": 32680722432
+              },
+              "sample_count": 1270
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 65505.596,
+            "concurrency": 8,
+            "latency_ms": {
+              "count": 648,
+              "max": 1212.546,
+              "mean": 805.2864861111118,
+              "p50": 794.297,
+              "p95": 1012.665,
+              "p99": 1102.728
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 1212.506,
+              "mean": 805.2572793209883,
+              "p50": 794.284,
+              "p95": 1012.628,
+              "p99": 1102.683
+            },
+            "throughput_rps": 9.892284622522936,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 2,
+                  "peak": 8,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.07065733005175229,
+                  "peak": 0.07944422749949702,
+                  "steady": 0.012275798032907037
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 130961463,
+                "peak": 162078447,
+                "steady": 134893279
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6067661522,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799238078,
+                  "peak": 6067661522,
+                  "steady": 3172559570
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 106596545688,
+                  "peak": 106875793796,
+                  "steady": 106223224196
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 32681082880,
+                "peak": 32699416576,
+                "steady": 32687489024
+              },
+              "sample_count": 1263
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 65102.967,
+            "concurrency": 8,
+            "latency_ms": {
+              "count": 648,
+              "max": 1164.022,
+              "mean": 800.3622237654321,
+              "p50": 788.92,
+              "p95": 1019.796,
+              "p99": 1120.59
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 1163.993,
+              "mean": 800.3297731481484,
+              "p50": 788.895,
+              "p95": 1019.786,
+              "p99": 1120.555
+            },
+            "throughput_rps": 9.953463411275864,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 8,
+        "latency_ms": {
+          "max": 1188.284,
+          "mean": 802.8243549382719,
+          "method": "mean_of_repetition_percentiles",
+          "p50": 791.6085,
+          "p95": 1016.2305,
+          "p99": 1111.659
+        },
+        "repetition_count": 2,
+        "stable_output": true,
+        "throughput_rps": {
+          "count": 2,
+          "max": 9.953463411275864,
+          "mean": 9.9228740168994,
+          "p50": 9.892284622522936,
+          "p95": 9.953463411275864,
+          "p99": 9.953463411275864
+        }
+      },
+      {
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1296,
+        "timed_out": 0,
+        "repetitions": [
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 3,
+                  "peak": 15,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.09268220581487766,
+                  "peak": 0.15170128192920357,
+                  "steady": 0.012520020925746597
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 132766183,
+                "peak": 170285711,
+                "steady": 134550527
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6067678866,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799238782,
+                  "peak": 5966806194,
+                  "steady": 2799233690
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 106596544984,
+                  "peak": 106874876332,
+                  "steady": 106607056240
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 32696418304,
+                "peak": 32879575040,
+                "steady": 32853639168
+              },
+              "sample_count": 1289
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 66402.403,
+            "concurrency": 16,
+            "latency_ms": {
+              "count": 648,
+              "max": 2499.493,
+              "mean": 1625.3942453703703,
+              "p50": 1611.419,
+              "p95": 2015.903,
+              "p99": 2274.436
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 2499.442,
+              "mean": 1625.3540478395057,
+              "p50": 1611.388,
+              "p95": 2015.886,
+              "p99": 2274.4
+            },
+            "throughput_rps": 9.758682980192749,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 1
+          },
+          {
+            "failed": 0,
+            "rejected": 0,
+            "resources": {
+              "scheduler": {
+                "run_queue": {
+                  "status": "measured",
+                  "initial": 3,
+                  "peak": 15,
+                  "steady": 0
+                },
+                "utilization": {
+                  "status": "measured",
+                  "initial": 0.08854499795351808,
+                  "peak": 0.10335317590495413,
+                  "steady": 0.006914967659075691
+                }
+              },
+              "beam": {
+                "status": "measured",
+                "initial": 130960911,
+                "peak": 177159255,
+                "steady": 134697727
+              },
+              "gpu": {
+                "status": "measured",
+                "source": "emily_memory",
+                "peak_bytes": 6067680118,
+                "active_bytes": {
+                  "status": "measured",
+                  "initial": 2799238562,
+                  "peak": 5709434772,
+                  "steady": 2822834762
+                },
+                "cache_bytes": {
+                  "status": "measured",
+                  "initial": 106607051368,
+                  "peak": 106874785304,
+                  "steady": 106583504840
+                }
+              },
+              "os_rss": {
+                "status": "measured",
+                "initial": 32856801280,
+                "peak": 32881147904,
+                "steady": 32857849856
+              },
+              "sample_count": 1287
+            },
+            "completed": 648,
+            "timed_out": 0,
+            "elapsed_ms": 66262.313,
+            "concurrency": 16,
+            "latency_ms": {
+              "count": 648,
+              "max": 2473.07,
+              "mean": 1621.6241851851846,
+              "p50": 1609.032,
+              "p95": 1999.335,
+              "p99": 2286.569
+            },
+            "queue_ms": {
+              "reason": "inline_nx_serving_does_not_expose_queue_time",
+              "status": "unavailable"
+            },
+            "service_ms": {
+              "count": 648,
+              "max": 2473.037,
+              "mean": 1621.578527777778,
+              "p50": 1609.003,
+              "p95": 1999.294,
+              "p99": 2286.533
+            },
+            "throughput_rps": 9.779314525286795,
+            "output_fingerprint": "594af62be9cc0d7128b34bb0f8094130c1472f8a3b004c6c37ba9c64792a7088",
+            "repetition": 2
+          }
+        ],
+        "concurrency": 16,
+        "latency_ms": {
+          "max": 2486.2815,
+          "mean": 1623.5092152777775,
+          "method": "mean_of_repetition_percentiles",
+          "p50": 1610.2255,
+          "p95": 2007.6190000000001,
+          "p99": 2280.5025
+        },
+        "repetition_count": 2,
+        "stable_output": true,
+        "throughput_rps": {
+          "count": 2,
+          "max": 9.779314525286795,
+          "mean": 9.768998752739773,
+          "p50": 9.758682980192749,
+          "p95": 9.779314525286795,
+          "p99": 9.779314525286795
+        }
+      }
+    ],
+    "deterministic_sample_order": true,
+    "runtime_reused": true,
+    "warmup_requests": 1
+  }
+}

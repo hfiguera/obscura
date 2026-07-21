@@ -1,0 +1,953 @@
+{
+  "profile": "fast",
+  "runtime": {
+    "otp": "29",
+    "elixir": "1.20.2",
+    "obscura_dependencies": {
+      "axon": "0.8.1",
+      "bumblebee": "0.7.0",
+      "emily": "0.7.2",
+      "ex_phone_number": "0.4.11",
+      "exla": "not_loaded",
+      "jason": "1.4.5",
+      "mix_lock_sha256": "29d69abd7c9a8baac995020b78dca168b28a514637d6f855ba4dcaf4fe5d4595",
+      "nx": "0.12.1",
+      "obscura": "0.1.0-dev",
+      "ortex": "not_loaded",
+      "req": "not_loaded",
+      "safetensors": "0.1.3"
+    }
+  },
+  "status": "complete",
+  "source": {
+    "source_commit": "fd3dc8ebfbf26baa4b65b86f6b73e8f9000bbfef",
+    "dirty_worktree": false
+  },
+  "hardware": {
+    "cpu": "Apple M4 Max",
+    "os_version": "25.5.0",
+    "os": "darwin",
+    "memory_bytes": 137438953472,
+    "host_fingerprint": "b8b70debd229c244017f0ff39b9671114ac2990ba24a7571c364977e6fa7e46c",
+    "architecture": "aarch64-apple-darwin25.5.0",
+    "logical_processors": 16
+  },
+  "environment": {
+    "profile": "fast",
+    "actual": {},
+    "requested_device": "cpu",
+    "requested_backend": "beam_cpu",
+    "emily_fallback": "not_applicable",
+    "linux_exla": {
+      "reason": "not_a_linux_runner",
+      "status": "unavailable",
+      "measured": false
+    },
+    "platform": "apple_emily",
+    "backend_proven": true,
+    "fallback_occurred": false
+  },
+  "limitations": [
+    "emily_allocator_statistics_are_not_physical_gpu_residency",
+    "sampling_is_periodic_not_kernel_high_water",
+    "linux_exla_not_measured_on_apple_runner",
+    "classification_is_bounded_to_this_duration_and_workload"
+  ],
+  "resilience": {
+    "timeout": {
+      "status": "passed",
+      "result": {
+        "error": {
+          "code": "request_timeout",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      }
+    },
+    "overload": {
+      "status": "passed",
+      "rejected_request": {
+        "error": {
+          "code": "overloaded",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      },
+      "bounded_in_flight": 1
+    },
+    "serving_crash_recovery": {
+      "status": "passed",
+      "request_during_recovery": {
+        "error": {
+          "code": "serving_unavailable",
+          "component": "operational_runtime",
+          "retryable": true
+        },
+        "status": "error"
+      },
+      "request_after_recovery": {
+        "status": "ok"
+      },
+      "runtime_rebuilt": false
+    },
+    "privacy_check": {
+      "status": "passed",
+      "raw_values_retained": false,
+      "report_payload_policy": "identifiers_hashes_metrics_and_safe_errors_only"
+    }
+  },
+  "runtime_reuse": {
+    "normal_runtime_builds": 1,
+    "per_request_rebuild_detected": false,
+    "lifecycle_stage_counts": {}
+  },
+  "memory_analysis": {
+    "metrics": {
+      "in_flight": {
+        "maximum": 4,
+        "status": "measured",
+        "final": 4.0,
+        "baseline": 4.0,
+        "absolute_growth": 0.0,
+        "final_half_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 0.009295376201115054,
+          "r_squared": 9.144483960284999e-4,
+          "slope_bytes_per_ms": 1.549229366852509e-7,
+          "intercept_bytes": 3.723616796857332
+        },
+        "trend": "plateau",
+        "noise_budget_bytes": 1048576.0,
+        "minimum": 2,
+        "median": 4.0,
+        "percentage_growth": 0.0,
+        "first_half_growth": 0,
+        "second_half_growth": 0,
+        "full_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": -0.0018496129630135643,
+          "r_squared": 1.421581869028854e-4,
+          "slope_bytes_per_ms": -3.082688271689274e-8,
+          "intercept_bytes": 3.80757639276156
+        },
+        "rolling_median": {
+          "count": 541,
+          "maximum": 4.0,
+          "minimum": 4.0,
+          "median": 4.0
+        }
+      },
+      "emily_active": {
+        "reason": "insufficient_measurements",
+        "status": "unavailable"
+      },
+      "emily_cache": {
+        "reason": "insufficient_measurements",
+        "status": "unavailable"
+      },
+      "os_rss": {
+        "maximum": 223313920,
+        "status": "measured",
+        "final": 186941440.0,
+        "baseline": 190906368.0,
+        "absolute_growth": -3964928.0,
+        "final_half_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 4659942.512127632,
+          "r_squared": 0.42422577064429434,
+          "slope_bytes_per_ms": 77.66570853546054,
+          "intercept_bytes": 153820590.28682348
+        },
+        "trend": "inconclusive",
+        "noise_budget_bytes": 1048576.0,
+        "minimum": 159727616,
+        "median": 195477504.0,
+        "percentage_growth": -2.0768966700995537,
+        "first_half_growth": -16367616,
+        "second_half_growth": 10813440,
+        "full_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 169444.06708958952,
+          "r_squared": 0.0013954604894411693,
+          "slope_bytes_per_ms": 2.824067784826492,
+          "intercept_bytes": 190567892.5041438
+        },
+        "rolling_median": {
+          "count": 541,
+          "maximum": 212353024.0,
+          "minimum": 167362560.0,
+          "median": 197197824.0
+        }
+      },
+      "beam_total": {
+        "maximum": 129427196,
+        "status": "measured",
+        "final": 122519516.0,
+        "baseline": 83029951.0,
+        "absolute_growth": 39489565.0,
+        "final_half_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 2784369.1507092593,
+          "r_squared": 0.46215538589066285,
+          "slope_bytes_per_ms": 46.40615251182099,
+          "intercept_bytes": 91066803.24740343
+        },
+        "trend": "inconclusive",
+        "noise_budget_bytes": 1048576.0,
+        "minimum": 83029951,
+        "median": 105395964.0,
+        "percentage_growth": 47.56062664664225,
+        "first_half_growth": 38512949,
+        "second_half_growth": 17023288,
+        "full_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 1585111.6357661507,
+          "r_squared": 0.5878184841282581,
+          "slope_bytes_per_ms": 26.418527262769178,
+          "intercept_bytes": 100366928.98463246
+        },
+        "rolling_median": {
+          "count": 541,
+          "maximum": 117855284.0,
+          "minimum": 103285388.0,
+          "median": 107316980.0
+        }
+      },
+      "beam_processes": {
+        "maximum": 66752888,
+        "status": "measured",
+        "final": 61127344.0,
+        "baseline": 23308224.0,
+        "absolute_growth": 37819120.0,
+        "final_half_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 2507132.781057275,
+          "r_squared": 0.420739337353385,
+          "slope_bytes_per_ms": 41.78554635095458,
+          "intercept_bytes": 31636126.149768393
+        },
+        "trend": "inconclusive",
+        "noise_budget_bytes": 1048576.0,
+        "minimum": 23308224,
+        "median": 44194848.0,
+        "percentage_growth": 162.2565494479545,
+        "first_half_growth": 37240896,
+        "second_half_growth": 17248056,
+        "full_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 1432252.0241731994,
+          "r_squared": 0.5542911022148354,
+          "slope_bytes_per_ms": 23.870867069553324,
+          "intercept_bytes": 39978409.01187162
+        },
+        "rolling_median": {
+          "count": 541,
+          "maximum": 55176760.0,
+          "minimum": 4.25674e7,
+          "median": 46103640.0
+        }
+      },
+      "beam_binary": {
+        "maximum": 8645616,
+        "status": "measured",
+        "final": 6625744.0,
+        "baseline": 5008592.0,
+        "absolute_growth": 1617152.0,
+        "final_half_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 278541.9829253176,
+          "r_squared": 0.43011326787674387,
+          "slope_bytes_per_ms": 4.6423663820886265,
+          "intercept_bytes": 4615538.774099337
+        },
+        "trend": "plateau",
+        "noise_budget_bytes": 1048576.0,
+        "minimum": 5008592,
+        "median": 6148336.0,
+        "percentage_growth": 32.28755706194475,
+        "first_half_growth": 1255984,
+        "second_half_growth": -131472,
+        "full_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 153207.8866382231,
+          "r_squared": 0.5681293752553114,
+          "slope_bytes_per_ms": 2.5534647773037187,
+          "intercept_bytes": 5581739.041696352
+        },
+        "rolling_median": {
+          "count": 541,
+          "maximum": 7345136.0,
+          "minimum": 5866064.0,
+          "median": 6287064.0
+        }
+      },
+      "beam_ets": {
+        "maximum": 1356832,
+        "status": "measured",
+        "final": 1356832.0,
+        "baseline": 1351792.0,
+        "absolute_growth": 5040.0,
+        "final_half_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 0.0,
+          "r_squared": 1.0,
+          "slope_bytes_per_ms": 0.0,
+          "intercept_bytes": 1356832.0
+        },
+        "trend": "plateau",
+        "noise_budget_bytes": 1048576.0,
+        "minimum": 1351792,
+        "median": 1356832.0,
+        "percentage_growth": 0.3728384248464261,
+        "first_half_growth": 5040,
+        "second_half_growth": 0,
+        "full_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 5.025804691578116,
+          "r_squared": 0.0049914420182389785,
+          "slope_bytes_per_ms": 8.376341152630193e-5,
+          "intercept_bytes": 1356798.4845772777
+        },
+        "rolling_median": {
+          "count": 541,
+          "maximum": 1356832.0,
+          "minimum": 1356832.0,
+          "median": 1356832.0
+        }
+      },
+      "beam_atom": {
+        "maximum": 1062177,
+        "status": "measured",
+        "final": 1062177.0,
+        "baseline": 1062095.0,
+        "absolute_growth": 82.0,
+        "final_half_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 0.0,
+          "r_squared": 1.0,
+          "slope_bytes_per_ms": 0.0,
+          "intercept_bytes": 1062177.0
+        },
+        "trend": "plateau",
+        "noise_budget_bytes": 1048576.0,
+        "minimum": 1062095,
+        "median": 1062177.0,
+        "percentage_growth": 0.00772058996605765,
+        "first_half_growth": 82,
+        "second_half_growth": 0,
+        "full_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 0.08176904458519936,
+          "r_squared": 0.004991442016480163,
+          "slope_bytes_per_ms": 1.3628174097533226e-6,
+          "intercept_bytes": 1062176.4547093923
+        },
+        "rolling_median": {
+          "count": 541,
+          "maximum": 1062177.0,
+          "minimum": 1062177.0,
+          "median": 1062177.0
+        }
+      },
+      "beam_system": {
+        "maximum": 63450212,
+        "status": "measured",
+        "final": 61392172.0,
+        "baseline": 59721727.0,
+        "absolute_growth": 1670445.0,
+        "final_half_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 277236.3696519842,
+          "r_squared": 0.42777469290683057,
+          "slope_bytes_per_ms": 4.620606160866403,
+          "intercept_bytes": 59430677.09763503
+        },
+        "trend": "plateau",
+        "noise_budget_bytes": 1048576.0,
+        "minimum": 59721727,
+        "median": 6.09495e7,
+        "percentage_growth": 2.797047379423572,
+        "first_half_growth": 1272053,
+        "second_half_growth": -224768,
+        "full_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 152859.61159295213,
+          "r_squared": 0.5657134415666387,
+          "slope_bytes_per_ms": 2.5476601932158687,
+          "intercept_bytes": 60388519.97276085
+        },
+        "rolling_median": {
+          "count": 541,
+          "maximum": 62179660.0,
+          "minimum": 60679116.0,
+          "median": 61075876.0
+        }
+      },
+      "mailbox_length": {
+        "maximum": 3,
+        "status": "measured",
+        "final": 0.0,
+        "baseline": 0.0,
+        "absolute_growth": 0.0,
+        "final_half_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": -0.002503573405931596,
+          "r_squared": 5.188779297560231e-5,
+          "slope_bytes_per_ms": -4.172622343219327e-8,
+          "intercept_bytes": 0.1854437944448883
+        },
+        "trend": "plateau",
+        "noise_budget_bytes": 1048576.0,
+        "minimum": 0,
+        "median": 0.0,
+        "percentage_growth": null,
+        "first_half_growth": 0,
+        "second_half_growth": 0,
+        "full_regression": {
+          "status": "measured",
+          "slope_bytes_per_minute": 0.00155169760369965,
+          "r_squared": 8.919765722081863e-5,
+          "slope_bytes_per_ms": 2.58616267283275e-8,
+          "intercept_bytes": 0.14891237782222408
+        },
+        "rolling_median": {
+          "count": 541,
+          "maximum": 0.0,
+          "minimum": 0.0,
+          "median": 0.0
+        }
+      }
+    },
+    "sample_count": 600,
+    "duration_ms": 599669.934,
+    "request_correlations": {
+      "emily_active": {
+        "reason": "insufficient_measurements",
+        "status": "unavailable"
+      },
+      "emily_cache": {
+        "reason": "insufficient_measurements",
+        "status": "unavailable"
+      },
+      "os_rss": {
+        "status": "measured",
+        "sample_count": 600,
+        "coefficient": 0.037608449212659094
+      },
+      "beam_total": {
+        "status": "measured",
+        "sample_count": 600,
+        "coefficient": 0.7665085427341298
+      }
+    },
+    "rolling_window_samples": 60
+  },
+  "memory_classification": {
+    "classification": "inconclusive",
+    "reasons": [
+      "emily_active_unavailable",
+      "emily_cache_unavailable",
+      "rss_trend_inconclusive"
+    ]
+  },
+  "post_soak": {
+    "gc_settle_ms": 1000,
+    "before_idle": {
+      "run_queue": 0,
+      "host": {
+        "message_queue_len": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 10591493,
+        "timed_out": 0,
+        "max_in_flight": 4,
+        "in_flight": 0
+      },
+      "gpu_memory": null,
+      "rss_bytes": 177242112,
+      "beam_memory": {
+        "atom": 1062509,
+        "atom_used": 1062509,
+        "binary": 5579456,
+        "code": 16808613,
+        "ets": 1358096,
+        "processes": 24904688,
+        "processes_used": 24549944,
+        "system": 60335518,
+        "total": 85240206
+      },
+      "scheduler_utilization": null
+    },
+    "after_idle": {
+      "run_queue": 0,
+      "host": {
+        "message_queue_len": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 10591493,
+        "timed_out": 0,
+        "max_in_flight": 4,
+        "in_flight": 0
+      },
+      "gpu_memory": null,
+      "rss_bytes": 131661824,
+      "beam_memory": {
+        "atom": 1062509,
+        "atom_used": 1062509,
+        "binary": 5578872,
+        "code": 16808613,
+        "ets": 1358096,
+        "processes": 22994136,
+        "processes_used": 22777760,
+        "system": 60330270,
+        "total": 83324406
+      },
+      "scheduler_utilization": null
+    },
+    "after_gc": {
+      "run_queue": 0,
+      "host": {
+        "message_queue_len": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 10591493,
+        "timed_out": 0,
+        "max_in_flight": 4,
+        "in_flight": 0
+      },
+      "gpu_memory": null,
+      "rss_bytes": 127942656,
+      "beam_memory": {
+        "atom": 1062509,
+        "atom_used": 1062509,
+        "binary": 5579024,
+        "code": 16808613,
+        "ets": 1358096,
+        "processes": 22696696,
+        "processes_used": 22696696,
+        "system": 60319230,
+        "total": 83015926
+      },
+      "scheduler_utilization": null
+    },
+    "cache_clear": {
+      "status": "not_applicable"
+    },
+    "after_cache_clear": {
+      "run_queue": 0,
+      "host": {
+        "message_queue_len": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 10591493,
+        "timed_out": 0,
+        "max_in_flight": 4,
+        "in_flight": 0
+      },
+      "gpu_memory": null,
+      "rss_bytes": 131661824,
+      "beam_memory": {
+        "atom": 1062509,
+        "atom_used": 1062509,
+        "binary": 5579024,
+        "code": 16808613,
+        "ets": 1358096,
+        "processes": 22800136,
+        "processes_used": 22800136,
+        "system": 60319230,
+        "total": 83119366
+      },
+      "scheduler_utilization": null
+    },
+    "idle_duration_ms": 10000
+  },
+  "datasets": [
+    {
+      "id": "generated_large_template_heldout",
+      "name": "generated_large",
+      "split": "template_heldout",
+      "sha256": "b84d6553a3fc27a5c664a1c2f95be15291ea16b83501e109d411fe237e380e26",
+      "sample_count": 648,
+      "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+      "sample_ids_sha256": "abd254573ceacfd0a8472a48633db7a98e134c1be9e1c9301dda4e22ee372018",
+      "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+      "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf"
+    },
+    {
+      "id": "nemotron_pii_test_subset_all",
+      "name": "nemotron_pii_test_subset",
+      "split": "all",
+      "sha256": "a36582d34f64ba871a604eabd53a8d92f0628b76ddb027105ac0f9d9a3042577",
+      "sample_count": 500,
+      "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd",
+      "sample_ids_sha256": "14206c51fbdafb0c28331bd07e74a26a6beede594c3edf4246163df32844972c",
+      "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+      "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf"
+    },
+    {
+      "id": "synth_dataset_v2_all",
+      "name": "synth_dataset_v2",
+      "split": "all",
+      "sha256": "ec08a771ba8135314cafb60752b2295212222ba3a4cd75d73811839c699e0012",
+      "sample_count": 1500,
+      "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc",
+      "sample_ids_sha256": "4ae1a24321c77e5ec34560cfa25b5cecd3381f50fe4d69e5fc0ac69d0646b07c",
+      "entity_policy_sha256": "b2e8b8b3263f50cb187319ebb90532df2b154ec536558326029556921e6a2405",
+      "scoring_sha256": "5cfd212921e345a7410c68dec31fbc6355ed7bc7b4a4221caa495c51c6b0ffaf"
+    }
+  ],
+  "resolved_profile": "deterministic_plus",
+  "workload": {
+    "status": "measured",
+    "failed": 0,
+    "windows": [
+      {
+        "index": 0,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1070714,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1070714,
+          "max": 10.731,
+          "mean": 0.22170871119645394,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 0.99
+        },
+        "throughput_rps": 17845.233333333334,
+        "start_ms": 0,
+        "measured_ms": 60000
+      },
+      {
+        "index": 1,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1061447,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1061447,
+          "max": 1.875,
+          "mean": 0.223621332953977,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 1.0
+        },
+        "throughput_rps": 17690.783333333333,
+        "start_ms": 60000,
+        "measured_ms": 60000
+      },
+      {
+        "index": 2,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1059038,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1059038,
+          "max": 10.159,
+          "mean": 0.224111763694976,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 1.0
+        },
+        "throughput_rps": 17650.633333333335,
+        "start_ms": 120000,
+        "measured_ms": 60000
+      },
+      {
+        "index": 3,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1056264,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1056264,
+          "max": 6.247,
+          "mean": 0.22454692955548994,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 1.0
+        },
+        "throughput_rps": 17604.4,
+        "start_ms": 180000,
+        "measured_ms": 60000
+      },
+      {
+        "index": 4,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1058321,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1058321,
+          "max": 2.095,
+          "mean": 0.22332614395821307,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 1.0
+        },
+        "throughput_rps": 17638.683333333334,
+        "start_ms": 240000,
+        "measured_ms": 60000
+      },
+      {
+        "index": 5,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1053021,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1053021,
+          "max": 7.616,
+          "mean": 0.22435559119903592,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 1.0
+        },
+        "throughput_rps": 17550.35,
+        "start_ms": 300000,
+        "measured_ms": 60000
+      },
+      {
+        "index": 6,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1061504,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1061504,
+          "max": 10.181,
+          "mean": 0.22263602774930663,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 1.0
+        },
+        "throughput_rps": 17691.733333333334,
+        "start_ms": 360000,
+        "measured_ms": 60000
+      },
+      {
+        "index": 7,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1050133,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1050133,
+          "max": 2.04,
+          "mean": 0.22498072244182404,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 1.0
+        },
+        "throughput_rps": 17502.216666666667,
+        "start_ms": 420000,
+        "measured_ms": 60000
+      },
+      {
+        "index": 8,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1058322,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1058322,
+          "max": 2.044,
+          "mean": 0.22358940757160864,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 1.0
+        },
+        "throughput_rps": 17638.7,
+        "start_ms": 480000,
+        "measured_ms": 60000
+      },
+      {
+        "index": 9,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 1062719,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 1062719,
+          "max": 2.074,
+          "mean": 0.2226927212179325,
+          "p50": 0.16,
+          "p95": 0.56,
+          "p99": 1.0
+        },
+        "throughput_rps": 17711.983333333334,
+        "start_ms": 540000,
+        "measured_ms": 60000
+      },
+      {
+        "index": 10,
+        "failed": 0,
+        "rejected": 0,
+        "completed": 4,
+        "timed_out": 0,
+        "latency_ms": {
+          "count": 4,
+          "max": 1.107,
+          "mean": 0.733,
+          "p50": 0.53,
+          "p95": 1.15,
+          "p99": 1.15
+        },
+        "throughput_rps": 4.0e3,
+        "start_ms": 600000,
+        "measured_ms": 1.0
+      }
+    ],
+    "rejected": 0,
+    "completed": 10591487,
+    "timed_out": 0,
+    "elapsed_ms": 600000.899,
+    "concurrency": 4,
+    "throughput_rps": 17652.45188407626,
+    "requested_duration_ms": 600000,
+    "stop_reason": "duration",
+    "worker_count": 4,
+    "window_duration_ms": 60000,
+    "sample_interval_ms": 1000,
+    "resource_sample_count": 600,
+    "resource_sampling_coverage": 1.0,
+    "dataset_coverage": {
+      "generated_large_template_heldout": {
+        "requests": 2590319,
+        "unique_samples": 648,
+        "configured_samples": 648,
+        "unique_coverage_ratio": 1.0
+      },
+      "nemotron_pii_test_subset_all": {
+        "requests": 2000021,
+        "unique_samples": 500,
+        "configured_samples": 500,
+        "unique_coverage_ratio": 1.0
+      },
+      "synth_dataset_v2_all": {
+        "requests": 6001147,
+        "unique_samples": 1500,
+        "configured_samples": 1500,
+        "unique_coverage_ratio": 1.0
+      }
+    },
+    "output_stability": {
+      "probe": {
+        "stable": true,
+        "datasets": [
+          {
+            "stable": true,
+            "dataset": "generated_large_template_heldout"
+          },
+          {
+            "stable": true,
+            "dataset": "nemotron_pii_test_subset_all"
+          },
+          {
+            "stable": true,
+            "dataset": "synth_dataset_v2_all"
+          }
+        ]
+      },
+      "stable": true,
+      "unique_samples": 2648,
+      "rechecks": 10588839,
+      "mismatches": 0,
+      "fingerprint": "bb44b1e08d4664c45459ad93f1f8dbdc7d718eeefa2664b265102eda4a514396"
+    }
+  },
+  "schema_version": 1,
+  "generated_at": "2026-07-18T11:08:27.251638Z",
+  "preparation": {
+    "stages": [],
+    "in_process_runtime_preparation_ms": 2.736
+  },
+  "asset_evidence": {
+    "generated_large_template_heldout": {
+      "source": "eval/authoritative/manifest.json",
+      "dependencies": {
+        "axon": "0.8.1",
+        "bumblebee": "0.7.0",
+        "emily": "not_loaded",
+        "ex_phone_number": "0.4.11",
+        "exla": "not_loaded",
+        "jason": "1.4.5",
+        "mix_lock_sha256": "d2b5b89c5aeadadd5c992a4ed17f2171906cdc10d21c81ae2a020390017cd1fe",
+        "nx": "0.12.1",
+        "obscura": "0.1.0-dev",
+        "ortex": "not_loaded",
+        "req": "not_loaded",
+        "safetensors": "0.1.3"
+      },
+      "source_manifest_sha256": "7e8d0a82acbac4c02f5cec96b457a00037de2eaee621ed86a37653cb1cb7aea2",
+      "source_entry_id": "fast:generated_large:template_heldout",
+      "models": {
+        "immutable_revisions": {},
+        "report": {}
+      },
+      "asset_hashes": {}
+    },
+    "nemotron_pii_test_subset_all": {
+      "source": "eval/authoritative/manifest.json",
+      "dependencies": {
+        "axon": "0.8.1",
+        "bumblebee": "0.7.0",
+        "emily": "not_loaded",
+        "ex_phone_number": "0.4.11",
+        "exla": "not_loaded",
+        "jason": "1.4.5",
+        "mix_lock_sha256": "d2b5b89c5aeadadd5c992a4ed17f2171906cdc10d21c81ae2a020390017cd1fe",
+        "nx": "0.12.1",
+        "obscura": "0.1.0-dev",
+        "ortex": "not_loaded",
+        "req": "not_loaded",
+        "safetensors": "0.1.3"
+      },
+      "source_manifest_sha256": "7e8d0a82acbac4c02f5cec96b457a00037de2eaee621ed86a37653cb1cb7aea2",
+      "source_entry_id": "fast:nemotron_pii_test_subset:all",
+      "models": {
+        "immutable_revisions": {},
+        "report": {}
+      },
+      "asset_hashes": {}
+    },
+    "synth_dataset_v2_all": {
+      "source": "eval/authoritative/manifest.json",
+      "dependencies": {
+        "axon": "0.8.1",
+        "bumblebee": "0.7.0",
+        "emily": "not_loaded",
+        "ex_phone_number": "0.4.11",
+        "exla": "not_loaded",
+        "jason": "1.4.5",
+        "mix_lock_sha256": "d2b5b89c5aeadadd5c992a4ed17f2171906cdc10d21c81ae2a020390017cd1fe",
+        "nx": "0.12.1",
+        "obscura": "0.1.0-dev",
+        "ortex": "not_loaded",
+        "req": "not_loaded",
+        "safetensors": "0.1.3"
+      },
+      "source_manifest_sha256": "7e8d0a82acbac4c02f5cec96b457a00037de2eaee621ed86a37653cb1cb7aea2",
+      "source_entry_id": "fast:synth_dataset_v2:all",
+      "models": {
+        "immutable_revisions": {},
+        "report": {}
+      },
+      "asset_hashes": {}
+    }
+  },
+  "settings": {
+    "duration_ms": 600000,
+    "concurrency": 4,
+    "window_ms": 60000,
+    "sample_interval_ms": 1000,
+    "idle_ms": 10000,
+    "authoritative": true,
+    "request_timeout_ms": 300000,
+    "model_downloads_allowed": false
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "presidio_obscura_common_v1",
+  "description": "Common entity policy for authoritative Presidio and Obscura comparisons.",
+  "entities": [
+    "credit_card",
+    "email",
+    "ip_address",
+    "location",
+    "person",
+    "phone",
+    "url",
+    "us_ssn"
+  ],
+  "source_entity_mapping": {
+    "CREDIT_CARD": "credit_card",
+    "EMAIL_ADDRESS": "email",
+    "GPE": "location",
+    "IP_ADDRESS": "ip_address",
+    "LOCATION": "location",
+    "PERSON": "person",
+    "PHONE_NUMBER": "phone",
+    "URL": "url",
+    "US_SSN": "us_ssn"
+  },
+  "scoring": {
+    "offset_unit": "utf8_byte",
+    "exact_matching": "entity_and_exact_span",
+    "iou_matching": "one_to_one_greedy",
+    "iou_threshold": 0.9,
+    "unsupported_expected_spans": "reported_separately",
+    "wrong_entity_type": "overlapping_different_entity",
+    "offset_mismatch": "overlapping_same_entity_not_exact"
+  },
+  "selection": {
+    "generated_large": {
+      "split": "template_heldout",
+      "template_train_ratio": 0.7
+    },
+    "synth_dataset_v2": {
+      "split": "all",
+      "template_train_ratio": 0.7
+    },
+    "nemotron_pii_test_subset": {
+      "split": "all",
+      "template_train_ratio": 0.7
+    }
+  }
+}
