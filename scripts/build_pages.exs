@@ -15,6 +15,8 @@ defmodule Obscura.PagesBuilder do
   @og_image @canonical_url <> "media/#{@article_slug}/obscura-workbench-fast-detection.jpg"
 
   def run do
+    {:ok, _applications} = Application.ensure_all_started(:makeup_elixir)
+
     File.rm_rf!(@output_root)
     File.mkdir_p!(@article_output)
     File.mkdir_p!(Path.join(@output_root, "assets"))
@@ -36,6 +38,7 @@ defmodule Obscura.PagesBuilder do
     ast = ExDoc.Markdown.Earmark.to_ast(markdown, file: @article_source)
 
     ast
+    |> ExDoc.DocAST.highlight(ExDoc.Language.Elixir)
     |> ExDoc.DocAST.to_html()
     |> String.replace(
       "</h1>",
@@ -70,6 +73,7 @@ defmodule Obscura.PagesBuilder do
         <meta name="theme-color" content="#151c1a">
         <link rel="canonical" href="#{@canonical_url}">
         <link rel="alternate" type="application/rss+xml" title="Obscura articles" href="#{@site_url}feed.xml">
+        <link rel="stylesheet" href="../../assets/syntax.css">
         <link rel="stylesheet" href="../../assets/site.css">
 
         <meta property="og:type" content="article">
@@ -179,6 +183,11 @@ defmodule Obscura.PagesBuilder do
 
   defp copy_assets do
     File.cp!(@stylesheet_source, Path.join(@output_root, "assets/site.css"))
+
+    File.write!(
+      Path.join(@output_root, "assets/syntax.css"),
+      Makeup.stylesheet(:one_dark_style, "makeup")
+    )
 
     media_output = Path.join(@article_output, "media/#{@article_slug}")
     File.mkdir_p!(media_output)
