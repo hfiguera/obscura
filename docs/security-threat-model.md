@@ -182,7 +182,8 @@ Before deployment, callers must:
 7. pin and verify optional assets and dependencies;
 8. load-test depth, width, memory, and model latency limits;
 9. handle detection misses as expected risk;
-10. configure a private vulnerability-reporting channel before publication.
+10. route suspected vulnerabilities through the private process in
+    `SECURITY.md` rather than a public issue.
 
 ## Verification Evidence
 

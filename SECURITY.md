@@ -1,8 +1,9 @@
 # Security Policy
 
 Obscura handles data that callers consider sensitive. Security reports are
-welcome, but the project does not yet have a configured private reporting
-channel and must not be publicly released until one exists.
+welcome. Report suspected vulnerabilities privately through
+[GitHub Private Vulnerability Reporting](https://github.com/hfiguera/obscura/security/advisories/new).
+Do not open a public issue for an undisclosed vulnerability.
 
 ## Supported Versions
 
@@ -15,25 +16,17 @@ are not supported after a replacement is available.
 | Latest `0.1.x` | Supported after publication |
 | Older or unreleased revisions | Not supported |
 
-## Private Reporting Blocker
+## Private Reporting
 
-No repository remote, security-advisory URL, or private security email address
-is configured in this checkout. There is therefore no truthful private
-destination to publish here.
+1. Sign in to GitHub.
+2. Open the [private vulnerability report form](https://github.com/hfiguera/obscura/security/advisories/new).
+3. Select **Report a vulnerability** and provide a minimal synthetic
+   reproduction.
+4. Continue discussion through the resulting private security advisory.
 
-Before publishing Obscura, the repository owner must:
-
-1. configure the canonical source repository;
-2. enable that host's private vulnerability-reporting or security-advisory
-   feature;
-3. verify that a reporter who is not a maintainer can open a private report;
-4. replace this blocker with the exact private reporting link;
-5. add the same link to the Hex package metadata and README.
-
-For GitHub, the concrete configuration action is to enable **Private
-vulnerability reporting** in the repository security settings and verify the
-repository's private advisory form. This text does not imply that a GitHub
-repository currently exists.
+The canonical repository is `https://github.com/hfiguera/obscura`. GitHub's
+Private Vulnerability Reporting setting and advisory route were verified on
+2026-07-21. GitHub requires reporters to sign in before opening the form.
 
 Do not include raw PII, credentials, production vault contents, model prompts,
 or private datasets in a report. Use minimal synthetic reproductions and
@@ -54,11 +47,10 @@ A useful private report includes:
 
 ## Handling And Disclosure
 
-After a private channel is configured, maintainers will acknowledge reports
-and coordinate validation, remediation, release timing, and disclosure through
-that channel. Obscura does not promise a response or remediation SLA while it
-is unpublished. Severity, exploitability, affected versions, and disclosure
-timing will be evaluated per report.
+Maintainers will acknowledge reports and coordinate validation, remediation,
+release timing, and disclosure through the private advisory. Obscura does not
+promise a response or remediation SLA. Severity, exploitability, affected
+versions, and disclosure timing will be evaluated per report.
 
 Reporters should avoid public disclosure until a fix or coordinated disclosure
 date is agreed. Security fixes may override the normal compatibility

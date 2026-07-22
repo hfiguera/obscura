@@ -3,6 +3,7 @@ defmodule Obscura.MixProject do
 
   @version "0.1.0-dev"
   @source_url "https://github.com/hfiguera/obscura"
+  @security_url "#{@source_url}/security/advisories/new"
 
   def project do
     [
@@ -215,7 +216,7 @@ defmodule Obscura.MixProject do
       files:
         ~w(lib priv/tiktoken priv/obscura .formatter.exs mix.exs README.md SECURITY.md LICENSE THIRD_PARTY_NOTICES.md),
       licenses: ["MIT"],
-      links: %{"GitHub" => @source_url}
+      links: %{"GitHub" => @source_url, "Security" => @security_url}
     ]
   end
 

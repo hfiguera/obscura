@@ -461,8 +461,10 @@ a vault removes accessible mappings but cannot guarantee secure erasure of
 BEAM or native-runtime memory. See
 `docs/security-threat-model.md`, `docs/known-limitations.md`, and `SECURITY.md`.
 
-Public publication remains blocked until the canonical repository has a tested
-private vulnerability-reporting destination.
+Report suspected vulnerabilities privately through
+[GitHub Private Vulnerability Reporting](https://github.com/hfiguera/obscura/security/advisories/new).
+Do not include raw PII, credentials, production vault contents, or private
+datasets in a report.
 
 ## Compatibility
 

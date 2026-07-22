@@ -106,8 +106,9 @@ surface.
   log or transmit values they receive.
 - Logger and Plug helpers cannot redact entities that configured recognizers
   miss. Callers must evaluate their own data and downstream sinks.
-- No private vulnerability-reporting destination is configured; this blocks a
-  public release until the procedure in `SECURITY.md` is completed.
+- Security reports use GitHub Private Vulnerability Reporting. Reporters need
+  a GitHub account, and the project does not promise a response or remediation
+  SLA. See `SECURITY.md`.
 - No encrypted persistent vault or Ecto storage backend is provided.
 - Obscura does not ship Google, Azure, Ollama, or generic HTTP recognizers.
   Applications needing an external service must implement and validate a custom

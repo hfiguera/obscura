@@ -19,7 +19,7 @@ errors, CLI errors, and authoritative report safeguards.
 | Medium | Diagnostic and model errors could retain arbitrary messages, paths, causes, or exception text | Fixed by retaining only static messages, safe identifiers, reason codes, and exception classes |
 | Medium | Telemetry filtering was shallow and key-denylist based | Fixed with strict measurement, metadata-key, and value allowlists |
 | Low | User-facing Mix task option errors echoed invalid option values | Fixed with generic task error text |
-| Release blocker | No private vulnerability-reporting destination is configured | Unresolved by design; publication is blocked until `SECURITY.md` steps are completed |
+| Release infrastructure | Canonical repository and private vulnerability-reporting destination | Completed and verified on 2026-07-21; see `SECURITY.md` |
 
 ## Compatibility
 
@@ -87,10 +87,12 @@ dependency-light security review.
 - Memory and ETS vaults are reversible and not encrypted persistent stores;
 - third-party model runtimes can have their own logging and retention behavior;
 - wide inputs and expensive models still require deployment-specific limits;
-- no private security-reporting destination exists yet.
+- reporters require a GitHub account to use the private advisory form, and no
+  response or remediation SLA is promised.
 
 ## Release Decision
 
-The code and automated evidence can satisfy the focused hardening scope, but a
-public release remains blocked until the canonical repository and private
-vulnerability-reporting destination are configured and verified.
+The code and automated evidence satisfy the focused hardening scope. The
+canonical repository and private vulnerability-reporting destination were
+configured and verified on 2026-07-21. Remaining release decisions are tracked
+separately from this security review.
