@@ -1,0 +1,81 @@
+name: Publish blog
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/pages.yml"
+      - "docs/blog/**"
+      - "scripts/build_pages.exs"
+      - "scripts/verify_pages.exs"
+      - "mix.exs"
+      - "mix.lock"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/pages.yml"
+      - "docs/blog/**"
+      - "scripts/build_pages.exs"
+      - "scripts/verify_pages.exs"
+      - "mix.exs"
+      - "mix.lock"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and verify site
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          otp-version: 29.0.3
+          elixir-version: 1.20.2
+
+      - name: Install Mix tools and development dependencies
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get --only dev
+
+      - name: Build and verify the static site
+        run: |
+          mix run scripts/build_pages.exs
+          mix run scripts/verify_pages.exs
+
+      - name: Configure GitHub Pages
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+
+      - name: Upload GitHub Pages artifact
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy site
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
