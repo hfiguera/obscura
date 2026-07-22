@@ -13,6 +13,7 @@ __pycache__/
 /deps/
 /.elixir_ls/
 /doc/
+/_site/
 .fetch
 .cache/
 /eval/reports/
