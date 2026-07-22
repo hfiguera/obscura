@@ -162,8 +162,11 @@ defmodule Obscura.Recognizer.NER do
       end)
 
     case Map.get(inputs, "input_ids") do
-      %Nx.Tensor{} = tensor -> StageDiagnostics.metadata(:token_count, Nx.size(tensor))
-      _other -> StageDiagnostics.unavailable(:token_count, :tokenizer_output_unavailable)
+      tensor when is_struct(tensor, Nx.Tensor) ->
+        StageDiagnostics.metadata(:token_count, Nx.size(tensor))
+
+      _other ->
+        StageDiagnostics.unavailable(:token_count, :tokenizer_output_unavailable)
     end
   end
 

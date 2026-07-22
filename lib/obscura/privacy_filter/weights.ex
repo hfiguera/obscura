@@ -121,7 +121,7 @@ defmodule Obscura.PrivacyFilter.Weights do
     end
   end
 
-  defp lazy_metadata(%Safetensors.FileTensor{} = tensor) do
+  defp lazy_metadata(tensor) when is_struct(tensor, Safetensors.FileTensor) do
     %{
       shape: tensor.shape,
       type: tensor.type,
@@ -135,7 +135,7 @@ defmodule Obscura.PrivacyFilter.Weights do
 
     expected_size =
       tensors
-      |> Enum.map(fn {_name, %Safetensors.FileTensor{} = tensor} ->
+      |> Enum.map(fn {_name, tensor} when is_struct(tensor, Safetensors.FileTensor) ->
         tensor.byte_offset + tensor.byte_size
       end)
       |> Enum.max(fn -> 0 end)

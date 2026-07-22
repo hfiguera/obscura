@@ -7,13 +7,13 @@ Do not open a public issue for an undisclosed vulnerability.
 
 ## Supported Versions
 
-Obscura is pre-release. Only the latest `0.1.x` release candidate or release
-receives security fixes. Development snapshots and older pre-release revisions
-are not supported after a replacement is available.
+Obscura is an early release. Only the latest `0.1.x` release receives security
+fixes. Unreleased development snapshots and older releases are not supported
+after a replacement is available.
 
 | Version | Security support |
 | --- | --- |
-| Latest `0.1.x` | Supported after publication |
+| Latest `0.1.x` | Supported |
 | Older or unreleased revisions | Not supported |
 
 ## Private Reporting

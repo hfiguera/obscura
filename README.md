@@ -121,12 +121,12 @@ compatibility promise. See `docs/profiles.md` and
 
 ## Installation
 
-Obscura is pre-release. When published, add it to an Elixir project with:
+Obscura is an early release. Add it to an Elixir project with:
 
 ```elixir
 def deps do
   [
-    {:obscura, "~> 0.1"}
+    {:obscura, "~> 0.1.0"}
   ]
 end
 ```
@@ -434,7 +434,7 @@ persistent vault storage or compliance certification.
 
 ## Maturity
 
-Obscura is suitable for pre-release integration and controlled evaluation. It
+Obscura is suitable for early-release integration and controlled evaluation. It
 is not yet a production `1.0`, a compliance guarantee, or a complete Presidio
 replacement. Select a profile from measured dataset-specific evidence and read
 `docs/known-limitations.md` before deployment.
@@ -445,7 +445,7 @@ two measured runs per stable profile and dataset across
 `nemotron_pii_test_subset`. Files generated under ignored `eval/reports/` are
 historical or working evidence unless promoted by that manifest.
 
-Obscura remains pre-release. A stable profile means governed behavior and
+Obscura remains an early release. A stable profile means governed behavior and
 evidence, not universal production readiness or regulatory compliance.
 
 ## Security

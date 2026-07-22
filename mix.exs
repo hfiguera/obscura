@@ -1,7 +1,7 @@
 defmodule Obscura.MixProject do
   use Mix.Project
 
-  @version "0.1.0-dev"
+  @version "0.1.0"
   @source_url "https://github.com/hfiguera/obscura"
   @security_url "#{@source_url}/security/advisories/new"
 
@@ -12,6 +12,7 @@ defmodule Obscura.MixProject do
       elixir: "~> 1.20",
       source_url: @source_url,
       homepage_url: @source_url,
+      elixirc_options: [no_warn_undefined: optional_modules()],
       test_ignore_filters: [&String.starts_with?(&1, "test/support/")],
       consolidate_protocols: Mix.env() != :test,
       start_permanent: Mix.env() == :prod,
@@ -214,9 +215,33 @@ defmodule Obscura.MixProject do
       description: "Privacy-first PII detection and anonymization toolkit for Elixir.",
       exclude_patterns: ["eval/datasets"],
       files:
-        ~w(lib priv/tiktoken priv/obscura .formatter.exs mix.exs README.md SECURITY.md LICENSE THIRD_PARTY_NOTICES.md),
+        ~w(lib priv/tiktoken priv/obscura .formatter.exs mix.exs README.md CHANGELOG.md SECURITY.md LICENSE THIRD_PARTY_NOTICES.md),
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url, "Security" => @security_url}
+    ]
+  end
+
+  defp optional_modules do
+    [
+      Axon,
+      Bumblebee,
+      Bumblebee.Text,
+      Credence,
+      Emily,
+      Emily.Backend,
+      Emily.Compiler,
+      ExPhoneNumber,
+      ExPhoneNumber.Metadata,
+      Nx,
+      Nx.BinaryBackend,
+      Nx.Defn,
+      Nx.Tensor,
+      Ortex,
+      Ortex.Serving,
+      Safetensors,
+      Safetensors.FileTensor,
+      Tokenizers.Encoding,
+      Tokenizers.Tokenizer
     ]
   end
 

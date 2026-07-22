@@ -1,6 +1,6 @@
 # Known Limitations
 
-Obscura is a pre-release library. Its stable profiles have governed contracts
+Obscura is an early-release library. Its stable profiles have governed contracts
 and current benchmark evidence, but the project does not yet claim universal
 production readiness, regulatory compliance, or complete Presidio parity.
 

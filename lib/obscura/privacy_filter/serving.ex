@@ -815,8 +815,11 @@ defmodule Obscura.PrivacyFilter.Serving do
     error -> {:error, model_forward_error(error)}
   end
 
-  defp normalize_model_output(%Nx.Tensor{} = logits), do: {:ok, logits}
-  defp normalize_model_output({:ok, %Nx.Tensor{} = logits}), do: {:ok, logits}
+  defp normalize_model_output(logits) when is_struct(logits, Nx.Tensor), do: {:ok, logits}
+
+  defp normalize_model_output({:ok, logits}) when is_struct(logits, Nx.Tensor),
+    do: {:ok, logits}
+
   defp normalize_model_output({:error, reason}), do: {:error, reason}
 
   defp normalize_model_output(_other),
