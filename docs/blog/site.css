@@ -127,6 +127,79 @@ a:hover {
   padding: 72px 0 88px;
 }
 
+.index-shell {
+  width: min(100% - 40px, 960px);
+  min-height: calc(100vh - 210px);
+  margin: 0 auto;
+  padding: 72px 0 88px;
+}
+
+.index-intro {
+  max-width: 760px;
+  margin-bottom: 52px;
+}
+
+.index-eyebrow,
+.post-date {
+  margin: 0 0 10px;
+  color: var(--teal-dark);
+  font-size: 13px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.index-intro h1 {
+  margin: 0 0 18px;
+  color: #101715;
+  font-size: 48px;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.index-intro > p:last-child {
+  margin: 0;
+  color: var(--muted);
+  font-size: 20px;
+}
+
+.post-list {
+  border-top: 1px solid var(--line);
+}
+
+.post-entry {
+  padding: 34px 0 38px;
+  border-bottom: 1px solid var(--line);
+}
+
+.post-entry h2 {
+  max-width: 820px;
+  margin: 0 0 12px;
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.post-entry h2 a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.post-entry h2 a:hover {
+  color: var(--teal-dark);
+  text-decoration: underline;
+}
+
+.post-entry > p:not(.post-date) {
+  max-width: 720px;
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+.read-link {
+  font-size: 14px;
+  font-weight: 700;
+}
+
 article h1,
 article h2 {
   color: #101715;
@@ -273,6 +346,23 @@ footer a {
   .article-shell {
     width: min(100% - 32px, 880px);
     padding: 44px 0 60px;
+  }
+
+  .index-shell {
+    width: min(100% - 32px, 960px);
+    padding: 44px 0 60px;
+  }
+
+  .index-intro {
+    margin-bottom: 38px;
+  }
+
+  .index-intro h1 {
+    font-size: 36px;
+  }
+
+  .index-intro > p:last-child {
+    font-size: 18px;
   }
 
   article h1 {

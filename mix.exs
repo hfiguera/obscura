@@ -51,6 +51,9 @@ defmodule Obscura.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.35", only: [:dev, :test], runtime: false},
+      {:makeup_syntect, "~> 0.1.4", only: [:dev, :test], runtime: false},
+      # The Hex constraint lags makeup_syntect's upstream rustler_precompiled 0.9 support.
+      {:rustler_precompiled, "~> 0.9", only: [:dev, :test], runtime: false, override: true},
       {:ex_dna, "~> 1.5", only: [:dev, :test], runtime: false},
       {:ex_slop, "~> 0.4", only: [:dev, :test], runtime: false},
       {:credence, "~> 0.6", only: [:dev, :test], runtime: false},
