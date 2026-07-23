@@ -1,12 +1,10 @@
 # Obscura
 
 Obscura is a library-first PII detection and anonymization toolkit for Elixir.
+It analyzes plain text and nested Elixir data before sensitive values cross
+application boundaries such as logs, external APIs, and LLM providers.
 
-The supported `0.1.x` surface is explicitly frozen. See
-`docs/public-api-stability.md` for stable modules, experimental adapters,
-option schemas, struct guarantees, and the deprecation policy.
-
-Obscura provides a dependency-light string API for common pattern-based entities:
+The dependency-light core recognizes common deterministic identifiers:
 
 - email
 - phone
@@ -17,111 +15,12 @@ Obscura provides a dependency-light string API for common pattern-based entities
 - URL
 - domain
 
-## Product Profiles
-
-Obscura has three stable profiles:
-
-| Profile | Stability | Use case |
-| --- | --- | --- |
-| `:fast` | stable | Dependency-light, high-precision structured PII |
-| `:balanced` | stable | Deterministic PII plus the practical best-proven general NER model |
-| `:accurate` | stable | Highest measured general accuracy through an output-aware two-model cascade |
-
-```elixir
-Obscura.analyze("Contact jane@example.com", profile: :fast)
-```
-
-Model profiles require explicit reusable runtime preparation. Ordinary analyze
-and redact calls never download models:
-
-```elixir
-{:ok, runtime} =
-  Obscura.Profile.prepare(:balanced,
-    allow_download: true,
-    real_model_backend: :emily,
-    emily_fallback: :raise,
-    compile: [batch_size: 1, sequence_length: 128]
-  )
-
-Obscura.analyze("Rachel works at Google in Paris.", profile: runtime)
-```
-
-Downloading third-party assets is never inferred from selecting a profile.
-The first online preparation must pass `allow_download: true`; the default is
-cache-only. These are large assets: the measured Apple/Emily cache used about
-1.4 GB for `:balanced` and 2.84 GB of active files for `:accurate`. Network and
-storage performance determine cold preparation time, so applications should
-prepare during deployment or supervised startup, not while handling a request.
-For visible stages, observed download bytes, model index, cache location,
-timeouts, and a machine-readable mode, use:
-
-```sh
-mix obscura.profile.prepare \
-  --profile balanced \
-  --backend emily \
-  --allow-download \
-  --timeout 1800000 \
-  --inactivity-timeout 300000
-```
-
-Use `--offline` in deployments with pre-provisioned caches. Interrupted
-unreferenced cache files are quarantined on retry. Online preparation retries
-one transient model or tokenizer load failure; offline preparation never
-retries asset access. Quarantined files remain on disk for diagnosis until an
-operator removes them. Prepare once and reuse the returned runtime; never
-prepare inside a request. Setup, cache, recovery, and backend requirements are
-documented in `docs/optional-dependencies-and-assets.md`.
-
-Applications which must continue starting while models load can supervise
-`Obscura.Profile.Preparer` and call `await/2` before accepting model-backed
-work:
-
-```elixir
-children = [
-  {Obscura.Profile.Preparer,
-   name: MyApp.ObscuraRuntime,
-   profile: :balanced,
-   prepare_options: [allow_download: true, real_model_backend: :emily]}
-]
-
-{:ok, runtime} = Obscura.Profile.Preparer.await(MyApp.ObscuraRuntime, :timer.minutes(30))
-```
-
-Check readiness without analyzing PII:
-
-```sh
-mix obscura.profile.check --profile fast
-mix obscura.profile.check --profile balanced --backend emily --json
-```
-
-See `docs/profiles.md`, `docs/benchmark-status.md`, and
-`docs/optional-dependencies-and-assets.md` before selecting a model profile.
-Current accuracy, startup, concurrency, p99, memory, recovery, sustained-load,
-and capacity conclusions are summarized in `docs/benchmark-status.md`.
-Runtime failures are covered by `docs/runtime-diagnostics.md`; residual risks
-and deployment limits are in `docs/known-limitations.md`.
-
-`:balanced` and `:accurate` are stable, technically production-oriented profile
-contracts. `:accurate` has the highest measured general accuracy, while
-`:balanced` remains the practical model-backed recommendation because it uses
-one model and has lower latency. Their optional model assets are third-party:
-Obscura neither bundles nor licenses them, and the TNER checkpoint license is
-not established. Deployers must determine whether their selected assets and use
-are permitted. See `docs/model-asset-licensing.md`.
-
-`:accurate` conditionally invokes its location specialist only when the primary
-model misses location. It beats `:balanced` F1 on all three authoritative
-datasets, but the gain is small on Synth/Nemotron and the second model increases
-cost. See `docs/benchmark-status.md`.
-
-Additional experimental model adapters and benchmark profiles remain available
-for research and controlled evaluation. They are outside the stable
-compatibility promise. See `docs/profiles.md` and
-`docs/model-backed-recognition.md`.
+Optional local model profiles add person, location, and organization
+recognition. Obscura does not require a hosted recognition service.
 
 ## Installation
 
-Obscura is an early release. Add it to an Elixir project with:
+Add Obscura to an Elixir project:
 
 ```elixir
 def deps do
@@ -131,6 +30,11 @@ def deps do
 end
 ```
 
+The base installation supports the `:fast` profile without model assets or
+accelerator dependencies. See the
+[optional dependencies and assets guide](docs/optional-dependencies-and-assets.md)
+before enabling a model-backed profile.
+
 ## Analyze
 
 ```elixir
@@ -139,9 +43,12 @@ end
 [%Obscura.Analyzer.Result{entity: :email, start: 8, end: 24}] = results
 ```
 
-Offsets are byte offsets. This is intentional because Elixir binaries are byte indexed and anonymization uses binary slicing.
+Offsets are byte offsets. This is intentional because Elixir binaries are byte
+indexed and anonymization uses binary slicing.
 
 ## Anonymize
+
+Analyze once, then apply an operator to each detected entity:
 
 ```elixir
 text = "Contact jane@example.com"
@@ -167,10 +74,13 @@ Supported operators are:
 
 Operator configurations are validated before any replacement is applied.
 Unknown operators, malformed options, callback failures, and missing vaults
-return a value-safe `%Obscura.Anonymizer.Error{}`. See `docs/operators.md` for
-the complete schemas and hash migration guidance.
+return a value-safe `%Obscura.Anonymizer.Error{}`. See the
+[operator guide](docs/operators.md) for complete schemas and hash migration
+guidance.
 
 ## Redact
+
+`Obscura.redact/2` combines detection and anonymization:
 
 ```elixir
 {:ok, result} = Obscura.redact("Call 202-555-0188", entities: [:phone])
@@ -179,7 +89,9 @@ result.text
 #=> "Call [PHONE]"
 ```
 
-Structured inputs return `%Obscura.Structured.Result{}` instead of `%Obscura.Anonymizer.Result{}`:
+Nested maps, lists, tuples, and supported structs can be processed without
+flattening them into text. Structured inputs return
+`%Obscura.Structured.Result{}`:
 
 ```elixir
 input = %{email: "jane@example.com", password: "secret"}
@@ -193,6 +105,76 @@ input = %{email: "jane@example.com", password: "secret"}
 result.data
 #=> %{email: "[EMAIL]"}
 ```
+
+See [structured redaction](docs/structured-redaction.md) for traversal,
+field-policy, and struct behavior.
+
+## Product Profiles
+
+Obscura exposes three stable user-facing profiles:
+
+| Profile | Intended use | Runtime requirements |
+| --- | --- | --- |
+| `:fast` | Common deterministic identifiers and context-labeled PII | Dependency-light BEAM execution |
+| `:balanced` | General text needing person, location, and organization recognition | One local TNER model |
+| `:accurate` | Highest measured general accuracy with conditional location recovery | Two local NER models |
+
+Use `:fast` when structured identifiers are sufficient:
+
+```elixir
+Obscura.analyze("Contact jane@example.com", profile: :fast)
+```
+
+`:balanced` is the practical model-backed recommendation. `:accurate` has the
+highest measured general accuracy, but its second model increases preparation,
+memory, and inference cost. Dataset-specific results and limitations are in the
+[benchmark status](docs/benchmark-status.md).
+
+Model profiles require explicit reusable runtime preparation. Ordinary calls
+never download models:
+
+```elixir
+{:ok, runtime} =
+  Obscura.Profile.prepare(:balanced,
+    allow_download: true,
+    real_model_backend: :emily,
+    emily_fallback: :raise,
+    compile: [batch_size: 1, sequence_length: 128]
+  )
+
+Obscura.analyze("Rachel works at Google in Paris.", profile: runtime)
+```
+
+The first online preparation must pass `allow_download: true`; cache-only is
+the default. Prepare once during deployment or supervised application startup,
+then reuse the returned runtime instead of preparing inside a request. The Mix
+task provides progress and machine-readable output:
+
+```sh
+mix obscura.profile.prepare \
+  --profile balanced \
+  --backend emily \
+  --allow-download \
+  --timeout 1800000 \
+  --inactivity-timeout 300000
+```
+
+Use `--offline` with pre-provisioned caches. Preparation, cache recovery,
+readiness checks, backend selection, and deployment diagnostics are covered by
+the [profile guide](docs/profiles.md),
+[optional dependency guide](docs/optional-dependencies-and-assets.md), and
+[runtime diagnostics](docs/runtime-diagnostics.md).
+
+The model assets are third-party downloads that Obscura neither bundles nor
+licenses. Deployers must review whether each selected asset and use is
+permitted. The TNER checkpoint used by `:balanced` and `:accurate` has an
+unresolved license. See [model asset licensing](docs/model-asset-licensing.md).
+
+Stable profile names have compatibility guarantees, but stability does not
+mean universal production readiness or regulatory compliance. Additional
+experimental adapters remain available for controlled evaluation outside the
+stable compatibility promise. See
+[model-backed recognition](docs/model-backed-recognition.md).
 
 ## Extensibility
 
@@ -231,7 +213,8 @@ Obscura.analyze("Ticket TKT-1234",
 )
 ```
 
-Inline pattern definitions and deny lists are available without modifying Obscura source:
+Inline pattern definitions and deny lists are available without modifying
+Obscura source:
 
 ```elixir
 employee_id =
@@ -264,9 +247,11 @@ Obscura.analyze("support@example.com jane@example.com",
 )
 ```
 
-## Optional NER
+## Custom NER Integration
 
-Explicit NER/model-output support for open-class entities is opt-in and does not download or start models by default.
+Low-level NER integration is opt-in. This example uses `FakeServing`, a
+deterministic test double for custom adapter and pipeline tests. It is not a
+real model and its output is not accuracy evidence.
 
 ```elixir
 serving =
@@ -306,7 +291,8 @@ end
 Obscura.redact(%User{email: "jane@example.com"}, entities: [:email])
 ```
 
-Logger helpers redact metadata and inspected terms before they are handed to application logs:
+Logger helpers redact metadata and inspected terms before they are handed to
+application logs:
 
 ```elixir
 Obscura.Logger.redact_metadata([user: "jane@example.com", password: "secret"],
@@ -314,7 +300,7 @@ Obscura.Logger.redact_metadata([user: "jane@example.com", password: "secret"],
 )
 ```
 
-`Obscura.Phoenix.Plug` is Plug-compatible and can either assign redacted request fields or replace them:
+`Obscura.Phoenix.Plug` can assign redacted request fields or replace them:
 
 ```elixir
 plug Obscura.Phoenix.Plug,
@@ -323,7 +309,8 @@ plug Obscura.Phoenix.Plug,
   entities: [:email]
 ```
 
-Telemetry events include durations, counts, entities, and statuses, but omit raw text and span values.
+Telemetry events include durations, counts, entities, and statuses, but omit
+raw text and span values. See [Logger and Plug integration](docs/logger-and-plug.md).
 
 ## Vaults and Rehydration
 
@@ -347,7 +334,7 @@ original
 #=> "Email jane@example.com"
 ```
 
-ETS-backed vaults are also available for explicitly supervised local sessions:
+ETS-backed vaults are available for explicitly supervised local sessions:
 
 ```elixir
 children = [
@@ -368,7 +355,10 @@ Structured data can use the same operator:
 Obscura.rehydrate(result.data, vault: vault)
 ```
 
-Vaults intentionally retain raw values in memory so rehydration can work. Applications should protect vault access and clear vaults when a request, chat, or support session no longer needs rehydration.
+Vaults intentionally retain raw values in memory so rehydration can work.
+Protect vault access and clear vaults when a request, chat, or support session
+no longer needs rehydration. See [vaults](docs/vaults.md) and
+[rehydration](docs/rehydration.md).
 
 ## LLM Workflows
 
@@ -401,65 +391,57 @@ For streaming responses, use the streaming rehydrator:
 {:ok, rest} = Obscura.Stream.Rehydrator.flush(stream)
 ```
 
-## Evaluation
+See [LLM workflows](docs/llm-workflows.md) and
+[streaming rehydration](docs/streaming-rehydration.md).
 
-The fixture and evaluation harnesses are part of the library development workflow:
+## Benchmark Evidence
 
-```sh
-mix test
-mix obscura.fixtures
-mix obscura.eval --dataset synth_dataset_v2 --profile regex_only --smoke
-mix obscura.eval --dataset synth_dataset_v2 --profile context --smoke
-mix obscura.eval --dataset synth_dataset_v2 --profile llm_safe --smoke
-mix quality
-mix ci
-```
+Obscura evaluates stable profiles on pinned, fingerprinted datasets and keeps
+promoted release evidence under `eval/authoritative/`. The current matrix
+covers `generated_large/template_heldout`, `synth_dataset_v2`, and
+`nemotron_pii_test_subset`, with two measured runs per stable profile and
+dataset.
 
-Pinned Presidio-Research benchmark snapshots are committed under
+Start with the [benchmark status](docs/benchmark-status.md) for current results,
+methodology, and comparison scope. Read the
+[known limitations](docs/known-limitations.md) before selecting a profile.
+Development commands, fixture maintenance, and contribution checks belong in
+[CONTRIBUTING.md](https://github.com/hfiguera/obscura/blob/main/CONTRIBUTING.md).
+
+Pinned benchmark snapshots are committed under
 `eval/datasets/presidio_research/` with checksums, provenance, and license
-attribution, so dependency-light evaluation works from a fresh clone.
-
-## Security And Privacy
-
-Obscura is local and dependency-light. It does not include remote-provider
-recognizers, and model profiles never download assets during `analyze/2` or
-`redact/2`. Reports, telemetry, diagnostics, and prediction exports omit raw
-detected values by default. Callers still own input logging, vault retention,
-credentials, and deployment controls. Applications can implement external
-integrations through the public custom-recognizer contract.
-
-Vault pseudonymization is reversible and retains original values until the
-vault is cleared or stopped. Obscura does not currently provide encrypted
-persistent vault storage or compliance certification.
+attribution. Generated files under ignored `eval/reports/` are working or
+historical evidence unless promoted by the authoritative manifest.
 
 ## Maturity
 
-Obscura is suitable for early-release integration and controlled evaluation. It
-is not yet a production `1.0`, a compliance guarantee, or a complete Presidio
-replacement. Select a profile from measured dataset-specific evidence and read
-`docs/known-limitations.md` before deployment.
+Obscura `0.1.x` is an early release suitable for integration and controlled
+deployment when its measured scope and residual risks fit the application. It
+is not a compliance guarantee, a complete Presidio replacement, or evidence of
+universal production readiness.
 
-Current release-relevant evidence lives under `eval/authoritative/`. It includes
-two measured runs per stable profile and dataset across
-`generated_large/template_heldout`, `synth_dataset_v2`, and
-`nemotron_pii_test_subset`. Files generated under ignored `eval/reports/` are
-historical or working evidence unless promoted by that manifest.
+A stable profile means its public behavior and compatibility contract are
+governed. It does not guarantee suitability for every dataset, jurisdiction,
+latency target, or threat model.
 
-Obscura remains an early release. A stable profile means governed behavior and
-evidence, not universal production readiness or regulatory compliance.
+## Security and Privacy
 
-## Security
+Obscura runs locally and does not include remote-provider recognizers. Model
+profiles never download assets during `analyze/2` or `redact/2`. Reports,
+telemetry, diagnostics, and prediction exports omit raw detected values by
+default.
 
-Obscura keeps errors, diagnostics, default inspection, telemetry, and
-authoritative reports value-safe, but its public results can contain raw or
-rehydrated values by design. Use `include_text: false` when detected source
-text is unnecessary, supervise and clear reversible vaults, and treat custom
-callbacks and optional model runtimes as trusted code.
+Public result structs can contain raw detected text by design. Use
+`include_text: false` when source text is unnecessary. Vault pseudonymization
+is reversible and retains original values until the vault is cleared or
+stopped. Memory and ETS vaults are not encrypted persistent stores, and clearing
+a vault cannot guarantee secure erasure from BEAM or native-runtime memory.
 
-Memory and ETS vaults are not encrypted persistent stores. Clearing or stopping
-a vault removes accessible mappings but cannot guarantee secure erasure of
-BEAM or native-runtime memory. See
-`docs/security-threat-model.md`, `docs/known-limitations.md`, and `SECURITY.md`.
+Callers remain responsible for input logging, vault access and retention,
+credentials, model assets, trusted callbacks, and deployment controls. Review
+the [security threat model](docs/security-threat-model.md),
+[known limitations](docs/known-limitations.md), and
+[security policy](https://github.com/hfiguera/obscura/blob/main/SECURITY.md).
 
 Report suspected vulnerabilities privately through
 [GitHub Private Vulnerability Reporting](https://github.com/hfiguera/obscura/security/advisories/new).
@@ -468,15 +450,35 @@ datasets in a report.
 
 ## Compatibility
 
+Obscura defines compatibility guarantees for its stable `0.1.x` surface. See
+the [public API stability policy](docs/public-api-stability.md) for the complete
+classification of stable, experimental, and internal modules, along with option
+schemas, struct guarantees, and the deprecation policy.
+
 | Surface | `0.1.x` status |
 | --- | --- |
-| Core text, structured, vault, LLM, logger, Plug, and operator APIs | Stable |
+| Core text, structured, vault, LLM, Logger, Plug, and operator APIs | Stable |
 | `:fast` alias | Stable name and dependency-light contract |
-| `:balanced` and `:accurate` aliases | Stable implementation contracts; optional third-party assets require deployer licensing review |
-| Experimental profiles and low-level model adapters | Research and controlled evaluation without compatibility guarantees |
+| `:balanced` and `:accurate` aliases | Stable implementation contracts; optional assets require deployer licensing review |
+| Experimental profiles and low-level model adapters | Controlled evaluation without compatibility guarantees |
 | Evaluation, fixture, engine, registry, and model-math modules | Internal |
 
 Patch releases preserve stable contracts. Stable breaking changes require at
 least one subsequent minor release and 90 days of deprecation, except for an
 urgent security or data-corruption fix. Human-readable error text and metadata
 contents are not stable; branch on documented codes and fields.
+
+## Why the Name?
+
+`Obscura` evokes the camera obscura, a dark chamber that admits light through a
+controlled opening to produce a useful representation. The name reflects the
+library's purpose: transforming sensitive input before data crosses application
+boundaries.
+
+## Project Links
+
+- [Documentation](https://hexdocs.pm/obscura)
+- [Source](https://github.com/hfiguera/obscura)
+- [Contributing](https://github.com/hfiguera/obscura/blob/main/CONTRIBUTING.md)
+- [Security policy](https://github.com/hfiguera/obscura/blob/main/SECURITY.md)
+- [MIT License](https://github.com/hfiguera/obscura/blob/main/LICENSE)

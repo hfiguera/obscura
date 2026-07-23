@@ -11,17 +11,13 @@
     "Anonymize" => [{:test, "test/obscura/documented_examples_test.exs"}],
     "Redact" => [{:test, "test/obscura/documented_examples_test.exs"}],
     "Extensibility" => [{:test, "test/obscura/documented_examples_test.exs"}],
-    "Optional NER" => [{:test, "test/obscura/documented_examples_test.exs"}],
+    "Custom NER Integration" => [{:test, "test/obscura/documented_examples_test.exs"}],
     "Structs, Logger, and Plug" => [
       {:test, "test/obscura/documented_examples_test.exs"},
       {:test, "test/obscura/phoenix/plug_test.exs"}
     ],
     "Vaults and Rehydration" => [{:test, "test/obscura/documented_examples_test.exs"}],
-    "LLM Workflows" => [{:test, "test/obscura/documented_examples_test.exs"}],
-    "Evaluation" => [
-      {:test, "test/obscura/ci_aliases_test.exs"},
-      {:test, "test/fixtures/fixture_runner_test.exs"}
-    ]
+    "LLM Workflows" => [{:test, "test/obscura/documented_examples_test.exs"}]
   },
   "docs/profiles.md" => %{
     "Fast" => [{:test, "test/obscura/documented_examples_test.exs"}],
