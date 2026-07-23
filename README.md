@@ -2,10 +2,6 @@
 
 Obscura is a library-first PII detection and anonymization toolkit for Elixir.
 
-The supported `0.1.x` surface is explicitly frozen. See
-`docs/public-api-stability.md` for stable modules, experimental adapters,
-option schemas, struct guarantees, and the deprecation policy.
-
 Obscura provides a dependency-light string API for common pattern-based entities:
 
 - email
@@ -468,6 +464,11 @@ datasets in a report.
 
 ## Compatibility
 
+Obscura defines compatibility guarantees for its stable `0.1.x` surface. See
+the [public API stability policy](docs/public-api-stability.md) for the complete
+classification of stable, experimental, and internal modules, along with option
+schemas, struct guarantees, and the deprecation policy.
+
 | Surface | `0.1.x` status |
 | --- | --- |
 | Core text, structured, vault, LLM, logger, Plug, and operator APIs | Stable |
@@ -480,3 +481,10 @@ Patch releases preserve stable contracts. Stable breaking changes require at
 least one subsequent minor release and 90 days of deprecation, except for an
 urgent security or data-corruption fix. Human-readable error text and metadata
 contents are not stable; branch on documented codes and fields.
+
+## Why the Name?
+
+`Obscura` evokes the camera obscura, a dark chamber that admits light through
+a controlled opening to produce a useful representation. The name reflects
+Obscura's purpose: transforming sensitive input before data crosses application
+boundaries.
