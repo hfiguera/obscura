@@ -9,8 +9,7 @@ model profile.
 Applications should use the public profile boundary:
 
 - `:balanced` uses one TNER model and is the practical general recommendation
-  for noncommercial evaluation or deployments with the required LDC
-  authorization.
+  when its external asset terms are acceptable for the deployment.
 - `:accurate` adds conditional location recovery and has the highest measured
   general F1.
 - `:hybrid_gliner_urchade` is an experimental CPU-only GLiNER option.
@@ -136,10 +135,11 @@ the primary model returns no accepted location. The stable cascade policy is:
 ]
 ```
 
-These third-party checkpoints are not bundled or licensed by Obscura. LDC
-directly confirmed on 2026-07-22 that commercial use of the TNER checkpoint
-requires an LDC for-profit membership. Obscura does not grant or verify that
-authorization. Review `model-asset-licensing.md` before deployment.
+These third-party checkpoints are not bundled or licensed by Obscura. In direct
+correspondence on 2026-07-22, LDC confirmed that commercial use of
+`tner/roberta-large-ontonotes5` requires an LDC for-profit membership. Obscura
+does not grant or verify that authorization. Review
+`model-asset-licensing.md` before deployment.
 
 ## Model Policy
 

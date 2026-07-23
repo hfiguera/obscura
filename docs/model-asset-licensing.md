@@ -93,12 +93,12 @@ revisions where available, and never bundles them in the Hex package.
 ### Stable Profile Consequences
 
 The `:balanced` and `:accurate` names, option schemas, preparation behavior,
-and result contracts are stable Obscura APIs. Commercial use of their default
-TNER asset requires an LDC for-profit membership according to direct LDC
-confirmation dated 2026-07-22. Stable therefore means API compatibility and
-measured technical behavior, not permission to use a checkpoint. These
-profiles are appropriate for noncommercial evaluation or deployments with the
-required LDC authorization.
+and result contracts are stable Obscura APIs. In direct correspondence dated
+2026-07-22, LDC confirmed that commercial use of their default
+`tner/roberta-large-ontonotes5` asset requires an LDC for-profit membership.
+Stable therefore means API compatibility and measured technical behavior, not
+permission to use a checkpoint. Noncommercial use remains subject to the
+applicable LDC and upstream terms.
 
 `:accurate` adds the Jean-Baptiste model. Its model and base-model metadata are
 MIT, but users must still make their own CoNLL-2003 provenance decision.
@@ -124,8 +124,9 @@ Before preparing an external model, deployers must:
    substituted model or converted checkpoint.
 
 For `tner/roberta-large-ontonotes5`, commercial deployers must additionally
-document the required LDC for-profit membership. Obscura cannot verify
-membership or confer checkpoint rights.
+obtain and document the required LDC for-profit membership. Obscura cannot
+verify membership or confer checkpoint rights, and membership does not resolve
+the unanswered checkpoint-redistribution question on Obscura's behalf.
 
 `Obscura.Profile.preflight/2` reports third-party asset warnings. Passing
 preflight proves runtime readiness only; it does not prove legal authorization,

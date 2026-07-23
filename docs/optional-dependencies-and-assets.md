@@ -19,8 +19,8 @@ the manifests contain no local absolute paths or obvious credential material.
 | Profile | Stability | Base behavior | Required optional dependencies | Assets | Preferred development backend |
 | --- | --- | --- | --- | --- | --- |
 | `:fast` | stable | Deterministic structured PII | None | None | BEAM |
-| `:balanced` | stable; commercial TNER use requires LDC membership | Deterministic plus TNER NER | `nx`, `bumblebee` | TNER model and tokenizer | Emily on Apple Silicon; EXLA where supported |
-| `:accurate` | stable; commercial TNER use requires LDC membership | Deterministic plus output-aware TNER/Jean location cascade | `nx`, `bumblebee` | Two models and two tokenizers | Emily on Apple Silicon; EXLA where supported |
+| `:balanced` | stable; commercial use of its OntoNotes-trained asset requires LDC membership | Deterministic plus TNER NER | `nx`, `bumblebee` | TNER model and tokenizer | Emily on Apple Silicon; EXLA where supported |
+| `:accurate` | stable; commercial use of its OntoNotes-trained asset requires LDC membership | Deterministic plus output-aware TNER/Jean location cascade | `nx`, `bumblebee` | Two models and two tokenizers | Emily on Apple Silicon; EXLA where supported |
 | `:hybrid_gliner_urchade` | experimental | Deterministic plus Urchade GLiNER | `ortex`, `tokenizers` | Pinned local ONNX, tokenizer, and config export | Ortex CPU |
 | `:openmed_pii` | experimental | Native model-only OpenMed/Nemotron PII | `nx`, `safetensors` | Validated Privacy Filter checkpoint | Explicitly selected Binary, EXLA, or Emily |
 
@@ -238,10 +238,10 @@ both resources up front to keep request handling network-free and reusable.
   by LDC on 2026-07-22
 
 The profile integration is stable, but Obscura does not bundle, distribute,
-sublicense, or license the checkpoint and cannot verify LDC membership. Use it
-only for noncommercial evaluation or with the required LDC authorization. LDC
-did not conclusively answer whether the checkpoint publisher was authorized to
-redistribute the trained weights. See `docs/model-asset-licensing.md`.
+sublicense, or license the checkpoint and cannot verify LDC membership.
+Noncommercial use remains subject to the applicable LDC and upstream terms.
+LDC did not conclusively answer whether the checkpoint publisher was authorized
+to redistribute the trained weights. See `docs/model-asset-licensing.md`.
 
 ### Urchade GLiNER Multi PII
 

@@ -125,11 +125,11 @@ Use `:fast` when structured identifiers are sufficient:
 Obscura.analyze("Contact jane@example.com", profile: :fast)
 ```
 
-`:balanced` is the practical model-backed recommendation for noncommercial
-evaluation or deployments with the required LDC authorization. `:accurate` has
-the highest measured general accuracy, but its second model increases
-preparation, memory, and inference cost. Dataset-specific results and
-limitations are in the [benchmark status](docs/benchmark-status.md).
+`:balanced` is the practical model-backed recommendation when its external
+asset terms are acceptable for the deployment. `:accurate` has the highest
+measured general accuracy, but its second model increases preparation, memory,
+and inference cost. Dataset-specific results and limitations are in the
+[benchmark status](docs/benchmark-status.md).
 
 Model profiles require explicit reusable runtime preparation. Ordinary calls
 never download models:
@@ -167,11 +167,11 @@ the [profile guide](docs/profiles.md),
 [runtime diagnostics](docs/runtime-diagnostics.md).
 
 The model assets are third-party downloads that Obscura neither bundles nor
-licenses. LDC directly confirmed on 2026-07-22 that commercial use of the TNER
-checkpoint used by `:balanced` and `:accurate` requires an LDC for-profit
-membership. Obscura does not grant or verify that authorization. Use these
-profiles only for noncommercial evaluation or where the deployer has the
-required LDC authorization. See
+licenses. In direct correspondence on 2026-07-22, LDC confirmed that commercial
+use of `tner/roberta-large-ontonotes5`, used by `:balanced` and `:accurate`,
+requires an LDC for-profit membership. Obscura does not grant or verify that
+authorization, and noncommercial use remains subject to the applicable LDC and
+upstream terms. See
 [model asset licensing](docs/model-asset-licensing.md).
 
 Stable profile names have compatibility guarantees, but stability does not
@@ -463,7 +463,7 @@ schemas, struct guarantees, and the deprecation policy.
 | --- | --- |
 | Core text, structured, vault, LLM, Logger, Plug, and operator APIs | Stable |
 | `:fast` alias | Stable name and dependency-light contract |
-| `:balanced` and `:accurate` aliases | Stable implementation contracts; commercial TNER use requires LDC for-profit membership |
+| `:balanced` and `:accurate` aliases | Stable implementation contracts; commercial use of their OntoNotes-trained TNER checkpoint requires LDC for-profit membership |
 | Experimental profiles and low-level model adapters | Controlled evaluation without compatibility guarantees |
 | Evaluation, fixture, engine, registry, and model-math modules | Internal |
 
