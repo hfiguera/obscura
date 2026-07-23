@@ -49,7 +49,10 @@ defmodule Obscura.Profile.PreflightTest do
              )
 
     assert balanced.stability == :stable
-    assert Enum.any?(balanced.warnings, &String.contains?(&1, "does not distribute or license"))
+    assert Enum.any?(balanced.warnings, &String.contains?(&1, "Commercial use"))
+    assert Enum.any?(balanced.warnings, &String.contains?(&1, "LDC for-profit membership"))
+    assert [balanced_licensing] = balanced.requirements.asset_licensing
+    assert balanced_licensing["commercial_use"] == "requires_ldc_for_profit_membership"
 
     assert {:ok, accurate} =
              Profile.preflight(:accurate,
@@ -60,7 +63,20 @@ defmodule Obscura.Profile.PreflightTest do
              )
 
     assert accurate.stability == :stable
-    assert Enum.any?(accurate.warnings, &String.contains?(&1, "deployer must review"))
+    assert Enum.any?(accurate.warnings, &String.contains?(&1, "LDC for-profit membership"))
+
+    assert Enum.any?(
+             accurate.requirements.asset_licensing,
+             &(&1["commercial_use"] == "requires_ldc_for_profit_membership")
+           )
+  end
+
+  test "fast preflight contains no TNER licensing restriction" do
+    assert {:ok, report} = Profile.preflight(:fast)
+
+    assert report.requirements.asset_licensing == []
+    refute Enum.any?(report.warnings, &String.contains?(&1, "LDC"))
+    refute Enum.any?(report.warnings, &String.contains?(&1, "TNER"))
   end
 
   test "OpenMed preflight distinguishes a missing checkpoint config" do

@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "assets": [
     {
       "id": "tner_roberta_large_ontonotes5",
@@ -13,14 +13,18 @@
       "revision_policy": "load the pinned immutable Hugging Face commit and record it in every authoritative benchmark",
       "required_files": [],
       "hashes": {},
-      "license": "checkpoint license metadata absent; OntoNotes training data is distributed under an LDC agreement; not distributed or sublicensed by Obscura",
-      "license_review_status": "unresolved_external_asset",
-      "license_reviewed_at": "2026-07-21",
+      "license": "commercial use requires an LDC for-profit membership according to direct LDC confirmation; checkpoint redistribution was not conclusively addressed; not bundled, distributed, sublicensed, or licensed by Obscura",
+      "license_review_status": "commercial_use_requires_ldc_membership",
+      "license_reviewed_at": "2026-07-22",
       "license_review_revision": "0bce50f7884d5bb040469c907c897d4b061ccbb4",
+      "commercial_use": "requires_ldc_for_profit_membership",
+      "commercial_use_reviewed_at": "2026-07-22",
       "license_sources": [
         "https://huggingface.co/tner/roberta-large-ontonotes5",
         "https://huggingface.co/datasets/tner/ontonotes5",
-        "https://catalog.ldc.upenn.edu/LDC2013T19"
+        "https://catalog.ldc.upenn.edu/LDC2013T19",
+        "https://catalog.ldc.upenn.edu/license/ldc-non-members-agreement.pdf",
+        "https://catalog.ldc.upenn.edu/license/ldc-for-profit-membership.pdf"
       ],
       "network_on_explicit_prepare": true,
       "bundled": false
@@ -42,6 +46,8 @@
       "license_review_status": "conditional_deployer_review",
       "license_reviewed_at": "2026-07-21",
       "license_review_revision": "8f3abc1ef81ffbbb0e80568d4fed1dd10d459548",
+      "commercial_use": "deployer_review_required",
+      "commercial_use_reviewed_at": "2026-07-21",
       "license_sources": [
         "https://huggingface.co/Jean-Baptiste/roberta-large-ner-english",
         "https://huggingface.co/FacebookAI/roberta-large",
@@ -67,6 +73,8 @@
       "license_review_status": "unresolved_external_asset",
       "license_reviewed_at": "2026-07-21",
       "license_review_revision": "968247329d18998cc7d5338b941b52f1b2a9abd9",
+      "commercial_use": "not_cleared_by_obscura",
+      "commercial_use_reviewed_at": "2026-07-21",
       "license_sources": [
         "https://huggingface.co/OpenMed/privacy-filter-nemotron-v2",
         "https://huggingface.co/openai/privacy-filter",
@@ -98,6 +106,8 @@
       "license_review_status": "permissive_chain_documented",
       "license_reviewed_at": "2026-07-21",
       "license_review_revision": "1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d",
+      "commercial_use": "permissive_chain_documented",
+      "commercial_use_reviewed_at": "2026-07-21",
       "license_sources": [
         "https://huggingface.co/urchade/gliner_multi_pii-v1",
         "https://huggingface.co/urchade/gliner_multi-v2.1",

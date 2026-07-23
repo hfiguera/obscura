@@ -39,10 +39,12 @@ made.
 - `:fast` is the high-precision, low-latency structured PII choice. Its recall
   is intentionally limited.
 - `:accurate` has the highest measured general F1 on all three shared datasets.
-  Its stable profile contract uses two large models and inherits the unresolved
-  TNER checkpoint license, which remains a deployer asset decision.
-- `:balanced` remains the practical model-backed recommendation. Its F1 is
-  slightly lower, but it uses one model and has materially lower latency.
+  Its stable profile contract uses two large models. Commercial use of its
+  primary `tner/roberta-large-ontonotes5` asset requires an LDC for-profit
+  membership.
+- `:balanced` remains the practical model-backed recommendation when its
+  external asset terms are acceptable. Its F1 is slightly lower, but it uses
+  one model and has materially lower latency.
 - `:hybrid_gliner_urchade` is the public experimental CPU-only general NER
   alternative. Its reproducible adapter and clearer Apache-2.0 provenance chain
   support that scoped recommendation, but its lower F1 prevents replacing

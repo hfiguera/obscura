@@ -201,7 +201,8 @@ defmodule Obscura.Profile.Preflight do
       required_assets: descriptor.required_assets,
       default_models: descriptor.default_models,
       backend_policy: descriptor.backend_policy,
-      automatic_download: descriptor.automatic_download
+      automatic_download: descriptor.automatic_download,
+      asset_licensing: asset_licensing(descriptor.name)
     }
   end
 
@@ -262,7 +263,7 @@ defmodule Obscura.Profile.Preflight do
   defp warnings(%Profile{name: :balanced}, opts) do
     fallback_warning(opts) ++
       [
-        "The profile implementation is stable, but Obscura does not distribute or license the optional TNER checkpoint; the deployer must review and accept its terms before use."
+        tner_commercial_use_warning()
       ]
   end
 
@@ -271,7 +272,8 @@ defmodule Obscura.Profile.Preflight do
       [
         "This stable profile loads two large models and conditionally runs the Jean-Baptiste location specialist when TNER returns no accepted location.",
         "It has the highest measured general accuracy, but balanced remains the practical recommendation because it uses one model and has lower latency.",
-        "Obscura does not distribute or license the optional TNER or Jean-Baptiste assets; the deployer must review and accept their terms before use."
+        tner_commercial_use_warning(),
+        "Obscura does not distribute or license the optional Jean-Baptiste asset; the deployer must review its terms before use."
       ]
   end
 
@@ -288,6 +290,17 @@ defmodule Obscura.Profile.Preflight do
       "This CPU-only profile is experimental and is recommended only when a GPU-free, license-clearer general NER option is preferred over the best measured accuracy.",
       "Its exact F1 is lower than balanced on all three shared datasets, and its ONNX/tokenizer/config assets must be exported and prepared explicitly."
     ]
+  end
+
+  defp asset_licensing(profile) do
+    case Profile.requirements(profile) do
+      {:ok, requirements} -> requirements.asset_licensing
+      {:error, _diagnostic} -> []
+    end
+  end
+
+  defp tner_commercial_use_warning do
+    "Commercial use of tner/roberta-large-ontonotes5 requires an LDC for-profit membership according to direct LDC confirmation dated 2026-07-22. Obscura does not grant or verify that authorization and does not bundle, distribute, sublicense, or license the checkpoint."
   end
 
   defp network_may_be_used?(%Profile{name: :hybrid_gliner_urchade}, _opts), do: false

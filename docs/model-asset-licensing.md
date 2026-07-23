@@ -1,7 +1,7 @@
 # Third-Party Dependency And Model Asset Review
 
 This document records the release licensing review for Obscura as of
-2026-07-21. It is an engineering inventory and release decision, not legal
+2026-07-22. It is an engineering inventory and release decision, not legal
 advice. A deployer remains responsible for determining whether a dependency,
 model, tokenizer, dataset, or generated output is permitted for its use.
 
@@ -85,7 +85,7 @@ revisions where available, and never bundles them in the Hex package.
 
 | Asset | Reviewed chain | Decision |
 | --- | --- | --- |
-| `tner/roberta-large-ontonotes5` at `0bce50f7...` | Checkpoint has no license metadata; TNER code is MIT; dataset card says `other`; OntoNotes is governed by an LDC agreement | **Unresolved external asset.** Not approved for redistribution by Obscura. Deployers must obtain and document authorization. |
+| `tner/roberta-large-ontonotes5` at `0bce50f7...` | Checkpoint has no license metadata; TNER code is MIT; dataset card says `other`; OntoNotes is governed by an LDC agreement | **Commercial use requires LDC for-profit membership.** LDC directly confirmed this requirement on 2026-07-22. Obscura does not grant or verify authorization and does not redistribute the checkpoint. LDC did not conclusively answer the separate checkpoint-redistribution question. |
 | `Jean-Baptiste/roberta-large-ner-english` at `8f3abc1e...` | Checkpoint MIT; `FacebookAI/roberta-large` tokenizer/base at `722cf37b...` MIT; trained on CoNLL-2003 | **Conditional deployer review.** Model/base grants are permissive, but training-data rights are not granted by Obscura. |
 | `OpenMed/privacy-filter-nemotron-v2` at reviewed revision `96824732...` | Checkpoint declares `license: other`; base `openai/privacy-filter` is Apache-2.0; Nemotron data is CC-BY-4.0; Gretel data is Apache-2.0; AI4Privacy data identifies CC-BY-4.0 | **Unresolved external asset.** The permissive base/data chain does not replace a checkpoint license grant. Keep experimental and do not redistribute. |
 | `urchade/gliner_multi_pii-v1` at `1fcf13e8...` | Checkpoint Apache-2.0; `gliner_multi-v2.1` Apache-2.0; synthetic PII dataset Apache-2.0; `microsoft/mdeberta-v3-base` tokenizer/encoder MIT | **Permissive chain documented.** Experimental status remains based on product quality and exported-asset support, not an identified license blocker. |
@@ -93,9 +93,12 @@ revisions where available, and never bundles them in the Hex package.
 ### Stable Profile Consequences
 
 The `:balanced` and `:accurate` names, option schemas, preparation behavior,
-and result contracts are stable Obscura APIs. Their default TNER asset is not
-license-cleared by Obscura. Stable therefore means API compatibility and
-measured technical behavior, not permission to use a checkpoint.
+and result contracts are stable Obscura APIs. In direct correspondence dated
+2026-07-22, LDC confirmed that commercial use of their default
+`tner/roberta-large-ontonotes5` asset requires an LDC for-profit membership.
+Stable therefore means API compatibility and measured technical behavior, not
+permission to use a checkpoint. Noncommercial use remains subject to the
+applicable LDC and upstream terms.
 
 `:accurate` adds the Jean-Baptiste model. Its model and base-model metadata are
 MIT, but users must still make their own CoNLL-2003 provenance decision.
@@ -120,6 +123,11 @@ Before preparing an external model, deployers must:
 6. Re-run accuracy, privacy, memory, latency, and failure validation for any
    substituted model or converted checkpoint.
 
+For `tner/roberta-large-ontonotes5`, commercial deployers must additionally
+obtain and document the required LDC for-profit membership. Obscura cannot
+verify membership or confer checkpoint rights, and membership does not resolve
+the unanswered checkpoint-redistribution question on Obscura's behalf.
+
 `Obscura.Profile.preflight/2` reports third-party asset warnings. Passing
 preflight proves runtime readiness only; it does not prove legal authorization,
 regulatory compliance, or universal model quality.
@@ -138,6 +146,8 @@ new revision under the same profile name.
 - [TNER checkpoint](https://huggingface.co/tner/roberta-large-ontonotes5)
 - [TNER dataset card](https://huggingface.co/datasets/tner/ontonotes5)
 - [OntoNotes Release 5.0](https://catalog.ldc.upenn.edu/LDC2013T19)
+- [LDC User Agreement for Non-Members](https://catalog.ldc.upenn.edu/license/ldc-non-members-agreement.pdf)
+- [LDC For-Profit Membership Agreement](https://catalog.ldc.upenn.edu/license/ldc-for-profit-membership.pdf)
 - [Jean-Baptiste checkpoint](https://huggingface.co/Jean-Baptiste/roberta-large-ner-english)
 - [FacebookAI RoBERTa large](https://huggingface.co/FacebookAI/roberta-large)
 - [OpenMed Privacy Filter Nemotron v2](https://huggingface.co/OpenMed/privacy-filter-nemotron-v2)

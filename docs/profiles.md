@@ -8,15 +8,17 @@ experimental and available for controlled evaluation.
 | `:fast` | stable | `:deterministic_plus` | Structured and context-labeled PII with high precision | Dependency-light BEAM execution |
 | `:balanced` | stable | `:hybrid_ner_tner_conservative` | General text needing person, location, and organization NER | One TNER model |
 | `:accurate` | stable | `:hybrid_ner_tner_jean_location_cascade` | Highest measured general accuracy with conditional location recovery | Two GPU-oriented NER models |
-| `:hybrid_gliner_urchade` | experimental | `:hybrid_gliner_urchade` | CPU-only general PII/NER where GPU use or TNER licensing is unsuitable | One Ortex CPU model plus deterministic recognizers |
+| `:hybrid_gliner_urchade` | experimental | `:hybrid_gliner_urchade` | CPU-only general PII/NER without the OntoNotes-trained TNER asset | One Ortex CPU model plus deterministic recognizers |
 | `:openmed_pii` | experimental | `:privacy_filter_native` | OpenMed/Nemotron-style PII evaluation | One high-cost native model |
 
 `:accurate` currently has the best exact-span F1 on all three shared
 eight-entity datasets. `:balanced` remains the practical model-backed
-recommendation because it uses one model and has lower latency. Their Obscura
-contracts are stable, but the optional TNER checkpoint is neither bundled nor
-licensed by Obscura. Deployers must review and accept the applicable asset
-terms. See `model-asset-licensing.md`.
+recommendation when its external asset terms are acceptable because it uses
+one model and has lower latency. Their Obscura contracts are stable, but in
+direct correspondence on 2026-07-22, LDC confirmed that commercial use of
+`tner/roberta-large-ontonotes5` requires an LDC for-profit membership. Obscura
+does not grant or verify that authorization. Noncommercial use remains subject
+to the applicable LDC and upstream terms. See `model-asset-licensing.md`.
 Measured accuracy does not establish universal accuracy, regulatory
 compliance, or suitability for every deployment.
 
@@ -55,6 +57,8 @@ controlled application startup:
 
 Obscura does not prepare or download this model from an analyzer call. The
 host application must include Nx, Bumblebee, and its chosen backend.
+Commercial use of `tner/roberta-large-ontonotes5` requires an LDC for-profit
+membership. Other uses remain subject to the applicable LDC and upstream terms.
 
 ## Accurate
 
@@ -62,6 +66,9 @@ host application must include Nx, Bumblebee, and its chosen backend.
 `Jean-Baptiste/roberta-large-ner-english` with the
 `FacebookAI/roberta-large` tokenizer fallback only when TNER returns no
 accepted location.
+
+Because `tner/roberta-large-ontonotes5` remains the primary model, the same
+checkpoint-specific LDC commercial-use requirement applies to `:accurate`.
 
 ```elixir
 {:ok, runtime} =
@@ -113,8 +120,8 @@ Prepare its pinned, locally exported ONNX/tokenizer/config bundle explicitly:
 ```
 
 This is the publicly recommended experimental CPU-only general NER option when
-an accelerator is unavailable or the unresolved TNER checkpoint license blocks
-`:balanced`. It is not the accuracy leader. Its exact F1 was `0.7209`,
+an accelerator is unavailable or the terms of the OntoNotes-trained TNER asset
+prevent using `:balanced`. It is not the accuracy leader. Its exact F1 was `0.7209`,
 `0.6843`, and `0.4855` on the three shared datasets, compared with `0.7878`,
 `0.8388`, and `0.6954` for `:balanced`. Adapter parity passed, but the model
 produced materially weaker person/location quality and more false positives.

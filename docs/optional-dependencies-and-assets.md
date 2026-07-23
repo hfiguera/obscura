@@ -19,8 +19,8 @@ the manifests contain no local absolute paths or obvious credential material.
 | Profile | Stability | Base behavior | Required optional dependencies | Assets | Preferred development backend |
 | --- | --- | --- | --- | --- | --- |
 | `:fast` | stable | Deterministic structured PII | None | None | BEAM |
-| `:balanced` | stable, external assets require deployer review | Deterministic plus TNER NER | `nx`, `bumblebee` | TNER model and tokenizer | Emily on Apple Silicon; EXLA where supported |
-| `:accurate` | stable, external assets require deployer review | Deterministic plus output-aware TNER/Jean location cascade | `nx`, `bumblebee` | Two models and two tokenizers | Emily on Apple Silicon; EXLA where supported |
+| `:balanced` | stable; commercial use of its OntoNotes-trained asset requires LDC membership | Deterministic plus TNER NER | `nx`, `bumblebee` | TNER model and tokenizer | Emily on Apple Silicon; EXLA where supported |
+| `:accurate` | stable; commercial use of its OntoNotes-trained asset requires LDC membership | Deterministic plus output-aware TNER/Jean location cascade | `nx`, `bumblebee` | Two models and two tokenizers | Emily on Apple Silicon; EXLA where supported |
 | `:hybrid_gliner_urchade` | experimental | Deterministic plus Urchade GLiNER | `ortex`, `tokenizers` | Pinned local ONNX, tokenizer, and config export | Ortex CPU |
 | `:openmed_pii` | experimental | Native model-only OpenMed/Nemotron PII | `nx`, `safetensors` | Validated Privacy Filter checkpoint | Explicitly selected Binary, EXLA, or Emily |
 
@@ -169,8 +169,9 @@ not build it inside every request.
 `allow_download` defaults to `false`. Without it, remote repositories are
 opened with Bumblebee offline mode and only complete cached assets may be used.
 `offline: true` always forbids network access, even if download authorization
-was also passed. This separation makes accepting third-party terms and
-performing network I/O an explicit deployment action.
+was also passed. `allow_download` authorizes network I/O only; it does not
+accept third-party terms or establish commercial-use authorization. Review the
+reported asset licensing metadata as a separate deployment decision.
 
 Use the preparation task to populate a cache with structured progress:
 
@@ -182,6 +183,11 @@ mix obscura.profile.prepare \
   --timeout 1800000 \
   --inactivity-timeout 300000
 ```
+
+For model-backed profiles, preparation emits an `asset_license_notice` before
+the preparation-started event whenever Obscura knows that a model has a
+specific commercial-use requirement. Human-readable task output prints the
+notice directly; `--json` includes the same fields as structured progress.
 
 The effective cache directory follows explicit repository `cache_dir`, then
 `BUMBLEBEE_CACHE_DIR`, then the operating-system Bumblebee cache location.
@@ -228,11 +234,14 @@ both resources up front to keep request handling network-free and reusable.
   backend/runtime memory
 - Used by: stable `:balanced` and `:accurate`
 - Adapter: Bumblebee token classification
-- License status: not established by Obscura; verify upstream terms
+- Commercial use: requires an LDC for-profit membership, as directly confirmed
+  by LDC on 2026-07-22
 
-The profile integration is stable, but Obscura does not distribute or license
-the checkpoint. Deployers must establish whether their selected assets and use
-are permitted. See `docs/model-asset-licensing.md`.
+The profile integration is stable, but Obscura does not bundle, distribute,
+sublicense, or license the checkpoint and cannot verify LDC membership.
+Noncommercial use remains subject to the applicable LDC and upstream terms.
+LDC did not conclusively answer whether the checkpoint publisher was authorized
+to redistribute the trained weights. See `docs/model-asset-licensing.md`.
 
 ### Urchade GLiNER Multi PII
 
