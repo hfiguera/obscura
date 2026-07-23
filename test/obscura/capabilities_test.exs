@@ -12,7 +12,7 @@ defmodule Obscura.CapabilitiesTest do
     assert {:ok, %{"schema_version" => 1, "capabilities" => capabilities}} =
              Capabilities.load()
 
-    assert {:ok, %{"schema_version" => 2, "assets" => assets}} =
+    assert {:ok, %{"schema_version" => 1, "assets" => assets}} =
              Capabilities.load_assets()
 
     assert capabilities != []
