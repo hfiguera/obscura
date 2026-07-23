@@ -105,7 +105,7 @@ defmodule Obscura.Capabilities do
   defp validate_capability_manifest(_manifest),
     do: {:error, :invalid_capability_manifest_schema}
 
-  defp validate_asset_manifest(%{"schema_version" => 2, "assets" => assets})
+  defp validate_asset_manifest(%{"schema_version" => 1, "assets" => assets})
        when is_list(assets) do
     with :ok <- validate_rows(assets, @required_asset_fields, :asset) do
       validate_commercial_use(assets)

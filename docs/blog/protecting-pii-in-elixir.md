@@ -389,9 +389,17 @@ These numbers explain the profile split:
 
 - `:fast` favors precision, low latency, and minimal dependencies, but misses
   open-class entities.
-- `:balanced` is the practical general-text recommendation.
+- `:balanced` is the practical general-text recommendation when its external
+  asset terms are acceptable for the deployment.
 - `:accurate` adds a conditional location-recovery model and produces the
   highest measured general F1, with more preparation, memory, and latency.
+
+Both model-backed profiles use `tner/roberta-large-ontonotes5`. In direct
+correspondence on July 22, 2026, LDC confirmed that commercial use of this
+OntoNotes-trained checkpoint requires an LDC for-profit membership. Obscura
+does not grant or verify that authorization. This does not disable local
+evaluation of these profiles; users remain responsible for confirming that
+their use complies with the applicable LDC and upstream terms.
 
 The table is evidence for those particular datasets, entity mappings, and
 hardware conditions. It is not evidence that Obscura is universally more
