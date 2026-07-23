@@ -5,13 +5,14 @@ defmodule Obscura.CapabilitiesTest do
   alias Obscura.Profile
 
   @conditional_dependencies ~w(exla emily ortex tokenizers)
-  @license_review_statuses ~w(conditional_deployer_review permissive_chain_documented unresolved_external_asset)
+  @license_review_statuses ~w(commercial_use_requires_ldc_membership conditional_deployer_review permissive_chain_documented unresolved_external_asset)
+  @commercial_use_values ~w(requires_ldc_for_profit_membership deployer_review_required not_cleared_by_obscura permissive_chain_documented)
 
   test "capability and model asset manifests are valid" do
     assert {:ok, %{"schema_version" => 1, "capabilities" => capabilities}} =
              Capabilities.load()
 
-    assert {:ok, %{"schema_version" => 1, "assets" => assets}} =
+    assert {:ok, %{"schema_version" => 2, "assets" => assets}} =
              Capabilities.load_assets()
 
     assert capabilities != []
@@ -116,11 +117,9 @@ defmodule Obscura.CapabilitiesTest do
       assert Enum.all?(assets, fn asset ->
                asset["status"] == "stable_profile_external_asset" and
                  asset["bundled"] == false and
-                 asset["license_review_status"] in [
-                   "conditional_deployer_review",
-                   "unresolved_external_asset"
-                 ] and
-                 String.contains?(asset["license"], "not distributed or sublicensed by Obscura")
+                 asset["license_review_status"] in @license_review_statuses and
+                 asset["commercial_use"] in @commercial_use_values and
+                 String.contains?(asset["license"], "Obscura")
              end)
     end
   end
@@ -130,12 +129,39 @@ defmodule Obscura.CapabilitiesTest do
 
     for asset <- assets do
       assert asset["license_review_status"] in @license_review_statuses
-      assert asset["license_reviewed_at"] == "2026-07-21"
+      assert asset["commercial_use"] in @commercial_use_values
+      assert {:ok, _date} = Date.from_iso8601(asset["license_reviewed_at"])
+      assert {:ok, _date} = Date.from_iso8601(asset["commercial_use_reviewed_at"])
       assert is_binary(asset["license_review_revision"])
       assert asset["license_review_revision"] != ""
       assert [_ | _] = asset["license_sources"]
       assert Enum.all?(asset["license_sources"], &String.starts_with?(&1, "https://"))
       assert asset["bundled"] == false
     end
+  end
+
+  test "TNER records the confirmed LDC commercial-use restriction" do
+    assert {:ok, assets} = Capabilities.assets_for_profile(:balanced)
+    assert [tner] = assets
+
+    assert tner["license_review_status"] == "commercial_use_requires_ldc_membership"
+    assert tner["commercial_use"] == "requires_ldc_for_profit_membership"
+    assert tner["commercial_use_reviewed_at"] == "2026-07-22"
+    assert tner["bundled"] == false
+
+    assert "https://catalog.ldc.upenn.edu/license/ldc-non-members-agreement.pdf" in tner[
+             "license_sources"
+           ]
+
+    assert "https://catalog.ldc.upenn.edu/license/ldc-for-profit-membership.pdf" in tner[
+             "license_sources"
+           ]
+
+    assert {:ok, requirements} = Profile.requirements(:balanced)
+    assert [licensing] = requirements.asset_licensing
+    assert licensing["commercial_use"] == "requires_ldc_for_profit_membership"
+
+    assert {:ok, fast_requirements} = Profile.requirements(:fast)
+    assert fast_requirements.asset_licensing == []
   end
 end

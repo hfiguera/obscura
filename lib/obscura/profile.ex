@@ -8,6 +8,7 @@ defmodule Obscura.Profile do
   shapes follow the `0.1.x` policy in `docs/public-api-stability.md`.
   """
 
+  alias Obscura.Capabilities
   alias Obscura.Diagnostic
   alias Obscura.Eval.EntityMapping
   alias Obscura.Profile.Preflight
@@ -200,7 +201,8 @@ defmodule Obscura.Profile do
          required_assets: descriptor.required_assets,
          default_models: descriptor.default_models,
          backend_policy: descriptor.backend_policy,
-         automatic_download: descriptor.automatic_download
+         automatic_download: descriptor.automatic_download,
+         asset_licensing: asset_licensing(descriptor.name)
        }}
     end
   end
@@ -370,6 +372,25 @@ defmodule Obscura.Profile do
       backend_policy: Keyword.get(attrs, :backend_policy, :explicit),
       automatic_download: false
     }
+  end
+
+  defp asset_licensing(profile) do
+    case Capabilities.assets_for_profile(profile) do
+      {:ok, assets} ->
+        Enum.map(assets, fn asset ->
+          Map.take(asset, [
+            "id",
+            "license_review_status",
+            "commercial_use",
+            "commercial_use_reviewed_at",
+            "license_sources",
+            "bundled"
+          ])
+        end)
+
+      {:error, _reason} ->
+        []
+    end
   end
 
   @doc false

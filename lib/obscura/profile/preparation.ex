@@ -1,6 +1,7 @@
 defmodule Obscura.Profile.Preparation do
   @moduledoc false
 
+  alias Obscura.Capabilities
   alias Obscura.Diagnostic
   alias Obscura.Profile
   alias Obscura.Profile.Cache
@@ -63,6 +64,7 @@ defmodule Obscura.Profile.Preparation do
     reference = make_ref()
     caller = self()
 
+    emit_asset_license_notices(descriptor, config, started)
     emit(config, event(:preparation_started, descriptor, started, config, %{}))
 
     worker_opts =
@@ -552,6 +554,31 @@ defmodule Obscura.Profile.Preparation do
     |> Map.merge(attrs)
     |> Enum.reject(fn {_key, value} -> is_nil(value) end)
     |> Map.new()
+  end
+
+  defp emit_asset_license_notices(descriptor, config, started) do
+    case Capabilities.assets_for_profile(descriptor.name) do
+      {:ok, assets} ->
+        assets
+        |> Enum.filter(&(&1["commercial_use"] == "requires_ldc_for_profit_membership"))
+        |> Enum.each(fn asset ->
+          emit(
+            config,
+            event(:asset_license_notice, descriptor, started, config, %{
+              asset: asset["id"],
+              commercial_use: asset["commercial_use"],
+              license_review_status: asset["license_review_status"],
+              commercial_use_reviewed_at: asset["commercial_use_reviewed_at"],
+              license_sources: asset["license_sources"],
+              message:
+                "Commercial use of #{asset["model_repository"]} requires an LDC for-profit membership. Obscura does not grant or verify that authorization."
+            })
+          )
+        end)
+
+      {:error, _reason} ->
+        :ok
+    end
   end
 
   defp emit(config, progress_event) do

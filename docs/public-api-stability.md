@@ -77,7 +77,9 @@ promise:
 The `:balanced` and `:accurate` names, requirements, behavior, and preparation
 contracts are stable under the `0.1.x` compatibility promise. Their optional
 third-party model assets are not bundled or licensed by Obscura; stable API
-classification is not a grant of checkpoint rights. See
+classification is not a grant of checkpoint rights. LDC directly confirmed on
+2026-07-22 that commercial use of their TNER checkpoint requires an LDC
+for-profit membership. See
 `docs/model-asset-licensing.md`.
 
 ## Experimental Profile Contracts
@@ -190,8 +192,9 @@ progress subscriptions. Subscriber message payloads and progress maps are
 additive; applications should match only the documented event/status keys they
 consume.
 
-Model licenses are not granted by Obscura. TNER and OpenMed require independent
-license review, as documented in `docs/known-limitations.md`.
+Model licenses are not granted by Obscura. Commercial TNER use requires LDC
+for-profit membership; OpenMed still requires independent license review, as
+documented in `docs/known-limitations.md`.
 
 The experimental product aliases are:
 

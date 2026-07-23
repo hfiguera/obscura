@@ -75,7 +75,10 @@ defmodule Obscura.Profile.PreparationTest do
              )
 
     events = collect_progress([])
-    assert hd(events).event == :preparation_started
+    assert hd(events).event == :asset_license_notice
+    assert hd(events).asset == "tner_roberta_large_ontonotes5"
+    assert hd(events).commercial_use == "requires_ldc_for_profit_membership"
+    assert Enum.at(events, 1).event == :preparation_started
     assert List.last(events).event == :preparation_completed
 
     started_models =
@@ -90,7 +93,7 @@ defmodule Obscura.Profile.PreparationTest do
     assert Enum.any?(events, &(&1[:model_index] == 2 and &1[:model_count] == 2))
 
     encoded = Jason.encode!(events)
-    refute encoded =~ "authorization"
+    refute encoded =~ "auth_token"
     refute encoded =~ "raw_text"
     refute encoded =~ System.user_home!()
   end
@@ -98,6 +101,17 @@ defmodule Obscura.Profile.PreparationTest do
   test "progress callback failures do not abort preparation" do
     assert {:ok, _runtime} =
              Profile.prepare(:fast, progress: fn _event -> raise "callback failed" end)
+  end
+
+  test "fast preparation emits no model asset license notice" do
+    parent = self()
+
+    assert {:ok, _runtime} =
+             Profile.prepare(:fast,
+               progress: fn event -> send(parent, {:progress, event}) end
+             )
+
+    refute Enum.any?(collect_progress([]), &(&1.event == :asset_license_notice))
   end
 
   test "overall timeout terminates controlled preparation" do

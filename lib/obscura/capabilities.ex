@@ -9,7 +9,8 @@ defmodule Obscura.Capabilities do
   @capabilities_file "obscura/capabilities.json"
   @assets_file "obscura/model_assets.json"
   @required_capability_fields ~w(id status profiles dependencies environment_variables platforms backends network_during_setup network_during_inference setup_command readiness_command smoke_command failure_codes)
-  @required_asset_fields ~w(id status profiles adapter model_repository tokenizer_repository revision_policy required_files hashes license license_review_status license_reviewed_at license_review_revision license_sources network_on_explicit_prepare bundled)
+  @required_asset_fields ~w(id status profiles adapter model_repository tokenizer_repository revision_policy required_files hashes license license_review_status license_reviewed_at license_review_revision commercial_use commercial_use_reviewed_at license_sources network_on_explicit_prepare bundled)
+  @commercial_use_values ~w(requires_ldc_for_profit_membership deployer_review_required not_cleared_by_obscura permissive_chain_documented)
 
   @doc """
   Loads and validates the capability manifest.
@@ -104,9 +105,11 @@ defmodule Obscura.Capabilities do
   defp validate_capability_manifest(_manifest),
     do: {:error, :invalid_capability_manifest_schema}
 
-  defp validate_asset_manifest(%{"schema_version" => 1, "assets" => assets})
+  defp validate_asset_manifest(%{"schema_version" => 2, "assets" => assets})
        when is_list(assets) do
-    validate_rows(assets, @required_asset_fields, :asset)
+    with :ok <- validate_rows(assets, @required_asset_fields, :asset) do
+      validate_commercial_use(assets)
+    end
   end
 
   defp validate_asset_manifest(_manifest), do: {:error, :invalid_asset_manifest_schema}
@@ -134,5 +137,12 @@ defmodule Obscura.Capabilities do
         missing -> {:error, {:missing_manifest_fields, kind, row["id"], missing}}
       end
     end)
+  end
+
+  defp validate_commercial_use(assets) do
+    case Enum.find(assets, &(&1["commercial_use"] not in @commercial_use_values)) do
+      nil -> :ok
+      asset -> {:error, {:invalid_commercial_use, asset["id"], asset["commercial_use"]}}
+    end
   end
 end

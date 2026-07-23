@@ -162,11 +162,12 @@ generated heldout, `0.1212` on synth, and `0.0719` on Nemotron.
 
 `:fast`, `:balanced`, and `:accurate` have stable Obscura profile contracts.
 `:accurate` has the best measured general F1 under this protocol, while
-`:balanced` remains the practical one-model recommendation. The optional TNER
-checkpoint is neither bundled nor licensed by Obscura; deployers remain
-responsible for establishing applicable asset rights. The `:openmed_pii` row is
-an authoritative measurement of an experimental alias, not evidence that it
-belongs in the stable product surface.
+`:balanced` remains the practical one-model recommendation for noncommercial
+evaluation or LDC-authorized deployments. The optional TNER checkpoint is
+neither bundled nor licensed by Obscura. LDC directly confirmed on 2026-07-22
+that commercial use requires an LDC for-profit membership. The `:openmed_pii`
+row is an authoritative measurement of an experimental alias, not evidence
+that it belongs in the stable product surface.
 
 The implementation is not complete Presidio parity. Presidio still wins some
 entity-specific comparisons, model-backed Obscura profiles require optional

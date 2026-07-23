@@ -33,3 +33,13 @@ The Presidio-Research dataset snapshots committed under
 `eval/datasets/presidio_research/` are excluded from the Hex package and carry
 their own license and notice files in that directory. Optional model weights,
 tokenizers, caches, and exported ONNX assets are not bundled with Obscura.
+
+## TNER OntoNotes Model
+
+The optional `tner/roberta-large-ontonotes5` checkpoint used by `:balanced`
+and `:accurate` is not bundled, distributed, sublicensed, or licensed by
+Obscura. LDC directly confirmed on 2026-07-22 that commercial use requires an
+LDC for-profit membership under the applicable OntoNotes terms. Obscura does
+not grant or verify that authorization. LDC did not conclusively answer the
+separate checkpoint-redistribution question. See
+`docs/model-asset-licensing.md` before preparing this external asset.

@@ -52,9 +52,11 @@ surface.
 
 - No model weights or external datasets ship in the Hex package.
 - Analyzer/redaction calls never download models. Preparation is explicit.
-- TNER license status is not established by Obscura. Stable profile status does
-  not license the optional checkpoint; deployers must review and accept all
-  applicable asset terms.
+- LDC directly confirmed on 2026-07-22 that commercial use of the TNER
+  checkpoint requires an LDC for-profit membership. Stable profile status does
+  not grant or verify that authorization. Use `:balanced` and `:accurate` only
+  for noncommercial evaluation or deployments with the required LDC
+  authorization.
 - The Apache-licensed Urchade GLiNER candidate has reproducible native Ortex
   support, but exact F1 is lower than `:balanced` on all three authoritative
   datasets. The Obscura Ortex fork can verify CoreML provider assignment, but

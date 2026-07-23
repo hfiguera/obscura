@@ -44,4 +44,38 @@ defmodule Mix.Tasks.Obscura.Profile.CheckTest do
       end)
     end
   end
+
+  test "human output discloses the TNER commercial-use restriction" do
+    Mix.Task.reenable("obscura.profile.check")
+
+    output =
+      capture_io(fn ->
+        assert_raise Mix.Error, fn ->
+          Check.run(["--profile", "balanced"])
+        end
+      end)
+
+    assert output =~ "Commercial use of tner/roberta-large-ontonotes5"
+    assert output =~ "requires an LDC for-profit membership"
+  end
+
+  test "JSON output includes machine-readable TNER commercial-use metadata" do
+    Mix.Task.reenable("obscura.profile.check")
+
+    output =
+      capture_io(fn ->
+        assert_raise Mix.Error, fn ->
+          Check.run(["--profile", "accurate", "--json"])
+        end
+      end)
+
+    report = Jason.decode!(output)
+
+    assert Enum.any?(report["requirements"]["asset_licensing"], fn asset ->
+             asset["id"] == "tner_roberta_large_ontonotes5" and
+               asset["commercial_use"] == "requires_ldc_for_profit_membership"
+           end)
+
+    assert Enum.any?(report["warnings"], &String.contains?(&1, "LDC for-profit membership"))
+  end
 end

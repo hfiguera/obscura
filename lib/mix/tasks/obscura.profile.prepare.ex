@@ -11,6 +11,10 @@ defmodule Mix.Tasks.Obscura.Profile.Prepare do
   elapsed time, and final readiness. JSON mode emits one object per line and
   disables Bumblebee's terminal progress bar.
 
+  Before preparing an asset with a known commercial-use requirement, the task
+  emits an `asset_license_notice`. `--allow-download` permits network access;
+  it does not accept model terms or establish deployment authorization.
+
   Online preparation retries one transient model or tokenizer load failure.
   Recovery quarantines unreferenced partial cache files before downloading a
   clean replacement. Quarantined files remain on disk for operator review.
@@ -88,6 +92,7 @@ defmodule Mix.Tasks.Obscura.Profile.Prepare do
       profile: profile,
       models: requirements.default_models,
       model_count: length(requirements.default_models),
+      asset_licensing: requirements.asset_licensing,
       cache_directory: cache_dir,
       cache_directory_source: cache_source,
       allow_download: Keyword.get(opts, :allow_download, false),
@@ -109,6 +114,12 @@ defmodule Mix.Tasks.Obscura.Profile.Prepare do
 
   defp render_progress(event, true) do
     Mix.shell().info(Jason.encode!(Map.put(event, :type, :progress)))
+  end
+
+  defp render_progress(%{event: :asset_license_notice} = event, false) do
+    Mix.shell().info(
+      "license_notice asset=#{event.asset} commercial_use=#{event.commercial_use}: #{event.message}"
+    )
   end
 
   defp render_progress(event, false) do
