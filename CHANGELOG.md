@@ -2,12 +2,14 @@
 
 All notable changes to Obscura are documented in this file.
 
-## Unreleased
+## 0.1.1 - 2026-07-22
 
-- Documented LDC's confirmation that commercial use of the optional TNER
-  checkpoint requires an LDC for-profit membership.
+- Documented LDC's confirmation that commercial use of
+  `tner/roberta-large-ontonotes5` requires an LDC for-profit membership.
 - Added machine-readable asset licensing metadata plus preflight and
   preparation notices for the affected `:balanced` and `:accurate` profiles.
+- Preserved model-asset manifest schema version 1 while adding licensing fields
+  compatibly.
 - Kept `:fast` dependency-light and unaffected by the TNER requirement.
 
 ## 0.1.0 - 2026-07-21
