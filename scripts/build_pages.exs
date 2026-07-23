@@ -7,18 +7,29 @@ defmodule Obscura.PagesBuilder do
   @analytics_token "f968ea7d6e614cc9a3e2d537ced91a10"
   @initial_published_on "2026-07-22"
   @initial_rss_date "Wed, 22 Jul 2026 00:00:00 GMT"
-  @latest_published_on "2026-07-24"
-  @latest_rss_date "Fri, 24 Jul 2026 00:00:00 GMT"
+  @nvidia_published_on "2026-07-24"
+  @nvidia_rss_date "Fri, 24 Jul 2026 00:00:00 GMT"
+  @latest_published_on "2026-07-29"
+  @latest_rss_date "Wed, 29 Jul 2026 00:00:00 GMT"
   @media_extensions [".gif", ".jpg", ".jpeg", ".mp4", ".png", ".webp"]
 
   @articles [
+    %{
+      slug: "model-card-is-not-a-license",
+      title: "A Model Card Is Not a License: What We Learned Shipping Local NER in Obscura",
+      description:
+        "An engineering case study about base-model licenses, fine-tuning data agreements, checkpoint provenance, and the licensing changes shipped in Obscura 0.1.1.",
+      published_on: @latest_published_on,
+      rss_date: @latest_rss_date,
+      og_image: "model-licensing-stack.jpg"
+    },
     %{
       slug: "running-obscura-on-nvidia-exla",
       title: "Running Obscura on an NVIDIA GPU with Elixir, EXLA, and Lightning AI",
       description:
         "A reproducible field report for validating Obscura, Nx, and EXLA on a Linux NVIDIA Tesla T4 without owning the hardware.",
-      published_on: @latest_published_on,
-      rss_date: @latest_rss_date,
+      published_on: @nvidia_published_on,
+      rss_date: @nvidia_rss_date,
       og_image: "obscura-linux-nvidia-validation-path.png"
     },
     %{

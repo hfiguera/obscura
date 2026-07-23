@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The model licensing stack</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1440px;
+        height: 900px;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        color: #17211e;
+        background: #f7faf8;
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .canvas {
+        position: relative;
+        width: 1440px;
+        height: 900px;
+        padding: 64px 72px 58px;
+        background:
+          linear-gradient(#dfe8e4 1px, transparent 1px),
+          linear-gradient(90deg, #dfe8e4 1px, transparent 1px),
+          #f7faf8;
+        background-size: 48px 48px;
+      }
+
+      .canvas::before {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background: rgb(247 250 248 / 84%);
+      }
+
+      header,
+      main,
+      footer {
+        position: relative;
+        z-index: 1;
+      }
+
+      header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 48px;
+        padding-bottom: 36px;
+        border-bottom: 2px solid #17211e;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: #08766a;
+        font-size: 18px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 850px;
+        margin: 0;
+        font-size: 55px;
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-top: 5px;
+        color: #17211e;
+        font-size: 22px;
+        font-weight: 800;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        color: #f7faf8;
+        background: #08766a;
+        border-radius: 6px;
+        place-items: center;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 48px;
+        padding-top: 40px;
+      }
+
+      .stack {
+        display: grid;
+        gap: 10px;
+      }
+
+      .layer {
+        display: grid;
+        grid-template-columns: 190px 1fr;
+        min-height: 68px;
+        border: 1px solid #b9cbc5;
+        border-left: 7px solid #08766a;
+        background: #ffffff;
+      }
+
+      .layer strong,
+      .layer span {
+        display: flex;
+        align-items: center;
+        padding: 13px 18px;
+      }
+
+      .layer strong {
+        color: #075f54;
+        background: #e8f4f0;
+        font-size: 16px;
+      }
+
+      .layer span {
+        color: #33413d;
+        font-size: 16px;
+      }
+
+      .finding {
+        align-self: stretch;
+        padding: 34px;
+        color: #f7faf8;
+        background: #17211e;
+        border-top: 7px solid #d8a13a;
+      }
+
+      .finding .number {
+        display: block;
+        margin-bottom: 24px;
+        color: #f3c96f;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .finding h2 {
+        margin: 0 0 22px;
+        font-size: 33px;
+        line-height: 1.16;
+        letter-spacing: 0;
+      }
+
+      .finding p {
+        margin: 0;
+        color: #cbd7d3;
+        font-size: 19px;
+        line-height: 1.5;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 32px;
+        margin-top: 38px;
+        padding-top: 22px;
+        border-top: 1px solid #b9cbc5;
+        color: #50605b;
+        font-size: 16px;
+      }
+
+      footer strong {
+        color: #17211e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <header>
+        <div>
+          <p class="eyebrow">Model provenance review</p>
+          <h1>A model card is not the whole licensing story.</h1>
+        </div>
+        <div class="brand">
+          <span class="brand-mark">O</span>
+          <span>Obscura</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="stack" aria-label="Model licensing layers">
+          <div class="layer">
+            <strong>Application</strong>
+            <span>Library code and public API terms</span>
+          </div>
+          <div class="layer">
+            <strong>Runtime</strong>
+            <span>Nx, Bumblebee, accelerator, and adapter licenses</span>
+          </div>
+          <div class="layer">
+            <strong>Base model</strong>
+            <span>Architecture, original weights, and upstream data</span>
+          </div>
+          <div class="layer">
+            <strong>Post-training</strong>
+            <span>Fine-tuning datasets, alignment data, and agreements</span>
+          </div>
+          <div class="layer">
+            <strong>Checkpoint</strong>
+            <span>Published weights, tokenizer assets, and model-card terms</span>
+          </div>
+          <div class="layer">
+            <strong>Deployment</strong>
+            <span>Inference, redistribution, commercial use, and notices</span>
+          </div>
+        </section>
+
+        <aside class="finding">
+          <span class="number">ENGINEERING RULE 01</span>
+          <h2>Permission at one layer does not resolve the others.</h2>
+          <p>
+            A permissive base-model license cannot answer what a separately
+            governed fine-tuning dataset permits.
+          </p>
+        </aside>
+      </main>
+
+      <footer>
+        <span><strong>Review the exact checkpoint.</strong> Pin revisions and trace every asset.</span>
+        <span>hfiguera.github.io/obscura</span>
+      </footer>
+    </div>
+  </body>
+</html>
