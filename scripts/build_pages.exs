@@ -9,6 +9,7 @@ defmodule Obscura.PagesBuilder do
   @article_output Path.join([@output_root, "blog", @article_slug])
   @canonical_url "https://hfiguera.github.io/obscura/blog/#{@article_slug}/"
   @site_url "https://hfiguera.github.io/obscura/"
+  @analytics_token "f968ea7d6e614cc9a3e2d537ced91a10"
   @title "Protecting PII in Elixir Before It Reaches Logs, APIs, and LLMs"
   @description "A practical guide to detecting, redacting, and pseudonymizing PII at Elixir application boundaries with Obscura."
   @published_on "2026-07-22"
@@ -26,6 +27,7 @@ defmodule Obscura.PagesBuilder do
 
     write_article(article)
     write_root_redirect()
+    write_privacy()
     write_feed()
     write_sitemap()
     copy_assets()
@@ -114,8 +116,9 @@ defmodule Obscura.PagesBuilder do
         </main>
         <footer>
           <p>Obscura is a library-first toolkit for detecting and anonymizing PII in Elixir.</p>
-          <p><a href="https://github.com/hfiguera/obscura">Source</a> · <a href="https://hex.pm/packages/obscura">Hex</a> · <a href="../../feed.xml">RSS</a></p>
+          <p><a href="https://github.com/hfiguera/obscura">Source</a> · <a href="https://hex.pm/packages/obscura">Hex</a> · <a href="../../feed.xml">RSS</a> · <a href="../../privacy/">Analytics privacy</a></p>
         </footer>
+        #{analytics_beacon()}
       </body>
     </html>
     """
@@ -136,11 +139,79 @@ defmodule Obscura.PagesBuilder do
       </head>
       <body>
         <p><a href="blog/#{@article_slug}/">Read #{@title}</a></p>
+        #{analytics_beacon()}
       </body>
     </html>
     """
 
     File.write!(Path.join(@output_root, "index.html"), html)
+  end
+
+  defp write_privacy do
+    output = Path.join(@output_root, "privacy")
+    File.mkdir_p!(output)
+
+    canonical_url = @site_url <> "privacy/"
+
+    html = """
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Analytics privacy · Obscura</title>
+        <meta name="description" content="How the Obscura engineering blog uses privacy-focused website analytics.">
+        <meta name="theme-color" content="#151c1a">
+        <link rel="canonical" href="#{canonical_url}">
+        <link rel="alternate" type="application/rss+xml" title="Obscura articles" href="#{@site_url}feed.xml">
+        <link rel="stylesheet" href="../assets/site.css">
+      </head>
+      <body>
+        <a class="skip-link" href="#privacy">Skip to privacy information</a>
+        <header class="site-header">
+          <a class="brand" href="../" aria-label="Obscura home">
+            <span class="brand-mark" aria-hidden="true">O</span>
+            <span>
+              <strong>Obscura</strong>
+              <small>PII detection and anonymization for Elixir</small>
+            </span>
+          </a>
+          <nav aria-label="Project links">
+            <a href="https://hexdocs.pm/obscura/">Docs</a>
+            <a href="https://github.com/hfiguera/obscura_examples">Workbench</a>
+            <a href="https://github.com/hfiguera/obscura">GitHub</a>
+          </nav>
+        </header>
+        <main id="privacy" class="article-shell">
+          <article>
+            <h1>Analytics privacy</h1>
+            <p>
+              This site uses Cloudflare Web Analytics to understand aggregate
+              page visits, referring sites, and page performance.
+            </p>
+            <p>
+              The analytics beacon does not use cookies or local storage, and
+              Cloudflare Web Analytics does not log URL query strings or support
+              custom tracking events. The browser sends measurements to
+              Cloudflare when a page loads and when it is left.
+            </p>
+            <p>
+              Blocking the analytics script does not change the content or
+              functionality of this site. For implementation details, see
+              <a href="https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/">Cloudflare's data collection documentation</a>.
+            </p>
+          </article>
+        </main>
+        <footer>
+          <p>Obscura is a library-first toolkit for detecting and anonymizing PII in Elixir.</p>
+          <p><a href="https://github.com/hfiguera/obscura">Source</a> · <a href="https://hex.pm/packages/obscura">Hex</a> · <a href="../feed.xml">RSS</a> · <a href="./">Analytics privacy</a></p>
+        </footer>
+        #{analytics_beacon()}
+      </body>
+    </html>
+    """
+
+    File.write!(Path.join(output, "index.html"), html)
   end
 
   defp write_feed do
@@ -175,6 +246,10 @@ defmodule Obscura.PagesBuilder do
         <loc>#{@canonical_url}</loc>
         <lastmod>#{@published_on}</lastmod>
       </url>
+      <url>
+        <loc>#{@site_url}privacy/</loc>
+        <lastmod>#{@published_on}</lastmod>
+      </url>
     </urlset>
     """
 
@@ -197,6 +272,14 @@ defmodule Obscura.PagesBuilder do
     |> Path.wildcard()
     |> Enum.filter(&(Path.extname(&1) in [".gif", ".jpg", ".mp4"]))
     |> Enum.each(&File.cp!(&1, Path.join(media_output, Path.basename(&1))))
+  end
+
+  defp analytics_beacon do
+    """
+    <!-- Cloudflare Web Analytics -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"#{@analytics_token}"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+    """
   end
 
   defp xml_escape(value) do
