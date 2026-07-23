@@ -42,7 +42,7 @@ defmodule Obscura.PagesBuilder do
     |> ExDoc.DocAST.to_html()
     |> String.replace(
       "</h1>",
-      "</h1>\n<p class=\"article-meta\">Published #{@published_on} · Obscura 0.1.0</p>",
+      "</h1>\n<p class=\"article-meta\">Published #{@published_on} · Obscura 0.1.x</p>",
       global: false
     )
   end
@@ -104,7 +104,7 @@ defmodule Obscura.PagesBuilder do
             </span>
           </a>
           <nav aria-label="Project links">
-            <a href="https://hexdocs.pm/obscura/0.1.0/">Docs</a>
+            <a href="https://hexdocs.pm/obscura/">Docs</a>
             <a href="https://github.com/hfiguera/obscura_examples">Workbench</a>
             <a href="https://github.com/hfiguera/obscura">GitHub</a>
           </nav>
@@ -113,7 +113,7 @@ defmodule Obscura.PagesBuilder do
           <article>#{article}</article>
         </main>
         <footer>
-          <p>Obscura is an early-release, library-first PII toolkit for Elixir.</p>
+          <p>Obscura is a library-first toolkit for detecting and anonymizing PII in Elixir.</p>
           <p><a href="https://github.com/hfiguera/obscura">Source</a> · <a href="https://hex.pm/packages/obscura">Hex</a> · <a href="../../feed.xml">RSS</a></p>
         </footer>
       </body>

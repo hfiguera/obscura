@@ -51,7 +51,7 @@ where it runs, which entities it looks for, and what happens to the original.
 
 ## Install Obscura
 
-Obscura 0.1.0 is available from Hex:
+Obscura is available from Hex:
 
 ```elixir
 def deps do
@@ -457,7 +457,7 @@ The same ten-second walkthrough is available as a higher-resolution
 
 The library source and installation instructions are available in the
 [Obscura repository](https://github.com/hfiguera/obscura), with API
-documentation on [HexDocs](https://hexdocs.pm/obscura/0.1.0/).
+documentation on [HexDocs](https://hexdocs.pm/obscura/).
 
 Protecting PII is most effective when it is treated as an application-boundary
 decision. Detect what the next system does not need, transform it before the
