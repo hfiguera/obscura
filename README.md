@@ -436,10 +436,14 @@ telemetry, diagnostics, and prediction exports omit raw detected values by
 default.
 
 Public result structs can contain raw detected text by design. Use
-`include_text: false` when source text is unnecessary. Vault pseudonymization
-is reversible and retains original values until the vault is cleared or
-stopped. Memory and ETS vaults are not encrypted persistent stores, and clearing
-a vault cannot guarantee secure erasure from BEAM or native-runtime memory.
+`include_text: false` when source text is unnecessary; built-in recognizers then
+avoid materializing match text. With `include_text: true`, accepted match text
+is detached when a sub-binary would otherwise retain an unrelated larger
+source binary. This reduces retention but does not provide secure erasure.
+Vault pseudonymization is reversible and retains original values until the
+vault is cleared or stopped. Memory and ETS vaults are not encrypted persistent
+stores, and clearing a vault cannot guarantee secure erasure from BEAM or
+native-runtime memory.
 
 Callers remain responsible for input logging, vault access and retention,
 credentials, model assets, trusted callbacks, and deployment controls. Review

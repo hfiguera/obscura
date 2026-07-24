@@ -35,12 +35,16 @@ surface.
   bounded production-duration growth. OpenMed memory remains **inconclusive**
   for release decisions. Large headroom and strict admission control remain
   required.
-- Ten-minute `:fast` and `:balanced` memory results are inconclusive under the
-  conservative growth classifier. `:fast` latency is stable; `:balanced`
-  throughput and tail latency degrade in later windows. The slowdown is
-  localized to fixed-shape Emily model serving, but direct GPU
-  power/frequency/utilization evidence is unavailable without privileged
-  macOS tooling.
+- The generic ten-minute `:fast` classifier remains inconclusive because it
+  expects Emily allocator observations which do not apply to this BEAM-only
+  profile. Separate 30-minute binary-retention controls at concurrency `1` and
+  `4` reached bounded plateaus and returned below their initial binary-memory
+  samples after idle and GC. This is finite workload evidence, not proof of
+  secure erasure or universally bounded RSS. The ten-minute `:balanced` result
+  remains inconclusive; its throughput and tail latency degrade in later
+  windows. That slowdown is localized to fixed-shape Emily model serving, but
+  direct GPU power/frequency/utilization evidence is unavailable without
+  privileged macOS tooling.
 - Exact byte spans remain the anonymization contract. IoU metrics can identify
   near-boundary model matches but do not make an incorrect exact span safe.
 - Context enhancement changes scores or gates existing candidates; it does not

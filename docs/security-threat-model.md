@@ -59,9 +59,12 @@ the call.
 
 Analyzer results contain exact byte offsets. With `include_text: true`, which
 is the compatibility default, `Obscura.Analyzer.Result.text` intentionally
-contains the detected source slice. Callers that do not need it should use
-`include_text: false`. Safe `Inspect` output omits result text, explanations,
-context words, and metadata.
+contains the detected source text. Accepted text is detached when retaining it
+as a sub-binary would keep an unrelated larger source binary alive. Callers
+that do not need text should use `include_text: false`; built-in recognizers
+then avoid materializing match text. These controls reduce binary retention but
+do not guarantee memory zeroization. Safe `Inspect` output omits result text,
+explanations, context words, and metadata.
 
 ### Anonymization
 
