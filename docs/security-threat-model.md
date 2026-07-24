@@ -65,10 +65,10 @@ that do not need text should use `include_text: false`; built-in recognizers
 then avoid materializing `Result.text`. The option does not sanitize metadata.
 Documented parser metadata can contain normalized PII, and trusted custom
 recognizers control metadata they return. Callback result fields are validated
-against the public result contract. Ownership-safe functions remain supported;
-closures which capture a borrowed binary or the complete analyzer input,
-malformed or improper terms, and excessively nested values are rejected with a
-sanitized callback error.
+against the public result contract. Serializable functions remain supported and
+are cloned before they escape so captured binaries and bitstrings no longer
+reference caller-owned allocations. Malformed or improper terms and excessively
+nested values are rejected with a sanitized callback error.
 Escaping borrowed binaries in accepted recursively transparent metadata and
 explanations are detached so they do not retain unrelated parent inputs. These
 controls reduce binary retention but do not guarantee memory zeroization. Safe

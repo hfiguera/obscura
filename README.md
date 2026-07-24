@@ -441,12 +441,14 @@ avoid materializing `Result.text`. This option does not sanitize metadata:
 documented parser metadata such as `:phone_e164` can contain normalized PII,
 and trusted custom recognizers control their own metadata. Custom result fields
 must satisfy `Obscura.Analyzer.Result.t()`. Ownership-safe function metadata
-remains supported, but closures which capture a borrowed binary or the complete
-analyzer input, malformed terms, and excessively nested metadata are rejected
-with a sanitized callback error. With `include_text: true`, accepted match text is detached when a
-sub-binary would otherwise retain an unrelated larger source binary. Escaping
-borrowed metadata and explanation binaries are detached in either mode. These
-controls reduce retention but do not provide secure erasure.
+remains supported. Serializable closures containing binaries or bitstrings are
+cloned before they escape so their environments no longer reference the
+caller's binary allocations. Malformed terms and excessively nested metadata
+are rejected with a sanitized callback error. With `include_text: true`,
+accepted match text is detached when a sub-binary would otherwise retain an
+unrelated larger source binary. Escaping borrowed metadata and explanation
+binaries are detached in either mode. These controls reduce retention but do
+not provide secure erasure.
 Vault pseudonymization is reversible and retains original values until the
 vault is cleared or stopped. Memory and ETS vaults are not encrypted persistent
 stores, and clearing a vault cannot guarantee secure erasure from BEAM or

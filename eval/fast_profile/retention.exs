@@ -152,6 +152,12 @@ defmodule Obscura.FastProfileRetentionProbe do
             <<_first::1, borrowed_bits::bitstring-size(8_191)>> = borrowed
             %{deferred: fn -> borrowed_bits end}
 
+          :near_full ->
+            near_full_metadata(text, opts, :direct)
+
+          :near_full_closure ->
+            near_full_metadata(text, opts, :closure)
+
           :malformed_reserved ->
             %{negative_context_words: borrowed}
 
@@ -171,6 +177,46 @@ defmodule Obscura.FastProfileRetentionProbe do
           source_entity: "PERSON",
           recognizer: :metadata_retention_probe,
           metadata: metadata
+        }
+      ]
+    end
+
+    defp near_full_metadata(text, opts, mode) do
+      <<_first::1, borrowed_bits::bitstring>> = text
+      send(Keyword.fetch!(opts, :test_pid), {:original_near_full_bitstring, borrowed_bits})
+
+      case mode do
+        :direct -> %{flags: borrowed_bits}
+        :closure -> %{deferred: fn -> borrowed_bits end}
+      end
+    end
+  end
+
+  defmodule EqualClosureRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :equal_closure_retention_probe
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(_text, opts) do
+      config = Keyword.fetch!(opts, :independent_config)
+
+      [
+        %Result{
+          entity: :person,
+          start: 0,
+          end: 1,
+          byte_start: 0,
+          byte_end: 1,
+          score: 0.9,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :equal_closure_retention_probe,
+          metadata: %{deferred: fn -> config end}
         }
       ]
     end
@@ -768,13 +814,13 @@ defmodule Obscura.FastProfileRetentionProbe do
         end
       },
       %{
-        name: "opaque_metadata_closure_is_rejected",
-        expectation: :no_sensitive_graph,
+        name: "opaque_metadata_closure_is_owned",
+        expectation: :owned_sensitive_metadata,
         operation: fn ->
           sensitive = String.duplicate("O", 1_024)
           text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
 
-          result =
+          {:ok, [result]} =
             Obscura.analyze(text,
               profile: :fast,
               built_ins: false,
@@ -790,13 +836,13 @@ defmodule Obscura.FastProfileRetentionProbe do
         end
       },
       %{
-        name: "full_source_metadata_closure_is_rejected",
-        expectation: :no_sensitive_graph,
+        name: "full_source_metadata_closure_is_owned",
+        expectation: :owned_sensitive_metadata,
         operation: fn ->
           sensitive = String.duplicate("S", 1_024)
           text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
 
-          result =
+          {:ok, [result]} =
             Obscura.analyze(text,
               profile: :fast,
               built_ins: false,
@@ -808,17 +854,17 @@ defmodule Obscura.FastProfileRetentionProbe do
               telemetry: false
             )
 
-          retention_probe(result, [sensitive])
+          retention_probe(result, [sensitive], [text])
         end
       },
       %{
-        name: "opaque_bitstring_metadata_closure_is_rejected",
-        expectation: :no_sensitive_graph,
+        name: "opaque_bitstring_metadata_closure_is_owned",
+        expectation: :owned_sensitive_metadata,
         operation: fn ->
-          sensitive = String.duplicate("B", 1_024)
-          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+          sensitive = String.duplicate("B", 128)
+          text = safe_padding(100_000) <> String.duplicate("B", 1_024) <> safe_padding(100_000)
 
-          result =
+          {:ok, [result]} =
             Obscura.analyze(text,
               profile: :fast,
               built_ins: false,
@@ -829,6 +875,83 @@ defmodule Obscura.FastProfileRetentionProbe do
             )
 
           retention_probe(result, [sensitive])
+        end
+      },
+      %{
+        name: "near_full_non_byte_aligned_metadata_is_owned",
+        expectation: :owned_sensitive_metadata,
+        operation: fn ->
+          sensitive = "NEAR-FULL-BITSTRING-CANARY"
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [
+                {MetadataRecognizer, metadata_mode: :near_full, test_pid: self()}
+              ],
+              include_text: false,
+              telemetry: false
+            )
+
+          receive do
+            {:original_near_full_bitstring, original} ->
+              retention_probe(result, [sensitive], [original])
+          after
+            1_000 -> raise "near-full bitstring identity was not captured"
+          end
+        end
+      },
+      %{
+        name: "near_full_non_byte_aligned_closure_is_owned",
+        expectation: :owned_sensitive_metadata,
+        operation: fn ->
+          sensitive = "NEAR-FULL-CLOSURE-CANARY"
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [
+                {MetadataRecognizer, metadata_mode: :near_full_closure, test_pid: self()}
+              ],
+              include_text: false,
+              telemetry: false
+            )
+
+          receive do
+            {:original_near_full_bitstring, original} ->
+              retention_probe(result, [sensitive], [original])
+          after
+            1_000 -> raise "near-full closure identity was not captured"
+          end
+        end
+      },
+      %{
+        name: "independent_input_equivalent_closure_is_owned",
+        expectation: :owned_sensitive_metadata,
+        operation: fn ->
+          sensitive = "INDEPENDENT-EQUAL-CLOSURE-CANARY"
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+          independent_config = :binary.copy(text)
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [
+                {EqualClosureRecognizer, independent_config: independent_config}
+              ],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive], [independent_config])
         end
       },
       %{
@@ -989,8 +1112,8 @@ defmodule Obscura.FastProfileRetentionProbe do
     end
   end
 
-  defp retention_probe(term, sensitive_values) do
-    {:retention_probe, term, sensitive_values}
+  defp retention_probe(term, sensitive_values, forbidden_identities \\ []) do
+    {:retention_probe, term, sensitive_values, forbidden_identities}
   end
 
   defp run_case(case_data) do
@@ -999,8 +1122,8 @@ defmodule Obscura.FastProfileRetentionProbe do
 
     {pid, monitor} =
       spawn_monitor(fn ->
-        {result, sensitive_values} = normalize_probe(case_data.operation.())
-        observation = observe(result, sensitive_values)
+        {result, sensitive_values, forbidden_identities} = normalize_probe(case_data.operation.())
+        observation = observe(result, sensitive_values, forbidden_identities)
         Process.put(:obscura_retention_held_result, result)
         :erlang.garbage_collect(self())
         snapshot = holder_snapshot(self())
@@ -1059,12 +1182,12 @@ defmodule Obscura.FastProfileRetentionProbe do
     )
   end
 
-  defp normalize_probe({:retention_probe, term, sensitive_values}),
-    do: {term, sensitive_values}
+  defp normalize_probe({:retention_probe, term, sensitive_values, forbidden_identities}),
+    do: {term, sensitive_values, forbidden_identities}
 
-  defp normalize_probe(term), do: {term, []}
+  defp normalize_probe(term), do: {term, [], []}
 
-  defp observe(term, sensitive_values) do
+  defp observe(term, sensitive_values, forbidden_identities) do
     state = inspect_term(term, [], empty_observation(), sensitive_values)
 
     %{
@@ -1076,6 +1199,7 @@ defmodule Obscura.FastProfileRetentionProbe do
       borrowed_paths: Enum.reverse(state.borrowed_paths),
       sensitive_binary_count: state.sensitive_binary_count,
       sensitive_paths: Enum.reverse(state.sensitive_paths),
+      forbidden_identity_count: forbidden_identity_count(term, forbidden_identities),
       text_bytes: state.text_bytes,
       text_referenced_bytes: state.text_referenced_bytes,
       amplification: state.max_amplification
@@ -1110,7 +1234,8 @@ defmodule Obscura.FastProfileRetentionProbe do
   defp passes?(:clean_graph, observation), do: clean_graph?(observation)
 
   defp clean_graph?(observation) do
-    observation.borrowed_binary_count == 0 and observation.holder_terminated
+    observation.borrowed_binary_count == 0 and observation.forbidden_identity_count == 0 and
+      observation.holder_terminated
   end
 
   defp empty_observation do
@@ -1142,8 +1267,7 @@ defmodule Obscura.FastProfileRetentionProbe do
     text? = List.last(path) == :text
     borrowed? = referenced > bytes
 
-    sensitive? =
-      is_binary(value) and Enum.any?(sensitive_values, &contains_sensitive_value?(value, &1))
+    sensitive? = Enum.any?(sensitive_values, &contains_sensitive_value?(value, &1))
 
     %{
       state
@@ -1197,9 +1321,56 @@ defmodule Obscura.FastProfileRetentionProbe do
 
   defp contains_sensitive_value?(_value, ""), do: false
 
-  defp contains_sensitive_value?(value, sensitive_value) when is_binary(sensitive_value) do
+  defp contains_sensitive_value?(value, sensitive_value)
+       when is_binary(value) and is_binary(sensitive_value) do
     :binary.match(value, sensitive_value) != :nomatch
   end
+
+  defp contains_sensitive_value?(value, sensitive_value)
+       when is_bitstring(value) and is_binary(sensitive_value) do
+    max_shift = min(7, max(bit_size(value) - 1, 0))
+
+    Enum.any?(0..max_shift, fn shift ->
+      <<_prefix::size(^shift), shifted::bitstring>> = value
+      shifted |> padded_binary() |> contains_sensitive_value?(sensitive_value)
+    end)
+  end
+
+  defp padded_binary(value) when is_binary(value), do: value
+
+  defp padded_binary(value) when is_bitstring(value) do
+    padding_size = 8 - rem(bit_size(value), 8)
+    <<value::bitstring, 0::size(padding_size)>>
+  end
+
+  defp forbidden_identity_count(_term, []), do: 0
+
+  defp forbidden_identity_count(term, forbidden_identities) when is_bitstring(term) do
+    Enum.count(forbidden_identities, &:erts_debug.same(term, &1))
+  end
+
+  defp forbidden_identity_count(term, forbidden_identities) when is_function(term) do
+    {:env, environment} = :erlang.fun_info(term, :env)
+    forbidden_identity_count(environment, forbidden_identities)
+  end
+
+  defp forbidden_identity_count(term, forbidden_identities) when is_map(term) do
+    term
+    |> Map.to_list()
+    |> forbidden_identity_count(forbidden_identities)
+  end
+
+  defp forbidden_identity_count(term, forbidden_identities) when is_list(term) do
+    Enum.reduce(term, 0, &(&2 + forbidden_identity_count(&1, forbidden_identities)))
+  end
+
+  defp forbidden_identity_count(term, forbidden_identities) when is_tuple(term) do
+    term
+    |> Tuple.to_list()
+    |> forbidden_identity_count(forbidden_identities)
+  end
+
+  defp forbidden_identity_count(_term, _forbidden_identities), do: 0
 
   defp holder_snapshot(pid) do
     info = Process.info(pid, [:memory, :message_queue_len, :binary])
@@ -1273,6 +1444,7 @@ defmodule Obscura.FastProfileRetentionProbe do
         "| `#{result.name}` | `#{result.expectation}` | #{result.text_bytes} | " <>
           "#{result.text_referenced_bytes} | #{result.binary_count} | " <>
           "#{result.borrowed_binary_count} | #{result.sensitive_binary_count} | " <>
+          "#{result.forbidden_identity_count} | " <>
           "#{format(result.amplification)}x | " <>
           "#{result.holder_binary_bytes} | #{result.holder_terminated} | #{result.passed} |"
       end)
@@ -1286,10 +1458,10 @@ defmodule Obscura.FastProfileRetentionProbe do
       "- Elixir / OTP: `#{report.environment.elixir}` / `#{report.environment.otp}`",
       "",
       "| Case | Expectation | Text bytes | Text referenced | Graph binaries | " <>
-        "Borrowed graph binaries | Sensitive graph binaries | Max amplification | " <>
-        "Holder binary bytes | " <>
+        "Borrowed graph binaries | Sensitive graph binaries | Forbidden identities | " <>
+        "Max amplification | Holder binary bytes | " <>
         "Holder terminated | Passed |",
-      "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
+      "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
       rows,
       ""
     ]

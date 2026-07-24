@@ -112,10 +112,9 @@ surface.
 - Custom recognizers, operators, language detectors, telemetry handlers, and
   model dependencies are trusted application/runtime code and can independently
   log, retain, or transmit values they receive. Obscura validates returned
-  recognizer fields. Ownership-safe function metadata remains compatible;
-  closures which capture a borrowed binary or the complete analyzer input are
-  rejected because Obscura cannot detach an opaque closure environment. Obscura
-  cannot undo callback side effects or inspect external state.
+  recognizer fields. Serializable function metadata remains compatible and is
+  cloned so captured binaries no longer reference caller-owned allocations.
+  Obscura cannot undo callback side effects or inspect external state.
 - Logger and Plug helpers cannot redact entities that configured recognizers
   miss. Callers must evaluate their own data and downstream sinks.
 - Security reports use GitHub Private Vulnerability Reporting. Reporters need

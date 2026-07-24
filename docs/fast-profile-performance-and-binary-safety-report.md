@@ -53,7 +53,7 @@ The paired baseline and final microbenchmarks ran on:
 The operational baseline ran from a detached worktree at the clean baseline
 revision. Three final operational repetitions ran from clean revision
 `cd54ca09`. The review correction was validated with an expanded 46-case
-semantic benchmark harness, a 39-case recursively inspectable returned-term
+semantic benchmark harness, a 42-case recursively inspectable returned-term
 retention harness, alternating paired performance runs, a five-minute targeted
 soak, full tests, and static checks.
 
@@ -147,11 +147,12 @@ behavior.
 
 With `include_text: true`, candidate filtering, allow-list handling, context,
 thresholding, and conflict resolution happen before central final assembly.
-Final assembly copies only escaping sub-binaries whose referenced size exceeds
-their own byte size. Already-owned binaries are reused. The same ownership
-pass recursively detaches borrowed binaries and bitstrings in accepted result
-metadata and explanations, including values returned by custom validation
-callbacks.
+Final assembly copies only escaping binary slices whose referenced size exceeds
+their own byte size. Already-owned byte-aligned binaries are reused.
+Non-byte-aligned bitstrings are always copied because rounded byte size cannot
+prove their allocation ownership. The same ownership pass recursively detaches
+borrowed binaries and bitstrings in accepted result metadata and explanations,
+including values returned by custom validation callbacks.
 
 Custom recognizers remain compatible. Their returned text is removed when
 `include_text: false`; with `include_text: true`, an existing binary is detached
@@ -160,13 +161,14 @@ at final assembly when it borrows a larger source binary. A custom result with
 Custom result fields are checked against the public `Result.t()` contract.
 Malformed recognizer names, source entities, explanations, improper terms, and
 excessive nesting return a sanitized `:invalid_callback_result` error.
-Ownership-safe function metadata remains compatible. A closure whose captured
-environment contains a borrowed binary or bitstring, or the complete analyzer
-input binary, is rejected because an opaque closure environment cannot be
-rewritten to detach or remove that value.
-Recursively accepted metadata and explanation binaries and bitstrings are
-detached before they escape. Non-byte-aligned bitstrings are copied without
-changing their bit contents.
+Function metadata remains compatible. Serializable closures are cloned through
+Erlang's external term format before final assembly, which preserves callable
+behavior while independently owning binaries and bitstrings in the closure
+environment. This also preserves independently allocated configuration values
+whose content happens to equal the analyzer input. Recursively accepted
+metadata and explanation binaries and bitstrings are detached before they
+escape. Non-byte-aligned bitstrings are copied without changing their bit
+contents.
 
 Analyzer-reserved context metadata is validated before post-processing.
 Context word fields must be proper lists of string-convertible scalar values,
@@ -377,6 +379,17 @@ one-match cases by `91.41%` to `91.64%`, the `1 MiB` case by `93.16%`, and the
 retained long URL by `97.79%`. The neutral paired comparison above confirms
 that the complete-source correction preserves those gains.
 
+The near-full bitstring and closure-cloning correction was measured with the
+complete `46`-case matrix, five repetitions, scale `1.0`, and a clean-`main`
+external schema-`3` reference. All `46/46` semantic fingerprints matched.
+Compared with revision `782ea6d3`, geometric-mean p50 across the complete matrix
+improved by `0.59%`; common-request p50 improved by `4.71%` without text and
+`1.24%` with text. Core scaling cases moved from a `0.22%` improvement through a
+`2.67%` slowdown, and reductions changed by at most `0.05%`. Against clean
+`main`, the same run retained p50 improvements of `78.76%` for the true `1 KiB`
+no-match case, `90.98%` to `91.06%` for the `64 KiB` one-match cases, `92.80%`
+for the `1 MiB` one-match case, and `97.69%` for the retained long URL.
+
 ## Operational Matrix
 
 The final values below are medians across three clean runs. Each run contains
@@ -481,9 +494,10 @@ results carry no match-text binary.
 
 The review harness retains and recursively inspects returned terms, including
 map keys and values, structs, lists, tuples, and function environments.
-Ownership-safe functions are accepted for custom-recognizer compatibility;
-closures containing borrowed binaries or bitstrings, or the complete analyzer
-input binary, are rejected before final assembly. Its `39` cases cover:
+Serializable functions are accepted for custom-recognizer compatibility and
+cloned when returned. The harness performs bit-level sensitive-content scanning
+and explicit identity checks for source-derived values whose rounded byte size
+cannot establish ownership. Its `42` cases cover:
 
 - analyzer results with explanations and metadata;
 - analyzer batches, allow/deny filtering, context rejection, overlap handling,
@@ -493,34 +507,36 @@ input binary, are rejected before final assembly. Its `39` cases cover:
 - Logger and full Plug connection results;
 - custom borrowed and offset-only results;
 - custom validator result and explanation metadata;
-- independently owned non-byte-aligned callback metadata;
-- malformed recognizer fields and opaque closure metadata;
-- closures retaining the complete analyzer input;
-- opaque closures containing borrowed non-byte-aligned metadata;
+- independently owned and near-full non-byte-aligned callback metadata;
+- malformed recognizer fields and cloned opaque closure metadata;
+- cloned closures containing the complete analyzer input;
+- cloned opaque closures containing borrowed and near-full non-byte-aligned
+  metadata;
+- independently allocated closure values equal to the analyzer input;
 - adversarial `:__struct__` map values;
 - malformed inline-pattern validation metadata;
-- an owned caller-supplied phone-validator closure and a rejected borrowed
-  closure;
+- owned caller-supplied phone-validator closures;
 - parser-backed normalized phone metadata;
 - large flat callback metadata containing an owned source-derived binary;
 - malformed analyzer-reserved context metadata;
 - sanitized recognizer error, exception, throw, exit, and timeout paths.
 
-All `39` cases reported zero borrowed binaries or bitstrings anywhere in their
-recursively traversable returned terms. Each worker explicitly retained its
-complete result in process state, forced garbage collection, and captured
-process and VM binary measurements before the parent released the result. Every
-holder process then terminated normally and became unreachable through
+All `42` cases reported zero borrowed binaries or bitstrings anywhere in their
+recursively traversable returned terms and zero forbidden source identities in
+the adversarial bitstring and closure cases. Each worker explicitly retained
+its complete result in process state, forced garbage collection, and captured
+process and VM binary measurements before the parent released the result.
+Every holder process then terminated normally and became unreachable through
 `Process.info/2`. The in-memory vault was checked separately: it retained the
 exact independently owned value and did not retain its larger source binary.
 
 The harness reports sensitive-content exposure separately from binary
 ownership. A built-in `include_text: false` canary returned no canary content.
-Two explicit extension cases intentionally returned sensitive metadata: custom
-validation metadata and parser-backed `:phone_e164`. Both were independently
-owned at `1.0x` referenced-size amplification. This proves that they do not
-retain a larger parent input; it does not classify those explicit metadata
-values as non-sensitive.
+Explicit extension cases intentionally returned sensitive metadata through
+custom validation, parser-backed `:phone_e164`, and callable custom metadata.
+Those values were independently owned at `1.0x` referenced-size amplification.
+This proves that they do not retain a larger parent input; it does not classify
+those explicit metadata values as non-sensitive.
 
 ## Long-Duration Evidence
 
@@ -583,7 +599,7 @@ allocator evidence, not as proof of live-object ownership.
 | Reverse recognizer accumulation | Avoid repeated list append | Common latency worsened 4% to 6% | Regression | Reductions rose about 0.3% to 0.5% | Unchanged | Rejected | none |
 | Cache recognizer option keywords | Avoid repeated struct conversion | Effects stayed below 1%; tails moved both ways | Inconclusive | About 0.1% fewer reductions | Unchanged | Rejected | none |
 | Trivial conflict fast paths | Skip conflict passes for zero/one result | Reduced no-match reductions 3.5%, but paired wall-time gate did not pass | Inconclusive/regressing pair | Small isolated gain | Unchanged | Rejected | none |
-| Review corrections | Preserve nullable custom text and ownership-safe function metadata, validate every public callback-result field and analyzer-reserved metadata, reject closures with borrowed binaries or the complete analyzer input, handle large flat transparent lists correctly, inspect returned terms including adversarial `:__struct__` values, own callback metadata, separate sensitive content from ownership, validate ordered output against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `39/39` ownership probes, `46/46` external fingerprints, and full tests passed | Latest immediate-parent common p50 changed by `+0.68%` and `+1.07%`, within noise | Scaling gains against `main` remain `71.83%` to `96.84%` in the latest full run | Zero borrowed binaries in accepted returned terms; malformed reserved terms and source-retaining closure environments rejected | Accepted | `11bcd664` through current review |
+| Review corrections | Preserve nullable custom text and function metadata, validate every public callback-result field and analyzer-reserved metadata, clone serializable closure environments, copy every non-byte-aligned bitstring, handle large flat transparent lists correctly, inspect returned terms including adversarial `:__struct__` values, separate sensitive content from ownership, validate ordered output against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `42/42` ownership probes, `46/46` external fingerprints, and full tests passed | Latest immediate-parent common p50 improved by `4.71%` and `1.24%`; complete-matrix geometric mean improved by `0.59%` | Scaling gains against `main` remain `78.76%` to `97.69%` in the latest full run | Zero borrowed binaries or forbidden source identities in accepted returned terms; malformed reserved terms rejected | Accepted | `11bcd664` through current review |
 
 Rejected implementation changes were reverted. Their ignored local reports
 remain available during branch review but are not promoted as authoritative
@@ -612,7 +628,7 @@ mix docs
 mix ci.base
 ```
 
-The final test result was `760 passed`, including `10` property tests, with
+The final test result was `762 passed`, including `10` property tests, with
 `14` optional/model tests excluded by their normal tags. Strict Credo,
 Dialyzer, ExDNA, ExSlop, Credence, local Markdown verification, ExDoc
 generation, and every promoted manifest verification passed.
@@ -631,10 +647,10 @@ generation, and every promoted manifest verification passed.
 - A malicious or stateful custom callback can retain its input independently
   of Obscura's returned-result ownership, including through external state.
   Accepted recursively transparent callback metadata is detached from larger
-  parent binaries. Ownership-safe functions remain supported, while closures
-  containing borrowed binaries or the complete analyzer input and malformed
-  callback results are rejected.
-  Metadata content remains caller-controlled and may intentionally contain PII.
+  parent binaries. Serializable function metadata remains supported and is
+  cloned so captured binaries no longer reference the caller's allocations.
+  Malformed callback results are rejected. Metadata content remains
+  caller-controlled and may intentionally contain PII.
 - BEAM and native allocators may retain freed pages. RSS is not a live-object
   inventory.
 - Secure memory erasure is not guaranteed.

@@ -159,6 +159,8 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
         case Keyword.fetch!(opts, :metadata_mode) do
           :detachable -> %{flags: borrowed_bits}
           :opaque -> %{deferred: fn -> borrowed_bits end}
+          :near_full -> near_full_metadata(text, opts, :direct)
+          :near_full_closure -> near_full_metadata(text, opts, :closure)
         end
 
       [
@@ -173,6 +175,46 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
           source_entity: "PERSON",
           recognizer: :bitstring_ownership_test_recognizer,
           metadata: metadata
+        }
+      ]
+    end
+
+    defp near_full_metadata(text, opts, mode) do
+      <<_first::1, borrowed_bits::bitstring>> = text
+      send(Keyword.fetch!(opts, :test_pid), {:original_near_full_bitstring, borrowed_bits})
+
+      case mode do
+        :direct -> %{flags: borrowed_bits}
+        :closure -> %{deferred: fn -> borrowed_bits end}
+      end
+    end
+  end
+
+  defmodule EqualClosureRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :equal_closure_test_recognizer
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(_text, opts) do
+      config = Keyword.fetch!(opts, :independent_config)
+
+      [
+        %Result{
+          entity: :person,
+          start: 0,
+          end: 1,
+          byte_start: 0,
+          byte_end: 1,
+          score: 0.9,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :equal_closure_test_recognizer,
+          metadata: %{deferred: fn -> config end}
         }
       ]
     end
@@ -317,7 +359,6 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
           :source_entity,
           :explanation,
           :explanation_field,
-          :opaque_metadata,
           :improper_metadata
         ] do
       outcome =
@@ -336,17 +377,6 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
       refute inspect(outcome) =~ String.duplicate("A", 128)
     end
-
-    assert {:error,
-            {:recognizer_failed, :bitstring_ownership_test_recognizer, :invalid_callback_result}} =
-             Obscura.analyze(text,
-               profile: :fast,
-               built_ins: false,
-               entities: [:person],
-               recognizers: [{BitstringOwnershipRecognizer, metadata_mode: :opaque}],
-               include_text: false,
-               telemetry: false
-             )
   end
 
   test "ownership-safe function metadata preserves custom recognizer compatibility" do
@@ -368,27 +398,43 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
     assert result.metadata.postprocess.(:value) == :value
   end
 
-  test "function metadata capturing the complete source is rejected safely" do
+  test "function metadata containing source binaries is cloned before it escapes" do
     canary = String.duplicate("COMPLETE-SOURCE-CANARY", 64)
     text = safe_padding(100_000) <> canary
 
-    outcome =
-      Obscura.analyze(text,
-        profile: :fast,
-        built_ins: false,
-        entities: [:person],
-        recognizers: [
-          {MalformedOwnershipRecognizer, malformed_field: :full_source_closure}
-        ],
-        include_text: false,
-        telemetry: false
-      )
+    assert {:ok, [%Result{} = full_source_result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [
+                 {MalformedOwnershipRecognizer, malformed_field: :full_source_closure}
+               ],
+               include_text: false,
+               telemetry: false
+             )
 
-    assert {:error,
-            {:recognizer_failed, :malformed_ownership_test_recognizer, :invalid_callback_result}} =
-             outcome
+    cloned_source = full_source_result.metadata.deferred.()
 
-    refute inspect(outcome) =~ "COMPLETE-SOURCE-CANARY"
+    assert cloned_source == text
+    refute :erts_debug.same(cloned_source, text)
+
+    assert {:ok, [%Result{} = borrowed_result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [
+                 {MalformedOwnershipRecognizer, malformed_field: :opaque_metadata}
+               ],
+               include_text: false,
+               telemetry: false
+             )
+
+    cloned_borrowed = borrowed_result.metadata.deferred.()
+
+    assert cloned_borrowed == binary_part(text, 100_000, 1_024)
+    assert :binary.referenced_byte_size(cloned_borrowed) == byte_size(cloned_borrowed)
   end
 
   test "non-byte-aligned callback metadata does not retain its large source binary" do
@@ -410,6 +456,62 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
     refute is_binary(flags)
     assert :binary.referenced_byte_size(flags) == byte_size(flags)
     assert borrowed_binary_paths(result) == []
+  end
+
+  test "near-full non-byte-aligned callback metadata is detached from its source" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    for mode <- [:near_full, :near_full_closure] do
+      assert {:ok, [%Result{} = result]} =
+               Obscura.analyze(text,
+                 profile: :fast,
+                 built_ins: false,
+                 entities: [:person],
+                 recognizers: [
+                   {BitstringOwnershipRecognizer, metadata_mode: mode, test_pid: self()}
+                 ],
+                 include_text: false,
+                 telemetry: false
+               )
+
+      assert_receive {:original_near_full_bitstring, original}
+
+      escaped =
+        case mode do
+          :near_full -> result.metadata.flags
+          :near_full_closure -> result.metadata.deferred.()
+        end
+
+      assert escaped == original
+      assert byte_size(escaped) == byte_size(text)
+      assert :binary.referenced_byte_size(escaped) == byte_size(escaped)
+      refute :erts_debug.same(escaped, original)
+    end
+  end
+
+  test "closure metadata accepts and clones independently owned input-equivalent binaries" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+    independent_config = :binary.copy(text)
+
+    assert text == independent_config
+    refute :erts_debug.same(text, independent_config)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [
+                 {EqualClosureRecognizer, independent_config: independent_config}
+               ],
+               include_text: false,
+               telemetry: false
+             )
+
+    escaped = result.metadata.deferred.()
+
+    assert escaped == independent_config
+    refute :erts_debug.same(escaped, independent_config)
   end
 
   test "maps with an unresolvable struct tag remain inert metadata" do

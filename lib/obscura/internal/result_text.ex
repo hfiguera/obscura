@@ -46,6 +46,7 @@ defmodule Obscura.Internal.ResultText do
   @spec own_term(term()) :: term()
   def own_term(value) when is_binary(value), do: own(value)
   def own_term(value) when is_bitstring(value), do: own_bitstring(value)
+  def own_term(value) when is_function(value), do: own_function(value)
   def own_term(value) when is_map(value), do: own_map(value)
   def own_term([]), do: []
   def own_term([head | tail]), do: [own_term(head) | own_term(tail)]
@@ -99,15 +100,17 @@ defmodule Obscura.Internal.ResultText do
   end
 
   defp own_bitstring(value) do
-    if :binary.referenced_byte_size(value) > byte_size(value) do
-      size = bit_size(value)
-      padding_size = 8 - rem(size, 8)
-      copied = <<value::bitstring, 0::size(padding_size)>>
-      <<owned::bitstring-size(^size), _padding::size(^padding_size)>> = copied
-      owned
-    else
-      value
-    end
+    size = bit_size(value)
+    padding_size = 8 - rem(size, 8)
+    copied = <<value::bitstring, 0::size(padding_size)>>
+    <<owned::bitstring-size(^size), _padding::size(^padding_size)>> = copied
+    owned
+  end
+
+  defp own_function(value) do
+    value
+    |> :erlang.term_to_binary()
+    |> :erlang.binary_to_term([:safe])
   end
 
   defp materialize?(opts) do
@@ -125,13 +128,14 @@ defmodule Obscura.Internal.ResultText do
        do: safe_scalar?(value, mode, source)
 
   defp safe_callback_term?(value, depth, mode, source) when is_function(value) do
-    case :erlang.fun_info(value, :env) do
-      {:env, environment} ->
-        safe_callback_term?(environment, depth + 1, opaque_mode(mode), source)
+    serializable_function?(value) and
+      case :erlang.fun_info(value, :env) do
+        {:env, environment} ->
+          safe_callback_term?(environment, depth + 1, opaque_mode(mode), source)
 
-      _invalid ->
-        false
-    end
+        _invalid ->
+          false
+      end
   end
 
   defp safe_callback_term?([], _depth, _mode, _source), do: true
@@ -160,18 +164,18 @@ defmodule Obscura.Internal.ResultText do
 
   defp safe_callback_term?(_value, _depth, _mode, _source), do: false
 
-  defp safe_scalar?(value, :opaque_environment, source) when is_bitstring(value) do
-    :binary.referenced_byte_size(value) == byte_size(value) and
-      not complete_source_capture?(value, source)
+  defp serializable_function?(value) do
+    value
+    |> :erlang.term_to_binary()
+    |> :erlang.binary_to_term([:safe])
+    |> is_function()
+  rescue
+    _error -> false
+  catch
+    _kind, _reason -> false
   end
 
   defp safe_scalar?(_value, _mode, _source), do: true
-
-  defp complete_source_capture?(value, source) when is_binary(value) and is_binary(source) do
-    byte_size(value) == byte_size(source) and value == source
-  end
-
-  defp complete_source_capture?(_value, _source), do: false
 
   defp opaque_mode(_mode), do: :opaque_environment
 end
