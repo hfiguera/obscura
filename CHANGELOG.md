@@ -2,6 +2,20 @@
 
 All notable changes to Obscura are documented in this file.
 
+## 0.1.2 - 2026-07-24
+
+- Improved `:fast` latency and throughput, with the largest gains on large
+  inputs containing small matches.
+- Prevented returned analyzer results and recursively transparent callback
+  metadata from retaining large source-binary allocations.
+- Deferred dependency-light NLP and context artifacts until recognizers
+  actually require them.
+- Hardened custom recognizer validation, metadata ownership, and sanitized
+  callback failure handling while preserving the stable extension contract.
+- Expanded semantic-equivalence, binary-retention, malformed-input, and
+  sustained-load verification for the `:fast` profile.
+- Updated real-model smoke tests to use the stable `:replace` operator option.
+
 ## 0.1.1 - 2026-07-22
 
 - Documented LDC's confirmation that commercial use of
