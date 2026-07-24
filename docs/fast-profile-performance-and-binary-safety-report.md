@@ -12,16 +12,18 @@ The strongest measured changes are:
 - `1 MiB` one-match p50 fell by `93.0%`;
 - the `400 KiB` retained-URL p50 fell by `97.7%`;
 - detect-plus-redact p50 fell by `8.8%`;
-- all object-level ownership probes changed from as much as `744.879x`
-  referenced-size amplification to exactly `1.0x`, or to no text binary;
+- all `25` complete returned-object-graph ownership probes have zero borrowed
+  binaries; text probes changed from as much as `744.879x` referenced-size
+  amplification to exactly `1.0x`, or to no text binary;
 - all three authoritative accuracy and per-entity fingerprints remained
   unchanged;
 - two independent 30-minute targeted soaks classified binary retention as a
   `stable_plateau`.
 
-These results prove output equivalence and object-level ownership for the
-tested paths. They do not prove secure erasure, universal absence of leaks, or
-bounded allocator RSS for every workload.
+These results prove output equivalence and returned-object ownership for the
+tested built-in and controlled extension paths. They do not prove that
+arbitrary caller-supplied callbacks cannot retain input, secure erasure,
+universal absence of leaks, or bounded allocator RSS for every workload.
 
 ## Revisions And Environment
 
@@ -32,6 +34,7 @@ bounded allocator RSS for every workload.
 | Deferred dependency-light artifacts | `cde7ee2c` |
 | Targeted retention soak | `cd54ca09` |
 | Final validated implementation before this report | `22e7e0dd` |
+| Review corrections and expanded verification | `11bcd664` |
 
 The paired baseline and final microbenchmarks ran on:
 
@@ -46,9 +49,10 @@ The paired baseline and final microbenchmarks ran on:
 
 The operational baseline ran from a detached worktree at the clean baseline
 revision. Three final operational repetitions ran from clean revision
-`cd54ca09`. The final cleanup only introduced aliases and extracted an
-equivalent private context helper; the final-source microbenchmark, ownership
-probe, accuracy reports, full tests, and static checks ran at `22e7e0dd`.
+`cd54ca09`. The review correction was validated at `11bcd664` with an expanded
+45-case benchmark harness, a 25-case complete returned-graph retention harness,
+alternating paired performance runs, a five-minute targeted soak, full tests,
+and static checks.
 
 ## Commands
 
@@ -72,8 +76,8 @@ Ownership probes:
 
 ```sh
 mix run eval/fast_profile/retention.exs -- \
-  --label final_post_cleanup \
-  --output eval/reports/fast_profile/retention_final_post_cleanup.json
+  --label review_corrections_final_v2 \
+  --output eval/reports/fast_profile/retention_review_corrections_final_v2.json
 ```
 
 Operational matrix:
@@ -117,7 +121,8 @@ mix run eval/fast_profile/soak.exs -- \
 ### Final text ownership
 
 Built-in recognizers honor `include_text` while constructing candidate
-results. With `include_text: false`, match text is not materialized.
+results. Address, domain, location, and person recognition no longer create a
+match sub-binary when `include_text: false`.
 
 With `include_text: true`, candidate filtering, allow-list handling, context,
 thresholding, and conflict resolution happen before central final assembly.
@@ -125,8 +130,13 @@ Final assembly copies only escaping sub-binaries whose referenced size exceeds
 their own byte size. Already-owned binaries are reused.
 
 Custom recognizers remain compatible. Their returned text is removed when
-`include_text: false` and detached at final assembly when it borrows a larger
-source binary.
+`include_text: false`; with `include_text: true`, an existing binary is detached
+at final assembly when it borrows a larger source binary. A custom result with
+`text: nil` remains nil, preserving the nullable public result contract.
+
+Recognizer exceptions, throws, and exits are converted to structured,
+input-free failure reasons. This prevents an exit reason containing source text
+from reaching task-exit logs.
 
 Allow-list matching derives temporary values from source offsets when result
 text is absent. Parser-backed phone validation similarly uses temporary source
@@ -150,13 +160,18 @@ Context processing builds artifacts lazily only when a result or caller context
 actually requires token-aware matching. Custom recognizers and explicit NLP
 engines continue to receive central artifacts.
 
+Lazy construction is measured as `:nlp_artifacts`. Context enhancement and
+acceptance filtering have separate diagnostic stages, so operational reports no
+longer attribute tokenization to `:analyzer_filtering`.
+
 ## Public Behavior Invariants
 
 The following contracts did not change:
 
 - `:fast` still resolves to `:deterministic_plus`;
 - `include_text: true` remains the default;
-- returned text equals the exact source byte range;
+- built-in returned text equals the exact source byte range;
+- a custom recognizer's documented nullable `text` value remains nil;
 - `include_text: false` returns `text: nil`;
 - entities, byte offsets, scores, metadata, ordering, and conflict behavior are
   unchanged;
@@ -166,7 +181,8 @@ The following contracts did not change:
   unchanged.
 
 Property and contract tests prove that changing `include_text` changes only
-the documented text field.
+the documented text field for built-in recognizers. Custom-recognizer tests
+separately prove borrowed binary detachment and nil preservation.
 
 ## Microbenchmark Matrix
 
@@ -192,6 +208,19 @@ The `1.4%` to `2.0%` reduction increases on short, batch, anonymization, and
 structured paths come from centralized ownership handling. They are accepted
 for the binary-retention guarantee. Paired latency and throughput did not
 regress. Large-input reduction cost fell by `67.3%` to `86.3%`.
+
+The review expanded the harness from `11` to `45` cases. It now includes batch
+sizes `1`, `8`, `32`, and `128`; every operator; Logger and Plug paths; each
+built-in entity; four input scales; match positions; multibyte and malformed
+input; dense and overlapping matches; and disabled and parser-backed phone
+modes. Every case completed with its expected output or controlled error.
+
+Two alternating seven-repetition runs compared the review correction with its
+immediate parent using the original 11 cases. Depending on run order, p50,
+p95, and throughput moved in both directions. In the adverse ordering, the
+largest movements were `+1.76%` p50, `+2.20%` p95, and `-1.78%` throughput;
+reductions remained within `0.12%`. These are treated as run-to-run noise, not a
+performance regression. The large gains against clean `main` remain intact.
 
 ## Operational Matrix
 
@@ -295,6 +324,24 @@ The exact amplification depends on source size, but the final invariant is
 stable: escaping text references only its own bytes. Offset-only built-in
 results carry no match-text binary.
 
+The review harness retains and recursively inspects the complete returned term,
+including map keys and values, structs, lists, and tuples. Its `25` cases cover:
+
+- analyzer results with explanations and metadata;
+- analyzer batches, allow/deny filtering, context rejection, overlap handling,
+  score rejection, telemetry, and many accepted matches;
+- anonymizer results and operator items;
+- structured results and items;
+- Logger and full Plug connection results;
+- custom borrowed and offset-only results;
+- sanitized recognizer error, exception, throw, exit, and timeout paths.
+
+All `25` cases reported zero borrowed binaries anywhere in their returned
+object graph. Every holder process terminated normally after release and
+became unreachable through `Process.info/2`. The in-memory vault was checked
+separately: it retained the exact independently owned value and did not retain
+its larger source binary.
+
 ## Long-Duration Evidence
 
 ### Canonical ten-minute soak
@@ -332,6 +379,21 @@ This establishes bounded finite-run binary-retention evidence for the tested
 workload. It does not establish cryptographic zeroization or a universal RSS
 bound.
 
+### Review-correction five-minute soak
+
+The final review correction completed `169,560` operations at concurrency `4`
+with zero unexpected failures. It exercised `33,912` controlled failure and
+holder-release cycles:
+
+- first/final-half throughput: `567.62 / 562.69 req/s`;
+- final-half binary slope: `-254 B/min`;
+- post-GC binary delta: `-3.00 MiB`;
+- post-idle holder results, binary bytes, and mailbox messages: `0`;
+- RSS changed from `127.48 MiB` to `107.39 MiB`.
+
+The finite run remained on a stable plateau. RSS is reported as observational
+allocator evidence, not as proof of live-object ownership.
+
 ## Experiments
 
 | Experiment | Hypothesis | Result | Speed effect | Allocation/reduction effect | Retention effect | Decision | Commit |
@@ -341,6 +403,7 @@ bound.
 | Reverse recognizer accumulation | Avoid repeated list append | Common latency worsened 4% to 6% | Regression | Reductions rose about 0.3% to 0.5% | Unchanged | Rejected | none |
 | Cache recognizer option keywords | Avoid repeated struct conversion | Effects stayed below 1%; tails moved both ways | Inconclusive | About 0.1% fewer reductions | Unchanged | Rejected | none |
 | Trivial conflict fast paths | Skip conflict passes for zero/one result | Reduced no-match reductions 3.5%, but paired wall-time gate did not pass | Inconclusive/regressing pair | Small isolated gain | Unchanged | Rejected | none |
+| Review corrections | Preserve nullable custom text, inspect full returned graphs, correct diagnostics, avoid four temporary slices, and contain callback throws/exits | `25/25` graph probes and full CI passed | Alternating A/B stayed within noise | Reductions within `0.12%` | Zero borrowed returned-graph binaries; stable five-minute soak | Accepted | `11bcd664` |
 
 Rejected implementation changes were reverted. Their ignored local reports
 remain available during branch review but are not promoted as authoritative
@@ -369,7 +432,7 @@ mix docs
 mix ci.base
 ```
 
-The final test result was `737 passed`, including `10` property tests, with
+The final test result was `742 passed`, including `10` property tests, with
 `14` optional/model tests excluded by their normal tags. Strict Credo,
 Dialyzer, ExDNA, ExSlop, Credence, local Markdown verification, ExDoc
 generation, and every promoted manifest verification passed.
@@ -379,11 +442,13 @@ generation, and every promoted manifest verification passed.
 - `include_text: true` intentionally returns sensitive text. Independent
   ownership prevents unrelated parent retention but does not make the result
   non-sensitive.
-- `include_text: false` avoids built-in match-text materialization, but the
-  caller still owns the source input and recognizers still inspect it during
-  the call.
+- `include_text: false` avoids direct match-text materialization in built-in
+  result construction, but validators may borrow temporary source slices.
+  Those values do not escape the call.
 - A malicious or stateful custom callback can retain its input independently
-  of Obscura's final result normalization.
+  of Obscura's final result normalization, including through caller-controlled
+  metadata or external state. The complete-graph harness proves only the
+  controlled extension outputs it constructs.
 - BEAM and native allocators may retain freed pages. RSS is not a live-object
   inventory.
 - Secure memory erasure is not guaranteed.
