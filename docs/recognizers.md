@@ -74,7 +74,10 @@ Optional parser settings:
 - `:phone_regions`: region list for national numbers, defaulting to `US`, `GB`, `DE`, `FR`, `IL`, `IN`, `CA`, `BR`, `JP`, and `CN`.
 - Plus-prefixed numbers are parsed without a default region.
 - Parser candidates are post-filtered with Presidio-like evidence rules: plus-prefixed numbers, extension-bearing numbers, or national numbers with phone context are accepted; date-like, repeated digit, sequential digit, too-short, and junk candidates are rejected.
-- Parser metadata records `:validation`, `:phone_region`, `:phone_e164`, and `:phone_number_type`.
+- Parser metadata records `:validation`, `:phone_region`, `:phone_e164`, and
+  `:phone_number_type`. `:phone_e164` is normalized PII and remains available
+  when `include_text: false`; that option suppresses `Result.text`, not
+  documented recognizer metadata.
 
 ## NER Recognizer
 

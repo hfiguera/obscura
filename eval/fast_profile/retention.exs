@@ -178,6 +178,24 @@ defmodule Obscura.FastProfileRetentionProbe do
         end
       },
       %{
+        name: "built_in_without_text_omits_source_value",
+        expectation: :no_sensitive_text,
+        operation: fn ->
+          value = "OBSCURA-RETENTION-CANARY-42@example.test"
+          text = padded_text(400_000, value)
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              entities: [:email],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [value])
+        end
+      },
+      %{
         name: "long_url_analyze_many_with_text",
         expectation: :owned_text,
         operation: fn ->
@@ -250,6 +268,26 @@ defmodule Obscura.FastProfileRetentionProbe do
             )
 
           result
+        end
+      },
+      %{
+        name: "deny_list_without_text",
+        expectation: :no_sensitive_text,
+        operation: fn ->
+          value = String.duplicate("OBSCURA-DENY-CANARY-", 64) <> "marker"
+          text = padded_text(400_000, value)
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:url],
+              deny_lists: [%{entity: :url, values: [value]}],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [value])
         end
       },
       %{
@@ -404,6 +442,35 @@ defmodule Obscura.FastProfileRetentionProbe do
             )
 
           result
+        end
+      },
+      %{
+        name: "pattern_definition_validation_metadata",
+        expectation: :owned_sensitive_metadata,
+        operation: fn ->
+          value = String.duplicate("Z", 1_024)
+          text = padded_text(400_000, value)
+
+          definition =
+            PatternDefinition.new!(
+              name: :metadata_retention_pattern,
+              entity: :url,
+              patterns: [%{name: :probe, regex: ~r/Z{1024}/u, score: 0.9}],
+              validate: fn match -> {:ok, %{nested: [%{captured: match}]}} end
+            )
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:url],
+              recognizers: [definition],
+              include_text: false,
+              explain: true,
+              telemetry: false
+            )
+
+          retention_probe(result, [value])
         end
       },
       %{
@@ -588,7 +655,37 @@ defmodule Obscura.FastProfileRetentionProbe do
           )
         end
       }
-    ]
+    ] ++ parser_metadata_cases()
+  end
+
+  defp parser_metadata_cases do
+    if Code.ensure_loaded?(ExPhoneNumber) do
+      [
+        %{
+          name: "phone_parser_normalized_sensitive_metadata",
+          expectation: :owned_sensitive_metadata,
+          operation: fn ->
+            {:ok, [result]} =
+              Obscura.analyze("Call +44 20 7946 0958",
+                profile: :fast,
+                entities: [:phone],
+                include_text: false,
+                phone_parser: Obscura.Recognizer.Phone.ExPhoneNumberValidator,
+                phone_regions: ["GB"],
+                telemetry: false
+              )
+
+            retention_probe(result, ["+442079460958"])
+          end
+        }
+      ]
+    else
+      []
+    end
+  end
+
+  defp retention_probe(term, sensitive_values) do
+    {:retention_probe, term, sensitive_values}
   end
 
   defp run_case(case_data) do
@@ -597,9 +694,9 @@ defmodule Obscura.FastProfileRetentionProbe do
 
     {pid, monitor} =
       spawn_monitor(fn ->
-        result = case_data.operation.()
+        {result, sensitive_values} = normalize_probe(case_data.operation.())
         :erlang.garbage_collect(self())
-        send(parent, {:retention_observation, self(), observe(result)})
+        send(parent, {:retention_observation, self(), observe(result, sensitive_values)})
 
         receive do
           :release_retention_result -> :ok
@@ -651,8 +748,13 @@ defmodule Obscura.FastProfileRetentionProbe do
     )
   end
 
-  defp observe(term) do
-    state = inspect_term(term, [], empty_observation())
+  defp normalize_probe({:retention_probe, term, sensitive_values}),
+    do: {term, sensitive_values}
+
+  defp normalize_probe(term), do: {term, []}
+
+  defp observe(term, sensitive_values) do
+    state = inspect_term(term, [], empty_observation(), sensitive_values)
 
     %{
       result_count: state.result_count,
@@ -661,6 +763,8 @@ defmodule Obscura.FastProfileRetentionProbe do
       referenced_bytes: state.referenced_bytes,
       borrowed_binary_count: state.borrowed_binary_count,
       borrowed_paths: Enum.reverse(state.borrowed_paths),
+      sensitive_binary_count: state.sensitive_binary_count,
+      sensitive_paths: Enum.reverse(state.sensitive_paths),
       text_bytes: state.text_bytes,
       text_referenced_bytes: state.text_referenced_bytes,
       amplification: state.max_amplification
@@ -675,6 +779,14 @@ defmodule Obscura.FastProfileRetentionProbe do
   defp passes?(:no_text, observation) do
     clean_graph?(observation) and observation.result_count == 1 and observation.text_bytes == 0 and
       observation.text_referenced_bytes == 0
+  end
+
+  defp passes?(:no_sensitive_text, observation) do
+    passes?(:no_text, observation) and observation.sensitive_binary_count == 0
+  end
+
+  defp passes?(:owned_sensitive_metadata, observation) do
+    passes?(:no_text, observation) and observation.sensitive_binary_count > 0
   end
 
   defp passes?(:no_results, observation),
@@ -694,24 +806,27 @@ defmodule Obscura.FastProfileRetentionProbe do
       referenced_bytes: 0,
       borrowed_binary_count: 0,
       borrowed_paths: [],
+      sensitive_binary_count: 0,
+      sensitive_paths: [],
       text_bytes: 0,
       text_referenced_bytes: 0,
       max_amplification: 0.0
     }
   end
 
-  defp inspect_term(%Result{} = result, path, state) do
+  defp inspect_term(%Result{} = result, path, state, sensitive_values) do
     result
     |> Map.from_struct()
-    |> inspect_term(path, %{state | result_count: state.result_count + 1})
+    |> inspect_term(path, %{state | result_count: state.result_count + 1}, sensitive_values)
   end
 
-  defp inspect_term(value, path, state) when is_binary(value) do
+  defp inspect_term(value, path, state, sensitive_values) when is_binary(value) do
     bytes = byte_size(value)
     referenced = :binary.referenced_byte_size(value)
     amplification = referenced / max(bytes, 1)
     text? = List.last(path) == :text
     borrowed? = referenced > bytes
+    sensitive? = Enum.any?(sensitive_values, &contains_sensitive_value?(value, &1))
 
     %{
       state
@@ -721,36 +836,48 @@ defmodule Obscura.FastProfileRetentionProbe do
         borrowed_binary_count: state.borrowed_binary_count + if(borrowed?, do: 1, else: 0),
         borrowed_paths:
           if(borrowed?, do: [safe_path(path) | state.borrowed_paths], else: state.borrowed_paths),
+        sensitive_binary_count: state.sensitive_binary_count + if(sensitive?, do: 1, else: 0),
+        sensitive_paths:
+          if(sensitive?,
+            do: [safe_path(path) | state.sensitive_paths],
+            else: state.sensitive_paths
+          ),
         text_bytes: state.text_bytes + if(text?, do: bytes, else: 0),
         text_referenced_bytes: state.text_referenced_bytes + if(text?, do: referenced, else: 0),
         max_amplification: max(state.max_amplification, amplification)
     }
   end
 
-  defp inspect_term(value, path, state) when is_map(value) do
+  defp inspect_term(value, path, state, sensitive_values) when is_map(value) do
     value
     |> Map.delete(:__struct__)
     |> Enum.reduce(state, fn {key, nested}, acc ->
-      acc = inspect_term(key, [:map_key | path], acc)
-      inspect_term(nested, path ++ [safe_path_part(key)], acc)
+      acc = inspect_term(key, [:map_key | path], acc, sensitive_values)
+      inspect_term(nested, path ++ [safe_path_part(key)], acc, sensitive_values)
     end)
   end
 
-  defp inspect_term(value, path, state) when is_list(value) do
+  defp inspect_term(value, path, state, sensitive_values) when is_list(value) do
     value
     |> Enum.with_index()
     |> Enum.reduce(state, fn {nested, index}, acc ->
-      inspect_term(nested, path ++ [index], acc)
+      inspect_term(nested, path ++ [index], acc, sensitive_values)
     end)
   end
 
-  defp inspect_term(value, path, state) when is_tuple(value) do
+  defp inspect_term(value, path, state, sensitive_values) when is_tuple(value) do
     value
     |> Tuple.to_list()
-    |> inspect_term(path, state)
+    |> inspect_term(path, state, sensitive_values)
   end
 
-  defp inspect_term(_value, _path, state), do: state
+  defp inspect_term(_value, _path, state, _sensitive_values), do: state
+
+  defp contains_sensitive_value?(_value, ""), do: false
+
+  defp contains_sensitive_value?(value, sensitive_value) when is_binary(sensitive_value) do
+    :binary.match(value, sensitive_value) != :nomatch
+  end
 
   defp holder_snapshot(pid) do
     info = Process.info(pid, [:memory, :message_queue_len, :binary])
@@ -823,7 +950,8 @@ defmodule Obscura.FastProfileRetentionProbe do
       Enum.map(report.cases, fn result ->
         "| `#{result.name}` | `#{result.expectation}` | #{result.text_bytes} | " <>
           "#{result.text_referenced_bytes} | #{result.binary_count} | " <>
-          "#{result.borrowed_binary_count} | #{format(result.amplification)}x | " <>
+          "#{result.borrowed_binary_count} | #{result.sensitive_binary_count} | " <>
+          "#{format(result.amplification)}x | " <>
           "#{result.holder_binary_bytes} | #{result.holder_terminated} | #{result.passed} |"
       end)
 
@@ -836,9 +964,10 @@ defmodule Obscura.FastProfileRetentionProbe do
       "- Elixir / OTP: `#{report.environment.elixir}` / `#{report.environment.otp}`",
       "",
       "| Case | Expectation | Text bytes | Text referenced | Graph binaries | " <>
-        "Borrowed graph binaries | Max amplification | Holder binary bytes | " <>
+        "Borrowed graph binaries | Sensitive graph binaries | Max amplification | " <>
+        "Holder binary bytes | " <>
         "Holder terminated | Passed |",
-      "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
+      "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
       rows,
       ""
     ]

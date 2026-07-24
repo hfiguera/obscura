@@ -4,9 +4,11 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
   alias Obscura.Analyzer.Result
   alias Obscura.Phoenix.Plug, as: ObscuraPlug
   alias Obscura.Recognizer.Address
+  alias Obscura.Recognizer.DenyList
   alias Obscura.Recognizer.Domain
   alias Obscura.Recognizer.Email
   alias Obscura.Recognizer.Location
+  alias Obscura.Recognizer.PatternDefinition
   alias Obscura.Recognizer.PersonName
 
   defmodule BorrowingRecognizer do
@@ -131,6 +133,62 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
              )
   end
 
+  test "pattern validation metadata and explanations do not retain the source" do
+    captured = String.duplicate("A", 1_024)
+    text = safe_padding(200_000) <> captured <> safe_padding(200_000)
+
+    definition =
+      PatternDefinition.new!(
+        name: :metadata_ownership_test,
+        entity: :person,
+        patterns: [%{name: :captured, regex: ~r/A{1024}/, score: 0.9}],
+        validate: fn value -> {:ok, %{nested: [%{captured: value}]}} end
+      )
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [definition],
+               include_text: false,
+               explain: true,
+               telemetry: false
+             )
+
+    assert result.text == nil
+    assert result.metadata.nested == [%{captured: captured}]
+    assert result.explanation.metadata.nested == [%{captured: captured}]
+
+    assert :binary.referenced_byte_size(result.metadata.nested |> hd() |> Map.fetch!(:captured)) ==
+             byte_size(captured)
+
+    assert :binary.referenced_byte_size(
+             result.explanation.metadata.nested
+             |> hd()
+             |> Map.fetch!(:captured)
+           ) == byte_size(captured)
+  end
+
+  test "parser-backed phone metadata remains explicit PII but owns its binaries" do
+    if Code.ensure_loaded?(ExPhoneNumber) do
+      assert {:ok, [%Result{text: nil} = result]} =
+               Obscura.analyze("Call +44 20 7946 0958",
+                 profile: :fast,
+                 entities: [:phone],
+                 include_text: false,
+                 phone_parser: Obscura.Recognizer.Phone.ExPhoneNumberValidator,
+                 phone_regions: ["GB"],
+                 telemetry: false
+               )
+
+      assert result.metadata.phone_e164 == "+442079460958"
+
+      assert :binary.referenced_byte_size(result.metadata.phone_e164) ==
+               byte_size(result.metadata.phone_e164)
+    end
+  end
+
   test "include_text true preserves an offset-only custom recognizer result" do
     assert {:ok, [%Result{text: nil}]} =
              Obscura.analyze("Alice",
@@ -178,6 +236,13 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
              ),
              &is_nil(&1.text)
            )
+
+    assert [%Result{text: nil, entity: :url}] =
+             DenyList.analyze(
+               "block-this-value",
+               [%{entity: :url, values: ["block-this-value"]}],
+               include_text: false
+             )
   end
 
   test "allow lists derive temporary values from offsets when text is disabled" do

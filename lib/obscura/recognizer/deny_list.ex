@@ -81,10 +81,7 @@ defmodule Obscura.Recognizer.DenyList do
       byte_start: start,
       byte_end: end_offset,
       score: score,
-      text:
-        text
-        |> binary_part(start, byte_size(value))
-        |> ResultText.maybe_materialize(opts),
+      text: ResultText.maybe_materialize_slice(text, start, end_offset, opts),
       source_entity: Atom.to_string(entity),
       recognizer: name,
       explanation: explanation(explain?, name, score),

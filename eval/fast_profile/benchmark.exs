@@ -104,7 +104,7 @@ defmodule Obscura.FastProfileBenchmark do
   end
 
   defp cases(opts, vault) do
-    one_kib = padded_text(1_024, "probe@example.test")
+    one_kib = safe_padding(1_024)
     sixty_four_kib = padded_text(65_536, "probe@example.test")
     one_mib = padded_text(1_048_576, "probe@example.test")
     long_url = "https://example.test/" <> String.duplicate("segment/", 64)
@@ -122,7 +122,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: false,
             telemetry: false
           )
-        end
+        end,
+        {:ok_count, 4}
       ),
       benchmark_case(
         "analyze_common_with_text",
@@ -135,7 +136,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: true,
             telemetry: false
           )
-        end
+        end,
+        {:ok_count, 4}
       ),
       benchmark_case(
         "analyze_no_match_1k",
@@ -148,7 +150,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: false,
             telemetry: false
           )
-        end
+        end,
+        {:ok_count, 0}
       ),
       benchmark_case(
         "analyze_one_match_64k_without_text",
@@ -161,7 +164,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: false,
             telemetry: false
           )
-        end
+        end,
+        {:ok_count, 1}
       ),
       benchmark_case(
         "analyze_one_match_64k_with_text",
@@ -174,7 +178,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: true,
             telemetry: false
           )
-        end
+        end,
+        {:ok_count, 1}
       ),
       benchmark_case(
         "analyze_one_match_1m_without_text",
@@ -187,7 +192,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: false,
             telemetry: false
           )
-        end
+        end,
+        {:ok_count, 1}
       ),
       benchmark_case(
         "analyze_long_url_with_text",
@@ -200,7 +206,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: true,
             telemetry: false
           )
-        end
+        end,
+        {:ok_count, 1}
       ),
       benchmark_case(
         "analyze_many_batch_8",
@@ -213,7 +220,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: false,
             telemetry: false
           )
-        end
+        end,
+        {:ok_batch_count, 8, 32}
       ),
       benchmark_case(
         "analyze_many_batch_32",
@@ -226,7 +234,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: false,
             telemetry: false
           )
-        end
+        end,
+        {:ok_batch_count, 32, 128}
       ),
       benchmark_case(
         "detect_and_redact_common",
@@ -242,7 +251,8 @@ defmodule Obscura.FastProfileBenchmark do
                  ) do
             Obscura.anonymize(@common_text, results, telemetry: false)
           end
-        end
+        end,
+        {:ok_count, 4}
       ),
       benchmark_case(
         "structured_redact",
@@ -258,7 +268,8 @@ defmodule Obscura.FastProfileBenchmark do
             entities: @entities,
             telemetry: false
           )
-        end
+        end,
+        {:ok_count, 16}
       )
     ]
 
@@ -306,7 +317,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: false,
             telemetry: false
           )
-        end
+        end,
+        {:ok_batch_count, batch_size, batch_size * 4}
       )
     end
   end
@@ -338,7 +350,8 @@ defmodule Obscura.FastProfileBenchmark do
             operators: %{email: config},
             telemetry: false
           )
-        end
+        end,
+        {:ok_count, 1}
       )
     end)
   end
@@ -362,7 +375,8 @@ defmodule Obscura.FastProfileBenchmark do
             entities: @entities,
             telemetry: false
           )
-        end
+        end,
+        :ok
       ),
       benchmark_case(
         "plug_replace_params",
@@ -376,7 +390,8 @@ defmodule Obscura.FastProfileBenchmark do
             entities: @entities,
             telemetry: false
           )
-        end
+        end,
+        :plug_conn
       )
     ]
   end
@@ -396,7 +411,8 @@ defmodule Obscura.FastProfileBenchmark do
             include_text: false,
             telemetry: false
           )
-        end
+        end,
+        {:ok_entity, entity}
       )
     end)
   end
@@ -410,13 +426,14 @@ defmodule Obscura.FastProfileBenchmark do
     invalid = <<0xFF, 0xFE, 0xFD>>
 
     [
-      analyze_case("analyze_no_match_128b", safe_padding(128), @entities, 6_000, opts),
-      analyze_case("analyze_no_match_64k", safe_padding(65_536), @entities, 300, opts),
-      analyze_case("analyze_no_match_1m", safe_padding(1_048_576), @entities, 20, opts),
+      analyze_case("analyze_no_match_128b", safe_padding(128), @entities, 0, 6_000, opts),
+      analyze_case("analyze_no_match_64k", safe_padding(65_536), @entities, 0, 300, opts),
+      analyze_case("analyze_no_match_1m", safe_padding(1_048_576), @entities, 0, 20, opts),
       analyze_case(
         "analyze_match_at_beginning_64k",
         email <> safe_padding(65_536 - byte_size(email)),
         [:email],
+        1,
         500,
         opts
       ),
@@ -424,6 +441,7 @@ defmodule Obscura.FastProfileBenchmark do
         "analyze_match_at_end_64k",
         safe_padding(65_536 - byte_size(email)) <> email,
         [:email],
+        1,
         500,
         opts
       ),
@@ -431,17 +449,19 @@ defmodule Obscura.FastProfileBenchmark do
         "analyze_multibyte_utf8",
         multibyte <> email <> multibyte,
         [:email],
+        1,
         3_000,
         opts
       ),
-      analyze_case("analyze_dense_matches", dense, [:email], 200, opts),
-      analyze_case("analyze_many_short_lines", many_lines, [:email], 500, opts),
-      analyze_case("analyze_overlapping_url_domain", overlap, [:url, :domain], 2_000, opts),
+      analyze_case("analyze_dense_matches", dense, [:email], 100, 200, opts),
+      analyze_case("analyze_many_short_lines", many_lines, [:email], 1, 500, opts),
+      analyze_case("analyze_overlapping_url_domain", overlap, [:url, :domain], 2, 2_000, opts),
       benchmark_case(
         "analyze_malformed_utf8_error",
         byte_size(invalid),
         iterations(5_000, opts),
-        fn -> {:ok, Obscura.analyze(invalid, profile: :fast, entities: [:email])} end
+        fn -> Obscura.analyze(invalid, profile: :fast, entities: [:email]) end,
+        {:error, :invalid_utf8}
       )
     ]
   end
@@ -450,12 +470,12 @@ defmodule Obscura.FastProfileBenchmark do
     text = "Office +44 20 7946 0958"
 
     disabled =
-      analyze_case("phone_parser_disabled", text, [:phone], 2_000, opts, phone_parser: nil)
+      analyze_case("phone_parser_disabled", text, [:phone], 0, 2_000, opts, phone_parser: nil)
 
     if Code.ensure_loaded?(ExPhoneNumber) do
       [
         disabled,
-        analyze_case("phone_parser_enabled", text, [:phone], 2_000, opts,
+        analyze_case("phone_parser_enabled", text, [:phone], 1, 2_000, opts,
           phone_parser: Obscura.Recognizer.Phone.ExPhoneNumberValidator,
           phone_regions: ["GB"]
         )
@@ -465,22 +485,34 @@ defmodule Obscura.FastProfileBenchmark do
     end
   end
 
-  defp analyze_case(name, text, entities, base_iterations, opts, extra_opts \\ []) do
-    benchmark_case(name, byte_size(text), iterations(base_iterations, opts), fn ->
-      Obscura.analyze(
-        text,
-        [
-          profile: :fast,
-          entities: entities,
-          include_text: false,
-          telemetry: false
-        ] ++ extra_opts
-      )
-    end)
+  defp analyze_case(name, text, entities, expected_count, base_iterations, opts, extra_opts \\ []) do
+    benchmark_case(
+      name,
+      byte_size(text),
+      iterations(base_iterations, opts),
+      fn ->
+        Obscura.analyze(
+          text,
+          [
+            profile: :fast,
+            entities: entities,
+            include_text: false,
+            telemetry: false
+          ] ++ extra_opts
+        )
+      end,
+      {:ok_count, expected_count}
+    )
   end
 
-  defp benchmark_case(name, input_bytes, iterations, fun) do
-    %{name: name, input_bytes: input_bytes, iterations: iterations, fun: fun}
+  defp benchmark_case(name, input_bytes, iterations, fun, expectation) do
+    %{
+      name: name,
+      input_bytes: input_bytes,
+      iterations: iterations,
+      fun: fun,
+      expectation: expectation
+    }
   end
 
   defp iterations(base, opts), do: max(1, round(base * opts.scale))
@@ -513,6 +545,8 @@ defmodule Obscura.FastProfileBenchmark do
 
     %{
       name: case_data.name,
+      expectation: inspect(case_data.expectation),
+      semantics_validated: true,
       input_bytes: case_data.input_bytes,
       iterations: case_data.iterations,
       warmup_iterations: warmup_iterations,
@@ -533,7 +567,7 @@ defmodule Obscura.FastProfileBenchmark do
     {pid, monitor} =
       spawn_monitor(fn ->
         result =
-          execute_repetition(case_data.fun, case_data.iterations, warmup_iterations, repetition)
+          execute_repetition(case_data, case_data.iterations, warmup_iterations, repetition)
 
         send(parent, {:benchmark_repetition, self(), result})
       end)
@@ -553,11 +587,11 @@ defmodule Obscura.FastProfileBenchmark do
     end
   end
 
-  defp execute_repetition(fun, iterations, warmup_iterations, repetition) do
-    first = checked_run(fun)
+  defp execute_repetition(case_data, iterations, warmup_iterations, repetition) do
+    first = checked_run(case_data)
 
     for _index <- 1..warmup_iterations do
-      checked_run(fun)
+      checked_run(case_data)
     end
 
     :erlang.garbage_collect(self())
@@ -567,12 +601,17 @@ defmodule Obscura.FastProfileBenchmark do
     durations =
       for _index <- 1..iterations do
         started = System.monotonic_time(:nanosecond)
-        checked_run(fun)
+        timed_run(case_data)
         System.monotonic_time(:nanosecond) - started
       end
 
     wall_ns = System.monotonic_time(:nanosecond) - wall_start
     after_snapshot = process_snapshot()
+    last = checked_run(case_data)
+
+    if fingerprint(first) != fingerprint(last) do
+      raise "benchmark output changed during case #{case_data.name}"
+    end
 
     summary =
       durations
@@ -599,13 +638,86 @@ defmodule Obscura.FastProfileBenchmark do
     }
   end
 
-  defp checked_run(fun) do
+  defp checked_run(case_data) do
+    outcome = case_data.fun.()
+
+    case validate_outcome(outcome, case_data.expectation) do
+      {:ok, result} ->
+        result
+
+      {:error, reason} ->
+        raise "benchmark semantic validation failed for #{case_data.name}: #{reason}"
+    end
+  end
+
+  defp timed_run(%{expectation: {:error, _reason}, fun: fun}), do: fun.()
+
+  defp timed_run(%{expectation: :plug_conn, fun: fun}) do
+    case fun.() do
+      %Plug.Conn{} = conn -> conn
+      other -> raise "benchmark operation returned #{inspect_envelope(other)}"
+    end
+  end
+
+  defp timed_run(%{fun: fun}) do
     case fun.() do
       {:ok, result} -> result
       {:error, reason} -> raise "benchmark operation failed: #{inspect(reason)}"
-      other -> other
+      other -> raise "benchmark operation returned #{inspect_envelope(other)}"
     end
   end
+
+  defp validate_outcome({:ok, result}, :ok), do: {:ok, result}
+
+  defp validate_outcome({:ok, result}, {:ok_count, expected}) do
+    validate_count(result, expected)
+  end
+
+  defp validate_outcome({:ok, results}, {:ok_batch_count, batches, expected}) do
+    if is_list(results) and length(results) == batches do
+      validate_count(results, expected)
+    else
+      {:error, "expected #{batches} batches"}
+    end
+  end
+
+  defp validate_outcome({:ok, results}, {:ok_entity, entity}) when is_list(results) do
+    flattened = List.flatten(results)
+
+    if flattened != [] and
+         Enum.all?(flattened, &match?(%Obscura.Analyzer.Result{entity: ^entity}, &1)) do
+      {:ok, results}
+    else
+      {:error, "expected one or more #{entity} results"}
+    end
+  end
+
+  defp validate_outcome(%Plug.Conn{} = conn, :plug_conn), do: {:ok, conn}
+  defp validate_outcome({:error, reason} = outcome, {:error, reason}), do: {:ok, outcome}
+
+  defp validate_outcome(outcome, expectation) do
+    {:error, "expected #{inspect(expectation)}, received #{inspect_envelope(outcome)}"}
+  end
+
+  defp validate_count(result, expected) do
+    actual = result_count(result)
+
+    if actual == expected do
+      {:ok, result}
+    else
+      {:error, "expected #{expected} results, received #{actual}"}
+    end
+  end
+
+  defp inspect_envelope({:ok, value}), do: "{:ok, #{inspect_type(value)}}"
+  defp inspect_envelope({:error, reason}), do: "{:error, #{inspect(reason)}}"
+  defp inspect_envelope(value), do: inspect_type(value)
+
+  defp inspect_type(value) when is_list(value), do: "list"
+  defp inspect_type(%module{}), do: inspect(module)
+
+  defp inspect_type(value),
+    do: value |> :erlang.term_to_binary() |> byte_size() |> then(&"term/#{&1}")
 
   defp process_snapshot do
     info =
@@ -669,10 +781,38 @@ defmodule Obscura.FastProfileBenchmark do
 
   defp fingerprint(term) do
     term
+    |> scrub_volatile_fields()
     |> :erlang.term_to_binary()
     |> then(&:crypto.hash(:sha256, &1))
     |> Base.encode16(case: :lower)
   end
+
+  defp scrub_volatile_fields(%_{} = value) do
+    module = value.__struct__
+
+    value
+    |> Map.from_struct()
+    |> scrub_volatile_fields()
+    |> then(&struct(module, &1))
+  end
+
+  defp scrub_volatile_fields(value) when is_map(value) do
+    value
+    |> Map.delete(:use_count)
+    |> Map.new(fn {key, nested} -> {key, scrub_volatile_fields(nested)} end)
+  end
+
+  defp scrub_volatile_fields(value) when is_list(value),
+    do: Enum.map(value, &scrub_volatile_fields/1)
+
+  defp scrub_volatile_fields(value) when is_tuple(value) do
+    value
+    |> Tuple.to_list()
+    |> Enum.map(&scrub_volatile_fields/1)
+    |> List.to_tuple()
+  end
+
+  defp scrub_volatile_fields(value), do: value
 
   defp median_repetition(repetitions) do
     %{
@@ -739,7 +879,8 @@ defmodule Obscura.FastProfileBenchmark do
       Enum.map(report.cases, fn benchmark ->
         median = benchmark.median
 
-        "| `#{benchmark.name}` | #{benchmark.input_bytes} | #{format(median.latency_us.p50)} | " <>
+        "| `#{benchmark.name}` | `#{benchmark.expectation}` | #{benchmark.input_bytes} | " <>
+          "#{format(median.latency_us.p50)} | " <>
           "#{format(median.latency_us.p95)} | #{format(median.latency_us.p99)} | " <>
           "#{format(median.throughput_per_second)} | " <>
           "#{format(median.reductions_per_operation)} | " <>
@@ -756,9 +897,10 @@ defmodule Obscura.FastProfileBenchmark do
       "- Elixir / OTP: `#{report.environment.elixir}` / `#{report.environment.otp}`",
       "- Repetitions: `#{report.configuration.repetitions}`",
       "",
-      "| Case | Input bytes | p50 us | p95 us | p99 us | ops/s | reductions/op | " <>
+      "| Case | Expected result | Input bytes | p50 us | p95 us | p99 us | ops/s | " <>
+        "reductions/op | " <>
         "Process binary delta | System binary delta | RSS delta |",
-      "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+      "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
       rows,
       ""
     ]

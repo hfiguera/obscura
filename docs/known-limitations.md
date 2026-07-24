@@ -98,6 +98,9 @@ surface.
 - Analyzer results contain detected source text when `include_text: true`.
   Value-safe default inspection does not change explicit field access or
   serialization through `Map.from_struct/1`.
+- `include_text: false` suppresses `Obscura.Analyzer.Result.text`; it does not
+  remove documented normalized PII from recognizer metadata. For example,
+  parser-backed phone recognition can return `:phone_e164`.
 - Vault rehydration intentionally stores raw values in memory or ETS until the
   caller clears/stops the vault.
 - Clearing/stopping a vault drops accessible references and removes private ETS

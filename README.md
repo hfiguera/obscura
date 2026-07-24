@@ -437,9 +437,13 @@ default.
 
 Public result structs can contain raw detected text by design. Use
 `include_text: false` when source text is unnecessary; built-in recognizers then
-avoid materializing match text. With `include_text: true`, accepted match text
-is detached when a sub-binary would otherwise retain an unrelated larger
-source binary. This reduces retention but does not provide secure erasure.
+avoid materializing `Result.text`. This option does not sanitize metadata:
+documented parser metadata such as `:phone_e164` can contain normalized PII,
+and trusted custom recognizers control their own metadata. With
+`include_text: true`, accepted match text is detached when a sub-binary would
+otherwise retain an unrelated larger source binary. Escaping borrowed
+metadata and explanation binaries are detached in either mode. These controls
+reduce retention but do not provide secure erasure.
 Vault pseudonymization is reversible and retains original values until the
 vault is cleared or stopped. Memory and ETS vaults are not encrypted persistent
 stores, and clearing a vault cannot guarantee secure erasure from BEAM or
