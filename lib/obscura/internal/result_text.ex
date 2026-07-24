@@ -45,6 +45,7 @@ defmodule Obscura.Internal.ResultText do
   @doc false
   @spec own_term(term()) :: term()
   def own_term(value) when is_binary(value), do: own(value)
+  def own_term(value) when is_bitstring(value), do: own_bitstring(value)
   def own_term(value) when is_map(value), do: own_map(value)
   def own_term([]), do: []
   def own_term([head | tail]), do: [own_term(head) | own_term(tail)]
@@ -92,6 +93,18 @@ defmodule Obscura.Internal.ResultText do
     end
   end
 
+  defp own_bitstring(value) do
+    if :binary.referenced_byte_size(value) > byte_size(value) do
+      size = bit_size(value)
+      padding_size = 8 - rem(size, 8)
+      copied = <<value::bitstring, 0::size(padding_size)>>
+      <<owned::bitstring-size(^size), _padding::size(^padding_size)>> = copied
+      owned
+    else
+      value
+    end
+  end
+
   defp materialize?(opts) do
     Keyword.get(opts, :include_text, true) or
       Keyword.get(opts, :allow_list) not in [nil, []]
@@ -101,7 +114,7 @@ defmodule Obscura.Internal.ResultText do
     do: false
 
   defp safe_callback_term?(value, _depth, mode)
-       when is_atom(value) or is_number(value) or is_binary(value) or is_pid(value) or
+       when is_atom(value) or is_number(value) or is_bitstring(value) or is_pid(value) or
               is_port(value) or is_reference(value),
        do: safe_scalar?(value, mode)
 
@@ -140,7 +153,7 @@ defmodule Obscura.Internal.ResultText do
 
   defp safe_callback_term?(_value, _depth, _mode), do: false
 
-  defp safe_scalar?(value, :opaque_environment) when is_binary(value) do
+  defp safe_scalar?(value, :opaque_environment) when is_bitstring(value) do
     :binary.referenced_byte_size(value) == byte_size(value)
   end
 

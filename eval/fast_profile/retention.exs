@@ -113,8 +113,11 @@ defmodule Obscura.FastProfileRetentionProbe do
       }
 
       case Keyword.fetch!(opts, :malformed_field) do
-        :recognizer -> %{result | recognizer: borrowed}
-        :opaque_metadata -> %{result | metadata: %{deferred: fn -> borrowed end}}
+        :recognizer ->
+          %{result | recognizer: borrowed}
+
+        :opaque_metadata ->
+          %{result | metadata: %{deferred: fn -> borrowed end}}
       end
       |> List.wrap()
     end
@@ -135,8 +138,19 @@ defmodule Obscura.FastProfileRetentionProbe do
 
       metadata =
         case Keyword.fetch!(opts, :metadata_mode) do
-          :flat -> %{values: [borrowed | Enum.to_list(1..1_024)]}
-          :malformed_reserved -> %{negative_context_words: borrowed}
+          :flat ->
+            %{values: [borrowed | Enum.to_list(1..1_024)]}
+
+          :bitstring ->
+            <<_first::1, borrowed_bits::bitstring-size(8_191)>> = borrowed
+            %{flags: borrowed_bits}
+
+          :opaque_bitstring ->
+            <<_first::1, borrowed_bits::bitstring-size(8_191)>> = borrowed
+            %{deferred: fn -> borrowed_bits end}
+
+          :malformed_reserved ->
+            %{negative_context_words: borrowed}
         end
 
       [
@@ -770,6 +784,46 @@ defmodule Obscura.FastProfileRetentionProbe do
         end
       },
       %{
+        name: "opaque_bitstring_metadata_closure_is_rejected",
+        expectation: :no_sensitive_graph,
+        operation: fn ->
+          sensitive = String.duplicate("B", 1_024)
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          result =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [{MetadataRecognizer, metadata_mode: :opaque_bitstring}],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive])
+        end
+      },
+      %{
+        name: "non_byte_aligned_callback_metadata_is_owned",
+        expectation: :no_text,
+        operation: fn ->
+          sensitive = String.duplicate("B", 1_024)
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [{MetadataRecognizer, metadata_mode: :bitstring}],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [])
+        end
+      },
+      %{
         name: "large_flat_callback_metadata_is_owned",
         expectation: :owned_sensitive_metadata,
         operation: fn ->
@@ -1033,13 +1087,15 @@ defmodule Obscura.FastProfileRetentionProbe do
     |> inspect_term(path, %{state | result_count: state.result_count + 1}, sensitive_values)
   end
 
-  defp inspect_term(value, path, state, sensitive_values) when is_binary(value) do
+  defp inspect_term(value, path, state, sensitive_values) when is_bitstring(value) do
     bytes = byte_size(value)
     referenced = :binary.referenced_byte_size(value)
     amplification = referenced / max(bytes, 1)
     text? = List.last(path) == :text
     borrowed? = referenced > bytes
-    sensitive? = Enum.any?(sensitive_values, &contains_sensitive_value?(value, &1))
+
+    sensitive? =
+      is_binary(value) and Enum.any?(sensitive_values, &contains_sensitive_value?(value, &1))
 
     %{
       state

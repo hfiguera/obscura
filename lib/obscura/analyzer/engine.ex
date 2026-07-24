@@ -183,7 +183,7 @@ defmodule Obscura.Analyzer.Engine do
 
   defp run_recognizer({module, recognizer_opts}, text, options)
        when is_atom(module) and module in @built_in_recognizers do
-    opts = Options.to_keyword(options) |> Keyword.merge(recognizer_opts)
+    opts = built_in_recognizer_options(options, recognizer_opts)
 
     run_builtin_recognizer(
       module,
@@ -339,7 +339,12 @@ defmodule Obscura.Analyzer.Engine do
 
   defp run_many_recognizer({module, recognizer_opts}, texts, options, artifacts_by_text)
        when is_atom(module) do
-    opts = Options.to_keyword(options) |> Keyword.merge(recognizer_opts)
+    opts =
+      if module in @built_in_recognizers do
+        built_in_recognizer_options(options, recognizer_opts)
+      else
+        Options.to_keyword(options) |> Keyword.merge(recognizer_opts)
+      end
 
     cond do
       central_artifacts?(options) ->
@@ -384,6 +389,14 @@ defmodule Obscura.Analyzer.Engine do
 
   defp central_artifacts?(options) do
     not is_nil(options.nlp_engine) or is_list(options.nlp_artifacts)
+  end
+
+  defp built_in_recognizer_options(options, recognizer_opts) do
+    options
+    |> Options.to_keyword()
+    |> Keyword.merge(recognizer_opts)
+    |> Keyword.put(:include_text, options.include_text)
+    |> Keyword.put(:allow_list, options.allow_list)
   end
 
   defp run_many_fallback(recognizer, texts, options, artifacts_by_text) do

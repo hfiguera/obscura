@@ -139,13 +139,19 @@ Built-in recognizers honor `include_text` while constructing candidate
 results. Address, domain, location, and person recognition do not store a
 match sub-binary in candidate results when `include_text: false`, unless a
 configured allow list temporarily requires the value for matching.
+Analyzer-wide `include_text` and `allow_list` settings remain authoritative
+when a built-in recognizer is supplied as a `{module, options}` tuple. Local
+tuple options therefore cannot suppress requested result text or bypass the
+global allow list. Custom recognizer tuples retain their existing option
+behavior.
 
 With `include_text: true`, candidate filtering, allow-list handling, context,
 thresholding, and conflict resolution happen before central final assembly.
 Final assembly copies only escaping sub-binaries whose referenced size exceeds
-their own byte size. Already-owned binaries are reused. The same ownership pass
-recursively detaches borrowed binaries in accepted result metadata and
-explanations, including values returned by custom validation callbacks.
+their own byte size. Already-owned binaries are reused. The same ownership
+pass recursively detaches borrowed binaries and bitstrings in accepted result
+metadata and explanations, including values returned by custom validation
+callbacks.
 
 Custom recognizers remain compatible. Their returned text is removed when
 `include_text: false`; with `include_text: true`, an existing binary is detached
@@ -155,9 +161,11 @@ Custom result fields are checked against the public `Result.t()` contract.
 Malformed recognizer names, source entities, explanations, improper terms, and
 excessive nesting return a sanitized `:invalid_callback_result` error.
 Ownership-safe function metadata remains compatible. A closure whose captured
-environment contains a borrowed binary is rejected because an opaque closure
-environment cannot be rewritten to detach that binary. Recursively accepted
-metadata and explanation binaries are detached before they escape.
+environment contains a borrowed binary or bitstring is rejected because an
+opaque closure environment cannot be rewritten to detach that value.
+Recursively accepted metadata and explanation binaries and bitstrings are
+detached before they escape. Non-byte-aligned bitstrings are copied without
+changing their bit contents.
 
 Analyzer-reserved context metadata is validated before post-processing.
 Context word fields must be proper lists of string-convertible scalar values,
@@ -343,6 +351,22 @@ retained long URL. The two common cases were `2.40%` to `2.64%` slower than
 that single clean-main run, but the immediate-parent comparison shows the
 review fix introduced no short-request slowdown.
 
+The final analyzer-option and bitstring-ownership correction was measured
+against revision `e56ffdae` with two order-reversed pairs, seven repetitions,
+scale `0.2`, and an external schema-`3` reference. All `11/11` selected
+fingerprints matched. A higher-sample common-request check used two
+order-reversed pairs, eleven repetitions, and scale `0.5`. Averaged p50 moved
+by `+0.35%` without text and `+0.06%` with text; throughput moved by `-0.68%`
+and `-0.19%`, while reductions changed by only `+0.001%` and `+0.007%`.
+These movements are within run-to-run noise and show no material cost from the
+correction.
+
+A fresh clean-`main` comparison retained the branch gains after this
+correction. Common-request p50 improved by `6.57%` without text and `7.00%`
+with text. The true `1 KiB` no-match case improved by `80.21%`, the `64 KiB`
+one-match cases by `91.41%` to `91.64%`, the `1 MiB` case by `93.16%`, and the
+retained long URL by `97.79%`.
+
 ## Operational Matrix
 
 The final values below are medians across three clean runs. Each run contains
@@ -448,8 +472,8 @@ results carry no match-text binary.
 The review harness retains and recursively inspects returned terms, including
 map keys and values, structs, lists, tuples, and function environments.
 Ownership-safe functions are accepted for custom-recognizer compatibility;
-closures containing borrowed binaries are rejected before final assembly. Its
-`35` cases cover:
+closures containing borrowed binaries or bitstrings are rejected before final
+assembly. Its `37` cases cover:
 
 - analyzer results with explanations and metadata;
 - analyzer batches, allow/deny filtering, context rejection, overlap handling,
@@ -459,7 +483,9 @@ closures containing borrowed binaries are rejected before final assembly. Its
 - Logger and full Plug connection results;
 - custom borrowed and offset-only results;
 - custom validator result and explanation metadata;
+- independently owned non-byte-aligned callback metadata;
 - malformed recognizer fields and opaque closure metadata;
+- opaque closures containing borrowed non-byte-aligned metadata;
 - malformed inline-pattern validation metadata;
 - an owned caller-supplied phone-validator closure and a rejected borrowed
   closure;
@@ -468,13 +494,13 @@ closures containing borrowed binaries are rejected before final assembly. Its
 - malformed analyzer-reserved context metadata;
 - sanitized recognizer error, exception, throw, exit, and timeout paths.
 
-All `35` cases reported zero borrowed binaries anywhere in their recursively
-traversable returned terms. Each worker explicitly retained its complete result
-in process state, forced garbage collection, and captured process and VM binary
-measurements before the parent released the result. Every holder process then
-terminated normally and became unreachable through `Process.info/2`. The
-in-memory vault was checked separately: it retained the exact independently
-owned value and did not retain its larger source binary.
+All `37` cases reported zero borrowed binaries or bitstrings anywhere in their
+recursively traversable returned terms. Each worker explicitly retained its
+complete result in process state, forced garbage collection, and captured
+process and VM binary measurements before the parent released the result. Every
+holder process then terminated normally and became unreachable through
+`Process.info/2`. The in-memory vault was checked separately: it retained the
+exact independently owned value and did not retain its larger source binary.
 
 The harness reports sensitive-content exposure separately from binary
 ownership. A built-in `include_text: false` canary returned no canary content.

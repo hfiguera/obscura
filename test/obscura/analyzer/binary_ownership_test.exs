@@ -133,6 +133,43 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
     end
   end
 
+  defmodule BitstringOwnershipRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :bitstring_ownership_test_recognizer
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(text, opts) do
+      borrowed = binary_part(text, 100_000, 1_024)
+      <<_first::1, borrowed_bits::bitstring-size(8_191)>> = borrowed
+
+      metadata =
+        case Keyword.fetch!(opts, :metadata_mode) do
+          :detachable -> %{flags: borrowed_bits}
+          :opaque -> %{deferred: fn -> borrowed_bits end}
+        end
+
+      [
+        %Result{
+          entity: :person,
+          start: 100_000,
+          end: 101_024,
+          byte_start: 100_000,
+          byte_end: 101_024,
+          score: 0.9,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :bitstring_ownership_test_recognizer,
+          metadata: metadata
+        }
+      ]
+    end
+  end
+
   test "final text does not retain an unrelated large source binary" do
     text = long_url_text()
 
@@ -291,6 +328,17 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
       refute inspect(outcome) =~ String.duplicate("A", 128)
     end
+
+    assert {:error,
+            {:recognizer_failed, :bitstring_ownership_test_recognizer, :invalid_callback_result}} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [{BitstringOwnershipRecognizer, metadata_mode: :opaque}],
+               include_text: false,
+               telemetry: false
+             )
   end
 
   test "ownership-safe function metadata preserves custom recognizer compatibility" do
@@ -310,6 +358,27 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
     assert is_function(result.metadata.postprocess, 1)
     assert result.metadata.postprocess.(:value) == :value
+  end
+
+  test "non-byte-aligned callback metadata does not retain its large source binary" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [{BitstringOwnershipRecognizer, metadata_mode: :detachable}],
+               include_text: false,
+               telemetry: false
+             )
+
+    flags = result.metadata.flags
+
+    assert bit_size(flags) == 8_191
+    refute is_binary(flags)
+    assert :binary.referenced_byte_size(flags) == byte_size(flags)
+    assert borrowed_binary_paths(result) == []
   end
 
   test "maps with an unresolvable struct tag remain inert metadata" do

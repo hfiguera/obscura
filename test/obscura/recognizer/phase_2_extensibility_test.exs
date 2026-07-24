@@ -242,6 +242,68 @@ defmodule Obscura.Recognizer.Phase2ExtensibilityTest do
     assert batch_result.metadata.remote.(" value ") == "value"
   end
 
+  test "custom recognizers preserve non-byte-aligned bitstring metadata" do
+    metadata = %{flags: <<1::1, 0::1, 1::1>>}
+
+    opts = [
+      profile: :fast,
+      built_ins: false,
+      entities: [:person],
+      recognizers: [{MetadataRecognizer, result_metadata: metadata}],
+      include_text: false,
+      telemetry: false
+    ]
+
+    assert {:ok, [result]} = Obscura.analyze("Alice", opts)
+    assert result.metadata == metadata
+
+    assert {:ok, [[batch_result]]} = Obscura.Analyzer.analyze_many(["Alice"], opts)
+    assert batch_result.metadata == metadata
+  end
+
+  test "analyzer-wide ownership options remain authoritative for built-in tuples" do
+    base_opts = [
+      profile: :fast,
+      built_ins: false,
+      entities: [:email],
+      telemetry: false
+    ]
+
+    with_text_opts =
+      Keyword.put(
+        base_opts,
+        :recognizers,
+        [{Obscura.Recognizer.Email, include_text: false}]
+      )
+
+    assert {:ok, [result]} = Obscura.analyze("secret@example.com", with_text_opts)
+    assert result.text == "secret@example.com"
+
+    assert {:ok, [[batch_result]]} =
+             Obscura.Analyzer.analyze_many(["secret@example.com"], with_text_opts)
+
+    assert batch_result.text == "secret@example.com"
+
+    without_text_opts =
+      base_opts
+      |> Keyword.put(:include_text, false)
+      |> Keyword.put(:recognizers, [{Obscura.Recognizer.Email, include_text: true}])
+
+    assert {:ok, [%{text: nil}]} = Obscura.analyze("secret@example.com", without_text_opts)
+
+    assert {:ok, [[%{text: nil}]]} =
+             Obscura.Analyzer.analyze_many(["secret@example.com"], without_text_opts)
+
+    allow_list_opts =
+      base_opts
+      |> Keyword.put(:include_text, false)
+      |> Keyword.put(:allow_list, [%{entity: :email, values: ["secret@example.com"]}])
+      |> Keyword.put(:recognizers, [{Obscura.Recognizer.Email, allow_list: nil}])
+
+    assert {:ok, []} = Obscura.analyze("secret@example.com", allow_list_opts)
+    assert {:ok, [[]]} = Obscura.Analyzer.analyze_many(["secret@example.com"], allow_list_opts)
+  end
+
   test "weak pattern definitions can require context before acceptance" do
     recognizer =
       PatternDefinition.new!(
