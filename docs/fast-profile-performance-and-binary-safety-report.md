@@ -12,7 +12,7 @@ The strongest measured changes are:
 - `1 MiB` one-match p50 fell by `93.0%`;
 - the `400 KiB` retained-URL p50 fell by `97.7%`;
 - detect-plus-redact p50 fell by `8.8%`;
-- all `33` recursively traversable returned-term ownership probes have zero borrowed
+- all `35` recursively traversable returned-term ownership probes have zero borrowed
   binaries; text probes changed from as much as `744.879x` referenced-size
   amplification to exactly `1.0x`, or to no text binary;
 - all three authoritative accuracy and per-entity fingerprints remained
@@ -36,6 +36,7 @@ universal absence of leaks, or bounded allocator RSS for every workload.
 | Final validated implementation before this report | `22e7e0dd` |
 | Review corrections and expanded verification | `11bcd664` |
 | Result-contract and benchmark-oracle hardening | `61d0b508` |
+| Reserved-metadata and ordered-output hardening | current review revision |
 
 The paired baseline and final microbenchmarks ran on:
 
@@ -50,8 +51,8 @@ The paired baseline and final microbenchmarks ran on:
 
 The operational baseline ran from a detached worktree at the clean baseline
 revision. Three final operational repetitions ran from clean revision
-`cd54ca09`. The review correction was validated with an expanded 45-case
-semantic benchmark harness, a 33-case transparent returned-term retention
+`cd54ca09`. The review correction was validated with an expanded 46-case
+semantic benchmark harness, a 35-case transparent returned-term retention
 harness, alternating paired performance runs, a five-minute targeted soak,
 full tests, and static checks.
 
@@ -155,6 +156,14 @@ metadata, improper terms, and excessive nesting return a sanitized
 `:invalid_callback_result` error. Recursively accepted metadata and explanation
 binaries are detached before they escape.
 
+Analyzer-reserved context metadata is validated before post-processing.
+Context word fields must be proper lists of string-convertible scalar values,
+context flags must be booleans, and the per-result context minimum must be a
+non-negative number. Invalid reserved values therefore cannot reach enumerable
+or numeric context operations and expose source text through an exception.
+List length is not treated as nesting depth: large flat transparent lists are
+accepted, while genuinely excessive recursive nesting remains rejected.
+
 Recognizer exceptions, throws, and exits are converted to structured,
 input-free failure reasons. This prevents an exit reason containing source text
 from reaching task-exit logs.
@@ -236,11 +245,12 @@ structured paths come from centralized ownership handling. They are accepted
 for the binary-retention guarantee. Paired latency and throughput did not
 regress. Large-input reduction cost fell by `67.3%` to `86.3%`.
 
-The review expanded the harness from `11` to `45` cases. It now includes batch
+The review expanded the harness from `11` to `46` cases. It now includes batch
 sizes `1`, `8`, `32`, and `128`; every operator; Logger and Plug paths; each
 built-in entity; four input scales; match positions; multibyte and malformed
 input; dense and overlapping matches; and disabled and parser-backed phone
-modes. Every case completed with its expected output or controlled error.
+modes. A list-root structured-redaction case also preserves item order in its
+fingerprint. Every case completed with its expected output or controlled error.
 Each case now declares an explicit semantic expectation. The harness validates
 it before and after timing and rejects output-fingerprint drift. Schema `3`
 also accepts `--reference PATH`, compares every selected case against a
@@ -298,10 +308,21 @@ p95, and `-1.10%` throughput; the p95 movement was isolated tail noise while
 the corresponding p50 improved by `1.45%`. Reductions increased by at most
 `0.34%` on the normal paths and `1.04%` on the newly hardened optional
 phone-parser path.
-The complete 45-case matrix was then repeated at scale `0.03`; all `45/45`
-external fingerprints and semantic expectations matched. Structured-result
-fingerprinting now canonicalizes map-traversal item order so equivalent
-results remain comparable across separate VMs.
+The reserved-metadata validation, flat-list depth correction, and ordered-list
+oracle were measured against revision `6c1067f3` with seven repetitions at
+scale `0.2`. All `11/11` selected external fingerprints matched. Mean selected
+p50 movement was `+1.11%`; individual cases ranged from a `0.47%` improvement
+to a `2.78%` slowdown, and the two common analyzer cases moved by `+0.77%`.
+This remains within the established short-run noise. A fresh clean-`main`
+comparison retained the scaling gains: `78.75%` for the true `1 KiB` no-match
+case, `91.39%` to `91.40%` for the `64 KiB` cases, `93.01%` for the `1 MiB`
+case, and `97.81%` for the retained long URL.
+
+The complete 46-case matrix was repeated at scale `0.03`; all `46/46`
+external fingerprints and semantic expectations matched against both the
+immediate parent and clean `main`. Structured-result fingerprinting
+canonicalizes item order only for map-root traversal, where map enumeration is
+unordered. List-root structured output retains item order in the fingerprint.
 
 ## Operational Matrix
 
@@ -408,7 +429,7 @@ results carry no match-text binary.
 The review harness retains and recursively inspects transparent returned terms,
 including map keys and values, structs, lists, tuples, and function
 environments. Callback results containing functions are rejected before final
-assembly. Its `33` cases cover:
+assembly. Its `35` cases cover:
 
 - analyzer results with explanations and metadata;
 - analyzer batches, allow/deny filtering, context rejection, overlap handling,
@@ -422,9 +443,11 @@ assembly. Its `33` cases cover:
 - malformed inline-pattern validation metadata;
 - opaque caller-supplied phone-validator metadata;
 - parser-backed normalized phone metadata;
+- large flat callback metadata containing an owned source-derived binary;
+- malformed analyzer-reserved context metadata;
 - sanitized recognizer error, exception, throw, exit, and timeout paths.
 
-All `33` cases reported zero borrowed binaries anywhere in their recursively
+All `35` cases reported zero borrowed binaries anywhere in their recursively
 traversable returned terms. Every holder process terminated normally after
 release and became unreachable through `Process.info/2`. The in-memory vault
 was checked separately: it retained the exact independently owned value and
@@ -499,7 +522,7 @@ allocator evidence, not as proof of live-object ownership.
 | Reverse recognizer accumulation | Avoid repeated list append | Common latency worsened 4% to 6% | Regression | Reductions rose about 0.3% to 0.5% | Unchanged | Rejected | none |
 | Cache recognizer option keywords | Avoid repeated struct conversion | Effects stayed below 1%; tails moved both ways | Inconclusive | About 0.1% fewer reductions | Unchanged | Rejected | none |
 | Trivial conflict fast paths | Skip conflict passes for zero/one result | Reduced no-match reductions 3.5%, but paired wall-time gate did not pass | Inconclusive/regressing pair | Small isolated gain | Unchanged | Rejected | none |
-| Review corrections | Preserve nullable custom text, validate every public callback-result field, reject opaque callback metadata, inspect transparent returned terms, own callback metadata, separate sensitive content from ownership, validate against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `33/33` ownership probes, `45/45` external fingerprints, and full CI passed | Latest p50 slowdown stayed within `0.49%` | Scaling gains against `main` remain `78.5%` to `97.8%` | Zero borrowed binaries in accepted transparent terms; malformed opaque terms rejected | Accepted | `11bcd664` through `61d0b508` plus final review |
+| Review corrections | Preserve nullable custom text, validate every public callback-result field and analyzer-reserved metadata, reject opaque callback metadata, handle large flat transparent lists correctly, inspect transparent returned terms, own callback metadata, separate sensitive content from ownership, validate ordered output against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `35/35` ownership probes, `46/46` external fingerprints, and full tests passed | Latest selected mean p50 movement was `+1.11%`, within measured noise | Scaling gains against `main` remain `78.75%` to `97.81%` | Zero borrowed binaries in accepted transparent terms; malformed reserved or opaque terms rejected | Accepted | `11bcd664` through current review |
 
 Rejected implementation changes were reverted. Their ignored local reports
 remain available during branch review but are not promoted as authoritative
@@ -528,7 +551,7 @@ mix docs
 mix ci.base
 ```
 
-The final test result was `750 passed`, including `10` property tests, with
+The final test result was `753 passed`, including `10` property tests, with
 `14` optional/model tests excluded by their normal tags. Strict Credo,
 Dialyzer, ExDNA, ExSlop, Credence, local Markdown verification, ExDoc
 generation, and every promoted manifest verification passed.

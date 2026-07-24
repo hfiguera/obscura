@@ -33,6 +33,7 @@ defmodule Obscura.FastProfileBenchmark do
 
   def run(args) do
     opts = parse_args(args)
+    validate_structured_fingerprint_order!()
     {:ok, vault} = Memory.start_link()
     {:ok, _token} = Obscura.Vault.get_or_create(vault, :email, "probe@example.test")
 
@@ -275,6 +276,23 @@ defmodule Obscura.FastProfileBenchmark do
           )
         end,
         {:ok_count, 16}
+      ),
+      benchmark_case(
+        "structured_redact_ordered_list",
+        byte_size(@common_text) * 2,
+        iterations(1_000, opts),
+        fn ->
+          Obscura.Structured.redact(
+            [
+              "First contact: first@example.test",
+              "Second contact: +1 202-555-0188"
+            ],
+            profile: :fast,
+            entities: [:email, :phone],
+            telemetry: false
+          )
+        end,
+        {:ok_count, 2}
       )
     ]
 
@@ -800,10 +818,48 @@ defmodule Obscura.FastProfileBenchmark do
     |> Base.encode16(case: :lower)
   end
 
+  defp validate_structured_fingerprint_order! do
+    first =
+      struct!(Obscura.Structured.Item,
+        path: [0],
+        entity: :email,
+        operator: :redact,
+        replacement: "<EMAIL>"
+      )
+
+    second =
+      struct!(Obscura.Structured.Item,
+        path: [1],
+        entity: :phone,
+        operator: :redact,
+        replacement: "<PHONE>"
+      )
+
+    ordered =
+      struct!(Obscura.Structured.Result,
+        data: ["<EMAIL>", "<PHONE>"],
+        items: [first, second],
+        status: :ok
+      )
+
+    reversed = %{ordered | items: [second, first]}
+
+    if fingerprint(ordered) == fingerprint(reversed) do
+      raise "list-root structured fingerprints must preserve item order"
+    end
+  end
+
   defp scrub_volatile_fields(%Obscura.Structured.Result{} = result) do
+    items =
+      if is_map(result.data) do
+        canonicalize_structured_items(result.items)
+      else
+        result.items
+      end
+
     result
     |> Map.from_struct()
-    |> Map.update!(:items, &canonicalize_structured_items/1)
+    |> Map.put(:items, items)
     |> scrub_volatile_fields()
   end
 

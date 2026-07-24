@@ -120,6 +120,42 @@ defmodule Obscura.FastProfileRetentionProbe do
     end
   end
 
+  defmodule MetadataRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :metadata_retention_probe
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(text, opts) do
+      borrowed = binary_part(text, 100_000, 1_024)
+
+      metadata =
+        case Keyword.fetch!(opts, :metadata_mode) do
+          :flat -> %{values: [borrowed | Enum.to_list(1..1_024)]}
+          :malformed_reserved -> %{negative_context_words: borrowed}
+        end
+
+      [
+        %Result{
+          entity: :person,
+          start: 100_000,
+          end: 101_024,
+          byte_start: 100_000,
+          byte_end: 101_024,
+          score: 0.9,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :metadata_retention_probe,
+          metadata: metadata
+        }
+      ]
+    end
+  end
+
   def run(args) do
     opts = parse_args(args)
 
@@ -726,6 +762,46 @@ defmodule Obscura.FastProfileRetentionProbe do
               recognizers: [
                 {MalformedOwnershipRecognizer, malformed_field: :opaque_metadata}
               ],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive])
+        end
+      },
+      %{
+        name: "large_flat_callback_metadata_is_owned",
+        expectation: :owned_sensitive_metadata,
+        operation: fn ->
+          sensitive = String.duplicate("F", 1_024)
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [{MetadataRecognizer, metadata_mode: :flat}],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive])
+        end
+      },
+      %{
+        name: "malformed_reserved_metadata_is_sanitized",
+        expectation: :no_sensitive_graph,
+        operation: fn ->
+          sensitive = String.duplicate("C", 1_024)
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          result =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [{MetadataRecognizer, metadata_mode: :malformed_reserved}],
               include_text: false,
               telemetry: false
             )

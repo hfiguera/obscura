@@ -31,6 +31,32 @@ defmodule Obscura.Recognizer.Phase2ExtensibilityTest do
     end
   end
 
+  defmodule MetadataRecognizer do
+    @behaviour Obscura.Recognizer
+
+    alias Obscura.Analyzer.Result
+
+    def name, do: :metadata
+    def supported_entities, do: [:person]
+
+    def analyze(_text, opts) do
+      [
+        %Result{
+          entity: :person,
+          start: 0,
+          end: 5,
+          byte_start: 0,
+          byte_end: 5,
+          score: 0.8,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :metadata,
+          metadata: Keyword.fetch!(opts, :result_metadata)
+        }
+      ]
+    end
+  end
+
   test "analyze/2 accepts custom recognizer modules" do
     assert {:ok, [result]} =
              Obscura.analyze("Ticket TKT-1234",
@@ -129,6 +155,67 @@ defmodule Obscura.Recognizer.Phase2ExtensibilityTest do
     assert_raise ArgumentError, ~r/invalid_validate/, fn ->
       PatternDefinition.new!(Keyword.put(base, :validate, :not_a_callback))
     end
+  end
+
+  test "custom recognizers reject malformed analyzer-reserved metadata" do
+    invalid_metadata = [
+      %{context_words: "Alice"},
+      %{negative_context_words: "Alice"},
+      %{weak_context_words: "Alice"},
+      %{context_words: [%{unsafe: true}]},
+      %{context_matched: "yes"},
+      %{negative_context_matched: 1},
+      %{negative_context_reject: :yes},
+      %{requires_context: :yes},
+      %{weak_context_matched: nil},
+      %{context_min_score: "high"},
+      %{context_min_score: -0.1}
+    ]
+
+    for metadata <- invalid_metadata do
+      opts = [
+        profile: :fast,
+        built_ins: false,
+        entities: [:person],
+        recognizers: [{MetadataRecognizer, result_metadata: metadata}],
+        include_text: false,
+        telemetry: false
+      ]
+
+      assert {:error, {:recognizer_failed, :metadata, :invalid_callback_result}} =
+               Obscura.analyze("Alice", opts)
+
+      assert {:error, {:recognizer_failed, :metadata, :invalid_callback_result}} =
+               Obscura.Analyzer.analyze_many(["Alice"], opts)
+    end
+  end
+
+  test "custom recognizers accept large flat metadata but reject excessive nesting" do
+    flat_values = Enum.to_list(1..1_024)
+
+    opts = [
+      profile: :fast,
+      built_ins: false,
+      entities: [:person],
+      recognizers: [{MetadataRecognizer, result_metadata: %{values: flat_values}}],
+      include_text: false,
+      telemetry: false
+    ]
+
+    assert {:ok, [result]} = Obscura.analyze("Alice", opts)
+    assert result.metadata.values == flat_values
+
+    deeply_nested = Enum.reduce(1..257, :leaf, fn _index, acc -> [acc] end)
+
+    assert {:error, {:recognizer_failed, :metadata, :invalid_callback_result}} =
+             Obscura.analyze(
+               "Alice",
+               Keyword.put(
+                 opts,
+                 :recognizers,
+                 [{MetadataRecognizer, result_metadata: %{values: deeply_nested}}]
+               )
+             )
   end
 
   test "weak pattern definitions can require context before acceptance" do

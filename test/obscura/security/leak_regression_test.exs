@@ -65,6 +65,36 @@ defmodule Obscura.Security.LeakRegressionTest do
     end
   end
 
+  defmodule ReservedMetadataRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl Obscura.Recognizer
+    def name, do: :reserved_metadata_recognizer
+
+    @impl Obscura.Recognizer
+    def supported_entities, do: [:email]
+
+    @impl Obscura.Recognizer
+    def analyze(text, _opts) do
+      value = binary_part(text, 0, byte_size(text))
+
+      [
+        %Result{
+          entity: :email,
+          start: 0,
+          end: byte_size(text),
+          byte_start: 0,
+          byte_end: byte_size(text),
+          score: 0.8,
+          text: nil,
+          source_entity: "EMAIL",
+          recognizer: :reserved_metadata_recognizer,
+          metadata: %{negative_context_words: value}
+        }
+      ]
+    end
+  end
+
   defmodule LeakyLanguageDetector do
     @behaviour Obscura.Language.Detector
 
@@ -227,6 +257,23 @@ defmodule Obscura.Security.LeakRegressionTest do
 
       refute_canaries(log)
     end
+  end
+
+  test "malformed reserved metadata cannot escape through context exceptions" do
+    outcome =
+      Obscura.analyze(@canary,
+        profile: :fast,
+        built_ins: false,
+        entities: [:email],
+        recognizers: [ReservedMetadataRecognizer],
+        include_text: false,
+        telemetry: false
+      )
+
+    assert {:error, {:recognizer_failed, :reserved_metadata_recognizer, :invalid_callback_result}} =
+             outcome
+
+    refute_canaries(outcome)
   end
 
   test "logs and telemetry reject direct and nested canary values" do

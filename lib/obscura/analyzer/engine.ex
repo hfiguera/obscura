@@ -21,6 +21,15 @@ defmodule Obscura.Analyzer.Engine do
   alias Obscura.Telemetry
 
   @built_in_recognizers Registry.built_ins()
+  @context_word_metadata_keys [:context_words, :negative_context_words, :weak_context_words]
+  @context_boolean_metadata_keys [
+    :context_matched,
+    :negative_context_matched,
+    :negative_context_reject,
+    :requires_context,
+    :weak_context_matched
+  ]
+  @context_number_metadata_keys [:context_min_score]
 
   @doc """
   Runs built-in recognizers for a string.
@@ -564,7 +573,7 @@ defmodule Obscura.Analyzer.Engine do
       valid_result_offsets?(result, text) and
       valid_result_payload?(result) and
       valid_explanation?(result.explanation) and
-      valid_callback_metadata?(result.metadata)
+      valid_result_metadata?(result.metadata)
   end
 
   defp valid_result?(_result, _text), do: false
@@ -619,6 +628,33 @@ defmodule Obscura.Analyzer.Engine do
   defp valid_callback_metadata?(metadata) do
     is_map(metadata) and ResultText.safe_callback_term?(metadata)
   end
+
+  defp valid_result_metadata?(metadata) do
+    valid_callback_metadata?(metadata) and
+      valid_context_metadata?(metadata)
+  end
+
+  defp valid_context_metadata?(metadata) do
+    valid_metadata_keys?(metadata, @context_word_metadata_keys, &valid_context_words?/1) and
+      valid_metadata_keys?(metadata, @context_boolean_metadata_keys, &is_boolean/1) and
+      valid_metadata_keys?(metadata, @context_number_metadata_keys, &valid_context_number?/1)
+  end
+
+  defp valid_metadata_keys?(metadata, keys, validator) do
+    Enum.all?(keys, fn key ->
+      case Map.fetch(metadata, key) do
+        {:ok, value} -> validator.(value)
+        :error -> true
+      end
+    end)
+  end
+
+  defp valid_context_words?(words) do
+    is_list(words) and not List.improper?(words) and
+      Enum.all?(words, &(is_binary(&1) or is_atom(&1) or is_number(&1)))
+  end
+
+  defp valid_context_number?(value), do: is_number(value) and value >= 0
 
   defp callback_result_error(module) do
     {:error, {:recognizer_failed, recognizer_name(module), :invalid_callback_result}}

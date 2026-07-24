@@ -154,6 +154,13 @@ rejected with a sanitized `:invalid_callback_result` error. Accepted binary
 metadata is detached when it would otherwise retain an unrelated larger source
 binary.
 
+Metadata keys consumed by analyzer context processing are also type-checked
+before post-processing. `:context_words`, `:negative_context_words`, and
+`:weak_context_words` must be proper lists of string-convertible scalar values;
+context flags must be booleans; and `:context_min_score` must be a non-negative
+number. Malformed reserved metadata returns the same sanitized callback error
+instead of reaching context processing.
+
 ## Inline Patterns
 
 Use `Obscura.Recognizer.PatternDefinition` for project-local regexes without creating a module:

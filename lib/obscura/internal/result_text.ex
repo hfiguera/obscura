@@ -108,7 +108,7 @@ defmodule Obscura.Internal.ResultText do
   defp safe_callback_term?([], _depth), do: true
 
   defp safe_callback_term?([head | tail], depth) when is_list(tail) do
-    safe_callback_term?(head, depth + 1) and safe_callback_term?(tail, depth + 1)
+    safe_callback_term?(head, depth + 1) and safe_callback_term?(tail, depth)
   end
 
   defp safe_callback_term?([_head | _tail], _depth), do: false
