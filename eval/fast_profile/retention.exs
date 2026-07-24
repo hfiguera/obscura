@@ -732,6 +732,55 @@ defmodule Obscura.FastProfileRetentionProbe do
 
           retention_probe(result, [sensitive])
         end
+      },
+      %{
+        name: "pattern_validation_non_map_metadata_is_sanitized",
+        expectation: :no_sensitive_graph,
+        operation: fn ->
+          sensitive = "OBSCURA-PATTERN-CALLBACK-CANARY@example.test"
+
+          definition =
+            PatternDefinition.new!(
+              name: :invalid_metadata_retention_pattern,
+              entity: :email,
+              patterns: [%{name: :probe, regex: ~r/#{Regex.escape(sensitive)}/, score: 0.9}],
+              validate: fn value -> {:ok, value} end
+            )
+
+          result =
+            Obscura.analyze(sensitive,
+              profile: :fast,
+              built_ins: false,
+              entities: [:email],
+              recognizers: [definition],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive])
+        end
+      },
+      %{
+        name: "phone_validator_opaque_metadata_is_rejected",
+        expectation: :no_sensitive_graph,
+        operation: fn ->
+          sensitive = "+1 202-555-0188"
+
+          validator = fn value, _opts ->
+            {:ok, %{deferred: fn -> value end}}
+          end
+
+          result =
+            Obscura.analyze("Call #{sensitive}",
+              profile: :fast,
+              entities: [:phone],
+              include_text: false,
+              phone_validator: validator,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive])
+        end
       }
     ] ++ parser_metadata_cases()
   end

@@ -148,9 +148,22 @@ defmodule Obscura.Analyzer.Engine do
   end
 
   defp run_recognizer(%PatternDefinition{} = definition, text, options) do
-    definition
-    |> PatternDefinition.analyze(text, Options.to_keyword(options))
-    |> validate_callback_results(text, definition.name)
+    case PatternDefinition.analyze(definition, text, Options.to_keyword(options)) do
+      {:error, :invalid_callback_result} ->
+        callback_result_error(pattern_definition_name(definition))
+
+      results ->
+        validate_callback_results(results, text, pattern_definition_name(definition))
+    end
+  rescue
+    _error ->
+      {:error, {:recognizer_failed, pattern_definition_name(definition), :exception}}
+  catch
+    :throw, _reason ->
+      {:error, {:recognizer_failed, pattern_definition_name(definition), :throw}}
+
+    :exit, _reason ->
+      {:error, {:recognizer_failed, pattern_definition_name(definition), :exit}}
   end
 
   defp run_recognizer({:deny_list, deny_lists}, text, options) do
@@ -161,10 +174,13 @@ defmodule Obscura.Analyzer.Engine do
 
   defp run_recognizer({module, recognizer_opts}, text, options)
        when is_atom(module) and module in @built_in_recognizers do
+    opts = Options.to_keyword(options) |> Keyword.merge(recognizer_opts)
+
     run_builtin_recognizer(
       module,
       text,
-      Options.to_keyword(options) |> Keyword.merge(recognizer_opts)
+      opts,
+      callback_backed_builtin?(module, opts)
     )
   end
 
@@ -178,23 +194,28 @@ defmodule Obscura.Analyzer.Engine do
 
   defp run_recognizer(module, text, options)
        when is_atom(module) and module in @built_in_recognizers do
-    run_builtin_recognizer(module, text, Options.to_keyword(options))
+    run_builtin_recognizer(
+      module,
+      text,
+      Options.to_keyword(options),
+      callback_backed_builtin?(module, options)
+    )
   end
 
   defp run_recognizer(module, text, options) when is_atom(module) do
     run_module_recognizer(module, text, Options.to_keyword(options))
   end
 
-  defp run_builtin_recognizer(module, text, opts) do
+  defp run_builtin_recognizer(module, text, opts, callback_backed?) do
     case module.analyze(text, opts) do
       {:ok, results} ->
-        validate_builtin_results(results, text, module)
+        validate_builtin_results(results, text, module, callback_backed?)
 
       {:error, reason} ->
         {:error, {:recognizer_failed, recognizer_name(module), safe_callback_reason(reason)}}
 
       results when is_list(results) ->
-        validate_builtin_results(results, text, module)
+        validate_builtin_results(results, text, module, callback_backed?)
 
       _invalid ->
         callback_result_error(module)
@@ -227,13 +248,33 @@ defmodule Obscura.Analyzer.Engine do
     :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
 
-  defp validate_builtin_results(results, text, module) do
-    if not List.improper?(results) and Enum.all?(results, &valid_builtin_result?(&1, text)) do
+  defp validate_builtin_results(results, text, module, callback_backed?) do
+    if callback_backed? do
+      validate_callback_results(results, text, module)
+    else
+      validate_trusted_builtin_results(results, text, module)
+    end
+  end
+
+  defp validate_trusted_builtin_results(results, text, module) do
+    if is_list(results) and not List.improper?(results) and
+         Enum.all?(results, &valid_builtin_result?(&1, text)) do
       {:ok, results}
     else
       callback_result_error(module)
     end
   end
+
+  defp callback_backed_builtin?(Obscura.Recognizer.Phone, %Options{} = options) do
+    not is_nil(options.phone_parser) or not is_nil(options.phone_validator)
+  end
+
+  defp callback_backed_builtin?(Obscura.Recognizer.Phone, opts) when is_list(opts) do
+    not is_nil(Keyword.get(opts, :phone_parser)) or
+      not is_nil(Keyword.get(opts, :phone_validator))
+  end
+
+  defp callback_backed_builtin?(_module, _opts), do: false
 
   defp valid_builtin_result?(%Result{} = result, text) do
     is_atom(result.entity) and not is_nil(result.entity) and
@@ -486,6 +527,12 @@ defmodule Obscura.Analyzer.Engine do
   catch
     _kind, _reason -> module
   end
+
+  defp pattern_definition_name(%PatternDefinition{name: name})
+       when is_atom(name) and not is_nil(name),
+       do: name
+
+  defp pattern_definition_name(%PatternDefinition{}), do: :pattern_definition
 
   defp validate_callback_results(results, text, module) when is_list(results) do
     if not List.improper?(results) and Enum.all?(results, &valid_result?(&1, text)) do

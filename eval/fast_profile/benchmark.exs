@@ -800,6 +800,13 @@ defmodule Obscura.FastProfileBenchmark do
     |> Base.encode16(case: :lower)
   end
 
+  defp scrub_volatile_fields(%Obscura.Structured.Result{} = result) do
+    result
+    |> Map.from_struct()
+    |> Map.update!(:items, &canonicalize_structured_items/1)
+    |> scrub_volatile_fields()
+  end
+
   defp scrub_volatile_fields(value) when is_map(value) do
     entries =
       value
@@ -828,6 +835,14 @@ defmodule Obscura.FastProfileBenchmark do
   defp scrub_volatile_fields(value) when is_reference(value), do: :__reference__
   defp scrub_volatile_fields(value) when is_function(value), do: :__function__
   defp scrub_volatile_fields(value), do: value
+
+  defp canonicalize_structured_items(items) do
+    Enum.sort_by(items, fn item ->
+      item
+      |> scrub_volatile_fields()
+      |> :erlang.term_to_binary()
+    end)
+  end
 
   defp validate_reference!(report, nil) do
     Map.put(report, :reference_validation, %{

@@ -12,7 +12,7 @@ The strongest measured changes are:
 - `1 MiB` one-match p50 fell by `93.0%`;
 - the `400 KiB` retained-URL p50 fell by `97.7%`;
 - detect-plus-redact p50 fell by `8.8%`;
-- all `31` recursively traversable returned-term ownership probes have zero borrowed
+- all `33` recursively traversable returned-term ownership probes have zero borrowed
   binaries; text probes changed from as much as `744.879x` referenced-size
   amplification to exactly `1.0x`, or to no text binary;
 - all three authoritative accuracy and per-entity fingerprints remained
@@ -35,6 +35,7 @@ universal absence of leaks, or bounded allocator RSS for every workload.
 | Targeted retention soak | `cd54ca09` |
 | Final validated implementation before this report | `22e7e0dd` |
 | Review corrections and expanded verification | `11bcd664` |
+| Result-contract and benchmark-oracle hardening | `61d0b508` |
 
 The paired baseline and final microbenchmarks ran on:
 
@@ -50,26 +51,33 @@ The paired baseline and final microbenchmarks ran on:
 The operational baseline ran from a detached worktree at the clean baseline
 revision. Three final operational repetitions ran from clean revision
 `cd54ca09`. The review correction was validated with an expanded 45-case
-semantic benchmark harness, a 31-case transparent returned-term retention
+semantic benchmark harness, a 33-case transparent returned-term retention
 harness, alternating paired performance runs, a five-minute targeted soak,
 full tests, and static checks.
 
 ## Commands
 
-Baseline and final microbenchmarks:
+Baseline and final microbenchmarks use the same finalized harness. Set the
+worktree paths to a detached clean baseline and the candidate under test:
 
 ```sh
-mix run eval/fast_profile/benchmark.exs -- \
+BASELINE_WORKTREE=/path/to/clean-baseline-worktree
+CANDIDATE_WORKTREE=/path/to/candidate-worktree
+FINAL_HARNESS="$CANDIDATE_WORKTREE/eval/fast_profile/benchmark.exs"
+REFERENCE_REPORT=/tmp/obscura-fast-profile-reference.json
+
+(cd "$BASELINE_WORKTREE" && mix run "$FINAL_HARNESS" -- \
   --label baseline_clean \
   --repetitions 5 \
   --scale 1.0 \
-  --output eval/reports/fast_profile/baseline_clean.json
+  --output "$REFERENCE_REPORT")
 
-mix run eval/fast_profile/benchmark.exs -- \
+(cd "$CANDIDATE_WORKTREE" && mix run eval/fast_profile/benchmark.exs -- \
   --label paired_final_candidate \
   --repetitions 5 \
   --scale 1.0 \
-  --output eval/reports/fast_profile/paired_final_candidate.json
+  --reference "$REFERENCE_REPORT" \
+  --output eval/reports/fast_profile/paired_final_candidate.json)
 ```
 
 The final review used schema-`3` baseline reports generated with the same
@@ -282,6 +290,19 @@ cases, `92.9%` for the `1 MiB` case, and `97.8%` for the retained long URL.
 The longer alternating evidence above remains the stronger short-request
 comparison.
 
+The inline-pattern and caller-supplied phone-validator boundary correction was
+measured against revision `61d0b508` with seven repetitions at scale `0.2`.
+All `13/13` selected fingerprints matched an external reference generated in a
+separate worktree. The largest adverse movements were `+0.49%` p50, `+4.55%`
+p95, and `-1.10%` throughput; the p95 movement was isolated tail noise while
+the corresponding p50 improved by `1.45%`. Reductions increased by at most
+`0.34%` on the normal paths and `1.04%` on the newly hardened optional
+phone-parser path.
+The complete 45-case matrix was then repeated at scale `0.03`; all `45/45`
+external fingerprints and semantic expectations matched. Structured-result
+fingerprinting now canonicalizes map-traversal item order so equivalent
+results remain comparable across separate VMs.
+
 ## Operational Matrix
 
 The final values below are medians across three clean runs. Each run contains
@@ -387,7 +408,7 @@ results carry no match-text binary.
 The review harness retains and recursively inspects transparent returned terms,
 including map keys and values, structs, lists, tuples, and function
 environments. Callback results containing functions are rejected before final
-assembly. Its `31` cases cover:
+assembly. Its `33` cases cover:
 
 - analyzer results with explanations and metadata;
 - analyzer batches, allow/deny filtering, context rejection, overlap handling,
@@ -398,10 +419,12 @@ assembly. Its `31` cases cover:
 - custom borrowed and offset-only results;
 - custom validator result and explanation metadata;
 - malformed recognizer fields and opaque closure metadata;
+- malformed inline-pattern validation metadata;
+- opaque caller-supplied phone-validator metadata;
 - parser-backed normalized phone metadata;
 - sanitized recognizer error, exception, throw, exit, and timeout paths.
 
-All `31` cases reported zero borrowed binaries anywhere in their recursively
+All `33` cases reported zero borrowed binaries anywhere in their recursively
 traversable returned terms. Every holder process terminated normally after
 release and became unreachable through `Process.info/2`. The in-memory vault
 was checked separately: it retained the exact independently owned value and
@@ -476,7 +499,7 @@ allocator evidence, not as proof of live-object ownership.
 | Reverse recognizer accumulation | Avoid repeated list append | Common latency worsened 4% to 6% | Regression | Reductions rose about 0.3% to 0.5% | Unchanged | Rejected | none |
 | Cache recognizer option keywords | Avoid repeated struct conversion | Effects stayed below 1%; tails moved both ways | Inconclusive | About 0.1% fewer reductions | Unchanged | Rejected | none |
 | Trivial conflict fast paths | Skip conflict passes for zero/one result | Reduced no-match reductions 3.5%, but paired wall-time gate did not pass | Inconclusive/regressing pair | Small isolated gain | Unchanged | Rejected | none |
-| Review corrections | Preserve nullable custom text, validate every public callback-result field, reject opaque callback metadata, inspect transparent returned terms, own callback metadata, separate sensitive content from ownership, validate against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `31/31` ownership probes and full CI passed | Order-reversed p50 slowdown stayed within `2.1%` | Scaling gains against `main` remain `78.5%` to `97.8%` | Zero borrowed binaries in accepted transparent terms; malformed opaque terms rejected | Accepted | `11bcd664` plus final review |
+| Review corrections | Preserve nullable custom text, validate every public callback-result field, reject opaque callback metadata, inspect transparent returned terms, own callback metadata, separate sensitive content from ownership, validate against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `33/33` ownership probes, `45/45` external fingerprints, and full CI passed | Latest p50 slowdown stayed within `0.49%` | Scaling gains against `main` remain `78.5%` to `97.8%` | Zero borrowed binaries in accepted transparent terms; malformed opaque terms rejected | Accepted | `11bcd664` through `61d0b508` plus final review |
 
 Rejected implementation changes were reverted. Their ignored local reports
 remain available during branch review but are not promoted as authoritative
@@ -505,7 +528,7 @@ mix docs
 mix ci.base
 ```
 
-The final test result was `744 passed`, including `10` property tests, with
+The final test result was `750 passed`, including `10` property tests, with
 `14` optional/model tests excluded by their normal tags. Strict Credo,
 Dialyzer, ExDNA, ExSlop, Credence, local Markdown verification, ExDoc
 generation, and every promoted manifest verification passed.

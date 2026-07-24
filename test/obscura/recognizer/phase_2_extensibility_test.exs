@@ -90,6 +90,47 @@ defmodule Obscura.Recognizer.Phase2ExtensibilityTest do
     assert result.explanation.validation == :valid
   end
 
+  test "pattern definitions reject malformed validation metadata without exposing the match" do
+    sensitive = "secret@example.test"
+
+    recognizer =
+      PatternDefinition.new!(
+        name: :unsafe_metadata,
+        entity: :email,
+        patterns: [%{name: :email, regex: ~r/secret@example\.test/, score: 0.9}],
+        validate: fn value -> {:ok, value} end
+      )
+
+    outcome =
+      Obscura.analyze(sensitive,
+        profile: :fast,
+        built_ins: false,
+        entities: [:email],
+        recognizers: [recognizer],
+        include_text: false,
+        telemetry: false
+      )
+
+    assert {:error, {:recognizer_failed, :unsafe_metadata, :invalid_callback_result}} = outcome
+    refute inspect(outcome) =~ sensitive
+  end
+
+  test "pattern definition configuration validates metadata and callback types" do
+    base = [
+      name: :invalid_definition,
+      entity: :email,
+      patterns: [%{name: :email, regex: ~r/example/, score: 0.9}]
+    ]
+
+    assert_raise ArgumentError, ~r/invalid_metadata/, fn ->
+      PatternDefinition.new!(Keyword.put(base, :metadata, "not-a-map"))
+    end
+
+    assert_raise ArgumentError, ~r/invalid_validate/, fn ->
+      PatternDefinition.new!(Keyword.put(base, :validate, :not_a_callback))
+    end
+  end
+
   test "weak pattern definitions can require context before acceptance" do
     recognizer =
       PatternDefinition.new!(
