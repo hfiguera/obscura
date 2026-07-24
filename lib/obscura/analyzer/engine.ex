@@ -325,11 +325,24 @@ defmodule Obscura.Analyzer.Engine do
   end
 
   defp artifacts_for_text(text, options) do
-    NLPEngine.build_artifacts(text, Options.to_keyword(options))
+    if dependency_light_artifacts_can_be_deferred?(options) do
+      {:ok, nil}
+    else
+      NLPEngine.build_artifacts(text, Options.to_keyword(options))
+    end
   end
 
   defp artifacts_for_many(texts, options) do
-    NLPEngine.build_many(texts, Options.to_keyword(options))
+    if dependency_light_artifacts_can_be_deferred?(options) do
+      {:ok, List.duplicate(nil, length(texts))}
+    else
+      NLPEngine.build_many(texts, Options.to_keyword(options))
+    end
+  end
+
+  defp dependency_light_artifacts_can_be_deferred?(options) do
+    options.profile == :deterministic_plus and options.recognizers == [] and
+      is_nil(options.nlp_artifacts) and is_nil(options.nlp_engine)
   end
 
   defp telemetry_metadata(options, status, result_count) do

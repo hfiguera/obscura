@@ -14,19 +14,23 @@ defmodule Obscura.Context do
   @spec enhance([Obscura.Analyzer.Result.t()], String.t(), Obscura.Analyzer.Options.t()) ::
           [Obscura.Analyzer.Result.t()]
   def enhance(results, _text, %{context: [], profile: :regex_only}), do: results
+  def enhance([], _text, _options), do: []
 
   def enhance(results, text, options) do
-    if options.context == [] and options.context_boost == 0.0 and
-         options.context_policies in [%{}, []] do
+    if context_disabled?(options) do
       results
     else
-      artifacts = Map.get(options, :nlp_artifacts) || Artifacts.build(text)
+      policy_results = Enum.map(results, &Policy.apply(&1, options.context_policies))
 
-      Enum.map(results, fn result ->
-        result
-        |> Policy.apply(options.context_policies)
-        |> enhance_result(text, artifacts, options)
-      end)
+      if context_matching_required?(policy_results, options) do
+        artifacts = Map.get(options, :nlp_artifacts) || Artifacts.build(text)
+
+        Enum.map(policy_results, fn result ->
+          enhance_result(result, text, artifacts, options)
+        end)
+      else
+        policy_results
+      end
     end
   end
 
@@ -40,6 +44,22 @@ defmodule Obscura.Context do
   def accepted?(%{metadata: %{requires_context: true, context_matched: true}}), do: true
   def accepted?(%{metadata: %{requires_context: true}}), do: false
   def accepted?(_result), do: true
+
+  defp context_disabled?(options) do
+    options.context == [] and options.context_boost == 0.0 and
+      options.context_policies in [%{}, []]
+  end
+
+  defp context_matching_required?(results, options) do
+    options.context != [] or Enum.any?(results, &result_has_context_words?/1)
+  end
+
+  defp result_has_context_words?(result) do
+    metadata = result.metadata || %{}
+
+    Map.get(metadata, :context_words, []) != [] or
+      Map.get(metadata, :negative_context_words, []) != []
+  end
 
   defp enhance_result(result, text, artifacts, options) do
     context_words = context_words(result, options.context)
