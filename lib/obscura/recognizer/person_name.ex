@@ -9,6 +9,7 @@ defmodule Obscura.Recognizer.PersonName do
   @behaviour Obscura.Recognizer
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Internal.ResultText
 
   @title_name ~r/\b(?i:mr|mrs|ms|miss|dr)\.\s+([\p{Lu}][\p{L}'-]+(?:\s+[\p{Lu}][\p{L}'-]+){0,2})/u
   @billing_name ~r/billing address:\s*([a-z][a-z'-]+(?:\s+[a-z][a-z'-]+){1,3})/iu
@@ -162,7 +163,7 @@ defmodule Obscura.Recognizer.PersonName do
       byte_start: start,
       byte_end: start + byte_length,
       score: 0.77,
-      text: Obscura.Internal.ResultText.maybe_materialize(value, opts),
+      text: ResultText.maybe_materialize(value, opts),
       source_entity: "PERSON",
       recognizer: :person_name,
       metadata: %{pattern: pattern, context: :generated_presidio_research}

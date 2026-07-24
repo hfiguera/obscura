@@ -2,6 +2,7 @@ defmodule Obscura.Recognizer.Phone do
   @moduledoc false
   @behaviour Obscura.Recognizer
 
+  alias Obscura.Internal.ResultText
   alias Obscura.Recognizer.Pattern
   alias Obscura.Recognizer.SpanHelpers
 
@@ -83,7 +84,7 @@ defmodule Obscura.Recognizer.Phone do
 
   defp parser_candidate_result(result, text) do
     value =
-      Obscura.Internal.ResultText.borrowed_slice(text, result.byte_start, result.byte_end)
+      ResultText.borrowed_slice(text, result.byte_start, result.byte_end)
 
     cond do
       plus_prefixed?(value) ->

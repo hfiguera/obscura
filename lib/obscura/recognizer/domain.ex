@@ -2,6 +2,7 @@ defmodule Obscura.Recognizer.Domain do
   @moduledoc false
   @behaviour Obscura.Recognizer
 
+  alias Obscura.Internal.ResultText
   alias Obscura.Recognizer.Pattern
   alias Obscura.Recognizer.SpanHelpers
 
@@ -51,7 +52,7 @@ defmodule Obscura.Recognizer.Domain do
         byte_start: start,
         byte_end: start + byte_length,
         score: 0.71,
-        text: Obscura.Internal.ResultText.maybe_materialize(value, opts),
+        text: ResultText.maybe_materialize(value, opts),
         source_entity: "DOMAIN_NAME",
         recognizer: :domain,
         explanation: nil,

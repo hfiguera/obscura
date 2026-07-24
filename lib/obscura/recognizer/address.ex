@@ -9,6 +9,7 @@ defmodule Obscura.Recognizer.Address do
   @behaviour Obscura.Recognizer
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Internal.ResultText
 
   @billing_address ~r/billing address:\s+[^\n]+\n\s*(\d+)\s+(.+? road)\s+(suite \d+)\n\s*([^\n]+)\n\s*(nan)\n\s*(\d{5})/iu
   @billing_address_with ~r/billing address with\s+(.+?)\s+for this card:/isu
@@ -213,7 +214,7 @@ defmodule Obscura.Recognizer.Address do
       byte_start: start,
       byte_end: start + byte_length,
       score: 0.78,
-      text: Obscura.Internal.ResultText.maybe_materialize(value, opts),
+      text: ResultText.maybe_materialize(value, opts),
       source_entity: "ADDRESS",
       recognizer: :address,
       metadata: %{pattern: pattern, context: :address}

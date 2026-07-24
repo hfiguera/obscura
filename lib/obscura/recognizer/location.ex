@@ -9,6 +9,7 @@ defmodule Obscura.Recognizer.Location do
   @behaviour Obscura.Recognizer
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Internal.ResultText
 
   @billing_address ~r/billing address:\s+[^\n]+\n\s*\d+\s+.+? road\s+suite \d+\n\s*([^\n]+)\n\s*nan\n\s*\d{5}/iu
   @inline_address ~r/address:\s*\d+\s+.+?\s*,\s*([^\n,]+)\s*$/iu
@@ -120,7 +121,7 @@ defmodule Obscura.Recognizer.Location do
       byte_start: start,
       byte_end: start + byte_length,
       score: 0.76,
-      text: Obscura.Internal.ResultText.maybe_materialize(value, opts),
+      text: ResultText.maybe_materialize(value, opts),
       source_entity: "LOCATION",
       recognizer: :location,
       metadata: %{pattern: pattern, context: :generated_presidio_research}

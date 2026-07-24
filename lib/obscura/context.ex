@@ -20,17 +20,7 @@ defmodule Obscura.Context do
     if context_disabled?(options) do
       results
     else
-      policy_results = Enum.map(results, &Policy.apply(&1, options.context_policies))
-
-      if context_matching_required?(policy_results, options) do
-        artifacts = Map.get(options, :nlp_artifacts) || Artifacts.build(text)
-
-        Enum.map(policy_results, fn result ->
-          enhance_result(result, text, artifacts, options)
-        end)
-      else
-        policy_results
-      end
+      enhance_with_policies(results, text, options)
     end
   end
 
@@ -48,6 +38,17 @@ defmodule Obscura.Context do
   defp context_disabled?(options) do
     options.context == [] and options.context_boost == 0.0 and
       options.context_policies in [%{}, []]
+  end
+
+  defp enhance_with_policies(results, text, options) do
+    policy_results = Enum.map(results, &Policy.apply(&1, options.context_policies))
+
+    if context_matching_required?(policy_results, options) do
+      artifacts = Map.get(options, :nlp_artifacts) || Artifacts.build(text)
+      Enum.map(policy_results, &enhance_result(&1, text, artifacts, options))
+    else
+      policy_results
+    end
   end
 
   defp context_matching_required?(results, options) do

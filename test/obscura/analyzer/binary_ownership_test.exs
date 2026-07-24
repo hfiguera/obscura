@@ -2,6 +2,8 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
   use ExUnit.Case, async: true
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Recognizer.Email
+  alias Obscura.Recognizer.PersonName
 
   defmodule BorrowingRecognizer do
     @behaviour Obscura.Recognizer
@@ -99,13 +101,13 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
   test "built-in recognizers avoid result text materialization when disabled" do
     assert [%Result{text: nil, entity: :email}] =
-             Obscura.Recognizer.Email.analyze("probe@example.test",
+             Email.analyze("probe@example.test",
                include_text: false,
                explain: false
              )
 
     assert [%Result{text: nil, entity: :person}] =
-             Obscura.Recognizer.PersonName.analyze("My name is Rachel Green,",
+             PersonName.analyze("My name is Rachel Green,",
                profile: :deterministic_plus,
                include_text: false
              )

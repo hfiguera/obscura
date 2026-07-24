@@ -3,6 +3,8 @@ defmodule Obscura.AllowList do
   Filters analyzer results that match configured safe values or patterns.
   """
 
+  alias Obscura.Internal.ResultText
+
   @doc """
   Removes analyzer results that are present in the allow list.
   """
@@ -79,7 +81,7 @@ defmodule Obscura.AllowList do
 
   defp result_value(%{byte_start: byte_start, byte_end: byte_end}, source)
        when is_binary(source) do
-    Obscura.Internal.ResultText.borrowed_slice(source, byte_start, byte_end)
+    ResultText.borrowed_slice(source, byte_start, byte_end)
   end
 
   defp result_value(_result, _source), do: nil
