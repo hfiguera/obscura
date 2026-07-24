@@ -112,8 +112,6 @@ defmodule Obscura.Recognizer.Location do
   end
 
   defp result(text, {start, byte_length}, pattern, opts) do
-    value = binary_part(text, start, byte_length)
-
     %Result{
       entity: :location,
       start: start,
@@ -121,7 +119,7 @@ defmodule Obscura.Recognizer.Location do
       byte_start: start,
       byte_end: start + byte_length,
       score: 0.76,
-      text: ResultText.maybe_materialize(value, opts),
+      text: ResultText.maybe_materialize_slice(text, start, start + byte_length, opts),
       source_entity: "LOCATION",
       recognizer: :location,
       metadata: %{pattern: pattern, context: :generated_presidio_research}

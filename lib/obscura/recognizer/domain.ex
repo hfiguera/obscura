@@ -43,8 +43,6 @@ defmodule Obscura.Recognizer.Domain do
     @posted_photo_url
     |> Regex.scan(text, return: :index)
     |> Enum.map(fn [_full, {start, byte_length}] ->
-      value = binary_part(text, start, byte_length)
-
       %Obscura.Analyzer.Result{
         entity: :domain,
         start: start,
@@ -52,7 +50,7 @@ defmodule Obscura.Recognizer.Domain do
         byte_start: start,
         byte_end: start + byte_length,
         score: 0.71,
-        text: ResultText.maybe_materialize(value, opts),
+        text: ResultText.maybe_materialize_slice(text, start, start + byte_length, opts),
         source_entity: "DOMAIN_NAME",
         recognizer: :domain,
         explanation: nil,

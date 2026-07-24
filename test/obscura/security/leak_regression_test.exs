@@ -47,6 +47,24 @@ defmodule Obscura.Security.LeakRegressionTest do
     def analyze_many(_texts, _opts), do: {:ok, [["OBSCURA-CANARY-7F4A@example.test"]]}
   end
 
+  defmodule ThrowingRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl Obscura.Recognizer
+    def name, do: :throwing_recognizer
+
+    @impl Obscura.Recognizer
+    def supported_entities, do: [:email]
+
+    @impl Obscura.Recognizer
+    def analyze(text, opts) do
+      case Keyword.fetch!(opts, :failure_mode) do
+        :throw -> throw(text)
+        :exit -> exit(text)
+      end
+    end
+  end
+
   defmodule LeakyLanguageDetector do
     @behaviour Obscura.Language.Detector
 
@@ -185,6 +203,30 @@ defmodule Obscura.Security.LeakRegressionTest do
              )
 
     refute_canaries(language_error)
+  end
+
+  test "recognizer throw and exit failures are contained without logging source text" do
+    for mode <- [:throw, :exit] do
+      opts = [
+        built_ins: false,
+        entities: [:email],
+        recognizers: [{ThrowingRecognizer, failure_mode: mode}]
+      ]
+
+      log =
+        capture_log(fn ->
+          assert {:error, {:recognizer_failed, :throwing_recognizer, ^mode} = single} =
+                   Obscura.analyze(@canary, opts)
+
+          assert {:error, {:recognizer_failed, :throwing_recognizer, ^mode} = batch} =
+                   Obscura.Analyzer.analyze_many([@canary], opts)
+
+          refute_canaries(single)
+          refute_canaries(batch)
+        end)
+
+      refute_canaries(log)
+    end
   end
 
   test "logs and telemetry reject direct and nested canary values" do

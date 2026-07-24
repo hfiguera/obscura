@@ -34,8 +34,7 @@ defmodule Obscura.Analyzer.Engine do
              deny_lists: options.deny_lists,
              built_ins: options.built_ins
            ),
-         {:ok, artifacts} <-
-           StageDiagnostics.measure(:nlp_artifacts, fn -> artifacts_for_text(text, options) end),
+         {:ok, artifacts} <- artifacts_for_text(text, options),
          options = %{options | nlp_artifacts: artifacts},
          {:ok, raw_results} <-
            StageDiagnostics.measure(:recognizer_execution, fn ->
@@ -181,6 +180,9 @@ defmodule Obscura.Analyzer.Engine do
     end
   rescue
     _error -> {:error, {:recognizer_failed, recognizer_name(module), :exception}}
+  catch
+    :throw, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :throw}}
+    :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
 
   defp run_many_recognizers(
@@ -237,6 +239,9 @@ defmodule Obscura.Analyzer.Engine do
     end
   rescue
     _error -> {:error, {:recognizer_failed, recognizer_name(module), :exception}}
+  catch
+    :throw, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :throw}}
+    :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
 
   defp run_many_recognizer(module, texts, options, artifacts_by_text) when is_atom(module) do
@@ -254,6 +259,9 @@ defmodule Obscura.Analyzer.Engine do
     end
   rescue
     _error -> {:error, {:recognizer_failed, recognizer_name(module), :exception}}
+  catch
+    :throw, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :throw}}
+    :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
 
   defp run_many_recognizer(recognizer, texts, options, artifacts_by_text) do
@@ -295,14 +303,7 @@ defmodule Obscura.Analyzer.Engine do
   end
 
   defp post_process(results, text, options) do
-    filtered =
-      StageDiagnostics.measure(:analyzer_filtering, fn ->
-        results
-        |> filter_requested_entities(options.entities)
-        |> AllowList.filter(options.allow_list, text)
-        |> Context.enhance(text, options)
-        |> filter_accepted(options)
-      end)
+    filtered = filter_and_enhance(results, text, options)
 
     resolved =
       StageDiagnostics.measure(:conflict_resolution, fn ->
@@ -313,6 +314,36 @@ defmodule Obscura.Analyzer.Engine do
       resolved
       |> Enum.sort_by(&{&1.start, &1.end, &1.entity})
       |> ResultText.finalize(text, options.include_text)
+    end)
+  end
+
+  defp filter_and_enhance(results, text, options) do
+    if StageDiagnostics.enabled?() do
+      filter_and_enhance_with_diagnostics(results, text, options)
+    else
+      results
+      |> filter_requested_entities(options.entities)
+      |> AllowList.filter(options.allow_list, text)
+      |> Context.enhance(text, options)
+      |> filter_accepted(options)
+    end
+  end
+
+  defp filter_and_enhance_with_diagnostics(results, text, options) do
+    candidates =
+      StageDiagnostics.measure(:analyzer_filtering, fn ->
+        results
+        |> filter_requested_entities(options.entities)
+        |> AllowList.filter(options.allow_list, text)
+      end)
+
+    enhanced =
+      StageDiagnostics.measure(:context_enhancement, fn ->
+        Context.enhance(candidates, text, options)
+      end)
+
+    StageDiagnostics.measure(:acceptance_filtering, fn ->
+      filter_accepted(enhanced, options)
     end)
   end
 
@@ -328,7 +359,9 @@ defmodule Obscura.Analyzer.Engine do
     if dependency_light_artifacts_can_be_deferred?(options) do
       {:ok, nil}
     else
-      NLPEngine.build_artifacts(text, Options.to_keyword(options))
+      StageDiagnostics.measure(:nlp_artifacts, fn ->
+        NLPEngine.build_artifacts(text, Options.to_keyword(options))
+      end)
     end
   end
 

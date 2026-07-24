@@ -8,6 +8,16 @@ defmodule Obscura.Internal.ResultText do
     if Keyword.get(opts, :include_text, true), do: value, else: nil
   end
 
+  @spec maybe_materialize_slice(String.t(), non_neg_integer(), non_neg_integer(), keyword()) ::
+          String.t() | nil
+  def maybe_materialize_slice(source, byte_start, byte_end, opts)
+      when is_binary(source) and is_integer(byte_start) and is_integer(byte_end) and
+             is_list(opts) do
+    if Keyword.get(opts, :include_text, true) do
+      borrowed_slice(source, byte_start, byte_end)
+    end
+  end
+
   @spec finalize([Result.t()], String.t(), boolean()) :: [Result.t()]
   def finalize(results, _source, false) do
     Enum.map(results, fn
@@ -16,9 +26,10 @@ defmodule Obscura.Internal.ResultText do
     end)
   end
 
-  def finalize(results, source, true) do
-    Enum.map(results, fn %Result{} = result ->
-      %{result | text: owned_slice(source, result.byte_start, result.byte_end)}
+  def finalize(results, _source, true) do
+    Enum.map(results, fn
+      %Result{text: nil} = result -> result
+      %Result{text: text} = result -> %{result | text: own(text)}
     end)
   end
 
@@ -30,8 +41,12 @@ defmodule Obscura.Internal.ResultText do
 
   @spec owned_slice(String.t(), non_neg_integer(), non_neg_integer()) :: String.t()
   def owned_slice(source, byte_start, byte_end) do
-    value = borrowed_slice(source, byte_start, byte_end)
+    source
+    |> borrowed_slice(byte_start, byte_end)
+    |> own()
+  end
 
+  defp own(value) do
     if :binary.referenced_byte_size(value) > byte_size(value) do
       :binary.copy(value)
     else

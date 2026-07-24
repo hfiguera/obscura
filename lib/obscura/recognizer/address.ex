@@ -205,8 +205,6 @@ defmodule Obscura.Recognizer.Address do
   end
 
   defp result(text, {start, byte_length}, pattern, opts) do
-    value = binary_part(text, start, byte_length)
-
     %Result{
       entity: :street_address,
       start: start,
@@ -214,7 +212,7 @@ defmodule Obscura.Recognizer.Address do
       byte_start: start,
       byte_end: start + byte_length,
       score: 0.78,
-      text: ResultText.maybe_materialize(value, opts),
+      text: ResultText.maybe_materialize_slice(text, start, start + byte_length, opts),
       source_entity: "ADDRESS",
       recognizer: :address,
       metadata: %{pattern: pattern, context: :address}

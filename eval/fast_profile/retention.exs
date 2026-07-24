@@ -4,6 +4,7 @@ defmodule Obscura.FastProfileRetentionProbe do
   @moduledoc false
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Recognizer.PatternDefinition
 
   defmodule BorrowingRecognizer do
     @behaviour Obscura.Recognizer
@@ -33,6 +34,55 @@ defmodule Obscura.FastProfileRetentionProbe do
           metadata: %{}
         }
       ]
+    end
+  end
+
+  defmodule OffsetOnlyRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :offset_only_retention_probe
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(_text, _opts) do
+      [
+        %Result{
+          entity: :person,
+          start: 0,
+          end: 5,
+          byte_start: 0,
+          byte_end: 5,
+          score: 0.9,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :offset_only_retention_probe,
+          metadata: %{}
+        }
+      ]
+    end
+  end
+
+  defmodule FailureRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :failure_retention_probe
+
+    @impl true
+    def supported_entities, do: [:email]
+
+    @impl true
+    def analyze(text, opts) do
+      case Keyword.fetch!(opts, :failure_mode) do
+        :error -> {:error, text}
+        :exception -> raise text
+        :throw -> throw(text)
+        :exit -> exit(text)
+        :timeout -> Process.sleep(:infinity)
+      end
     end
   end
 
@@ -220,27 +270,346 @@ defmodule Obscura.FastProfileRetentionProbe do
 
           []
         end
+      },
+      %{
+        name: "custom_offset_only_with_text_enabled",
+        expectation: :no_text,
+        operation: fn ->
+          source = "Alice" <> safe_padding(400_000)
+
+          {:ok, [result]} =
+            Obscura.analyze(source,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [OffsetOnlyRecognizer],
+              include_text: true,
+              telemetry: false
+            )
+
+          result
+        end
+      },
+      %{
+        name: "explanation_and_metadata_without_text",
+        expectation: :no_text,
+        operation: fn ->
+          text = padded_text(400_000, "credit card 4111 1111 1111 1111")
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              entities: [:credit_card],
+              include_text: false,
+              explain: true,
+              telemetry: false
+            )
+
+          result
+        end
+      },
+      %{
+        name: "anonymizer_result_and_items",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          {:ok, results} =
+            Obscura.analyze(text,
+              profile: :fast,
+              entities: [:email],
+              include_text: false,
+              telemetry: false
+            )
+
+          {:ok, result} = Obscura.anonymize(text, results, telemetry: false)
+          result
+        end
+      },
+      %{
+        name: "structured_result_and_items",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          {:ok, result} =
+            Obscura.Structured.redact(
+              %{nested: [%{payload: text}]},
+              profile: :fast,
+              entities: [:email],
+              telemetry: false
+            )
+
+          result
+        end
+      },
+      %{
+        name: "logger_redacted_term",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          {:ok, result} =
+            Obscura.Logger.redact_term(%{payload: text},
+              profile: :fast,
+              entities: [:email],
+              telemetry: false
+            )
+
+          result
+        end
+      },
+      %{
+        name: "plug_replaced_params",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          conn =
+            :post
+            |> Plug.Test.conn("/", %{})
+            |> Map.put(:params, %{"payload" => text})
+            |> Obscura.Phoenix.Plug.call(
+              fields: [:params],
+              mode: :replace,
+              profile: :fast,
+              entities: [:email],
+              telemetry: false
+            )
+
+          conn
+        end
+      },
+      %{
+        name: "pattern_definition_with_text",
+        expectation: :owned_text,
+        operation: fn ->
+          text = padded_text(400_000, "probe-value")
+
+          definition =
+            PatternDefinition.new!(
+              name: :retention_pattern,
+              entity: :url,
+              patterns: [%{name: :probe, regex: ~r/probe-value/u, score: 0.9}]
+            )
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:url],
+              recognizers: [definition],
+              include_text: true,
+              telemetry: false
+            )
+
+          result
+        end
+      },
+      %{
+        name: "many_accepted_matches_with_text",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = Enum.join(List.duplicate("probe@example.test", 100), " ")
+
+          {:ok, results} =
+            Obscura.analyze(text,
+              profile: :fast,
+              entities: [:email],
+              include_text: true,
+              telemetry: false
+            )
+
+          results
+        end
+      },
+      %{
+        name: "score_rejected_without_text",
+        expectation: :no_results,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          {:ok, []} =
+            Obscura.analyze(text,
+              profile: :fast,
+              entities: [:email],
+              score_threshold: 0.99,
+              include_text: false,
+              telemetry: false
+            )
+
+          []
+        end
+      },
+      %{
+        name: "context_rejected_without_text",
+        expectation: :no_results,
+        operation: fn ->
+          text = padded_text(400_000, "probe-value")
+
+          definition =
+            PatternDefinition.new!(
+              name: :context_retention_pattern,
+              entity: :url,
+              context: ["account"],
+              patterns: [
+                %{
+                  name: :probe,
+                  regex: ~r/probe-value/u,
+                  score: 0.4,
+                  requires_context: true
+                }
+              ]
+            )
+
+          {:ok, []} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:url],
+              recognizers: [definition],
+              include_text: false,
+              telemetry: false
+            )
+
+          []
+        end
+      },
+      %{
+        name: "overlap_conflict_result_graph",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "https://subdomain.example.test/path")
+
+          {:ok, results} =
+            Obscura.analyze(text,
+              profile: :fast,
+              entities: [:url, :domain],
+              include_text: true,
+              telemetry: false
+            )
+
+          results
+        end
+      },
+      %{
+        name: "telemetry_enabled_result_graph",
+        expectation: :no_text,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              entities: [:email],
+              include_text: false,
+              telemetry: true
+            )
+
+          result
+        end
+      },
+      %{
+        name: "recognizer_error_is_sanitized",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          Obscura.analyze(text,
+            profile: :fast,
+            built_ins: false,
+            entities: [:email],
+            recognizers: [{FailureRecognizer, failure_mode: :error}],
+            telemetry: false
+          )
+        end
+      },
+      %{
+        name: "recognizer_exception_is_sanitized",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          Obscura.analyze(text,
+            profile: :fast,
+            built_ins: false,
+            entities: [:email],
+            recognizers: [{FailureRecognizer, failure_mode: :exception}],
+            telemetry: false
+          )
+        end
+      },
+      %{
+        name: "parallel_recognizer_throw_is_sanitized",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          Obscura.analyze(text,
+            profile: :fast,
+            built_ins: false,
+            entities: [:email],
+            recognizers: [{FailureRecognizer, failure_mode: :throw}],
+            parallel_recognizers: true,
+            telemetry: false
+          )
+        end
+      },
+      %{
+        name: "parallel_recognizer_exit_is_sanitized",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          Obscura.analyze(text,
+            profile: :fast,
+            built_ins: false,
+            entities: [:email],
+            recognizers: [{FailureRecognizer, failure_mode: :exit}],
+            parallel_recognizers: true,
+            telemetry: false
+          )
+        end
+      },
+      %{
+        name: "parallel_recognizer_timeout_is_sanitized",
+        expectation: :clean_graph,
+        operation: fn ->
+          text = padded_text(400_000, "probe@example.test")
+
+          Obscura.analyze(text,
+            profile: :fast,
+            built_ins: false,
+            entities: [:email],
+            recognizers: [{FailureRecognizer, failure_mode: :timeout}],
+            parallel_recognizers: true,
+            recognizer_timeout: 10,
+            telemetry: false
+          )
+        end
       }
     ]
   end
 
   defp run_case(case_data) do
     parent = self()
+    binary_memory_before = :erlang.memory(:binary)
 
     {pid, monitor} =
       spawn_monitor(fn ->
         result = case_data.operation.()
-        send(parent, {:retention_result, self(), result})
+        :erlang.garbage_collect(self())
+        send(parent, {:retention_observation, self(), observe(result)})
+
+        receive do
+          :release_retention_result -> :ok
+        end
       end)
 
-    result =
+    observation =
       receive do
-        {:retention_result, ^pid, result} ->
-          receive do
-            {:DOWN, ^monitor, :process, ^pid, :normal} -> result
-          after
-            5_000 -> raise "retention worker did not terminate"
-          end
+        {:retention_observation, ^pid, observation} ->
+          Map.merge(observation, holder_snapshot(pid))
 
         {:DOWN, ^monitor, :process, ^pid, reason} ->
           raise "retention worker failed: #{inspect(reason)}"
@@ -248,8 +617,29 @@ defmodule Obscura.FastProfileRetentionProbe do
         120_000 -> raise "retention worker timed out"
       end
 
+    binary_memory_while_held = :erlang.memory(:binary)
+    send(pid, :release_retention_result)
+
+    receive do
+      {:DOWN, ^monitor, :process, ^pid, :normal} ->
+        :ok
+
+      {:DOWN, ^monitor, :process, ^pid, reason} ->
+        raise "retention holder failed: #{inspect(reason)}"
+    after
+      5_000 -> raise "retention holder did not terminate"
+    end
+
     :erlang.garbage_collect(self())
-    observation = observe(result)
+    binary_memory_after_release = :erlang.memory(:binary)
+
+    observation =
+      Map.merge(observation, %{
+        holder_terminated: Process.info(pid) == nil,
+        vm_binary_before_bytes: binary_memory_before,
+        vm_binary_while_held_bytes: binary_memory_while_held,
+        vm_binary_after_release_bytes: binary_memory_after_release
+      })
 
     Map.merge(
       %{
@@ -261,36 +651,123 @@ defmodule Obscura.FastProfileRetentionProbe do
     )
   end
 
-  defp observe(%Result{text: nil}) do
-    %{result_count: 1, text_bytes: 0, referenced_bytes: 0, amplification: 0.0}
-  end
-
-  defp observe(%Result{text: text}) when is_binary(text) do
-    text_bytes = byte_size(text)
-    referenced_bytes = :binary.referenced_byte_size(text)
+  defp observe(term) do
+    state = inspect_term(term, [], empty_observation())
 
     %{
-      result_count: 1,
-      text_bytes: text_bytes,
-      referenced_bytes: referenced_bytes,
-      amplification: referenced_bytes / max(text_bytes, 1)
+      result_count: state.result_count,
+      binary_count: state.binary_count,
+      binary_bytes: state.binary_bytes,
+      referenced_bytes: state.referenced_bytes,
+      borrowed_binary_count: state.borrowed_binary_count,
+      borrowed_paths: Enum.reverse(state.borrowed_paths),
+      text_bytes: state.text_bytes,
+      text_referenced_bytes: state.text_referenced_bytes,
+      amplification: state.max_amplification
     }
   end
 
-  defp observe([]) do
-    %{result_count: 0, text_bytes: 0, referenced_bytes: 0, amplification: 0.0}
-  end
-
   defp passes?(:owned_text, observation) do
-    observation.text_bytes > 0 and observation.referenced_bytes == observation.text_bytes
+    clean_graph?(observation) and observation.text_bytes > 0 and
+      observation.text_referenced_bytes == observation.text_bytes
   end
 
   defp passes?(:no_text, observation) do
-    observation.result_count == 1 and observation.text_bytes == 0 and
-      observation.referenced_bytes == 0
+    clean_graph?(observation) and observation.result_count == 1 and observation.text_bytes == 0 and
+      observation.text_referenced_bytes == 0
   end
 
-  defp passes?(:no_results, observation), do: observation.result_count == 0
+  defp passes?(:no_results, observation),
+    do: clean_graph?(observation) and observation.result_count == 0
+
+  defp passes?(:clean_graph, observation), do: clean_graph?(observation)
+
+  defp clean_graph?(observation) do
+    observation.borrowed_binary_count == 0 and observation.holder_terminated
+  end
+
+  defp empty_observation do
+    %{
+      result_count: 0,
+      binary_count: 0,
+      binary_bytes: 0,
+      referenced_bytes: 0,
+      borrowed_binary_count: 0,
+      borrowed_paths: [],
+      text_bytes: 0,
+      text_referenced_bytes: 0,
+      max_amplification: 0.0
+    }
+  end
+
+  defp inspect_term(%Result{} = result, path, state) do
+    result
+    |> Map.from_struct()
+    |> inspect_term(path, %{state | result_count: state.result_count + 1})
+  end
+
+  defp inspect_term(value, path, state) when is_binary(value) do
+    bytes = byte_size(value)
+    referenced = :binary.referenced_byte_size(value)
+    amplification = referenced / max(bytes, 1)
+    text? = List.last(path) == :text
+    borrowed? = referenced > bytes
+
+    %{
+      state
+      | binary_count: state.binary_count + 1,
+        binary_bytes: state.binary_bytes + bytes,
+        referenced_bytes: state.referenced_bytes + referenced,
+        borrowed_binary_count: state.borrowed_binary_count + if(borrowed?, do: 1, else: 0),
+        borrowed_paths:
+          if(borrowed?, do: [safe_path(path) | state.borrowed_paths], else: state.borrowed_paths),
+        text_bytes: state.text_bytes + if(text?, do: bytes, else: 0),
+        text_referenced_bytes: state.text_referenced_bytes + if(text?, do: referenced, else: 0),
+        max_amplification: max(state.max_amplification, amplification)
+    }
+  end
+
+  defp inspect_term(value, path, state) when is_map(value) do
+    value
+    |> Map.delete(:__struct__)
+    |> Enum.reduce(state, fn {key, nested}, acc ->
+      acc = inspect_term(key, [:map_key | path], acc)
+      inspect_term(nested, path ++ [safe_path_part(key)], acc)
+    end)
+  end
+
+  defp inspect_term(value, path, state) when is_list(value) do
+    value
+    |> Enum.with_index()
+    |> Enum.reduce(state, fn {nested, index}, acc ->
+      inspect_term(nested, path ++ [index], acc)
+    end)
+  end
+
+  defp inspect_term(value, path, state) when is_tuple(value) do
+    value
+    |> Tuple.to_list()
+    |> inspect_term(path, state)
+  end
+
+  defp inspect_term(_value, _path, state), do: state
+
+  defp holder_snapshot(pid) do
+    info = Process.info(pid, [:memory, :message_queue_len, :binary])
+    binaries = Keyword.get(info, :binary, [])
+
+    %{
+      holder_memory_bytes: Keyword.get(info, :memory, 0),
+      holder_message_queue_len: Keyword.get(info, :message_queue_len, 0),
+      holder_binary_count: length(binaries),
+      holder_binary_bytes: Enum.sum(Enum.map(binaries, &elem(&1, 1)))
+    }
+  end
+
+  defp safe_path(path), do: Enum.map_join(path, ".", &to_string/1)
+  defp safe_path_part(value) when is_atom(value), do: value
+  defp safe_path_part(value) when is_integer(value), do: value
+  defp safe_path_part(_value), do: :dynamic_key
 
   defp long_url_text do
     url = "https://example.test/" <> String.duplicate("segment/", 64)
@@ -345,8 +822,9 @@ defmodule Obscura.FastProfileRetentionProbe do
     rows =
       Enum.map(report.cases, fn result ->
         "| `#{result.name}` | `#{result.expectation}` | #{result.text_bytes} | " <>
-          "#{result.referenced_bytes} | #{format(result.amplification)}x | " <>
-          "#{result.passed} |"
+          "#{result.text_referenced_bytes} | #{result.binary_count} | " <>
+          "#{result.borrowed_binary_count} | #{format(result.amplification)}x | " <>
+          "#{result.holder_binary_bytes} | #{result.holder_terminated} | #{result.passed} |"
       end)
 
     [
@@ -357,8 +835,10 @@ defmodule Obscura.FastProfileRetentionProbe do
       "- Dirty: `#{report.source.dirty}`",
       "- Elixir / OTP: `#{report.environment.elixir}` / `#{report.environment.otp}`",
       "",
-      "| Case | Expectation | Text bytes | Referenced bytes | Amplification | Passed |",
-      "| --- | --- | ---: | ---: | ---: | --- |",
+      "| Case | Expectation | Text bytes | Text referenced | Graph binaries | " <>
+        "Borrowed graph binaries | Max amplification | Holder binary bytes | " <>
+        "Holder terminated | Passed |",
+      "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
       rows,
       ""
     ]

@@ -6,6 +6,7 @@ defmodule Obscura.Context do
   alias Obscura.Analyzer.Explanation
   alias Obscura.Context.Policy
   alias Obscura.Context.Window
+  alias Obscura.Internal.StageDiagnostics
   alias Obscura.NLP.Artifacts
 
   @doc """
@@ -44,7 +45,10 @@ defmodule Obscura.Context do
     policy_results = Enum.map(results, &Policy.apply(&1, options.context_policies))
 
     if context_matching_required?(policy_results, options) do
-      artifacts = Map.get(options, :nlp_artifacts) || Artifacts.build(text)
+      artifacts =
+        Map.get(options, :nlp_artifacts) ||
+          StageDiagnostics.measure(:nlp_artifacts, fn -> Artifacts.build(text) end)
+
       Enum.map(policy_results, &enhance_result(&1, text, artifacts, options))
     else
       policy_results

@@ -2,7 +2,11 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
   use ExUnit.Case, async: true
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Phoenix.Plug, as: ObscuraPlug
+  alias Obscura.Recognizer.Address
+  alias Obscura.Recognizer.Domain
   alias Obscura.Recognizer.Email
+  alias Obscura.Recognizer.Location
   alias Obscura.Recognizer.PersonName
 
   defmodule BorrowingRecognizer do
@@ -31,6 +35,34 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
           source_entity: "URL",
           recognizer: :borrowing_test_recognizer,
           metadata: %{matched_prefix_bytes: length}
+        }
+      ]
+    end
+  end
+
+  defmodule OffsetOnlyRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :offset_only_test_recognizer
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(_text, _opts) do
+      [
+        %Result{
+          entity: :person,
+          start: 0,
+          end: 5,
+          byte_start: 0,
+          byte_end: 5,
+          score: 0.9,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :offset_only_test_recognizer,
+          metadata: %{}
         }
       ]
     end
@@ -99,6 +131,18 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
              )
   end
 
+  test "include_text true preserves an offset-only custom recognizer result" do
+    assert {:ok, [%Result{text: nil}]} =
+             Obscura.analyze("Alice",
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [OffsetOnlyRecognizer],
+               include_text: true,
+               telemetry: false
+             )
+  end
+
   test "built-in recognizers avoid result text materialization when disabled" do
     assert [%Result{text: nil, entity: :email}] =
              Email.analyze("probe@example.test",
@@ -111,6 +155,29 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
                profile: :deterministic_plus,
                include_text: false
              )
+
+    assert Enum.all?(
+             Address.analyze("address: 12 Main Street, Denver",
+               profile: :deterministic_plus,
+               include_text: false
+             ),
+             &is_nil(&1.text)
+           )
+
+    assert Enum.all?(
+             Location.analyze("address: 12 Main Street, Denver",
+               profile: :deterministic_plus,
+               include_text: false
+             ),
+             &is_nil(&1.text)
+           )
+
+    assert Enum.all?(
+             Domain.analyze("Just posted a photo https://example.test/",
+               include_text: false
+             ),
+             &is_nil(&1.text)
+           )
   end
 
   test "allow lists derive temporary values from offsets when text is disabled" do
@@ -146,10 +213,150 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
     assert Enum.all?(without_text, &is_nil(&1.text))
   end
 
+  test "returned boundary object graphs do not retain borrowed source binaries" do
+    operations = [
+      fn ->
+        text = padded_text(400_000, "credit card 4111 1111 1111 1111")
+
+        {:ok, [result]} =
+          Obscura.analyze(text,
+            profile: :fast,
+            entities: [:credit_card],
+            include_text: false,
+            explain: true,
+            telemetry: false
+          )
+
+        result
+      end,
+      fn ->
+        text = padded_text(400_000, "probe@example.test")
+
+        {:ok, results} =
+          Obscura.analyze(text,
+            profile: :fast,
+            entities: [:email],
+            include_text: false,
+            telemetry: false
+          )
+
+        {:ok, result} = Obscura.anonymize(text, results, telemetry: false)
+        result
+      end,
+      fn ->
+        text = padded_text(400_000, "probe@example.test")
+
+        {:ok, result} =
+          Obscura.Structured.redact(%{nested: [%{payload: text}]},
+            profile: :fast,
+            entities: [:email],
+            telemetry: false
+          )
+
+        result
+      end,
+      fn ->
+        text = padded_text(400_000, "probe@example.test")
+
+        {:ok, result} =
+          Obscura.Logger.redact_term(%{payload: text},
+            profile: :fast,
+            entities: [:email],
+            telemetry: false
+          )
+
+        result
+      end,
+      fn ->
+        text = padded_text(400_000, "probe@example.test")
+
+        :post
+        |> Plug.Test.conn("/", %{})
+        |> Map.put(:params, %{"payload" => text})
+        |> ObscuraPlug.call(
+          fields: [:params],
+          mode: :replace,
+          profile: :fast,
+          entities: [:email],
+          telemetry: false
+        )
+      end
+    ]
+
+    for operation <- operations do
+      result = run_isolated(operation)
+      assert borrowed_binary_paths(result) == []
+    end
+  end
+
   defp long_url_text do
     url = "https://example.test/" <> String.duplicate("segment/", 64)
     safe_padding(200_000) <> " " <> url <> " " <> safe_padding(200_000)
   end
+
+  defp padded_text(target_bytes, match) do
+    remaining = max(target_bytes - byte_size(match), 0)
+    prefix_bytes = div(remaining, 2)
+    suffix_bytes = remaining - prefix_bytes
+    safe_padding(prefix_bytes) <> match <> safe_padding(suffix_bytes)
+  end
+
+  defp run_isolated(operation) do
+    parent = self()
+
+    {pid, monitor} =
+      spawn_monitor(fn ->
+        result = operation.()
+        send(parent, {:ownership_result, self(), result})
+      end)
+
+    receive do
+      {:ownership_result, ^pid, result} ->
+        receive do
+          {:DOWN, ^monitor, :process, ^pid, :normal} -> result
+        end
+
+      {:DOWN, ^monitor, :process, ^pid, reason} ->
+        flunk("ownership worker failed: #{inspect(reason)}")
+    after
+      5_000 -> flunk("ownership worker timed out")
+    end
+  end
+
+  defp borrowed_binary_paths(term), do: inspect_binaries(term, [], [])
+
+  defp inspect_binaries(value, path, acc) when is_binary(value) do
+    if :binary.referenced_byte_size(value) > byte_size(value), do: [path | acc], else: acc
+  end
+
+  defp inspect_binaries(value, path, acc) when is_map(value) do
+    value
+    |> Map.delete(:__struct__)
+    |> Enum.reduce(acc, fn {key, nested}, paths ->
+      paths = inspect_binaries(key, [:map_key | path], paths)
+      inspect_binaries(nested, [safe_path_part(key) | path], paths)
+    end)
+  end
+
+  defp inspect_binaries(value, path, acc) when is_list(value) do
+    value
+    |> Stream.with_index()
+    |> Enum.reduce(acc, fn {nested, index}, paths ->
+      inspect_binaries(nested, [index | path], paths)
+    end)
+  end
+
+  defp inspect_binaries(value, path, acc) when is_tuple(value) do
+    value
+    |> Tuple.to_list()
+    |> inspect_binaries(path, acc)
+  end
+
+  defp inspect_binaries(_value, _path, acc), do: acc
+
+  defp safe_path_part(value) when is_atom(value), do: value
+  defp safe_path_part(value) when is_integer(value), do: value
+  defp safe_path_part(_value), do: :dynamic_key
 
   defp safe_padding(bytes) do
     pattern = "safe text "
