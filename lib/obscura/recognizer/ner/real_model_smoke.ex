@@ -65,7 +65,7 @@ defmodule Obscura.Recognizer.NER.RealModelSmoke do
 
   defp redaction_opts(serving, opts) do
     analyzer_opts(serving, opts)
-    |> Keyword.put(:operators, %{default: %{type: :replace, new_value: "[REDACTED]"}})
+    |> Keyword.put(:operators, %{default: %{type: :replace, value: "[REDACTED]"}})
   end
 
   defp pseudonymize(text, serving, vault, opts) do

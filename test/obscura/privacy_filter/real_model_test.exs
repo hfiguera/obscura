@@ -33,7 +33,7 @@ defmodule Obscura.PrivacyFilter.RealModelTest do
              Obscura.redact(text,
                entities: entities,
                recognizers: recognizers,
-               operators: %{default: %{type: :replace, new_value: "[REDACTED]"}}
+               operators: %{default: %{type: :replace, value: "[REDACTED]"}}
              )
 
     assert redacted.text != text

@@ -35,7 +35,7 @@ defmodule Obscura.Recognizer.NER.RealModelTest do
              Obscura.redact(text,
                entities: [:person, :organization, :location],
                recognizers: [{NER, serving: serving, label_map: serving.model_spec.label_map}],
-               operators: %{default: %{type: :replace, new_value: "[REDACTED]"}},
+               operators: %{default: %{type: :replace, value: "[REDACTED]"}},
                recognizer_timeout: 60_000
              )
 
@@ -59,7 +59,7 @@ defmodule Obscura.Recognizer.NER.RealModelTest do
              Obscura.redact(%{message: text},
                entities: [:person, :organization, :location],
                recognizers: [{NER, serving: serving, label_map: serving.model_spec.label_map}],
-               operators: %{default: %{type: :replace, new_value: "[REDACTED]"}}
+               operators: %{default: %{type: :replace, value: "[REDACTED]"}}
              )
 
     assert structured.data.message != text
