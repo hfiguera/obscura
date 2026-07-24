@@ -218,6 +218,30 @@ defmodule Obscura.Recognizer.Phase2ExtensibilityTest do
              )
   end
 
+  test "custom recognizers preserve functions with ownership-safe environments" do
+    metadata = %{
+      local: fn value -> value end,
+      remote: &String.trim/1
+    }
+
+    opts = [
+      profile: :fast,
+      built_ins: false,
+      entities: [:person],
+      recognizers: [{MetadataRecognizer, result_metadata: metadata}],
+      include_text: false,
+      telemetry: false
+    ]
+
+    assert {:ok, [result]} = Obscura.analyze("Alice", opts)
+    assert result.metadata.local.("value") == "value"
+    assert result.metadata.remote.(" value ") == "value"
+
+    assert {:ok, [[batch_result]]} = Obscura.Analyzer.analyze_many(["Alice"], opts)
+    assert batch_result.metadata.local.("value") == "value"
+    assert batch_result.metadata.remote.(" value ") == "value"
+  end
+
   test "weak pattern definitions can require context before acceptance" do
     recognizer =
       PatternDefinition.new!(

@@ -837,8 +837,8 @@ defmodule Obscura.FastProfileRetentionProbe do
         end
       },
       %{
-        name: "phone_validator_opaque_metadata_is_rejected",
-        expectation: :no_sensitive_graph,
+        name: "phone_validator_owned_function_metadata",
+        expectation: :owned_sensitive_metadata,
         operation: fn ->
           sensitive = "+1 202-555-0188"
 
@@ -898,18 +898,24 @@ defmodule Obscura.FastProfileRetentionProbe do
     {pid, monitor} =
       spawn_monitor(fn ->
         {result, sensitive_values} = normalize_probe(case_data.operation.())
+        observation = observe(result, sensitive_values)
+        Process.put(:obscura_retention_held_result, result)
         :erlang.garbage_collect(self())
-        send(parent, {:retention_observation, self(), observe(result, sensitive_values)})
+        snapshot = holder_snapshot(self())
+        send(parent, {:retention_observation, self(), observation, snapshot})
 
         receive do
-          :release_retention_result -> :ok
+          :release_retention_result ->
+            Process.delete(:obscura_retention_held_result)
+            :erlang.garbage_collect(self())
+            :ok
         end
       end)
 
     observation =
       receive do
-        {:retention_observation, ^pid, observation} ->
-          Map.merge(observation, holder_snapshot(pid))
+        {:retention_observation, ^pid, observation, snapshot} ->
+          Map.merge(observation, snapshot)
 
         {:DOWN, ^monitor, :process, ^pid, reason} ->
           raise "retention worker failed: #{inspect(reason)}"

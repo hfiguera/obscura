@@ -60,7 +60,7 @@ defmodule Obscura.Internal.ResultText do
 
   @doc false
   @spec safe_callback_term?(term()) :: boolean()
-  def safe_callback_term?(value), do: safe_callback_term?(value, 0)
+  def safe_callback_term?(value), do: safe_callback_term?(value, 0, :detachable)
 
   defp finalize_result(%Result{} = result, include_text?) do
     text =
@@ -97,35 +97,54 @@ defmodule Obscura.Internal.ResultText do
       Keyword.get(opts, :allow_list) not in [nil, []]
   end
 
-  defp safe_callback_term?(_value, depth) when depth > @max_callback_term_depth, do: false
+  defp safe_callback_term?(_value, depth, _mode) when depth > @max_callback_term_depth,
+    do: false
 
-  defp safe_callback_term?(value, _depth)
+  defp safe_callback_term?(value, _depth, mode)
        when is_atom(value) or is_number(value) or is_binary(value) or is_pid(value) or
               is_port(value) or is_reference(value),
-       do: true
+       do: safe_scalar?(value, mode)
 
-  defp safe_callback_term?(value, _depth) when is_function(value), do: false
-  defp safe_callback_term?([], _depth), do: true
+  defp safe_callback_term?(value, depth, mode) when is_function(value) do
+    case :erlang.fun_info(value, :env) do
+      {:env, environment} ->
+        safe_callback_term?(environment, depth + 1, opaque_mode(mode))
 
-  defp safe_callback_term?([head | tail], depth) when is_list(tail) do
-    safe_callback_term?(head, depth + 1) and safe_callback_term?(tail, depth)
+      _invalid ->
+        false
+    end
   end
 
-  defp safe_callback_term?([_head | _tail], _depth), do: false
+  defp safe_callback_term?([], _depth, _mode), do: true
 
-  defp safe_callback_term?(value, depth) when is_tuple(value) do
+  defp safe_callback_term?([head | tail], depth, mode) when is_list(tail) do
+    safe_callback_term?(head, depth + 1, mode) and safe_callback_term?(tail, depth, mode)
+  end
+
+  defp safe_callback_term?([_head | _tail], _depth, _mode), do: false
+
+  defp safe_callback_term?(value, depth, mode) when is_tuple(value) do
     value
     |> Tuple.to_list()
-    |> Enum.all?(&safe_callback_term?(&1, depth + 1))
+    |> Enum.all?(&safe_callback_term?(&1, depth + 1, mode))
   end
 
-  defp safe_callback_term?(value, depth) when is_map(value) do
+  defp safe_callback_term?(value, depth, mode) when is_map(value) do
     value
     |> Map.to_list()
     |> Enum.all?(fn {key, nested} ->
-      safe_callback_term?(key, depth + 1) and safe_callback_term?(nested, depth + 1)
+      safe_callback_term?(key, depth + 1, mode) and
+        safe_callback_term?(nested, depth + 1, mode)
     end)
   end
 
-  defp safe_callback_term?(_value, _depth), do: false
+  defp safe_callback_term?(_value, _depth, _mode), do: false
+
+  defp safe_scalar?(value, :opaque_environment) when is_binary(value) do
+    :binary.referenced_byte_size(value) == byte_size(value)
+  end
+
+  defp safe_scalar?(_value, _mode), do: true
+
+  defp opaque_mode(_mode), do: :opaque_environment
 end

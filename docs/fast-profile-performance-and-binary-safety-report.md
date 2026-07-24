@@ -12,18 +12,19 @@ The strongest measured changes are:
 - `1 MiB` one-match p50 fell by `93.0%`;
 - the `400 KiB` retained-URL p50 fell by `97.7%`;
 - detect-plus-redact p50 fell by `8.8%`;
-- all `35` recursively traversable returned-term ownership probes have zero borrowed
-  binaries; text probes changed from as much as `744.879x` referenced-size
+- all `35` recursively inspectable returned-term ownership probes have zero
+  borrowed binaries; text probes changed from as much as `744.879x` referenced-size
   amplification to exactly `1.0x`, or to no text binary;
 - all three authoritative accuracy and per-entity fingerprints remained
   unchanged;
 - two independent 30-minute targeted soaks classified binary retention as a
   `stable_plateau`.
 
-These results prove output equivalence and transparent returned-term ownership
-for the tested built-in and controlled extension paths. They do not prove that
-arbitrary caller-supplied callbacks cannot retain input, secure erasure,
-universal absence of leaks, or bounded allocator RSS for every workload.
+These results prove output equivalence and ownership for recursively inspectable
+returned terms and closure environments in the tested built-in and controlled
+extension paths. They do not prove that arbitrary caller-supplied callbacks
+cannot retain input through external state, secure erasure, universal absence
+of leaks, or bounded allocator RSS for every workload.
 
 ## Revisions And Environment
 
@@ -52,9 +53,9 @@ The paired baseline and final microbenchmarks ran on:
 The operational baseline ran from a detached worktree at the clean baseline
 revision. Three final operational repetitions ran from clean revision
 `cd54ca09`. The review correction was validated with an expanded 46-case
-semantic benchmark harness, a 35-case transparent returned-term retention
-harness, alternating paired performance runs, a five-minute targeted soak,
-full tests, and static checks.
+semantic benchmark harness, a 35-case recursively inspectable returned-term
+retention harness, alternating paired performance runs, a five-minute targeted
+soak, full tests, and static checks.
 
 ## Commands
 
@@ -151,10 +152,12 @@ Custom recognizers remain compatible. Their returned text is removed when
 at final assembly when it borrows a larger source binary. A custom result with
 `text: nil` remains nil, preserving the nullable public result contract.
 Custom result fields are checked against the public `Result.t()` contract.
-Malformed recognizer names, source entities, explanations, opaque function
-metadata, improper terms, and excessive nesting return a sanitized
-`:invalid_callback_result` error. Recursively accepted metadata and explanation
-binaries are detached before they escape.
+Malformed recognizer names, source entities, explanations, improper terms, and
+excessive nesting return a sanitized `:invalid_callback_result` error.
+Ownership-safe function metadata remains compatible. A closure whose captured
+environment contains a borrowed binary is rejected because an opaque closure
+environment cannot be rewritten to detach that binary. Recursively accepted
+metadata and explanation binaries are detached before they escape.
 
 Analyzer-reserved context metadata is validated before post-processing.
 Context word fields must be proper lists of string-convertible scalar values,
@@ -259,7 +262,9 @@ fingerprint. This makes the baseline an external regression oracle instead of
 letting a deterministic candidate regression validate itself. The earlier
 `analyze_no_match_1k` fixture was found to contain an email; the historical row
 above is labeled accurately, and the current fixture is a real zero-result
-input.
+input. Volatile pseudonymization `:use_count` values normalize only when they
+remain present, positive, and integral. Missing, incorrectly typed, or invalid
+counts produce different fingerprints.
 
 Two alternating seven-repetition runs compared the review correction with its
 immediate parent using the original 11 cases. Depending on run order, p50,
@@ -323,6 +328,20 @@ external fingerprints and semantic expectations matched against both the
 immediate parent and clean `main`. Structured-result fingerprinting
 canonicalizes item order only for map-root traversal, where map enumeration is
 unordered. List-root structured output retains item order in the fingerprint.
+
+The final callback-compatibility and holder-lifetime correction was measured
+with the complete `46`-case matrix, five repetitions, scale `1.0`, and an
+external schema-`3` reference. All `46/46` semantic fingerprints and explicit
+expectations matched. Compared with the immediate pre-fix revision, common
+request p50 improved by `0.17%` without text and `0.60%` with text. The only
+adverse large-path movement was `0.31%` for the retained long URL, within
+run-to-run noise; the remaining core scaling cases improved by `0.18%` to
+`1.29%`. Against clean `main`, the same run retained p50 improvements of
+`71.83%` for the true `1 KiB` no-match case, `90.87%` to `90.90%` for the
+`64 KiB` one-match cases, `92.70%` for the `1 MiB` case, and `96.84%` for the
+retained long URL. The two common cases were `2.40%` to `2.64%` slower than
+that single clean-main run, but the immediate-parent comparison shows the
+review fix introduced no short-request slowdown.
 
 ## Operational Matrix
 
@@ -426,10 +445,11 @@ The exact amplification depends on source size, but the final invariant is
 stable: escaping text references only its own bytes. Offset-only built-in
 results carry no match-text binary.
 
-The review harness retains and recursively inspects transparent returned terms,
-including map keys and values, structs, lists, tuples, and function
-environments. Callback results containing functions are rejected before final
-assembly. Its `35` cases cover:
+The review harness retains and recursively inspects returned terms, including
+map keys and values, structs, lists, tuples, and function environments.
+Ownership-safe functions are accepted for custom-recognizer compatibility;
+closures containing borrowed binaries are rejected before final assembly. Its
+`35` cases cover:
 
 - analyzer results with explanations and metadata;
 - analyzer batches, allow/deny filtering, context rejection, overlap handling,
@@ -441,17 +461,20 @@ assembly. Its `35` cases cover:
 - custom validator result and explanation metadata;
 - malformed recognizer fields and opaque closure metadata;
 - malformed inline-pattern validation metadata;
-- opaque caller-supplied phone-validator metadata;
+- an owned caller-supplied phone-validator closure and a rejected borrowed
+  closure;
 - parser-backed normalized phone metadata;
 - large flat callback metadata containing an owned source-derived binary;
 - malformed analyzer-reserved context metadata;
 - sanitized recognizer error, exception, throw, exit, and timeout paths.
 
 All `35` cases reported zero borrowed binaries anywhere in their recursively
-traversable returned terms. Every holder process terminated normally after
-release and became unreachable through `Process.info/2`. The in-memory vault
-was checked separately: it retained the exact independently owned value and
-did not retain its larger source binary.
+traversable returned terms. Each worker explicitly retained its complete result
+in process state, forced garbage collection, and captured process and VM binary
+measurements before the parent released the result. Every holder process then
+terminated normally and became unreachable through `Process.info/2`. The
+in-memory vault was checked separately: it retained the exact independently
+owned value and did not retain its larger source binary.
 
 The harness reports sensitive-content exposure separately from binary
 ownership. A built-in `include_text: false` canary returned no canary content.
@@ -522,7 +545,7 @@ allocator evidence, not as proof of live-object ownership.
 | Reverse recognizer accumulation | Avoid repeated list append | Common latency worsened 4% to 6% | Regression | Reductions rose about 0.3% to 0.5% | Unchanged | Rejected | none |
 | Cache recognizer option keywords | Avoid repeated struct conversion | Effects stayed below 1%; tails moved both ways | Inconclusive | About 0.1% fewer reductions | Unchanged | Rejected | none |
 | Trivial conflict fast paths | Skip conflict passes for zero/one result | Reduced no-match reductions 3.5%, but paired wall-time gate did not pass | Inconclusive/regressing pair | Small isolated gain | Unchanged | Rejected | none |
-| Review corrections | Preserve nullable custom text, validate every public callback-result field and analyzer-reserved metadata, reject opaque callback metadata, handle large flat transparent lists correctly, inspect transparent returned terms, own callback metadata, separate sensitive content from ownership, validate ordered output against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `35/35` ownership probes, `46/46` external fingerprints, and full tests passed | Latest selected mean p50 movement was `+1.11%`, within measured noise | Scaling gains against `main` remain `78.75%` to `97.81%` | Zero borrowed binaries in accepted transparent terms; malformed reserved or opaque terms rejected | Accepted | `11bcd664` through current review |
+| Review corrections | Preserve nullable custom text and ownership-safe function metadata, validate every public callback-result field and analyzer-reserved metadata, reject closures with borrowed binaries, handle large flat transparent lists correctly, inspect returned terms, own callback metadata, separate sensitive content from ownership, validate ordered output against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `35/35` ownership probes, `46/46` external fingerprints, and full tests passed | Latest immediate-parent common p50 changed by `-0.17%` and `-0.60%` | Scaling gains against `main` remain `71.83%` to `96.84%` in the latest full run | Zero borrowed binaries in accepted returned terms; malformed reserved terms and borrowed closure environments rejected | Accepted | `11bcd664` through current review |
 
 Rejected implementation changes were reverted. Their ignored local reports
 remain available during branch review but are not promoted as authoritative
@@ -570,9 +593,9 @@ generation, and every promoted manifest verification passed.
 - A malicious or stateful custom callback can retain its input independently
   of Obscura's returned-result ownership, including through external state.
   Accepted recursively transparent callback metadata is detached from larger
-  parent binaries, while function-bearing or malformed callback results are
-  rejected. Metadata content remains caller-controlled and may intentionally
-  contain PII.
+  parent binaries. Ownership-safe functions remain supported, while closures
+  containing borrowed binaries and malformed callback results are rejected.
+  Metadata content remains caller-controlled and may intentionally contain PII.
 - BEAM and native allocators may retain freed pages. RSS is not a live-object
   inventory.
 - Secure memory erasure is not guaranteed.

@@ -120,6 +120,9 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
         :opaque_metadata ->
           %{result | metadata: %{deferred: fn -> borrowed end}}
 
+        :safe_function_metadata ->
+          %{result | metadata: %{postprocess: fn value -> value end}}
+
         :improper_metadata ->
           %{result | metadata: %{nested: [borrowed | :invalid_tail]}}
 
@@ -288,6 +291,25 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
       refute inspect(outcome) =~ String.duplicate("A", 128)
     end
+  end
+
+  test "ownership-safe function metadata preserves custom recognizer compatibility" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [
+                 {MalformedOwnershipRecognizer, malformed_field: :safe_function_metadata}
+               ],
+               include_text: false,
+               telemetry: false
+             )
+
+    assert is_function(result.metadata.postprocess, 1)
+    assert result.metadata.postprocess.(:value) == :value
   end
 
   test "maps with an unresolvable struct tag remain inert metadata" do

@@ -34,6 +34,7 @@ defmodule Obscura.FastProfileBenchmark do
   def run(args) do
     opts = parse_args(args)
     validate_structured_fingerprint_order!()
+    validate_volatile_fingerprint_normalization!()
     {:ok, vault} = Memory.start_link()
     {:ok, _token} = Obscura.Vault.get_or_create(vault, :email, "probe@example.test")
 
@@ -849,6 +850,24 @@ defmodule Obscura.FastProfileBenchmark do
     end
   end
 
+  defp validate_volatile_fingerprint_normalization! do
+    first = %{metadata: %{use_count: 1}}
+    later = %{metadata: %{use_count: 999}}
+    missing = %{metadata: %{}}
+    invalid_type = %{metadata: %{use_count: "999"}}
+    invalid_range = %{metadata: %{use_count: 0}}
+
+    unless fingerprint(first) == fingerprint(later) do
+      raise "valid volatile use counts must normalize to one fingerprint"
+    end
+
+    for invalid <- [missing, invalid_type, invalid_range] do
+      if fingerprint(first) == fingerprint(invalid) do
+        raise "use-count normalization must preserve presence, type, and valid range"
+      end
+    end
+  end
+
   defp scrub_volatile_fields(%Obscura.Structured.Result{} = result) do
     items =
       if is_map(result.data) do
@@ -866,7 +885,7 @@ defmodule Obscura.FastProfileBenchmark do
   defp scrub_volatile_fields(value) when is_map(value) do
     entries =
       value
-      |> Map.delete(:use_count)
+      |> normalize_use_count()
       |> Map.to_list()
       |> Enum.map(fn {key, nested} ->
         {scrub_volatile_fields(key), scrub_volatile_fields(nested)}
@@ -891,6 +910,13 @@ defmodule Obscura.FastProfileBenchmark do
   defp scrub_volatile_fields(value) when is_reference(value), do: :__reference__
   defp scrub_volatile_fields(value) when is_function(value), do: :__function__
   defp scrub_volatile_fields(value), do: value
+
+  defp normalize_use_count(%{use_count: use_count} = value)
+       when is_integer(use_count) and use_count > 0 do
+    Map.put(value, :use_count, :__positive_use_count__)
+  end
+
+  defp normalize_use_count(value), do: value
 
   defp canonicalize_structured_items(items) do
     Enum.sort_by(items, fn item ->

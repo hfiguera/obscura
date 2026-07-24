@@ -149,7 +149,9 @@ Returned fields must satisfy `Obscura.Analyzer.Result.t()`. In particular,
 `recognizer` must be an atom or `nil`, `source_entity` must be a binary or
 `nil`, and `explanation` must be a valid
 `Obscura.Analyzer.Explanation`. Metadata may contain recursively transparent
-Elixir values, but functions, improper terms, and excessive nesting are
+Elixir values and ownership-safe functions. A function whose captured
+environment contains a borrowed binary is rejected because that environment
+cannot be rewritten safely. Improper terms and excessive nesting are also
 rejected with a sanitized `:invalid_callback_result` error. Accepted binary
 metadata is detached when it would otherwise retain an unrelated larger source
 binary.
