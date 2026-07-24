@@ -1,0 +1,800 @@
+defmodule Obscura.Analyzer.BinaryOwnershipTest do
+  use ExUnit.Case, async: true
+
+  alias Obscura.Analyzer.Explanation
+  alias Obscura.Analyzer.Result
+  alias Obscura.Phoenix.Plug, as: ObscuraPlug
+  alias Obscura.Recognizer.Address
+  alias Obscura.Recognizer.DenyList
+  alias Obscura.Recognizer.Domain
+  alias Obscura.Recognizer.Email
+  alias Obscura.Recognizer.Location
+  alias Obscura.Recognizer.PatternDefinition
+  alias Obscura.Recognizer.PersonName
+
+  defmodule BorrowingRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :borrowing_test_recognizer
+
+    @impl true
+    def supported_entities, do: [:url]
+
+    @impl true
+    def analyze(text, _opts) do
+      {start, length} = :binary.match(text, "https://")
+      value = binary_part(text, start, byte_size(text) - start)
+
+      [
+        %Result{
+          entity: :url,
+          start: start,
+          end: start + byte_size(value),
+          byte_start: start,
+          byte_end: start + byte_size(value),
+          score: 0.9,
+          text: value,
+          source_entity: "URL",
+          recognizer: :borrowing_test_recognizer,
+          metadata: %{matched_prefix_bytes: length}
+        }
+      ]
+    end
+  end
+
+  defmodule OffsetOnlyRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :offset_only_test_recognizer
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(_text, _opts) do
+      [
+        %Result{
+          entity: :person,
+          start: 0,
+          end: 5,
+          byte_start: 0,
+          byte_end: 5,
+          score: 0.9,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :offset_only_test_recognizer,
+          metadata: %{}
+        }
+      ]
+    end
+  end
+
+  defmodule MalformedOwnershipRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :malformed_ownership_test_recognizer
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(text, opts) do
+      borrowed = binary_part(text, 100_000, 1_024)
+
+      result = %Result{
+        entity: :person,
+        start: 100_000,
+        end: 101_024,
+        byte_start: 100_000,
+        byte_end: 101_024,
+        score: 0.9,
+        text: nil,
+        source_entity: "PERSON",
+        recognizer: :malformed_ownership_test_recognizer,
+        metadata: %{}
+      }
+
+      result
+      |> malformed_result(Keyword.fetch!(opts, :malformed_field), text, borrowed)
+      |> List.wrap()
+    end
+
+    defp malformed_result(result, :recognizer, _text, borrowed),
+      do: %{result | recognizer: borrowed}
+
+    defp malformed_result(result, :source_entity, _text, _borrowed),
+      do: %{result | source_entity: :person}
+
+    defp malformed_result(result, :explanation, _text, borrowed),
+      do: %{result | explanation: %{metadata: borrowed}}
+
+    defp malformed_result(result, :explanation_field, _text, borrowed) do
+      %{
+        result
+        | explanation: %Explanation{
+            recognizer: borrowed,
+            pattern: :malformed,
+            score: 0.9
+          }
+      }
+    end
+
+    defp malformed_result(result, :opaque_metadata, _text, borrowed),
+      do: %{result | metadata: %{deferred: fn -> borrowed end}}
+
+    defp malformed_result(result, :safe_function_metadata, _text, _borrowed),
+      do: %{result | metadata: %{postprocess: fn value -> value end}}
+
+    defp malformed_result(result, :full_source_closure, text, _borrowed),
+      do: %{result | metadata: %{deferred: fn -> text end}}
+
+    defp malformed_result(result, :improper_metadata, _text, borrowed),
+      do: %{result | metadata: %{nested: [borrowed | :invalid_tail]}}
+
+    defp malformed_result(result, :fake_struct, _text, _borrowed),
+      do: %{result | metadata: %{nested: %{__struct__: Does.Not.Exist}}}
+
+    defp malformed_result(result, :struct_value, _text, borrowed),
+      do: %{result | metadata: %{__struct__: borrowed}}
+  end
+
+  defmodule BitstringOwnershipRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :bitstring_ownership_test_recognizer
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(text, opts) do
+      borrowed = binary_part(text, 100_000, 1_024)
+      <<_first::1, borrowed_bits::bitstring-size(8_191)>> = borrowed
+
+      metadata =
+        case Keyword.fetch!(opts, :metadata_mode) do
+          :detachable -> %{flags: borrowed_bits}
+          :opaque -> %{deferred: fn -> borrowed_bits end}
+          :near_full -> near_full_metadata(text, opts, :direct)
+          :near_full_closure -> near_full_metadata(text, opts, :closure)
+        end
+
+      [
+        %Result{
+          entity: :person,
+          start: 100_000,
+          end: 101_024,
+          byte_start: 100_000,
+          byte_end: 101_024,
+          score: 0.9,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :bitstring_ownership_test_recognizer,
+          metadata: metadata
+        }
+      ]
+    end
+
+    defp near_full_metadata(text, opts, mode) do
+      <<_first::1, borrowed_bits::bitstring>> = text
+      send(Keyword.fetch!(opts, :test_pid), {:original_near_full_bitstring, borrowed_bits})
+
+      case mode do
+        :direct -> %{flags: borrowed_bits}
+        :closure -> %{deferred: fn -> borrowed_bits end}
+      end
+    end
+  end
+
+  defmodule EqualClosureRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :equal_closure_test_recognizer
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(_text, opts) do
+      config = Keyword.fetch!(opts, :independent_config)
+
+      [
+        %Result{
+          entity: :person,
+          start: 0,
+          end: 1,
+          byte_start: 0,
+          byte_end: 1,
+          score: 0.9,
+          text: nil,
+          source_entity: "PERSON",
+          recognizer: :equal_closure_test_recognizer,
+          metadata: %{deferred: fn -> config end}
+        }
+      ]
+    end
+  end
+
+  test "final text does not retain an unrelated large source binary" do
+    text = long_url_text()
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               entities: [:url],
+               include_text: true,
+               telemetry: false
+             )
+
+    assert result.text ==
+             binary_part(text, result.byte_start, result.byte_end - result.byte_start)
+
+    assert byte_size(text) > byte_size(result.text) * 100
+    assert :binary.referenced_byte_size(result.text) == byte_size(result.text)
+  end
+
+  test "analyze_many owns final text independently" do
+    text = long_url_text()
+
+    assert {:ok, [[%Result{} = result]]} =
+             Obscura.Analyzer.analyze_many([text],
+               profile: :fast,
+               entities: [:url],
+               include_text: true,
+               telemetry: false
+             )
+
+    assert :binary.referenced_byte_size(result.text) == byte_size(result.text)
+  end
+
+  test "custom recognizer borrowed text is normalized to owned final text" do
+    text = safe_padding(200_000) <> "https://" <> String.duplicate("custom-path/", 64)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:url],
+               recognizers: [BorrowingRecognizer],
+               include_text: true,
+               telemetry: false
+             )
+
+    assert :binary.referenced_byte_size(result.text) == byte_size(result.text)
+    assert result.metadata.matched_prefix_bytes == 8
+  end
+
+  test "include_text false removes custom borrowed values" do
+    text = safe_padding(200_000) <> "https://" <> String.duplicate("custom-path/", 64)
+
+    assert {:ok, [%Result{text: nil}]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:url],
+               recognizers: [BorrowingRecognizer],
+               include_text: false,
+               telemetry: false
+             )
+  end
+
+  test "pattern validation metadata and explanations do not retain the source" do
+    captured = String.duplicate("A", 1_024)
+    text = safe_padding(200_000) <> captured <> safe_padding(200_000)
+
+    definition =
+      PatternDefinition.new!(
+        name: :metadata_ownership_test,
+        entity: :person,
+        patterns: [%{name: :captured, regex: ~r/A{1024}/, score: 0.9}],
+        validate: fn value -> {:ok, %{nested: [%{captured: value}]}} end
+      )
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [definition],
+               include_text: false,
+               explain: true,
+               telemetry: false
+             )
+
+    assert result.text == nil
+    assert result.metadata.nested == [%{captured: captured}]
+    assert result.explanation.metadata.nested == [%{captured: captured}]
+
+    assert :binary.referenced_byte_size(result.metadata.nested |> hd() |> Map.fetch!(:captured)) ==
+             byte_size(captured)
+
+    assert :binary.referenced_byte_size(
+             result.explanation.metadata.nested
+             |> hd()
+             |> Map.fetch!(:captured)
+           ) == byte_size(captured)
+  end
+
+  test "parser-backed phone metadata remains explicit PII but owns its binaries" do
+    if Code.ensure_loaded?(ExPhoneNumber) do
+      assert {:ok, [%Result{text: nil} = result]} =
+               Obscura.analyze("Call +44 20 7946 0958",
+                 profile: :fast,
+                 entities: [:phone],
+                 include_text: false,
+                 phone_parser: Obscura.Recognizer.Phone.ExPhoneNumberValidator,
+                 phone_regions: ["GB"],
+                 telemetry: false
+               )
+
+      assert result.metadata.phone_e164 == "+442079460958"
+
+      assert :binary.referenced_byte_size(result.metadata.phone_e164) ==
+               byte_size(result.metadata.phone_e164)
+    end
+  end
+
+  test "include_text true preserves an offset-only custom recognizer result" do
+    assert {:ok, [%Result{text: nil}]} =
+             Obscura.analyze("Alice",
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [OffsetOnlyRecognizer],
+               include_text: true,
+               telemetry: false
+             )
+  end
+
+  test "malformed custom result fields and opaque metadata are rejected safely" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    for field <- [
+          :recognizer,
+          :source_entity,
+          :explanation,
+          :explanation_field,
+          :improper_metadata
+        ] do
+      outcome =
+        Obscura.analyze(text,
+          profile: :fast,
+          built_ins: false,
+          entities: [:person],
+          recognizers: [{MalformedOwnershipRecognizer, malformed_field: field}],
+          include_text: false,
+          telemetry: false
+        )
+
+      assert {:error,
+              {:recognizer_failed, :malformed_ownership_test_recognizer, :invalid_callback_result}} =
+               outcome
+
+      refute inspect(outcome) =~ String.duplicate("A", 128)
+    end
+  end
+
+  test "ownership-safe function metadata preserves custom recognizer compatibility" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [
+                 {MalformedOwnershipRecognizer, malformed_field: :safe_function_metadata}
+               ],
+               include_text: false,
+               telemetry: false
+             )
+
+    assert is_function(result.metadata.postprocess, 1)
+    assert result.metadata.postprocess.(:value) == :value
+  end
+
+  test "function metadata containing source binaries is cloned before it escapes" do
+    canary = String.duplicate("COMPLETE-SOURCE-CANARY", 64)
+    text = safe_padding(100_000) <> canary
+
+    assert {:ok, [%Result{} = full_source_result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [
+                 {MalformedOwnershipRecognizer, malformed_field: :full_source_closure}
+               ],
+               include_text: false,
+               telemetry: false
+             )
+
+    cloned_source = full_source_result.metadata.deferred.()
+
+    assert cloned_source == text
+    refute :erts_debug.same(cloned_source, text)
+
+    assert {:ok, [%Result{} = borrowed_result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [
+                 {MalformedOwnershipRecognizer, malformed_field: :opaque_metadata}
+               ],
+               include_text: false,
+               telemetry: false
+             )
+
+    cloned_borrowed = borrowed_result.metadata.deferred.()
+
+    assert cloned_borrowed == binary_part(text, 100_000, 1_024)
+    assert :binary.referenced_byte_size(cloned_borrowed) == byte_size(cloned_borrowed)
+  end
+
+  test "non-byte-aligned callback metadata does not retain its large source binary" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [{BitstringOwnershipRecognizer, metadata_mode: :detachable}],
+               include_text: false,
+               telemetry: false
+             )
+
+    flags = result.metadata.flags
+
+    assert bit_size(flags) == 8_191
+    refute is_binary(flags)
+    assert :binary.referenced_byte_size(flags) == byte_size(flags)
+    assert borrowed_binary_paths(result) == []
+  end
+
+  test "near-full non-byte-aligned callback metadata is detached from its source" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    for mode <- [:near_full, :near_full_closure] do
+      assert {:ok, [%Result{} = result]} =
+               Obscura.analyze(text,
+                 profile: :fast,
+                 built_ins: false,
+                 entities: [:person],
+                 recognizers: [
+                   {BitstringOwnershipRecognizer, metadata_mode: mode, test_pid: self()}
+                 ],
+                 include_text: false,
+                 telemetry: false
+               )
+
+      assert_receive {:original_near_full_bitstring, original}
+
+      escaped =
+        case mode do
+          :near_full -> result.metadata.flags
+          :near_full_closure -> result.metadata.deferred.()
+        end
+
+      assert escaped == original
+      assert byte_size(escaped) == byte_size(text)
+      assert :binary.referenced_byte_size(escaped) == byte_size(escaped)
+      refute :erts_debug.same(escaped, original)
+    end
+  end
+
+  test "closure metadata accepts and clones independently owned input-equivalent binaries" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+    independent_config = :binary.copy(text)
+
+    assert text == independent_config
+    refute :erts_debug.same(text, independent_config)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [
+                 {EqualClosureRecognizer, independent_config: independent_config}
+               ],
+               include_text: false,
+               telemetry: false
+             )
+
+    escaped = result.metadata.deferred.()
+
+    assert escaped == independent_config
+    refute :erts_debug.same(escaped, independent_config)
+  end
+
+  test "maps with an unresolvable struct tag remain inert metadata" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [{MalformedOwnershipRecognizer, malformed_field: :fake_struct}],
+               include_text: false,
+               telemetry: false
+             )
+
+    assert result.metadata == %{nested: %{__struct__: Does.Not.Exist}}
+  end
+
+  test "a malformed struct tag value is inspected and detached like other metadata" do
+    text = safe_padding(100_000) <> String.duplicate("T", 1_024)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [{MalformedOwnershipRecognizer, malformed_field: :struct_value}],
+               include_text: false,
+               telemetry: false
+             )
+
+    assert %{__struct__: value} = result.metadata
+    assert byte_size(value) == 1_024
+    assert :binary.referenced_byte_size(value) == 1_024
+    assert borrowed_binary_paths(result) == []
+  end
+
+  test "built-in recognizers avoid result text materialization when disabled" do
+    assert [%Result{text: nil, entity: :email}] =
+             Email.analyze("probe@example.test",
+               include_text: false,
+               explain: false
+             )
+
+    assert [%Result{text: nil, entity: :person}] =
+             PersonName.analyze("My name is Rachel Green,",
+               profile: :deterministic_plus,
+               include_text: false
+             )
+
+    assert Enum.all?(
+             Address.analyze("address: 12 Main Street, Denver",
+               profile: :deterministic_plus,
+               include_text: false
+             ),
+             &is_nil(&1.text)
+           )
+
+    assert Enum.all?(
+             Location.analyze("address: 12 Main Street, Denver",
+               profile: :deterministic_plus,
+               include_text: false
+             ),
+             &is_nil(&1.text)
+           )
+
+    assert Enum.all?(
+             Domain.analyze("Just posted a photo https://example.test/",
+               include_text: false
+             ),
+             &is_nil(&1.text)
+           )
+
+    assert [%Result{text: nil, entity: :url}] =
+             DenyList.analyze(
+               "block-this-value",
+               [%{entity: :url, values: ["block-this-value"]}],
+               include_text: false
+             )
+  end
+
+  test "allow lists derive temporary values from offsets when text is disabled" do
+    url = "https://example.test/" <> String.duplicate("segment/", 64)
+    text = safe_padding(100_000) <> " " <> url <> " " <> safe_padding(100_000)
+
+    assert {:ok, []} =
+             Obscura.analyze(text,
+               profile: :fast,
+               entities: [:url],
+               allow_list: [%{entity: :url, values: [url]}],
+               include_text: false,
+               telemetry: false
+             )
+  end
+
+  test "allow lists preserve intentionally nil custom results" do
+    for include_text? <- [true, false] do
+      assert {:ok, [%Result{text: nil}]} =
+               Obscura.analyze("Alice",
+                 profile: :fast,
+                 built_ins: false,
+                 entities: [:person],
+                 recognizers: [OffsetOnlyRecognizer],
+                 allow_list: [%{entity: :person, values: ["Alice"]}],
+                 include_text: include_text?,
+                 telemetry: false
+               )
+    end
+  end
+
+  test "include_text changes only the documented text field" do
+    text =
+      "Contact probe@example.test or +1 202-555-0188. " <>
+        "Card 4111 1111 1111 1111."
+
+    opts = [
+      profile: :fast,
+      entities: [:email, :phone, :credit_card],
+      telemetry: false
+    ]
+
+    assert {:ok, with_text} = Obscura.analyze(text, Keyword.put(opts, :include_text, true))
+    assert {:ok, without_text} = Obscura.analyze(text, Keyword.put(opts, :include_text, false))
+
+    assert Enum.map(with_text, &Map.put(&1, :text, nil)) == without_text
+    assert Enum.all?(with_text, &is_binary(&1.text))
+    assert Enum.all?(without_text, &is_nil(&1.text))
+  end
+
+  test "returned boundary object graphs do not retain borrowed source binaries" do
+    operations = [
+      fn ->
+        text = padded_text(400_000, "credit card 4111 1111 1111 1111")
+
+        {:ok, [result]} =
+          Obscura.analyze(text,
+            profile: :fast,
+            entities: [:credit_card],
+            include_text: false,
+            explain: true,
+            telemetry: false
+          )
+
+        result
+      end,
+      fn ->
+        text = padded_text(400_000, "probe@example.test")
+
+        {:ok, results} =
+          Obscura.analyze(text,
+            profile: :fast,
+            entities: [:email],
+            include_text: false,
+            telemetry: false
+          )
+
+        {:ok, result} = Obscura.anonymize(text, results, telemetry: false)
+        result
+      end,
+      fn ->
+        text = padded_text(400_000, "probe@example.test")
+
+        {:ok, result} =
+          Obscura.Structured.redact(%{nested: [%{payload: text}]},
+            profile: :fast,
+            entities: [:email],
+            telemetry: false
+          )
+
+        result
+      end,
+      fn ->
+        text = padded_text(400_000, "probe@example.test")
+
+        {:ok, result} =
+          Obscura.Logger.redact_term(%{payload: text},
+            profile: :fast,
+            entities: [:email],
+            telemetry: false
+          )
+
+        result
+      end,
+      fn ->
+        text = padded_text(400_000, "probe@example.test")
+
+        :post
+        |> Plug.Test.conn("/", %{})
+        |> Map.put(:params, %{"payload" => text})
+        |> ObscuraPlug.call(
+          fields: [:params],
+          mode: :replace,
+          profile: :fast,
+          entities: [:email],
+          telemetry: false
+        )
+      end
+    ]
+
+    for operation <- operations do
+      result = run_isolated(operation)
+      assert borrowed_binary_paths(result) == []
+    end
+  end
+
+  defp long_url_text do
+    url = "https://example.test/" <> String.duplicate("segment/", 64)
+    safe_padding(200_000) <> " " <> url <> " " <> safe_padding(200_000)
+  end
+
+  defp padded_text(target_bytes, match) do
+    remaining = max(target_bytes - byte_size(match), 0)
+    prefix_bytes = div(remaining, 2)
+    suffix_bytes = remaining - prefix_bytes
+    safe_padding(prefix_bytes) <> match <> safe_padding(suffix_bytes)
+  end
+
+  defp run_isolated(operation) do
+    parent = self()
+
+    {pid, monitor} =
+      spawn_monitor(fn ->
+        result = operation.()
+        send(parent, {:ownership_result, self(), result})
+      end)
+
+    receive do
+      {:ownership_result, ^pid, result} ->
+        receive do
+          {:DOWN, ^monitor, :process, ^pid, :normal} -> result
+        end
+
+      {:DOWN, ^monitor, :process, ^pid, reason} ->
+        flunk("ownership worker failed: #{inspect(reason)}")
+    after
+      5_000 -> flunk("ownership worker timed out")
+    end
+  end
+
+  defp borrowed_binary_paths(term), do: inspect_binaries(term, [], [])
+
+  defp inspect_binaries(value, path, acc) when is_binary(value) do
+    if :binary.referenced_byte_size(value) > byte_size(value), do: [path | acc], else: acc
+  end
+
+  defp inspect_binaries(value, path, acc) when is_map(value) do
+    value
+    |> Map.to_list()
+    |> Enum.reduce(acc, fn {key, nested}, paths ->
+      paths = inspect_binaries(key, [:map_key | path], paths)
+      inspect_binaries(nested, [safe_path_part(key) | path], paths)
+    end)
+  end
+
+  defp inspect_binaries(value, path, acc) when is_list(value) do
+    value
+    |> Stream.with_index()
+    |> Enum.reduce(acc, fn {nested, index}, paths ->
+      inspect_binaries(nested, [index | path], paths)
+    end)
+  end
+
+  defp inspect_binaries(value, path, acc) when is_tuple(value) do
+    value
+    |> Tuple.to_list()
+    |> inspect_binaries(path, acc)
+  end
+
+  defp inspect_binaries(value, path, acc) when is_function(value) do
+    {:env, environment} = :erlang.fun_info(value, :env)
+    inspect_binaries(environment, [:function_env | path], acc)
+  end
+
+  defp inspect_binaries(_value, _path, acc), do: acc
+
+  defp safe_path_part(value) when is_atom(value), do: value
+  defp safe_path_part(value) when is_integer(value), do: value
+  defp safe_path_part(_value), do: :dynamic_key
+
+  defp safe_padding(bytes) do
+    pattern = "safe text "
+    repeats = div(bytes, byte_size(pattern))
+    rest = rem(bytes, byte_size(pattern))
+    String.duplicate(pattern, repeats) <> binary_part(pattern, 0, rest)
+  end
+end

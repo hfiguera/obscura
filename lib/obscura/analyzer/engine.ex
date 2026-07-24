@@ -4,12 +4,14 @@ defmodule Obscura.Analyzer.Engine do
   """
 
   alias Obscura.AllowList
+  alias Obscura.Analyzer.Explanation
   alias Obscura.Analyzer.Options
   alias Obscura.Analyzer.Result
   alias Obscura.Conflict
   alias Obscura.Context
   alias Obscura.Eval.Offset
   alias Obscura.Input
+  alias Obscura.Internal.ResultText
   alias Obscura.Internal.StageDiagnostics
   alias Obscura.NLP.Engine, as: NLPEngine
   alias Obscura.Profile
@@ -17,6 +19,17 @@ defmodule Obscura.Analyzer.Engine do
   alias Obscura.Recognizer.PatternDefinition
   alias Obscura.Recognizer.Registry
   alias Obscura.Telemetry
+
+  @built_in_recognizers Registry.built_ins()
+  @context_word_metadata_keys [:context_words, :negative_context_words, :weak_context_words]
+  @context_boolean_metadata_keys [
+    :context_matched,
+    :negative_context_matched,
+    :negative_context_reject,
+    :requires_context,
+    :weak_context_matched
+  ]
+  @context_number_metadata_keys [:context_min_score]
 
   @doc """
   Runs built-in recognizers for a string.
@@ -33,8 +46,7 @@ defmodule Obscura.Analyzer.Engine do
              deny_lists: options.deny_lists,
              built_ins: options.built_ins
            ),
-         {:ok, artifacts} <-
-           StageDiagnostics.measure(:nlp_artifacts, fn -> artifacts_for_text(text, options) end),
+         {:ok, artifacts} <- artifacts_for_text(text, options),
          options = %{options | nlp_artifacts: artifacts},
          {:ok, raw_results} <-
            StageDiagnostics.measure(:recognizer_execution, fn ->
@@ -145,11 +157,40 @@ defmodule Obscura.Analyzer.Engine do
   end
 
   defp run_recognizer(%PatternDefinition{} = definition, text, options) do
-    {:ok, PatternDefinition.analyze(definition, text, Options.to_keyword(options))}
+    case PatternDefinition.analyze(definition, text, Options.to_keyword(options)) do
+      {:error, :invalid_callback_result} ->
+        callback_result_error(pattern_definition_name(definition))
+
+      results ->
+        validate_callback_results(results, text, pattern_definition_name(definition))
+    end
+  rescue
+    _error ->
+      {:error, {:recognizer_failed, pattern_definition_name(definition), :exception}}
+  catch
+    :throw, _reason ->
+      {:error, {:recognizer_failed, pattern_definition_name(definition), :throw}}
+
+    :exit, _reason ->
+      {:error, {:recognizer_failed, pattern_definition_name(definition), :exit}}
   end
 
   defp run_recognizer({:deny_list, deny_lists}, text, options) do
-    {:ok, DenyList.analyze(text, deny_lists, Options.to_keyword(options))}
+    text
+    |> DenyList.analyze(deny_lists, Options.to_keyword(options))
+    |> validate_callback_results(text, :deny_list)
+  end
+
+  defp run_recognizer({module, recognizer_opts}, text, options)
+       when is_atom(module) and module in @built_in_recognizers do
+    opts = built_in_recognizer_options(options, recognizer_opts)
+
+    run_builtin_recognizer(
+      module,
+      text,
+      opts,
+      callback_backed_builtin?(module, opts)
+    )
   end
 
   defp run_recognizer({module, recognizer_opts}, text, options) when is_atom(module) do
@@ -160,8 +201,39 @@ defmodule Obscura.Analyzer.Engine do
     )
   end
 
+  defp run_recognizer(module, text, options)
+       when is_atom(module) and module in @built_in_recognizers do
+    run_builtin_recognizer(
+      module,
+      text,
+      Options.to_keyword(options),
+      callback_backed_builtin?(module, options)
+    )
+  end
+
   defp run_recognizer(module, text, options) when is_atom(module) do
     run_module_recognizer(module, text, Options.to_keyword(options))
+  end
+
+  defp run_builtin_recognizer(module, text, opts, callback_backed?) do
+    case module.analyze(text, opts) do
+      {:ok, results} ->
+        validate_builtin_results(results, text, module, callback_backed?)
+
+      {:error, reason} ->
+        {:error, {:recognizer_failed, recognizer_name(module), safe_callback_reason(reason)}}
+
+      results when is_list(results) ->
+        validate_builtin_results(results, text, module, callback_backed?)
+
+      _invalid ->
+        callback_result_error(module)
+    end
+  rescue
+    _error -> {:error, {:recognizer_failed, recognizer_name(module), :exception}}
+  catch
+    :throw, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :throw}}
+    :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
 
   defp run_module_recognizer(module, text, opts) do
@@ -180,7 +252,52 @@ defmodule Obscura.Analyzer.Engine do
     end
   rescue
     _error -> {:error, {:recognizer_failed, recognizer_name(module), :exception}}
+  catch
+    :throw, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :throw}}
+    :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
+
+  defp validate_builtin_results(results, text, module, callback_backed?) do
+    if callback_backed? do
+      validate_callback_results(results, text, module)
+    else
+      validate_trusted_builtin_results(results, text, module)
+    end
+  end
+
+  defp validate_trusted_builtin_results(results, text, module) do
+    if is_list(results) and not List.improper?(results) and
+         Enum.all?(results, &valid_builtin_result?(&1, text)) do
+      {:ok, results}
+    else
+      callback_result_error(module)
+    end
+  end
+
+  defp callback_backed_builtin?(Obscura.Recognizer.Phone, %Options{} = options) do
+    not is_nil(options.phone_parser) or not is_nil(options.phone_validator)
+  end
+
+  defp callback_backed_builtin?(Obscura.Recognizer.Phone, opts) when is_list(opts) do
+    not is_nil(Keyword.get(opts, :phone_parser)) or
+      not is_nil(Keyword.get(opts, :phone_validator))
+  end
+
+  defp callback_backed_builtin?(_module, _opts), do: false
+
+  defp valid_builtin_result?(%Result{} = result, text) do
+    is_atom(result.entity) and not is_nil(result.entity) and
+      is_number(result.score) and
+      result.start == result.byte_start and result.end == result.byte_end and
+      (is_nil(result.text) or is_binary(result.text)) and is_map(result.metadata) and
+      Offset.validate_span(text, %{
+        byte_start: result.byte_start,
+        byte_end: result.byte_end,
+        value: result.text
+      }) == :ok
+  end
+
+  defp valid_builtin_result?(_result, _text), do: false
 
   defp run_many_recognizers(
          recognizers,
@@ -222,7 +339,12 @@ defmodule Obscura.Analyzer.Engine do
 
   defp run_many_recognizer({module, recognizer_opts}, texts, options, artifacts_by_text)
        when is_atom(module) do
-    opts = Options.to_keyword(options) |> Keyword.merge(recognizer_opts)
+    opts =
+      if module in @built_in_recognizers do
+        built_in_recognizer_options(options, recognizer_opts)
+      else
+        Options.to_keyword(options) |> Keyword.merge(recognizer_opts)
+      end
 
     cond do
       central_artifacts?(options) ->
@@ -236,6 +358,9 @@ defmodule Obscura.Analyzer.Engine do
     end
   rescue
     _error -> {:error, {:recognizer_failed, recognizer_name(module), :exception}}
+  catch
+    :throw, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :throw}}
+    :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
 
   defp run_many_recognizer(module, texts, options, artifacts_by_text) when is_atom(module) do
@@ -253,6 +378,9 @@ defmodule Obscura.Analyzer.Engine do
     end
   rescue
     _error -> {:error, {:recognizer_failed, recognizer_name(module), :exception}}
+  catch
+    :throw, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :throw}}
+    :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
 
   defp run_many_recognizer(recognizer, texts, options, artifacts_by_text) do
@@ -261,6 +389,14 @@ defmodule Obscura.Analyzer.Engine do
 
   defp central_artifacts?(options) do
     not is_nil(options.nlp_engine) or is_list(options.nlp_artifacts)
+  end
+
+  defp built_in_recognizer_options(options, recognizer_opts) do
+    options
+    |> Options.to_keyword()
+    |> Keyword.merge(recognizer_opts)
+    |> Keyword.put(:include_text, options.include_text)
+    |> Keyword.put(:allow_list, options.allow_list)
   end
 
   defp run_many_fallback(recognizer, texts, options, artifacts_by_text) do
@@ -294,15 +430,7 @@ defmodule Obscura.Analyzer.Engine do
   end
 
   defp post_process(results, text, options) do
-    filtered =
-      StageDiagnostics.measure(:analyzer_filtering, fn ->
-        results
-        |> filter_requested_entities(options.entities)
-        |> AllowList.filter(options.allow_list)
-        |> Context.enhance(text, options)
-        |> filter_accepted(options)
-        |> maybe_drop_text(options.include_text)
-      end)
+    filtered = filter_and_enhance(results, text, options)
 
     resolved =
       StageDiagnostics.measure(:conflict_resolution, fn ->
@@ -310,7 +438,39 @@ defmodule Obscura.Analyzer.Engine do
       end)
 
     StageDiagnostics.measure(:final_assembly, fn ->
-      Enum.sort_by(resolved, &{&1.start, &1.end, &1.entity})
+      resolved
+      |> Enum.sort_by(&{&1.start, &1.end, &1.entity})
+      |> ResultText.finalize(text, options.include_text)
+    end)
+  end
+
+  defp filter_and_enhance(results, text, options) do
+    if StageDiagnostics.enabled?() do
+      filter_and_enhance_with_diagnostics(results, text, options)
+    else
+      results
+      |> filter_requested_entities(options.entities)
+      |> AllowList.filter(options.allow_list)
+      |> Context.enhance(text, options)
+      |> filter_accepted(options)
+    end
+  end
+
+  defp filter_and_enhance_with_diagnostics(results, text, options) do
+    candidates =
+      StageDiagnostics.measure(:analyzer_filtering, fn ->
+        results
+        |> filter_requested_entities(options.entities)
+        |> AllowList.filter(options.allow_list)
+      end)
+
+    enhanced =
+      StageDiagnostics.measure(:context_enhancement, fn ->
+        Context.enhance(candidates, text, options)
+      end)
+
+    StageDiagnostics.measure(:acceptance_filtering, fn ->
+      filter_accepted(enhanced, options)
     end)
   end
 
@@ -322,15 +482,27 @@ defmodule Obscura.Analyzer.Engine do
     Enum.filter(results, &(&1.entity in entities))
   end
 
-  defp maybe_drop_text(results, true), do: results
-  defp maybe_drop_text(results, false), do: Enum.map(results, &%{&1 | text: nil})
-
   defp artifacts_for_text(text, options) do
-    NLPEngine.build_artifacts(text, Options.to_keyword(options))
+    if dependency_light_artifacts_can_be_deferred?(options) do
+      {:ok, nil}
+    else
+      StageDiagnostics.measure(:nlp_artifacts, fn ->
+        NLPEngine.build_artifacts(text, Options.to_keyword(options))
+      end)
+    end
   end
 
   defp artifacts_for_many(texts, options) do
-    NLPEngine.build_many(texts, Options.to_keyword(options))
+    if dependency_light_artifacts_can_be_deferred?(options) do
+      {:ok, List.duplicate(nil, length(texts))}
+    else
+      NLPEngine.build_many(texts, Options.to_keyword(options))
+    end
+  end
+
+  defp dependency_light_artifacts_can_be_deferred?(options) do
+    options.profile == :deterministic_plus and options.recognizers == [] and
+      is_nil(options.nlp_artifacts) and is_nil(options.nlp_engine)
   end
 
   defp telemetry_metadata(options, status, result_count) do
@@ -378,6 +550,12 @@ defmodule Obscura.Analyzer.Engine do
     _kind, _reason -> module
   end
 
+  defp pattern_definition_name(%PatternDefinition{name: name})
+       when is_atom(name) and not is_nil(name),
+       do: name
+
+  defp pattern_definition_name(%PatternDefinition{}), do: :pattern_definition
+
   defp validate_callback_results(results, text, module) when is_list(results) do
     if not List.improper?(results) and Enum.all?(results, &valid_result?(&1, text)) do
       {:ok, results}
@@ -404,11 +582,22 @@ defmodule Obscura.Analyzer.Engine do
     do: callback_result_error(module)
 
   defp valid_result?(%Result{} = result, text) do
-    is_atom(result.entity) and not is_nil(result.entity) and
-      is_number(result.score) and
-      result.start == result.byte_start and result.end == result.byte_end and
-      (is_nil(result.text) or is_binary(result.text)) and
-      is_map(result.metadata) and
+    valid_result_identity?(result) and
+      valid_result_offsets?(result, text) and
+      valid_result_payload?(result) and
+      valid_explanation?(result.explanation, text) and
+      valid_result_metadata?(result.metadata, text)
+  end
+
+  defp valid_result?(_result, _text), do: false
+
+  defp valid_result_identity?(result) do
+    is_atom(result.entity) and not is_nil(result.entity) and is_number(result.score) and
+      (is_nil(result.recognizer) or is_atom(result.recognizer))
+  end
+
+  defp valid_result_offsets?(result, text) do
+    result.start == result.byte_start and result.end == result.byte_end and
       Offset.validate_span(text, %{
         byte_start: result.byte_start,
         byte_end: result.byte_end,
@@ -416,7 +605,69 @@ defmodule Obscura.Analyzer.Engine do
       }) == :ok
   end
 
-  defp valid_result?(_result, _text), do: false
+  defp valid_result_payload?(result) do
+    (is_nil(result.text) or is_binary(result.text)) and
+      (is_nil(result.source_entity) or is_binary(result.source_entity))
+  end
+
+  defp valid_explanation?(nil, _text), do: true
+
+  defp valid_explanation?(%Explanation{} = explanation, text) do
+    valid_explanation_identity?(explanation) and
+      valid_explanation_scores?(explanation) and
+      valid_explanation_context?(explanation) and
+      valid_callback_metadata?(explanation.metadata, text)
+  end
+
+  defp valid_explanation?(_explanation, _text), do: false
+
+  defp valid_explanation_identity?(explanation) do
+    is_atom(explanation.recognizer) and not is_nil(explanation.recognizer) and
+      is_atom(explanation.pattern) and not is_nil(explanation.pattern) and
+      (is_nil(explanation.validation) or is_atom(explanation.validation))
+  end
+
+  defp valid_explanation_scores?(explanation) do
+    is_number(explanation.score) and
+      (is_nil(explanation.original_score) or is_number(explanation.original_score)) and
+      is_number(explanation.score_context_delta)
+  end
+
+  defp valid_explanation_context?(explanation) do
+    is_list(explanation.context_words) and not List.improper?(explanation.context_words) and
+      Enum.all?(explanation.context_words, &is_binary/1)
+  end
+
+  defp valid_callback_metadata?(metadata, text) do
+    is_map(metadata) and ResultText.safe_callback_term?(metadata, text)
+  end
+
+  defp valid_result_metadata?(metadata, text) do
+    valid_callback_metadata?(metadata, text) and
+      valid_context_metadata?(metadata)
+  end
+
+  defp valid_context_metadata?(metadata) do
+    valid_metadata_keys?(metadata, @context_word_metadata_keys, &valid_context_words?/1) and
+      valid_metadata_keys?(metadata, @context_boolean_metadata_keys, &is_boolean/1) and
+      valid_metadata_keys?(metadata, @context_number_metadata_keys, &valid_context_number?/1)
+  end
+
+  defp valid_metadata_keys?(metadata, keys, validator) do
+    Enum.all?(keys, fn key ->
+      case Map.fetch(metadata, key) do
+        {:ok, value} -> validator.(value)
+        :error -> true
+      end
+    end)
+  end
+
+  defp valid_context_words?(words) do
+    is_list(words) and not List.improper?(words) and
+      Enum.all?(words, &(is_binary(&1) or is_atom(&1) or is_number(&1)))
+  end
+
+  defp valid_context_number?(value), do: is_number(value) and value >= 0
 
   defp callback_result_error(module) do
     {:error, {:recognizer_failed, recognizer_name(module), :invalid_callback_result}}

@@ -2,6 +2,7 @@ defmodule Obscura.Recognizer.Domain do
   @moduledoc false
   @behaviour Obscura.Recognizer
 
+  alias Obscura.Internal.ResultText
   alias Obscura.Recognizer.Pattern
   alias Obscura.Recognizer.SpanHelpers
 
@@ -33,16 +34,16 @@ defmodule Obscura.Recognizer.Domain do
       pattern: :domain,
       score: 0.7,
       explain: Keyword.get(opts, :explain, false),
+      include_text: Keyword.get(opts, :include_text, true),
+      allow_list: Keyword.get(opts, :allow_list),
       validate: &validate/1
     )
   end
 
-  defp posted_photo_url_spans(text, _opts) do
+  defp posted_photo_url_spans(text, opts) do
     @posted_photo_url
     |> Regex.scan(text, return: :index)
     |> Enum.map(fn [_full, {start, byte_length}] ->
-      value = binary_part(text, start, byte_length)
-
       %Obscura.Analyzer.Result{
         entity: :domain,
         start: start,
@@ -50,7 +51,7 @@ defmodule Obscura.Recognizer.Domain do
         byte_start: start,
         byte_end: start + byte_length,
         score: 0.71,
-        text: value,
+        text: ResultText.maybe_materialize_slice(text, start, start + byte_length, opts),
         source_entity: "DOMAIN_NAME",
         recognizer: :domain,
         explanation: nil,

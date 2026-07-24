@@ -27,7 +27,9 @@ defmodule Obscura.Recognizer.Title do
         recognizer: :title,
         pattern: :honorific,
         score: 0.74,
-        explain: Keyword.get(opts, :explain, false)
+        explain: Keyword.get(opts, :explain, false),
+        include_text: Keyword.get(opts, :include_text, true),
+        allow_list: Keyword.get(opts, :allow_list)
       )
     else
       []

@@ -436,10 +436,23 @@ telemetry, diagnostics, and prediction exports omit raw detected values by
 default.
 
 Public result structs can contain raw detected text by design. Use
-`include_text: false` when source text is unnecessary. Vault pseudonymization
-is reversible and retains original values until the vault is cleared or
-stopped. Memory and ETS vaults are not encrypted persistent stores, and clearing
-a vault cannot guarantee secure erasure from BEAM or native-runtime memory.
+`include_text: false` when source text is unnecessary; built-in recognizers then
+avoid materializing `Result.text`. This option does not sanitize metadata:
+documented parser metadata such as `:phone_e164` can contain normalized PII,
+and trusted custom recognizers control their own metadata. Custom result fields
+must satisfy `Obscura.Analyzer.Result.t()`. Ownership-safe function metadata
+remains supported. Serializable closures containing binaries or bitstrings are
+cloned before they escape so their environments no longer reference the
+caller's binary allocations. Malformed terms and excessively nested metadata
+are rejected with a sanitized callback error. With `include_text: true`,
+accepted match text is detached when a sub-binary would otherwise retain an
+unrelated larger source binary. Escaping borrowed metadata and explanation
+binaries are detached in either mode. These controls reduce retention but do
+not provide secure erasure.
+Vault pseudonymization is reversible and retains original values until the
+vault is cleared or stopped. Memory and ETS vaults are not encrypted persistent
+stores, and clearing a vault cannot guarantee secure erasure from BEAM or
+native-runtime memory.
 
 Callers remain responsible for input logging, vault access and retention,
 credentials, model assets, trusted callbacks, and deployment controls. Review

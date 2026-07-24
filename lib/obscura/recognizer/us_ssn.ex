@@ -24,6 +24,8 @@ defmodule Obscura.Recognizer.USSSN do
       pattern: :us_ssn,
       score: 0.85,
       explain: Keyword.get(opts, :explain, false),
+      include_text: Keyword.get(opts, :include_text, true),
+      allow_list: Keyword.get(opts, :allow_list),
       validate: &validate/1
     )
   end

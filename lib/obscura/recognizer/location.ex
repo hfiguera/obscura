@@ -9,6 +9,7 @@ defmodule Obscura.Recognizer.Location do
   @behaviour Obscura.Recognizer
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Internal.ResultText
 
   @billing_address ~r/billing address:\s+[^\n]+\n\s*\d+\s+.+? road\s+suite \d+\n\s*([^\n]+)\n\s*nan\n\s*\d{5}/iu
   @inline_address ~r/address:\s*\d+\s+.+?\s*,\s*([^\n,]+)\s*$/iu
@@ -110,9 +111,7 @@ defmodule Obscura.Recognizer.Location do
     |> Enum.map(fn [_full, capture] -> result(text, capture, pattern, opts) end)
   end
 
-  defp result(text, {start, byte_length}, pattern, _opts) do
-    value = binary_part(text, start, byte_length)
-
+  defp result(text, {start, byte_length}, pattern, opts) do
     %Result{
       entity: :location,
       start: start,
@@ -120,7 +119,7 @@ defmodule Obscura.Recognizer.Location do
       byte_start: start,
       byte_end: start + byte_length,
       score: 0.76,
-      text: value,
+      text: ResultText.maybe_materialize_slice(text, start, start + byte_length, opts),
       source_entity: "LOCATION",
       recognizer: :location,
       metadata: %{pattern: pattern, context: :generated_presidio_research}

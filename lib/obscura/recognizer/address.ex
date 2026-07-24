@@ -9,6 +9,7 @@ defmodule Obscura.Recognizer.Address do
   @behaviour Obscura.Recognizer
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Internal.ResultText
 
   @billing_address ~r/billing address:\s+[^\n]+\n\s*(\d+)\s+(.+? road)\s+(suite \d+)\n\s*([^\n]+)\n\s*(nan)\n\s*(\d{5})/iu
   @billing_address_with ~r/billing address with\s+(.+?)\s+for this card:/isu
@@ -203,9 +204,7 @@ defmodule Obscura.Recognizer.Address do
     |> Enum.map(fn [_full, capture] -> result(text, capture, pattern, opts) end)
   end
 
-  defp result(text, {start, byte_length}, pattern, _opts) do
-    value = binary_part(text, start, byte_length)
-
+  defp result(text, {start, byte_length}, pattern, opts) do
     %Result{
       entity: :street_address,
       start: start,
@@ -213,7 +212,7 @@ defmodule Obscura.Recognizer.Address do
       byte_start: start,
       byte_end: start + byte_length,
       score: 0.78,
-      text: value,
+      text: ResultText.maybe_materialize_slice(text, start, start + byte_length, opts),
       source_entity: "ADDRESS",
       recognizer: :address,
       metadata: %{pattern: pattern, context: :address}

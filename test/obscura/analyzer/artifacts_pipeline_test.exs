@@ -2,6 +2,7 @@ defmodule Obscura.Analyzer.ArtifactsPipelineTest do
   use ExUnit.Case, async: true
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Internal.StageDiagnostics
   alias Obscura.NLP.Artifacts
 
   defmodule ArtifactAwareRecognizer do
@@ -123,5 +124,38 @@ defmodule Obscura.Analyzer.ArtifactsPipelineTest do
 
     assert person.entity == :person
     assert location.entity == :location
+  end
+
+  test "lazy dependency-light artifacts are timed where they are constructed" do
+    {{:ok, [result]}, diagnostics} =
+      StageDiagnostics.capture(true, fn ->
+        Obscura.analyze("Credit card 4111 1111 1111 1111",
+          profile: :fast,
+          entities: [:credit_card],
+          include_text: false,
+          telemetry: false
+        )
+      end)
+
+    assert result.entity == :credit_card
+    assert diagnostics.stages.nlp_artifacts.count == 1
+    assert diagnostics.stages.context_enhancement.count == 1
+    assert diagnostics.stages.analyzer_filtering.count == 1
+    assert diagnostics.stages.acceptance_filtering.count == 1
+  end
+
+  test "dependency-light no-context analysis does not report artifact construction" do
+    {{:ok, []}, diagnostics} =
+      StageDiagnostics.capture(true, fn ->
+        Obscura.analyze("safe text only",
+          profile: :fast,
+          entities: [:email],
+          include_text: false,
+          telemetry: false
+        )
+      end)
+
+    refute Map.has_key?(diagnostics.stages, :nlp_artifacts)
+    assert diagnostics.stages.context_enhancement.count == 1
   end
 end

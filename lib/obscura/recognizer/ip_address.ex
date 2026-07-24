@@ -27,6 +27,8 @@ defmodule Obscura.Recognizer.IPAddress do
       pattern: :ipv4,
       score: 0.8,
       explain: explain?,
+      include_text: Keyword.get(opts, :include_text, true),
+      allow_list: Keyword.get(opts, :allow_list),
       validate: &validate/1
     ) ++
       Pattern.scan(text, @ipv6,
@@ -36,6 +38,8 @@ defmodule Obscura.Recognizer.IPAddress do
         pattern: :ipv6,
         score: 0.8,
         explain: explain?,
+        include_text: Keyword.get(opts, :include_text, true),
+        allow_list: Keyword.get(opts, :allow_list),
         validate: &validate/1
       )
   end

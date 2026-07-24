@@ -6,6 +6,7 @@ defmodule Obscura.Recognizer.PatternDefinition do
   alias Obscura.Analyzer.Explanation
   alias Obscura.Analyzer.Result
   alias Obscura.Eval.Offset
+  alias Obscura.Internal.ResultText
 
   @enforce_keys [:name, :entity, :patterns]
   defstruct [:name, :entity, :patterns, :validate, :invalidate, context: [], metadata: %{}]
@@ -47,11 +48,20 @@ defmodule Obscura.Recognizer.PatternDefinition do
   end
 
   @doc false
-  @spec analyze(t(), String.t(), keyword()) :: [Result.t()]
+  @spec analyze(t(), String.t(), keyword()) ::
+          [Result.t()] | {:error, :invalid_callback_result}
   def analyze(%__MODULE__{} = definition, text, opts) when is_binary(text) do
-    Enum.flat_map(definition.patterns, fn pattern ->
-      scan_pattern(definition, pattern, text, opts)
+    definition.patterns
+    |> Enum.reduce_while({:ok, []}, fn pattern, {:ok, acc} ->
+      case scan_pattern(definition, pattern, text, opts) do
+        {:ok, results} -> {:cont, {:ok, [results | acc]}}
+        {:error, :invalid_callback_result} = error -> {:halt, error}
+      end
     end)
+    |> case do
+      {:ok, results} -> results |> Enum.reverse() |> List.flatten()
+      {:error, :invalid_callback_result} = error -> error
+    end
   end
 
   @doc false
@@ -59,15 +69,48 @@ defmodule Obscura.Recognizer.PatternDefinition do
   def supported_entities(%__MODULE__{entity: entity}), do: [entity]
 
   defp validate_definition(%__MODULE__{} = definition) do
+    with :ok <- validate_identity(definition),
+         :ok <- validate_patterns(definition),
+         :ok <- validate_context_and_metadata(definition) do
+      validate_callbacks(definition)
+    end
+  end
+
+  defp validate_identity(definition) do
     cond do
       not is_atom(definition.name) -> {:error, :invalid_name}
       not is_atom(definition.entity) -> {:error, :invalid_entity}
-      not is_list(definition.patterns) -> {:error, :invalid_patterns}
-      not Enum.all?(definition.patterns, &valid_pattern?/1) -> {:error, :invalid_pattern}
-      not Enum.all?(definition.context, &is_binary/1) -> {:error, :invalid_context}
       true -> :ok
     end
   end
+
+  defp validate_patterns(definition) do
+    cond do
+      not is_list(definition.patterns) -> {:error, :invalid_patterns}
+      not Enum.all?(definition.patterns, &valid_pattern?/1) -> {:error, :invalid_pattern}
+      true -> :ok
+    end
+  end
+
+  defp validate_context_and_metadata(definition) do
+    cond do
+      not is_list(definition.context) -> {:error, :invalid_context}
+      not Enum.all?(definition.context, &is_binary/1) -> {:error, :invalid_context}
+      not is_map(definition.metadata) -> {:error, :invalid_metadata}
+      true -> :ok
+    end
+  end
+
+  defp validate_callbacks(definition) do
+    cond do
+      not valid_callback?(definition.validate) -> {:error, :invalid_validate}
+      not valid_callback?(definition.invalidate) -> {:error, :invalid_invalidate}
+      true -> :ok
+    end
+  end
+
+  defp valid_callback?(nil), do: true
+  defp valid_callback?(callback), do: is_function(callback, 1)
 
   defp valid_pattern?(%{name: name, regex: %Regex{}, score: score})
        when is_atom(name) and is_number(score),
@@ -78,12 +121,12 @@ defmodule Obscura.Recognizer.PatternDefinition do
   defp scan_pattern(definition, pattern, text, opts) do
     pattern.regex
     |> Regex.scan(text, return: :index)
-    |> Enum.flat_map(fn [{start, match_length} | _captures] ->
+    |> Enum.reduce_while({:ok, []}, fn [{start, match_length} | _captures], {:ok, acc} ->
       value = binary_part(text, start, match_length)
 
       case validation_result(definition, pattern, value) do
         {:ok, score, validation, metadata} ->
-          [
+          result =
             result(%{
               definition: definition,
               pattern: pattern,
@@ -96,12 +139,20 @@ defmodule Obscura.Recognizer.PatternDefinition do
               validation_metadata: metadata,
               opts: opts
             })
-          ]
+
+          {:cont, {:ok, [result | acc]}}
+
+        {:error, :invalid_callback_result} = error ->
+          {:halt, error}
 
         :drop ->
-          []
+          {:cont, {:ok, acc}}
       end
     end)
+    |> case do
+      {:ok, results} -> {:ok, Enum.reverse(results)}
+      {:error, :invalid_callback_result} = error -> error
+    end
   end
 
   defp validation_result(definition, pattern, value) do
@@ -138,29 +189,28 @@ defmodule Obscura.Recognizer.PatternDefinition do
 
   defp invalid_pattern_result(_pattern), do: :drop
 
-  defp valid_pattern_result(pattern, result) do
-    cond do
-      result in [false, :invalid] ->
-        :drop
+  defp valid_pattern_result(_pattern, result) when result in [false, :invalid], do: :drop
 
-      result in [true, :ok, :valid] ->
-        {:ok, pattern.score, :valid, pattern_metadata(pattern, %{})}
+  defp valid_pattern_result(pattern, result) when result in [true, :ok, :valid],
+    do: {:ok, pattern.score, :valid, pattern_metadata(pattern, %{})}
 
-      match?({:ok, _metadata}, result) ->
-        {:ok, pattern.score, :valid, pattern_metadata(pattern, elem(result, 1))}
+  defp valid_pattern_result(pattern, {:ok, metadata}) when is_map(metadata),
+    do: {:ok, pattern.score, :valid, pattern_metadata(pattern, metadata)}
 
-      match?({:score, score} when is_number(score), result) ->
-        {:score, score} = result
-        {:ok, score, :valid, pattern_metadata(pattern, %{validation_score: score})}
+  defp valid_pattern_result(_pattern, {:ok, _metadata}),
+    do: {:error, :invalid_callback_result}
 
-      match?({:ok, score, _metadata} when is_number(score), result) ->
-        {:ok, score, metadata} = result
-        {:ok, score, :valid, pattern_metadata(pattern, metadata)}
+  defp valid_pattern_result(pattern, {:score, score}) when is_number(score),
+    do: {:ok, score, :valid, pattern_metadata(pattern, %{validation_score: score})}
 
-      true ->
-        :drop
-    end
-  end
+  defp valid_pattern_result(pattern, {:ok, score, metadata})
+       when is_number(score) and is_map(metadata),
+       do: {:ok, score, :valid, pattern_metadata(pattern, metadata)}
+
+  defp valid_pattern_result(_pattern, {:ok, score, _metadata}) when is_number(score),
+    do: {:error, :invalid_callback_result}
+
+  defp valid_pattern_result(_pattern, _result), do: :drop
 
   defp pattern_metadata(pattern, metadata) do
     pattern
@@ -191,7 +241,7 @@ defmodule Obscura.Recognizer.PatternDefinition do
       byte_start: start,
       byte_end: end_offset,
       score: score,
-      text: value,
+      text: ResultText.maybe_materialize(value, opts),
       source_entity: Atom.to_string(definition.entity),
       recognizer: definition.name,
       explanation:

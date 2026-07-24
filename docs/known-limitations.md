@@ -35,12 +35,16 @@ surface.
   bounded production-duration growth. OpenMed memory remains **inconclusive**
   for release decisions. Large headroom and strict admission control remain
   required.
-- Ten-minute `:fast` and `:balanced` memory results are inconclusive under the
-  conservative growth classifier. `:fast` latency is stable; `:balanced`
-  throughput and tail latency degrade in later windows. The slowdown is
-  localized to fixed-shape Emily model serving, but direct GPU
-  power/frequency/utilization evidence is unavailable without privileged
-  macOS tooling.
+- The generic ten-minute `:fast` classifier remains inconclusive because it
+  expects Emily allocator observations which do not apply to this BEAM-only
+  profile. Separate 30-minute binary-retention controls at concurrency `1` and
+  `4` reached bounded plateaus and returned below their initial binary-memory
+  samples after idle and GC. This is finite workload evidence, not proof of
+  secure erasure or universally bounded RSS. The ten-minute `:balanced` result
+  remains inconclusive; its throughput and tail latency degrade in later
+  windows. That slowdown is localized to fixed-shape Emily model serving, but
+  direct GPU power/frequency/utilization evidence is unavailable without
+  privileged macOS tooling.
 - Exact byte spans remain the anonymization contract. IoU metrics can identify
   near-boundary model matches but do not make an incorrect exact span safe.
 - Context enhancement changes scores or gates existing candidates; it does not
@@ -94,6 +98,9 @@ surface.
 - Analyzer results contain detected source text when `include_text: true`.
   Value-safe default inspection does not change explicit field access or
   serialization through `Map.from_struct/1`.
+- `include_text: false` suppresses `Obscura.Analyzer.Result.text`; it does not
+  remove documented normalized PII from recognizer metadata. For example,
+  parser-backed phone recognition can return `:phone_e164`.
 - Vault rehydration intentionally stores raw values in memory or ETS until the
   caller clears/stops the vault.
 - Clearing/stopping a vault drops accessible references and removes private ETS
@@ -104,7 +111,10 @@ surface.
   same VM.
 - Custom recognizers, operators, language detectors, telemetry handlers, and
   model dependencies are trusted application/runtime code and can independently
-  log or transmit values they receive.
+  log, retain, or transmit values they receive. Obscura validates returned
+  recognizer fields. Serializable function metadata remains compatible and is
+  cloned so captured binaries no longer reference caller-owned allocations.
+  Obscura cannot undo callback side effects or inspect external state.
 - Logger and Plug helpers cannot redact entities that configured recognizers
   miss. Callers must evaluate their own data and downstream sinks.
 - Security reports use GitHub Private Vulnerability Reporting. Reporters need

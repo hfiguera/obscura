@@ -67,6 +67,27 @@ defmodule Obscura.Recognizer.DeterministicPlusTest do
              )
   end
 
+  test "phone validator preserves function metadata with an owned environment" do
+    sensitive = "+1 202-555-0188"
+
+    validator = fn value, _opts ->
+      {:ok, %{deferred: fn -> value end}}
+    end
+
+    assert {:ok, [phone]} =
+             Obscura.analyze("Call #{sensitive}",
+               profile: :fast,
+               entities: [:phone],
+               include_text: false,
+               phone_validator: validator,
+               telemetry: false
+             )
+
+    assert phone.text == nil
+    assert phone.metadata.deferred.() == sensitive
+    assert :binary.referenced_byte_size(phone.metadata.deferred.()) == byte_size(sensitive)
+  end
+
   test "optional ex_phone_number parser improves Presidio international phone recall" do
     examples = [
       {"My Israeli number is 09-7625400", ["09-7625400"]},
