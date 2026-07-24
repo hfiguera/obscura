@@ -585,8 +585,8 @@ defmodule Obscura.Analyzer.Engine do
     valid_result_identity?(result) and
       valid_result_offsets?(result, text) and
       valid_result_payload?(result) and
-      valid_explanation?(result.explanation) and
-      valid_result_metadata?(result.metadata)
+      valid_explanation?(result.explanation, text) and
+      valid_result_metadata?(result.metadata, text)
   end
 
   defp valid_result?(_result, _text), do: false
@@ -610,16 +610,16 @@ defmodule Obscura.Analyzer.Engine do
       (is_nil(result.source_entity) or is_binary(result.source_entity))
   end
 
-  defp valid_explanation?(nil), do: true
+  defp valid_explanation?(nil, _text), do: true
 
-  defp valid_explanation?(%Explanation{} = explanation) do
+  defp valid_explanation?(%Explanation{} = explanation, text) do
     valid_explanation_identity?(explanation) and
       valid_explanation_scores?(explanation) and
       valid_explanation_context?(explanation) and
-      valid_callback_metadata?(explanation.metadata)
+      valid_callback_metadata?(explanation.metadata, text)
   end
 
-  defp valid_explanation?(_explanation), do: false
+  defp valid_explanation?(_explanation, _text), do: false
 
   defp valid_explanation_identity?(explanation) do
     is_atom(explanation.recognizer) and not is_nil(explanation.recognizer) and
@@ -638,12 +638,12 @@ defmodule Obscura.Analyzer.Engine do
       Enum.all?(explanation.context_words, &is_binary/1)
   end
 
-  defp valid_callback_metadata?(metadata) do
-    is_map(metadata) and ResultText.safe_callback_term?(metadata)
+  defp valid_callback_metadata?(metadata, text) do
+    is_map(metadata) and ResultText.safe_callback_term?(metadata, text)
   end
 
-  defp valid_result_metadata?(metadata) do
-    valid_callback_metadata?(metadata) and
+  defp valid_result_metadata?(metadata, text) do
+    valid_callback_metadata?(metadata, text) and
       valid_context_metadata?(metadata)
   end
 

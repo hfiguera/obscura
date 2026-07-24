@@ -118,6 +118,9 @@ defmodule Obscura.FastProfileRetentionProbe do
 
         :opaque_metadata ->
           %{result | metadata: %{deferred: fn -> borrowed end}}
+
+        :full_source_closure ->
+          %{result | metadata: %{deferred: fn -> text end}}
       end
       |> List.wrap()
     end
@@ -151,6 +154,9 @@ defmodule Obscura.FastProfileRetentionProbe do
 
           :malformed_reserved ->
             %{negative_context_words: borrowed}
+
+          :struct_value ->
+            %{__struct__: borrowed}
         end
 
       [
@@ -784,6 +790,28 @@ defmodule Obscura.FastProfileRetentionProbe do
         end
       },
       %{
+        name: "full_source_metadata_closure_is_rejected",
+        expectation: :no_sensitive_graph,
+        operation: fn ->
+          sensitive = String.duplicate("S", 1_024)
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          result =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [
+                {MalformedOwnershipRecognizer, malformed_field: :full_source_closure}
+              ],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive])
+        end
+      },
+      %{
         name: "opaque_bitstring_metadata_closure_is_rejected",
         expectation: :no_sensitive_graph,
         operation: fn ->
@@ -836,6 +864,26 @@ defmodule Obscura.FastProfileRetentionProbe do
               built_ins: false,
               entities: [:person],
               recognizers: [{MetadataRecognizer, metadata_mode: :flat}],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive])
+        end
+      },
+      %{
+        name: "struct_tag_metadata_value_is_inspected_and_owned",
+        expectation: :owned_sensitive_metadata,
+        operation: fn ->
+          sensitive = String.duplicate("T", 1_024)
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          {:ok, [result]} =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [{MetadataRecognizer, metadata_mode: :struct_value}],
               include_text: false,
               telemetry: false
             )
@@ -1119,7 +1167,7 @@ defmodule Obscura.FastProfileRetentionProbe do
 
   defp inspect_term(value, path, state, sensitive_values) when is_map(value) do
     value
-    |> Map.delete(:__struct__)
+    |> Map.to_list()
     |> Enum.reduce(state, fn {key, nested}, acc ->
       acc = inspect_term(key, [:map_key | path], acc, sensitive_values)
       inspect_term(nested, path ++ [safe_path_part(key)], acc, sensitive_values)

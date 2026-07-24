@@ -66,8 +66,9 @@ then avoid materializing `Result.text`. The option does not sanitize metadata.
 Documented parser metadata can contain normalized PII, and trusted custom
 recognizers control metadata they return. Callback result fields are validated
 against the public result contract. Ownership-safe functions remain supported;
-closures which capture a borrowed binary, malformed or improper terms, and
-excessively nested values are rejected with a sanitized callback error.
+closures which capture a borrowed binary or the complete analyzer input,
+malformed or improper terms, and excessively nested values are rejected with a
+sanitized callback error.
 Escaping borrowed binaries in accepted recursively transparent metadata and
 explanations are detached so they do not retain unrelated parent inputs. These
 controls reduce binary retention but do not guarantee memory zeroization. Safe
@@ -146,7 +147,7 @@ historical development reports are not production logging sinks.
 | --- | --- | --- |
 | Raw text appears in default inspection | Safe Inspect implementations for raw-bearing stable and model structs | Explicit field access and `Map.from_struct/1` still expose fields |
 | Callback exception leaks source arguments/message | Callback trapping and reason sanitization | Callback code itself can log or transmit its input |
-| Callback result retains source through malformed or opaque metadata | Public result validation, recursive binary ownership, and rejection of closures with borrowed binary environments | Callback code can retain or transmit input through external state; ownership-safe functions and owned sensitive metadata remain explicit output |
+| Callback result retains source through malformed or opaque metadata | Public result validation, recursive binary ownership, and rejection of closures with borrowed binary environments or the complete analyzer input | Callback code can retain or transmit input through external state; ownership-safe functions and owned sensitive metadata remain explicit output |
 | Invalid UTF-8 crashes regex/model paths | Stable text boundaries return `:invalid_utf8` | Native dependencies can still fail internally |
 | Malformed spans return expected/actual source values | Span normalization and value-safe reason conversion | Callers must still supply correct exclusive byte offsets |
 | Telemetry receives nested/raw metadata | Strict measurement/key/value allowlists | Application handlers can correlate safe identifiers with other data |

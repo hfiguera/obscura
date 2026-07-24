@@ -97,40 +97,48 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
         metadata: %{}
       }
 
-      case Keyword.fetch!(opts, :malformed_field) do
-        :recognizer ->
-          %{result | recognizer: borrowed}
-
-        :source_entity ->
-          %{result | source_entity: :person}
-
-        :explanation ->
-          %{result | explanation: %{metadata: borrowed}}
-
-        :explanation_field ->
-          %{
-            result
-            | explanation: %Explanation{
-                recognizer: borrowed,
-                pattern: :malformed,
-                score: 0.9
-              }
-          }
-
-        :opaque_metadata ->
-          %{result | metadata: %{deferred: fn -> borrowed end}}
-
-        :safe_function_metadata ->
-          %{result | metadata: %{postprocess: fn value -> value end}}
-
-        :improper_metadata ->
-          %{result | metadata: %{nested: [borrowed | :invalid_tail]}}
-
-        :fake_struct ->
-          %{result | metadata: %{nested: %{__struct__: Does.Not.Exist}}}
-      end
+      result
+      |> malformed_result(Keyword.fetch!(opts, :malformed_field), text, borrowed)
       |> List.wrap()
     end
+
+    defp malformed_result(result, :recognizer, _text, borrowed),
+      do: %{result | recognizer: borrowed}
+
+    defp malformed_result(result, :source_entity, _text, _borrowed),
+      do: %{result | source_entity: :person}
+
+    defp malformed_result(result, :explanation, _text, borrowed),
+      do: %{result | explanation: %{metadata: borrowed}}
+
+    defp malformed_result(result, :explanation_field, _text, borrowed) do
+      %{
+        result
+        | explanation: %Explanation{
+            recognizer: borrowed,
+            pattern: :malformed,
+            score: 0.9
+          }
+      }
+    end
+
+    defp malformed_result(result, :opaque_metadata, _text, borrowed),
+      do: %{result | metadata: %{deferred: fn -> borrowed end}}
+
+    defp malformed_result(result, :safe_function_metadata, _text, _borrowed),
+      do: %{result | metadata: %{postprocess: fn value -> value end}}
+
+    defp malformed_result(result, :full_source_closure, text, _borrowed),
+      do: %{result | metadata: %{deferred: fn -> text end}}
+
+    defp malformed_result(result, :improper_metadata, _text, borrowed),
+      do: %{result | metadata: %{nested: [borrowed | :invalid_tail]}}
+
+    defp malformed_result(result, :fake_struct, _text, _borrowed),
+      do: %{result | metadata: %{nested: %{__struct__: Does.Not.Exist}}}
+
+    defp malformed_result(result, :struct_value, _text, borrowed),
+      do: %{result | metadata: %{__struct__: borrowed}}
   end
 
   defmodule BitstringOwnershipRecognizer do
@@ -360,6 +368,29 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
     assert result.metadata.postprocess.(:value) == :value
   end
 
+  test "function metadata capturing the complete source is rejected safely" do
+    canary = String.duplicate("COMPLETE-SOURCE-CANARY", 64)
+    text = safe_padding(100_000) <> canary
+
+    outcome =
+      Obscura.analyze(text,
+        profile: :fast,
+        built_ins: false,
+        entities: [:person],
+        recognizers: [
+          {MalformedOwnershipRecognizer, malformed_field: :full_source_closure}
+        ],
+        include_text: false,
+        telemetry: false
+      )
+
+    assert {:error,
+            {:recognizer_failed, :malformed_ownership_test_recognizer, :invalid_callback_result}} =
+             outcome
+
+    refute inspect(outcome) =~ "COMPLETE-SOURCE-CANARY"
+  end
+
   test "non-byte-aligned callback metadata does not retain its large source binary" do
     text = safe_padding(100_000) <> String.duplicate("A", 1_024)
 
@@ -395,6 +426,25 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
              )
 
     assert result.metadata == %{nested: %{__struct__: Does.Not.Exist}}
+  end
+
+  test "a malformed struct tag value is inspected and detached like other metadata" do
+    text = safe_padding(100_000) <> String.duplicate("T", 1_024)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [{MalformedOwnershipRecognizer, malformed_field: :struct_value}],
+               include_text: false,
+               telemetry: false
+             )
+
+    assert %{__struct__: value} = result.metadata
+    assert byte_size(value) == 1_024
+    assert :binary.referenced_byte_size(value) == 1_024
+    assert borrowed_binary_paths(result) == []
   end
 
   test "built-in recognizers avoid result text materialization when disabled" do
@@ -607,7 +657,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
   defp inspect_binaries(value, path, acc) when is_map(value) do
     value
-    |> Map.delete(:__struct__)
+    |> Map.to_list()
     |> Enum.reduce(acc, fn {key, nested}, paths ->
       paths = inspect_binaries(key, [:map_key | path], paths)
       inspect_binaries(nested, [safe_path_part(key) | path], paths)

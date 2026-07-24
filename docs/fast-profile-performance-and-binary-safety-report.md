@@ -53,7 +53,7 @@ The paired baseline and final microbenchmarks ran on:
 The operational baseline ran from a detached worktree at the clean baseline
 revision. Three final operational repetitions ran from clean revision
 `cd54ca09`. The review correction was validated with an expanded 46-case
-semantic benchmark harness, a 35-case recursively inspectable returned-term
+semantic benchmark harness, a 39-case recursively inspectable returned-term
 retention harness, alternating paired performance runs, a five-minute targeted
 soak, full tests, and static checks.
 
@@ -161,8 +161,9 @@ Custom result fields are checked against the public `Result.t()` contract.
 Malformed recognizer names, source entities, explanations, improper terms, and
 excessive nesting return a sanitized `:invalid_callback_result` error.
 Ownership-safe function metadata remains compatible. A closure whose captured
-environment contains a borrowed binary or bitstring is rejected because an
-opaque closure environment cannot be rewritten to detach that value.
+environment contains a borrowed binary or bitstring, or the complete analyzer
+input binary, is rejected because an opaque closure environment cannot be
+rewritten to detach or remove that value.
 Recursively accepted metadata and explanation binaries and bitstrings are
 detached before they escape. Non-byte-aligned bitstrings are copied without
 changing their bit contents.
@@ -361,11 +362,20 @@ and `-0.19%`, while reductions changed by only `+0.001%` and `+0.007%`.
 These movements are within run-to-run noise and show no material cost from the
 correction.
 
-A fresh clean-`main` comparison retained the branch gains after this
-correction. Common-request p50 improved by `6.57%` without text and `7.00%`
-with text. The true `1 KiB` no-match case improved by `80.21%`, the `64 KiB`
+The complete-source closure and retention-walker correction was measured
+against revision `4856e14a` with three alternating baseline/candidate pairs,
+nine repetitions, scale `0.1`, and five representative common and scaling
+cases. Every output fingerprint matched. Averaged p50 moved by `+0.68%` without
+text and `+1.07%` with text for common requests. The scaling cases moved between
+`-0.76%` and `+0.10%`. These movements are within run-to-run noise and show no
+material performance cost from the correction.
+
+The preceding clean-`main` comparison established the branch gains at revision
+`4856e14a`. Common-request p50 improved by `6.57%` without text and `7.00%` with
+text. The true `1 KiB` no-match case improved by `80.21%`, the `64 KiB`
 one-match cases by `91.41%` to `91.64%`, the `1 MiB` case by `93.16%`, and the
-retained long URL by `97.79%`.
+retained long URL by `97.79%`. The neutral paired comparison above confirms
+that the complete-source correction preserves those gains.
 
 ## Operational Matrix
 
@@ -472,8 +482,8 @@ results carry no match-text binary.
 The review harness retains and recursively inspects returned terms, including
 map keys and values, structs, lists, tuples, and function environments.
 Ownership-safe functions are accepted for custom-recognizer compatibility;
-closures containing borrowed binaries or bitstrings are rejected before final
-assembly. Its `37` cases cover:
+closures containing borrowed binaries or bitstrings, or the complete analyzer
+input binary, are rejected before final assembly. Its `39` cases cover:
 
 - analyzer results with explanations and metadata;
 - analyzer batches, allow/deny filtering, context rejection, overlap handling,
@@ -485,7 +495,9 @@ assembly. Its `37` cases cover:
 - custom validator result and explanation metadata;
 - independently owned non-byte-aligned callback metadata;
 - malformed recognizer fields and opaque closure metadata;
+- closures retaining the complete analyzer input;
 - opaque closures containing borrowed non-byte-aligned metadata;
+- adversarial `:__struct__` map values;
 - malformed inline-pattern validation metadata;
 - an owned caller-supplied phone-validator closure and a rejected borrowed
   closure;
@@ -494,7 +506,7 @@ assembly. Its `37` cases cover:
 - malformed analyzer-reserved context metadata;
 - sanitized recognizer error, exception, throw, exit, and timeout paths.
 
-All `37` cases reported zero borrowed binaries or bitstrings anywhere in their
+All `39` cases reported zero borrowed binaries or bitstrings anywhere in their
 recursively traversable returned terms. Each worker explicitly retained its
 complete result in process state, forced garbage collection, and captured
 process and VM binary measurements before the parent released the result. Every
@@ -571,7 +583,7 @@ allocator evidence, not as proof of live-object ownership.
 | Reverse recognizer accumulation | Avoid repeated list append | Common latency worsened 4% to 6% | Regression | Reductions rose about 0.3% to 0.5% | Unchanged | Rejected | none |
 | Cache recognizer option keywords | Avoid repeated struct conversion | Effects stayed below 1%; tails moved both ways | Inconclusive | About 0.1% fewer reductions | Unchanged | Rejected | none |
 | Trivial conflict fast paths | Skip conflict passes for zero/one result | Reduced no-match reductions 3.5%, but paired wall-time gate did not pass | Inconclusive/regressing pair | Small isolated gain | Unchanged | Rejected | none |
-| Review corrections | Preserve nullable custom text and ownership-safe function metadata, validate every public callback-result field and analyzer-reserved metadata, reject closures with borrowed binaries, handle large flat transparent lists correctly, inspect returned terms, own callback metadata, separate sensitive content from ownership, validate ordered output against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `35/35` ownership probes, `46/46` external fingerprints, and full tests passed | Latest immediate-parent common p50 changed by `-0.17%` and `-0.60%` | Scaling gains against `main` remain `71.83%` to `96.84%` in the latest full run | Zero borrowed binaries in accepted returned terms; malformed reserved terms and borrowed closure environments rejected | Accepted | `11bcd664` through current review |
+| Review corrections | Preserve nullable custom text and ownership-safe function metadata, validate every public callback-result field and analyzer-reserved metadata, reject closures with borrowed binaries or the complete analyzer input, handle large flat transparent lists correctly, inspect returned terms including adversarial `:__struct__` values, own callback metadata, separate sensitive content from ownership, validate ordered output against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `39/39` ownership probes, `46/46` external fingerprints, and full tests passed | Latest immediate-parent common p50 changed by `+0.68%` and `+1.07%`, within noise | Scaling gains against `main` remain `71.83%` to `96.84%` in the latest full run | Zero borrowed binaries in accepted returned terms; malformed reserved terms and source-retaining closure environments rejected | Accepted | `11bcd664` through current review |
 
 Rejected implementation changes were reverted. Their ignored local reports
 remain available during branch review but are not promoted as authoritative
@@ -600,7 +612,7 @@ mix docs
 mix ci.base
 ```
 
-The final test result was `753 passed`, including `10` property tests, with
+The final test result was `760 passed`, including `10` property tests, with
 `14` optional/model tests excluded by their normal tags. Strict Credo,
 Dialyzer, ExDNA, ExSlop, Credence, local Markdown verification, ExDoc
 generation, and every promoted manifest verification passed.
@@ -620,7 +632,8 @@ generation, and every promoted manifest verification passed.
   of Obscura's returned-result ownership, including through external state.
   Accepted recursively transparent callback metadata is detached from larger
   parent binaries. Ownership-safe functions remain supported, while closures
-  containing borrowed binaries and malformed callback results are rejected.
+  containing borrowed binaries or the complete analyzer input and malformed
+  callback results are rejected.
   Metadata content remains caller-controlled and may intentionally contain PII.
 - BEAM and native allocators may retain freed pages. RSS is not a live-object
   inventory.

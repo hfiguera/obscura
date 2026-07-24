@@ -441,9 +441,9 @@ avoid materializing `Result.text`. This option does not sanitize metadata:
 documented parser metadata such as `:phone_e164` can contain normalized PII,
 and trusted custom recognizers control their own metadata. Custom result fields
 must satisfy `Obscura.Analyzer.Result.t()`. Ownership-safe function metadata
-remains supported, but closures which capture a borrowed binary, malformed
-terms, and excessively nested metadata are rejected with a sanitized callback
-error. With `include_text: true`, accepted match text is detached when a
+remains supported, but closures which capture a borrowed binary or the complete
+analyzer input, malformed terms, and excessively nested metadata are rejected
+with a sanitized callback error. With `include_text: true`, accepted match text is detached when a
 sub-binary would otherwise retain an unrelated larger source binary. Escaping
 borrowed metadata and explanation binaries are detached in either mode. These
 controls reduce retention but do not provide secure erasure.
