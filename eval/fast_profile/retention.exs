@@ -86,6 +86,40 @@ defmodule Obscura.FastProfileRetentionProbe do
     end
   end
 
+  defmodule MalformedOwnershipRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :malformed_ownership_retention_probe
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(text, opts) do
+      borrowed = binary_part(text, 100_000, 1_024)
+
+      result = %Result{
+        entity: :person,
+        start: 100_000,
+        end: 101_024,
+        byte_start: 100_000,
+        byte_end: 101_024,
+        score: 0.9,
+        text: nil,
+        source_entity: "PERSON",
+        recognizer: :malformed_ownership_retention_probe,
+        metadata: %{}
+      }
+
+      case Keyword.fetch!(opts, :malformed_field) do
+        :recognizer -> %{result | recognizer: borrowed}
+        :opaque_metadata -> %{result | metadata: %{deferred: fn -> borrowed end}}
+      end
+      |> List.wrap()
+    end
+  end
+
   def run(args) do
     opts = parse_args(args)
 
@@ -654,6 +688,50 @@ defmodule Obscura.FastProfileRetentionProbe do
             telemetry: false
           )
         end
+      },
+      %{
+        name: "malformed_recognizer_field_is_rejected",
+        expectation: :no_sensitive_graph,
+        operation: fn ->
+          sensitive = String.duplicate("R", 1_024)
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          result =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [
+                {MalformedOwnershipRecognizer, malformed_field: :recognizer}
+              ],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive])
+        end
+      },
+      %{
+        name: "opaque_metadata_closure_is_rejected",
+        expectation: :no_sensitive_graph,
+        operation: fn ->
+          sensitive = String.duplicate("O", 1_024)
+          text = safe_padding(100_000) <> sensitive <> safe_padding(100_000)
+
+          result =
+            Obscura.analyze(text,
+              profile: :fast,
+              built_ins: false,
+              entities: [:person],
+              recognizers: [
+                {MalformedOwnershipRecognizer, malformed_field: :opaque_metadata}
+              ],
+              include_text: false,
+              telemetry: false
+            )
+
+          retention_probe(result, [sensitive])
+        end
       }
     ] ++ parser_metadata_cases()
   end
@@ -785,6 +863,10 @@ defmodule Obscura.FastProfileRetentionProbe do
     passes?(:no_text, observation) and observation.sensitive_binary_count == 0
   end
 
+  defp passes?(:no_sensitive_graph, observation) do
+    clean_graph?(observation) and observation.sensitive_binary_count == 0
+  end
+
   defp passes?(:owned_sensitive_metadata, observation) do
     passes?(:no_text, observation) and observation.sensitive_binary_count > 0
   end
@@ -869,6 +951,11 @@ defmodule Obscura.FastProfileRetentionProbe do
     value
     |> Tuple.to_list()
     |> inspect_term(path, state, sensitive_values)
+  end
+
+  defp inspect_term(value, path, state, sensitive_values) when is_function(value) do
+    {:env, environment} = :erlang.fun_info(value, :env)
+    inspect_term(environment, path ++ [:function_env], state, sensitive_values)
   end
 
   defp inspect_term(_value, _path, state, _sensitive_values), do: state

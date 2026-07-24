@@ -1,6 +1,7 @@
 defmodule Obscura.Analyzer.BinaryOwnershipTest do
   use ExUnit.Case, async: true
 
+  alias Obscura.Analyzer.Explanation
   alias Obscura.Analyzer.Result
   alias Obscura.Phoenix.Plug, as: ObscuraPlug
   alias Obscura.Recognizer.Address
@@ -67,6 +68,65 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
           metadata: %{}
         }
       ]
+    end
+  end
+
+  defmodule MalformedOwnershipRecognizer do
+    @behaviour Obscura.Recognizer
+
+    @impl true
+    def name, do: :malformed_ownership_test_recognizer
+
+    @impl true
+    def supported_entities, do: [:person]
+
+    @impl true
+    def analyze(text, opts) do
+      borrowed = binary_part(text, 100_000, 1_024)
+
+      result = %Result{
+        entity: :person,
+        start: 100_000,
+        end: 101_024,
+        byte_start: 100_000,
+        byte_end: 101_024,
+        score: 0.9,
+        text: nil,
+        source_entity: "PERSON",
+        recognizer: :malformed_ownership_test_recognizer,
+        metadata: %{}
+      }
+
+      case Keyword.fetch!(opts, :malformed_field) do
+        :recognizer ->
+          %{result | recognizer: borrowed}
+
+        :source_entity ->
+          %{result | source_entity: :person}
+
+        :explanation ->
+          %{result | explanation: %{metadata: borrowed}}
+
+        :explanation_field ->
+          %{
+            result
+            | explanation: %Explanation{
+                recognizer: borrowed,
+                pattern: :malformed,
+                score: 0.9
+              }
+          }
+
+        :opaque_metadata ->
+          %{result | metadata: %{deferred: fn -> borrowed end}}
+
+        :improper_metadata ->
+          %{result | metadata: %{nested: [borrowed | :invalid_tail]}}
+
+        :fake_struct ->
+          %{result | metadata: %{nested: %{__struct__: Does.Not.Exist}}}
+      end
+      |> List.wrap()
     end
   end
 
@@ -201,6 +261,51 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
              )
   end
 
+  test "malformed custom result fields and opaque metadata are rejected safely" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    for field <- [
+          :recognizer,
+          :source_entity,
+          :explanation,
+          :explanation_field,
+          :opaque_metadata,
+          :improper_metadata
+        ] do
+      outcome =
+        Obscura.analyze(text,
+          profile: :fast,
+          built_ins: false,
+          entities: [:person],
+          recognizers: [{MalformedOwnershipRecognizer, malformed_field: field}],
+          include_text: false,
+          telemetry: false
+        )
+
+      assert {:error,
+              {:recognizer_failed, :malformed_ownership_test_recognizer, :invalid_callback_result}} =
+               outcome
+
+      refute inspect(outcome) =~ String.duplicate("A", 128)
+    end
+  end
+
+  test "maps with an unresolvable struct tag remain inert metadata" do
+    text = safe_padding(100_000) <> String.duplicate("A", 1_024)
+
+    assert {:ok, [%Result{} = result]} =
+             Obscura.analyze(text,
+               profile: :fast,
+               built_ins: false,
+               entities: [:person],
+               recognizers: [{MalformedOwnershipRecognizer, malformed_field: :fake_struct}],
+               include_text: false,
+               telemetry: false
+             )
+
+    assert result.metadata == %{nested: %{__struct__: Does.Not.Exist}}
+  end
+
   test "built-in recognizers avoid result text materialization when disabled" do
     assert [%Result{text: nil, entity: :email}] =
              Email.analyze("probe@example.test",
@@ -257,6 +362,21 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
                include_text: false,
                telemetry: false
              )
+  end
+
+  test "allow lists preserve intentionally nil custom results" do
+    for include_text? <- [true, false] do
+      assert {:ok, [%Result{text: nil}]} =
+               Obscura.analyze("Alice",
+                 profile: :fast,
+                 built_ins: false,
+                 entities: [:person],
+                 recognizers: [OffsetOnlyRecognizer],
+                 allow_list: [%{entity: :person, values: ["Alice"]}],
+                 include_text: include_text?,
+                 telemetry: false
+               )
+    end
   end
 
   test "include_text changes only the documented text field" do
@@ -415,6 +535,11 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
     value
     |> Tuple.to_list()
     |> inspect_binaries(path, acc)
+  end
+
+  defp inspect_binaries(value, path, acc) when is_function(value) do
+    {:env, environment} = :erlang.fun_info(value, :env)
+    inspect_binaries(environment, [:function_env | path], acc)
   end
 
   defp inspect_binaries(_value, _path, acc), do: acc

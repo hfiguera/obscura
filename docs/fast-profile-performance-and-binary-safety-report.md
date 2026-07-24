@@ -12,7 +12,7 @@ The strongest measured changes are:
 - `1 MiB` one-match p50 fell by `93.0%`;
 - the `400 KiB` retained-URL p50 fell by `97.7%`;
 - detect-plus-redact p50 fell by `8.8%`;
-- all `29` complete returned-object-graph ownership probes have zero borrowed
+- all `31` recursively traversable returned-term ownership probes have zero borrowed
   binaries; text probes changed from as much as `744.879x` referenced-size
   amplification to exactly `1.0x`, or to no text binary;
 - all three authoritative accuracy and per-entity fingerprints remained
@@ -20,8 +20,8 @@ The strongest measured changes are:
 - two independent 30-minute targeted soaks classified binary retention as a
   `stable_plateau`.
 
-These results prove output equivalence and returned-object ownership for the
-tested built-in and controlled extension paths. They do not prove that
+These results prove output equivalence and transparent returned-term ownership
+for the tested built-in and controlled extension paths. They do not prove that
 arbitrary caller-supplied callbacks cannot retain input, secure erasure,
 universal absence of leaks, or bounded allocator RSS for every workload.
 
@@ -50,7 +50,7 @@ The paired baseline and final microbenchmarks ran on:
 The operational baseline ran from a detached worktree at the clean baseline
 revision. Three final operational repetitions ran from clean revision
 `cd54ca09`. The review correction was validated with an expanded 45-case
-semantic benchmark harness, a 29-case complete returned-graph retention
+semantic benchmark harness, a 31-case transparent returned-term retention
 harness, alternating paired performance runs, a five-minute targeted soak,
 full tests, and static checks.
 
@@ -71,6 +71,11 @@ mix run eval/fast_profile/benchmark.exs -- \
   --scale 1.0 \
   --output eval/reports/fast_profile/paired_final_candidate.json
 ```
+
+The final review used schema-`3` baseline reports generated with the same
+finalized harness and passed them back through `--reference PATH`. Older
+schema reports are historical timing evidence, not compatible semantic
+oracles.
 
 Ownership probes:
 
@@ -121,8 +126,9 @@ mix run eval/fast_profile/soak.exs -- \
 ### Final text ownership
 
 Built-in recognizers honor `include_text` while constructing candidate
-results. Address, domain, location, and person recognition no longer create a
-match sub-binary when `include_text: false`.
+results. Address, domain, location, and person recognition do not store a
+match sub-binary in candidate results when `include_text: false`, unless a
+configured allow list temporarily requires the value for matching.
 
 With `include_text: true`, candidate filtering, allow-list handling, context,
 thresholding, and conflict resolution happen before central final assembly.
@@ -135,17 +141,25 @@ Custom recognizers remain compatible. Their returned text is removed when
 `include_text: false`; with `include_text: true`, an existing binary is detached
 at final assembly when it borrows a larger source binary. A custom result with
 `text: nil` remains nil, preserving the nullable public result contract.
+Custom result fields are checked against the public `Result.t()` contract.
+Malformed recognizer names, source entities, explanations, opaque function
+metadata, improper terms, and excessive nesting return a sanitized
+`:invalid_callback_result` error. Recursively accepted metadata and explanation
+binaries are detached before they escape.
 
 Recognizer exceptions, throws, and exits are converted to structured,
 input-free failure reasons. This prevents an exit reason containing source text
 from reaching task-exit logs.
 
-Allow-list matching derives temporary values from source offsets when result
-text is absent. Parser-backed phone validation similarly uses temporary source
-slices without putting text into escaping candidate results. Its documented
-`:phone_e164` metadata remains explicit normalized PII when
-`include_text: false`; that option controls `Result.text`, not recognizer
-metadata.
+When an allow list is configured, built-in recognizers temporarily materialize
+candidate text for matching and final assembly removes it again when
+`include_text: false`. A custom recognizer that intentionally returns
+`text: nil` remains offset-only and is not value-matched by the allow list,
+preserving the public nullable-text behavior. Parser-backed phone validation
+similarly uses temporary source slices without putting text into escaping
+candidate results. Its documented `:phone_e164` metadata remains explicit
+normalized PII when `include_text: false`; that option controls `Result.text`,
+not recognizer metadata.
 
 ### Dependency-light NLP artifacts
 
@@ -220,7 +234,11 @@ built-in entity; four input scales; match positions; multibyte and malformed
 input; dense and overlapping matches; and disabled and parser-backed phone
 modes. Every case completed with its expected output or controlled error.
 Each case now declares an explicit semantic expectation. The harness validates
-it before and after timing and rejects output-fingerprint drift. The earlier
+it before and after timing and rejects output-fingerprint drift. Schema `3`
+also accepts `--reference PATH`, compares every selected case against a
+separately generated baseline report, and fails on a missing or mismatched
+fingerprint. This makes the baseline an external regression oracle instead of
+letting a deterministic candidate regression validate itself. The earlier
 `analyze_no_match_1k` fixture was found to contain an email; the historical row
 above is labeled accurately, and the current fixture is a real zero-result
 input.
@@ -249,6 +267,20 @@ request improved by `80.5%` (`5.1x`). The 64-KiB one-match cases improved by
 `91.6%` (`11.9x`), the 1-MiB one-match case by `93.1%` (`14.4x`), and the
 retained long-URL case by `97.8%` (`45.8x`). These corrected-harness results
 confirm that the branch's performance gains remain after the ownership fixes.
+
+The final callback-contract hardening was then measured against its immediate
+parent in two order-reversed pairs with five repetitions at scale `0.2` and
+external schema-`3` reference reports. All `11/11` selected output
+fingerprints matched across separate VMs in both orders. Individual p50
+movements ranged from a `5.3%` improvement to a `2.1%` slowdown; averaging the
+two orders by case narrowed that range to a `3.6%` improvement through a
+`1.4%` slowdown. This is within the established order-sensitive noise and
+shows no material loss against the immediate parent. The clean-`main` scaling
+gains therefore remain intact: the latest final runs still showed about
+`78.5%` for the true `1 KiB` no-match case, `91.2%` to `91.3%` for the `64 KiB`
+cases, `92.9%` for the `1 MiB` case, and `97.8%` for the retained long URL.
+The longer alternating evidence above remains the stronger short-request
+comparison.
 
 ## Operational Matrix
 
@@ -352,8 +384,10 @@ The exact amplification depends on source size, but the final invariant is
 stable: escaping text references only its own bytes. Offset-only built-in
 results carry no match-text binary.
 
-The review harness retains and recursively inspects the complete returned term,
-including map keys and values, structs, lists, and tuples. Its `29` cases cover:
+The review harness retains and recursively inspects transparent returned terms,
+including map keys and values, structs, lists, tuples, and function
+environments. Callback results containing functions are rejected before final
+assembly. Its `31` cases cover:
 
 - analyzer results with explanations and metadata;
 - analyzer batches, allow/deny filtering, context rejection, overlap handling,
@@ -363,14 +397,15 @@ including map keys and values, structs, lists, and tuples. Its `29` cases cover:
 - Logger and full Plug connection results;
 - custom borrowed and offset-only results;
 - custom validator result and explanation metadata;
+- malformed recognizer fields and opaque closure metadata;
 - parser-backed normalized phone metadata;
 - sanitized recognizer error, exception, throw, exit, and timeout paths.
 
-All `29` cases reported zero borrowed binaries anywhere in their returned
-object graph. Every holder process terminated normally after release and
-became unreachable through `Process.info/2`. The in-memory vault was checked
-separately: it retained the exact independently owned value and did not retain
-its larger source binary.
+All `31` cases reported zero borrowed binaries anywhere in their recursively
+traversable returned terms. Every holder process terminated normally after
+release and became unreachable through `Process.info/2`. The in-memory vault
+was checked separately: it retained the exact independently owned value and
+did not retain its larger source binary.
 
 The harness reports sensitive-content exposure separately from binary
 ownership. A built-in `include_text: false` canary returned no canary content.
@@ -441,7 +476,7 @@ allocator evidence, not as proof of live-object ownership.
 | Reverse recognizer accumulation | Avoid repeated list append | Common latency worsened 4% to 6% | Regression | Reductions rose about 0.3% to 0.5% | Unchanged | Rejected | none |
 | Cache recognizer option keywords | Avoid repeated struct conversion | Effects stayed below 1%; tails moved both ways | Inconclusive | About 0.1% fewer reductions | Unchanged | Rejected | none |
 | Trivial conflict fast paths | Skip conflict passes for zero/one result | Reduced no-match reductions 3.5%, but paired wall-time gate did not pass | Inconclusive/regressing pair | Small isolated gain | Unchanged | Rejected | none |
-| Review corrections | Preserve nullable custom text, inspect full returned graphs, own callback metadata, separate sensitive content from ownership, validate benchmark semantics, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `29/29` graph probes and full CI passed | Alternating A/B stayed within noise | Large-input reductions within `0.02%` after final correction | Zero borrowed returned-graph binaries; stable five-minute soak | Accepted | `11bcd664` plus final review |
+| Review corrections | Preserve nullable custom text, validate every public callback-result field, reject opaque callback metadata, inspect transparent returned terms, own callback metadata, separate sensitive content from ownership, validate against an external benchmark oracle, correct diagnostics, avoid temporary slices, and contain callback throws/exits | `31/31` ownership probes and full CI passed | Order-reversed p50 slowdown stayed within `2.1%` | Scaling gains against `main` remain `78.5%` to `97.8%` | Zero borrowed binaries in accepted transparent terms; malformed opaque terms rejected | Accepted | `11bcd664` plus final review |
 
 Rejected implementation changes were reverted. Their ignored local reports
 remain available during branch review but are not promoted as authoritative
@@ -481,15 +516,17 @@ generation, and every promoted manifest verification passed.
   ownership prevents unrelated parent retention but does not make the result
   non-sensitive.
 - `include_text: false` avoids direct match-text materialization in built-in
-  result construction, but validators may borrow temporary source slices.
-  Those values do not escape the call.
+  result construction, but validators and configured allow lists may borrow
+  temporary source slices. Those values do not escape the call.
 - `include_text: false` does not sanitize metadata. Parser-backed
   `:phone_e164` and trusted custom-recognizer metadata can contain PII and must
   be handled as sensitive output.
 - A malicious or stateful custom callback can retain its input independently
   of Obscura's returned-result ownership, including through external state.
-  Returned callback metadata is detached from larger parent binaries, but its
-  content remains caller-controlled.
+  Accepted recursively transparent callback metadata is detached from larger
+  parent binaries, while function-bearing or malformed callback results are
+  rejected. Metadata content remains caller-controlled and may intentionally
+  contain PII.
 - BEAM and native allocators may retain freed pages. RSS is not a live-object
   inventory.
 - Secure memory erasure is not guaranteed.
@@ -499,9 +536,10 @@ generation, and every promoted manifest verification passed.
 ## Usage Guidance
 
 Use `include_text: false` when downstream code does not need `Result.text`.
-This minimizes escaping sensitive data and avoids match-text materialization
-in built-in recognizers. Callers must still treat documented parser metadata
-and trusted custom-recognizer metadata as potentially sensitive.
+This minimizes escaping sensitive data and keeps match text out of returned
+built-in results. Validators and configured allow lists can still use
+temporary source slices during the call. Callers must treat documented parser
+metadata and trusted custom-recognizer metadata as potentially sensitive.
 
 Use `include_text: true` only when the caller needs the exact detected value.
 Final text is independently owned when necessary, so retaining a small result

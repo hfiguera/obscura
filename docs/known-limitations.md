@@ -111,7 +111,9 @@ surface.
   same VM.
 - Custom recognizers, operators, language detectors, telemetry handlers, and
   model dependencies are trusted application/runtime code and can independently
-  log or transmit values they receive.
+  log, retain, or transmit values they receive. Obscura validates returned
+  recognizer fields and rejects opaque function metadata, but it cannot undo
+  callback side effects or inspect external state.
 - Logger and Plug helpers cannot redact entities that configured recognizers
   miss. Callers must evaluate their own data and downstream sinks.
 - Security reports use GitHub Private Vulnerability Reporting. Reporters need

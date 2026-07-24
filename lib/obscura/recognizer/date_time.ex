@@ -50,7 +50,8 @@ defmodule Obscura.Recognizer.DateTime do
           pattern: pattern,
           score: score(pattern),
           explain: Keyword.get(opts, :explain, false),
-          include_text: Keyword.get(opts, :include_text, true)
+          include_text: Keyword.get(opts, :include_text, true),
+          allow_list: Keyword.get(opts, :allow_list)
         )
       end)
       |> SpanHelpers.prefer_longest()

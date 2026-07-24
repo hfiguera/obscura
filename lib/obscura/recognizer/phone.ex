@@ -66,6 +66,7 @@ defmodule Obscura.Recognizer.Phone do
       score: score,
       explain: Keyword.get(opts, :explain, false),
       include_text: Keyword.get(opts, :include_text, true),
+      allow_list: Keyword.get(opts, :allow_list),
       validate: &validate(&1, opts)
     )
     |> maybe_keep_parser_candidates(text, pattern, opts)

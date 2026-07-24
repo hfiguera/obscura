@@ -35,6 +35,7 @@ defmodule Obscura.Recognizer.Domain do
       score: 0.7,
       explain: Keyword.get(opts, :explain, false),
       include_text: Keyword.get(opts, :include_text, true),
+      allow_list: Keyword.get(opts, :allow_list),
       validate: &validate/1
     )
   end

@@ -39,7 +39,7 @@ defmodule Obscura.FastProfileBenchmark do
     report =
       try do
         %{
-          schema_version: 2,
+          schema_version: 3,
           kind: "fast_profile_microbenchmark",
           label: opts.label,
           source: source_metadata(),
@@ -48,7 +48,8 @@ defmodule Obscura.FastProfileBenchmark do
             repetitions: opts.repetitions,
             scale: opts.scale,
             telemetry: false,
-            profile: "fast"
+            profile: "fast",
+            reference_report: reference_name(opts.reference)
           },
           cases:
             opts
@@ -59,6 +60,8 @@ defmodule Obscura.FastProfileBenchmark do
       after
         GenServer.stop(vault)
       end
+
+    report = validate_reference!(report, opts.reference)
 
     File.mkdir_p!(Path.dirname(opts.output))
     File.write!(opts.output, Jason.encode_to_iodata!(report, pretty: true))
@@ -77,7 +80,8 @@ defmodule Obscura.FastProfileBenchmark do
           output: :string,
           repetitions: :integer,
           scale: :float,
-          only: :string
+          only: :string,
+          reference: :string
         ]
       )
 
@@ -99,7 +103,8 @@ defmodule Obscura.FastProfileBenchmark do
         ),
       repetitions: repetitions,
       scale: scale,
-      only: parsed |> Keyword.get(:only) |> parse_case_names()
+      only: parsed |> Keyword.get(:only) |> parse_case_names(),
+      reference: Keyword.get(parsed, :reference)
     }
   end
 
@@ -543,6 +548,12 @@ defmodule Obscura.FastProfileBenchmark do
 
     system_after = system_snapshot()
 
+    fingerprints = MapSet.new(repetitions, & &1.output_fingerprint)
+
+    if MapSet.size(fingerprints) != 1 do
+      raise "benchmark output changed across repetitions for #{case_data.name}"
+    end
+
     %{
       name: case_data.name,
       expectation: inspect(case_data.expectation),
@@ -551,6 +562,8 @@ defmodule Obscura.FastProfileBenchmark do
       iterations: case_data.iterations,
       warmup_iterations: warmup_iterations,
       repetitions: repetitions,
+      output_fingerprint: fingerprints |> MapSet.to_list() |> List.first(),
+      fingerprint_stable: true,
       median: median_repetition(repetitions),
       system: %{
         binary_delta_bytes: system_after.binary_bytes - system_before.binary_bytes,
@@ -787,19 +800,17 @@ defmodule Obscura.FastProfileBenchmark do
     |> Base.encode16(case: :lower)
   end
 
-  defp scrub_volatile_fields(%_{} = value) do
-    module = value.__struct__
-
-    value
-    |> Map.from_struct()
-    |> scrub_volatile_fields()
-    |> then(&struct(module, &1))
-  end
-
   defp scrub_volatile_fields(value) when is_map(value) do
-    value
-    |> Map.delete(:use_count)
-    |> Map.new(fn {key, nested} -> {key, scrub_volatile_fields(nested)} end)
+    entries =
+      value
+      |> Map.delete(:use_count)
+      |> Map.to_list()
+      |> Enum.map(fn {key, nested} ->
+        {scrub_volatile_fields(key), scrub_volatile_fields(nested)}
+      end)
+      |> Enum.sort()
+
+    {:__map__, entries}
   end
 
   defp scrub_volatile_fields(value) when is_list(value),
@@ -812,7 +823,67 @@ defmodule Obscura.FastProfileBenchmark do
     |> List.to_tuple()
   end
 
+  defp scrub_volatile_fields(value) when is_pid(value), do: :__pid__
+  defp scrub_volatile_fields(value) when is_port(value), do: :__port__
+  defp scrub_volatile_fields(value) when is_reference(value), do: :__reference__
+  defp scrub_volatile_fields(value) when is_function(value), do: :__function__
   defp scrub_volatile_fields(value), do: value
+
+  defp validate_reference!(report, nil) do
+    Map.put(report, :reference_validation, %{
+      performed: false,
+      matched_case_count: 0
+    })
+  end
+
+  defp validate_reference!(report, path) do
+    reference = path |> File.read!() |> Jason.decode!()
+
+    if reference["schema_version"] != 3 do
+      raise "benchmark reference must use schema_version 3"
+    end
+
+    reference_cases = Map.new(reference["cases"], &{&1["name"], reference_fingerprint(&1)})
+
+    mismatches =
+      Enum.flat_map(report.cases, fn benchmark ->
+        case Map.fetch(reference_cases, benchmark.name) do
+          {:ok, fingerprint} when fingerprint == benchmark.output_fingerprint ->
+            []
+
+          {:ok, fingerprint} ->
+            [
+              "#{benchmark.name}: expected #{fingerprint}, received " <>
+                benchmark.output_fingerprint
+            ]
+
+          :error ->
+            ["#{benchmark.name}: missing from reference report"]
+        end
+      end)
+
+    if mismatches != [] do
+      raise "benchmark reference validation failed:\n" <> Enum.join(mismatches, "\n")
+    end
+
+    Map.put(report, :reference_validation, %{
+      performed: true,
+      reference_label: reference["label"],
+      reference_commit: get_in(reference, ["source", "commit"]),
+      matched_case_count: length(report.cases)
+    })
+  end
+
+  defp reference_fingerprint(case_data) do
+    if case_data["fingerprint_stable"] == true and is_binary(case_data["output_fingerprint"]) do
+      case_data["output_fingerprint"]
+    else
+      raise "reference case #{case_data["name"]} has no stable output fingerprint"
+    end
+  end
+
+  defp reference_name(nil), do: nil
+  defp reference_name(path), do: Path.basename(path)
 
   defp median_repetition(repetitions) do
     %{
@@ -896,6 +967,8 @@ defmodule Obscura.FastProfileBenchmark do
       "- Dirty: `#{report.source.dirty}`",
       "- Elixir / OTP: `#{report.environment.elixir}` / `#{report.environment.otp}`",
       "- Repetitions: `#{report.configuration.repetitions}`",
+      "- Reference validation: `#{report.reference_validation.performed}`",
+      "- Matched reference cases: `#{report.reference_validation.matched_case_count}`",
       "",
       "| Case | Expected result | Input bytes | p50 us | p95 us | p99 us | ops/s | " <>
         "reductions/op | " <>

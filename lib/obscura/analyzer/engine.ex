@@ -4,6 +4,7 @@ defmodule Obscura.Analyzer.Engine do
   """
 
   alias Obscura.AllowList
+  alias Obscura.Analyzer.Explanation
   alias Obscura.Analyzer.Options
   alias Obscura.Analyzer.Result
   alias Obscura.Conflict
@@ -18,6 +19,8 @@ defmodule Obscura.Analyzer.Engine do
   alias Obscura.Recognizer.PatternDefinition
   alias Obscura.Recognizer.Registry
   alias Obscura.Telemetry
+
+  @built_in_recognizers Registry.built_ins()
 
   @doc """
   Runs built-in recognizers for a string.
@@ -145,11 +148,24 @@ defmodule Obscura.Analyzer.Engine do
   end
 
   defp run_recognizer(%PatternDefinition{} = definition, text, options) do
-    {:ok, PatternDefinition.analyze(definition, text, Options.to_keyword(options))}
+    definition
+    |> PatternDefinition.analyze(text, Options.to_keyword(options))
+    |> validate_callback_results(text, definition.name)
   end
 
   defp run_recognizer({:deny_list, deny_lists}, text, options) do
-    {:ok, DenyList.analyze(text, deny_lists, Options.to_keyword(options))}
+    text
+    |> DenyList.analyze(deny_lists, Options.to_keyword(options))
+    |> validate_callback_results(text, :deny_list)
+  end
+
+  defp run_recognizer({module, recognizer_opts}, text, options)
+       when is_atom(module) and module in @built_in_recognizers do
+    run_builtin_recognizer(
+      module,
+      text,
+      Options.to_keyword(options) |> Keyword.merge(recognizer_opts)
+    )
   end
 
   defp run_recognizer({module, recognizer_opts}, text, options) when is_atom(module) do
@@ -160,8 +176,34 @@ defmodule Obscura.Analyzer.Engine do
     )
   end
 
+  defp run_recognizer(module, text, options)
+       when is_atom(module) and module in @built_in_recognizers do
+    run_builtin_recognizer(module, text, Options.to_keyword(options))
+  end
+
   defp run_recognizer(module, text, options) when is_atom(module) do
     run_module_recognizer(module, text, Options.to_keyword(options))
+  end
+
+  defp run_builtin_recognizer(module, text, opts) do
+    case module.analyze(text, opts) do
+      {:ok, results} ->
+        validate_builtin_results(results, text, module)
+
+      {:error, reason} ->
+        {:error, {:recognizer_failed, recognizer_name(module), safe_callback_reason(reason)}}
+
+      results when is_list(results) ->
+        validate_builtin_results(results, text, module)
+
+      _invalid ->
+        callback_result_error(module)
+    end
+  rescue
+    _error -> {:error, {:recognizer_failed, recognizer_name(module), :exception}}
+  catch
+    :throw, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :throw}}
+    :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
 
   defp run_module_recognizer(module, text, opts) do
@@ -184,6 +226,28 @@ defmodule Obscura.Analyzer.Engine do
     :throw, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :throw}}
     :exit, _reason -> {:error, {:recognizer_failed, recognizer_name(module), :exit}}
   end
+
+  defp validate_builtin_results(results, text, module) do
+    if not List.improper?(results) and Enum.all?(results, &valid_builtin_result?(&1, text)) do
+      {:ok, results}
+    else
+      callback_result_error(module)
+    end
+  end
+
+  defp valid_builtin_result?(%Result{} = result, text) do
+    is_atom(result.entity) and not is_nil(result.entity) and
+      is_number(result.score) and
+      result.start == result.byte_start and result.end == result.byte_end and
+      (is_nil(result.text) or is_binary(result.text)) and is_map(result.metadata) and
+      Offset.validate_span(text, %{
+        byte_start: result.byte_start,
+        byte_end: result.byte_end,
+        value: result.text
+      }) == :ok
+  end
+
+  defp valid_builtin_result?(_result, _text), do: false
 
   defp run_many_recognizers(
          recognizers,
@@ -323,7 +387,7 @@ defmodule Obscura.Analyzer.Engine do
     else
       results
       |> filter_requested_entities(options.entities)
-      |> AllowList.filter(options.allow_list, text)
+      |> AllowList.filter(options.allow_list)
       |> Context.enhance(text, options)
       |> filter_accepted(options)
     end
@@ -334,7 +398,7 @@ defmodule Obscura.Analyzer.Engine do
       StageDiagnostics.measure(:analyzer_filtering, fn ->
         results
         |> filter_requested_entities(options.entities)
-        |> AllowList.filter(options.allow_list, text)
+        |> AllowList.filter(options.allow_list)
       end)
 
     enhanced =
@@ -449,11 +513,22 @@ defmodule Obscura.Analyzer.Engine do
     do: callback_result_error(module)
 
   defp valid_result?(%Result{} = result, text) do
-    is_atom(result.entity) and not is_nil(result.entity) and
-      is_number(result.score) and
-      result.start == result.byte_start and result.end == result.byte_end and
-      (is_nil(result.text) or is_binary(result.text)) and
-      is_map(result.metadata) and
+    valid_result_identity?(result) and
+      valid_result_offsets?(result, text) and
+      valid_result_payload?(result) and
+      valid_explanation?(result.explanation) and
+      valid_callback_metadata?(result.metadata)
+  end
+
+  defp valid_result?(_result, _text), do: false
+
+  defp valid_result_identity?(result) do
+    is_atom(result.entity) and not is_nil(result.entity) and is_number(result.score) and
+      (is_nil(result.recognizer) or is_atom(result.recognizer))
+  end
+
+  defp valid_result_offsets?(result, text) do
+    result.start == result.byte_start and result.end == result.byte_end and
       Offset.validate_span(text, %{
         byte_start: result.byte_start,
         byte_end: result.byte_end,
@@ -461,7 +536,42 @@ defmodule Obscura.Analyzer.Engine do
       }) == :ok
   end
 
-  defp valid_result?(_result, _text), do: false
+  defp valid_result_payload?(result) do
+    (is_nil(result.text) or is_binary(result.text)) and
+      (is_nil(result.source_entity) or is_binary(result.source_entity))
+  end
+
+  defp valid_explanation?(nil), do: true
+
+  defp valid_explanation?(%Explanation{} = explanation) do
+    valid_explanation_identity?(explanation) and
+      valid_explanation_scores?(explanation) and
+      valid_explanation_context?(explanation) and
+      valid_callback_metadata?(explanation.metadata)
+  end
+
+  defp valid_explanation?(_explanation), do: false
+
+  defp valid_explanation_identity?(explanation) do
+    is_atom(explanation.recognizer) and not is_nil(explanation.recognizer) and
+      is_atom(explanation.pattern) and not is_nil(explanation.pattern) and
+      (is_nil(explanation.validation) or is_atom(explanation.validation))
+  end
+
+  defp valid_explanation_scores?(explanation) do
+    is_number(explanation.score) and
+      (is_nil(explanation.original_score) or is_number(explanation.original_score)) and
+      is_number(explanation.score_context_delta)
+  end
+
+  defp valid_explanation_context?(explanation) do
+    is_list(explanation.context_words) and not List.improper?(explanation.context_words) and
+      Enum.all?(explanation.context_words, &is_binary/1)
+  end
+
+  defp valid_callback_metadata?(metadata) do
+    is_map(metadata) and ResultText.safe_callback_term?(metadata)
+  end
 
   defp callback_result_error(module) do
     {:error, {:recognizer_failed, recognizer_name(module), :invalid_callback_result}}

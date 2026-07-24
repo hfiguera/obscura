@@ -439,7 +439,9 @@ Public result structs can contain raw detected text by design. Use
 `include_text: false` when source text is unnecessary; built-in recognizers then
 avoid materializing `Result.text`. This option does not sanitize metadata:
 documented parser metadata such as `:phone_e164` can contain normalized PII,
-and trusted custom recognizers control their own metadata. With
+and trusted custom recognizers control their own metadata. Custom result fields
+must satisfy `Obscura.Analyzer.Result.t()`; function-bearing, malformed, or
+excessively nested metadata is rejected with a sanitized callback error. With
 `include_text: true`, accepted match text is detached when a sub-binary would
 otherwise retain an unrelated larger source binary. Escaping borrowed
 metadata and explanation binaries are detached in either mode. These controls
