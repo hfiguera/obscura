@@ -24,6 +24,7 @@ defmodule Obscura.Recognizer.URL do
       pattern: :url,
       score: 0.8,
       explain: Keyword.get(opts, :explain, false),
+      include_text: Keyword.get(opts, :include_text, true),
       validate: &validate/1
     )
     |> Enum.reject(&posted_photo_domain_duplicate?(text, &1, opts))

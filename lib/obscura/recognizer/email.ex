@@ -25,6 +25,7 @@ defmodule Obscura.Recognizer.Email do
       pattern: :email_address,
       score: 0.85,
       explain: Keyword.get(opts, :explain, false),
+      include_text: Keyword.get(opts, :include_text, true),
       validate: &validate/1
     )
   end

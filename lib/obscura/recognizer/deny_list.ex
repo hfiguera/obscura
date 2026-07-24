@@ -5,6 +5,7 @@ defmodule Obscura.Recognizer.DenyList do
 
   alias Obscura.Analyzer.Explanation
   alias Obscura.Analyzer.Result
+  alias Obscura.Internal.ResultText
 
   @doc """
   Runs configured deny lists against text.
@@ -80,7 +81,10 @@ defmodule Obscura.Recognizer.DenyList do
       byte_start: start,
       byte_end: end_offset,
       score: score,
-      text: binary_part(text, start, byte_size(value)),
+      text:
+        text
+        |> binary_part(start, byte_size(value))
+        |> ResultText.maybe_materialize(opts),
       source_entity: Atom.to_string(entity),
       recognizer: name,
       explanation: explanation(explain?, name, score),

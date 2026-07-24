@@ -6,6 +6,7 @@ defmodule Obscura.Recognizer.PatternDefinition do
   alias Obscura.Analyzer.Explanation
   alias Obscura.Analyzer.Result
   alias Obscura.Eval.Offset
+  alias Obscura.Internal.ResultText
 
   @enforce_keys [:name, :entity, :patterns]
   defstruct [:name, :entity, :patterns, :validate, :invalidate, context: [], metadata: %{}]
@@ -191,7 +192,7 @@ defmodule Obscura.Recognizer.PatternDefinition do
       byte_start: start,
       byte_end: end_offset,
       score: score,
-      text: value,
+      text: ResultText.maybe_materialize(value, opts),
       source_entity: Atom.to_string(definition.entity),
       recognizer: definition.name,
       explanation:

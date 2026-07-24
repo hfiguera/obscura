@@ -203,7 +203,7 @@ defmodule Obscura.Recognizer.Address do
     |> Enum.map(fn [_full, capture] -> result(text, capture, pattern, opts) end)
   end
 
-  defp result(text, {start, byte_length}, pattern, _opts) do
+  defp result(text, {start, byte_length}, pattern, opts) do
     value = binary_part(text, start, byte_length)
 
     %Result{
@@ -213,7 +213,7 @@ defmodule Obscura.Recognizer.Address do
       byte_start: start,
       byte_end: start + byte_length,
       score: 0.78,
-      text: value,
+      text: Obscura.Internal.ResultText.maybe_materialize(value, opts),
       source_entity: "ADDRESS",
       recognizer: :address,
       metadata: %{pattern: pattern, context: :address}

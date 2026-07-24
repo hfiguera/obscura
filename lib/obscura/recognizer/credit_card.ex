@@ -25,6 +25,7 @@ defmodule Obscura.Recognizer.CreditCard do
       pattern: :card_number,
       score: 0.9,
       explain: Keyword.get(opts, :explain, false),
+      include_text: Keyword.get(opts, :include_text, true),
       validate: &validate/1
     )
   end

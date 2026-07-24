@@ -64,6 +64,7 @@ defmodule Obscura.Recognizer.Phone do
       pattern: pattern,
       score: score,
       explain: Keyword.get(opts, :explain, false),
+      include_text: Keyword.get(opts, :include_text, true),
       validate: &validate(&1, opts)
     )
     |> maybe_keep_parser_candidates(text, pattern, opts)
@@ -81,11 +82,14 @@ defmodule Obscura.Recognizer.Phone do
   defp maybe_keep_parser_candidates(results, _text, _pattern, _opts), do: results
 
   defp parser_candidate_result(result, text) do
+    value =
+      Obscura.Internal.ResultText.borrowed_slice(text, result.byte_start, result.byte_end)
+
     cond do
-      plus_prefixed?(result.text) ->
+      plus_prefixed?(value) ->
         [put_parser_acceptance(result, :plus_prefixed)]
 
-      extension?(result.text) ->
+      extension?(value) ->
         [put_parser_acceptance(result, :extension)]
 
       parser_phone_context?(text, result) ->

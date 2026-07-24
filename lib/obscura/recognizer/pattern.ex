@@ -6,6 +6,7 @@ defmodule Obscura.Recognizer.Pattern do
   alias Obscura.Analyzer.Explanation
   alias Obscura.Analyzer.Result
   alias Obscura.Eval.Offset
+  alias Obscura.Internal.ResultText
 
   @type validation_fun :: (String.t() -> :ok | {:ok, map()} | {:error, term()})
 
@@ -20,6 +21,7 @@ defmodule Obscura.Recognizer.Pattern do
     pattern = Keyword.fetch!(opts, :pattern)
     score = Keyword.fetch!(opts, :score)
     explain? = Keyword.get(opts, :explain, false)
+    include_text? = Keyword.get(opts, :include_text, true)
     validate = Keyword.get(opts, :validate, fn _value -> :ok end)
 
     regex
@@ -37,6 +39,7 @@ defmodule Obscura.Recognizer.Pattern do
         pattern: pattern,
         score: score,
         explain: explain?,
+        include_text: include_text?,
         validate: validate
       )
     end)
@@ -73,7 +76,8 @@ defmodule Obscura.Recognizer.Pattern do
       byte_start: start,
       byte_end: end_offset,
       score: score * score_adjustment(text, start, end_offset),
-      text: value,
+      text:
+        ResultText.maybe_materialize(value, include_text: Keyword.fetch!(opts, :include_text)),
       source_entity: Keyword.fetch!(opts, :source_entity),
       recognizer: recognizer,
       explanation: explanation(explain?, recognizer, pattern, score, validation, metadata),

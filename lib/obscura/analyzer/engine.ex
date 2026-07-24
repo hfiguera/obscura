@@ -10,6 +10,7 @@ defmodule Obscura.Analyzer.Engine do
   alias Obscura.Context
   alias Obscura.Eval.Offset
   alias Obscura.Input
+  alias Obscura.Internal.ResultText
   alias Obscura.Internal.StageDiagnostics
   alias Obscura.NLP.Engine, as: NLPEngine
   alias Obscura.Profile
@@ -298,10 +299,9 @@ defmodule Obscura.Analyzer.Engine do
       StageDiagnostics.measure(:analyzer_filtering, fn ->
         results
         |> filter_requested_entities(options.entities)
-        |> AllowList.filter(options.allow_list)
+        |> AllowList.filter(options.allow_list, text)
         |> Context.enhance(text, options)
         |> filter_accepted(options)
-        |> maybe_drop_text(options.include_text)
       end)
 
     resolved =
@@ -310,7 +310,9 @@ defmodule Obscura.Analyzer.Engine do
       end)
 
     StageDiagnostics.measure(:final_assembly, fn ->
-      Enum.sort_by(resolved, &{&1.start, &1.end, &1.entity})
+      resolved
+      |> Enum.sort_by(&{&1.start, &1.end, &1.entity})
+      |> ResultText.finalize(text, options.include_text)
     end)
   end
 
@@ -321,9 +323,6 @@ defmodule Obscura.Analyzer.Engine do
   defp filter_requested_entities(results, entities) do
     Enum.filter(results, &(&1.entity in entities))
   end
-
-  defp maybe_drop_text(results, true), do: results
-  defp maybe_drop_text(results, false), do: Enum.map(results, &%{&1 | text: nil})
 
   defp artifacts_for_text(text, options) do
     NLPEngine.build_artifacts(text, Options.to_keyword(options))

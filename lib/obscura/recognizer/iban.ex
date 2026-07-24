@@ -25,6 +25,7 @@ defmodule Obscura.Recognizer.IBAN do
       pattern: :iban,
       score: 0.85,
       explain: Keyword.get(opts, :explain, false),
+      include_text: Keyword.get(opts, :include_text, true),
       validate: &validate/1
     )
   end

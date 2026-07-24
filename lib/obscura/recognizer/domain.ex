@@ -33,11 +33,12 @@ defmodule Obscura.Recognizer.Domain do
       pattern: :domain,
       score: 0.7,
       explain: Keyword.get(opts, :explain, false),
+      include_text: Keyword.get(opts, :include_text, true),
       validate: &validate/1
     )
   end
 
-  defp posted_photo_url_spans(text, _opts) do
+  defp posted_photo_url_spans(text, opts) do
     @posted_photo_url
     |> Regex.scan(text, return: :index)
     |> Enum.map(fn [_full, {start, byte_length}] ->
@@ -50,7 +51,7 @@ defmodule Obscura.Recognizer.Domain do
         byte_start: start,
         byte_end: start + byte_length,
         score: 0.71,
-        text: value,
+        text: Obscura.Internal.ResultText.maybe_materialize(value, opts),
         source_entity: "DOMAIN_NAME",
         recognizer: :domain,
         explanation: nil,

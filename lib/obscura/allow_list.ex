@@ -11,16 +11,27 @@ defmodule Obscura.AllowList do
   def filter(results, []), do: results
 
   def filter(results, allow_list) when is_list(allow_list) do
-    Enum.reject(results, &allowed?(&1, allow_list))
+    Enum.reject(results, &allowed?(&1, allow_list, nil))
   end
 
-  defp allowed?(result, allow_list) do
-    Enum.any?(allow_list, &entry_allows?(&1, result))
+  @doc false
+  @spec filter([Obscura.Analyzer.Result.t()], list() | nil, String.t()) ::
+          [Obscura.Analyzer.Result.t()]
+  def filter(results, nil, _source), do: results
+  def filter(results, [], _source), do: results
+
+  def filter(results, allow_list, source) when is_list(allow_list) and is_binary(source) do
+    Enum.reject(results, &allowed?(&1, allow_list, source))
   end
 
-  defp entry_allows?(%{} = entry, result) do
-    entity_matches?(entry, result.entity) and
-      (value_allowed?(entry, result.text) or regex_allowed?(entry, result.text))
+  defp allowed?(result, allow_list, source) do
+    value = result_value(result, source)
+    Enum.any?(allow_list, &entry_allows?(&1, result.entity, value))
+  end
+
+  defp entry_allows?(%{} = entry, entity, value) do
+    entity_matches?(entry, entity) and
+      (value_allowed?(entry, value) or regex_allowed?(entry, value))
   end
 
   defp entity_matches?(entry, entity) do
@@ -63,4 +74,13 @@ defmodule Obscura.AllowList do
 
   defp regex_match?(%Regex{} = regex, value), do: Regex.match?(regex, value)
   defp regex_match?(_regex, _value), do: false
+
+  defp result_value(%{text: value}, _source) when is_binary(value), do: value
+
+  defp result_value(%{byte_start: byte_start, byte_end: byte_end}, source)
+       when is_binary(source) do
+    Obscura.Internal.ResultText.borrowed_slice(source, byte_start, byte_end)
+  end
+
+  defp result_value(_result, _source), do: nil
 end

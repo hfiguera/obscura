@@ -152,7 +152,7 @@ defmodule Obscura.Recognizer.PersonName do
     |> Enum.map(fn [_full, capture] -> result(text, capture, pattern, opts) end)
   end
 
-  defp result(text, {start, byte_length}, pattern, _opts) do
+  defp result(text, {start, byte_length}, pattern, opts) do
     value = binary_part(text, start, byte_length)
 
     %Result{
@@ -162,7 +162,7 @@ defmodule Obscura.Recognizer.PersonName do
       byte_start: start,
       byte_end: start + byte_length,
       score: 0.77,
-      text: value,
+      text: Obscura.Internal.ResultText.maybe_materialize(value, opts),
       source_entity: "PERSON",
       recognizer: :person_name,
       metadata: %{pattern: pattern, context: :generated_presidio_research}
