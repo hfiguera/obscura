@@ -5,8 +5,10 @@ defmodule Obscura.PagesBuilder do
   @stylesheet_source "docs/blog/site.css"
   @site_url "https://hfiguera.github.io/obscura/"
   @analytics_token "f968ea7d6e614cc9a3e2d537ced91a10"
-  @published_on "2026-07-22"
-  @rss_date "Wed, 22 Jul 2026 00:00:00 GMT"
+  @initial_published_on "2026-07-22"
+  @initial_rss_date "Wed, 22 Jul 2026 00:00:00 GMT"
+  @latest_published_on "2026-07-24"
+  @latest_rss_date "Fri, 24 Jul 2026 00:00:00 GMT"
   @media_extensions [".gif", ".jpg", ".jpeg", ".mp4", ".png", ".webp"]
 
   @articles [
@@ -15,8 +17,8 @@ defmodule Obscura.PagesBuilder do
       title: "Running Obscura on an NVIDIA GPU with Elixir, EXLA, and Lightning AI",
       description:
         "A reproducible field report for validating Obscura, Nx, and EXLA on a Linux NVIDIA Tesla T4 without owning the hardware.",
-      published_on: @published_on,
-      rss_date: @rss_date,
+      published_on: @latest_published_on,
+      rss_date: @latest_rss_date,
       og_image: "obscura-linux-nvidia-validation-path.png"
     },
     %{
@@ -24,8 +26,8 @@ defmodule Obscura.PagesBuilder do
       title: "Protecting PII in Elixir Before It Reaches Logs, APIs, and LLMs",
       description:
         "A practical guide to detecting, redacting, and pseudonymizing PII at Elixir application boundaries with Obscura.",
-      published_on: @published_on,
-      rss_date: @rss_date,
+      published_on: @initial_published_on,
+      rss_date: @initial_rss_date,
       og_image: "obscura-workbench-fast-detection.jpg"
     }
   ]
@@ -285,7 +287,7 @@ defmodule Obscura.PagesBuilder do
         <link>#{@site_url}</link>
         <description>Engineering notes about PII detection and anonymization in Elixir.</description>
         <language>en</language>
-        <lastBuildDate>#{@rss_date}</lastBuildDate>
+        <lastBuildDate>#{@latest_rss_date}</lastBuildDate>
         #{items}
       </channel>
     </rss>
@@ -310,11 +312,11 @@ defmodule Obscura.PagesBuilder do
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
         <loc>#{@site_url}</loc>
-        <lastmod>#{@published_on}</lastmod>
+        <lastmod>#{@latest_published_on}</lastmod>
       </url>
       <url>
         <loc>#{@site_url}privacy/</loc>
-        <lastmod>#{@published_on}</lastmod>
+        <lastmod>#{@initial_published_on}</lastmod>
       </url>
       #{article_urls}
     </urlset>
