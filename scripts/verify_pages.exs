@@ -2,27 +2,32 @@ defmodule Obscura.PagesVerifier do
   @moduledoc false
 
   @root "_site"
-  @slug "protecting-pii-in-elixir"
-  @article_dir Path.join([@root, "blog", @slug])
-  @article Path.join(@article_dir, "index.html")
-  @canonical "https://hfiguera.github.io/obscura/blog/#{@slug}/"
   @site_url "https://hfiguera.github.io/obscura/"
+  @articles [
+    %{
+      slug: "running-obscura-on-nvidia-exla",
+      expected_media: [
+        "obscura-linux-nvidia-validation-path.png",
+        "obscura-exla-cuda-proof.png",
+        "obscura-t4-warm-latency.png"
+      ]
+    },
+    %{
+      slug: "protecting-pii-in-elixir",
+      expected_media: [
+        "obscura-workbench-fast-detection.jpg",
+        "obscura-workbench-vault-llm.jpg",
+        "obscura-pii-boundary-workflow.gif",
+        "obscura-pii-boundary-workflow.mp4"
+      ]
+    }
+  ]
 
   def run do
-    article = File.read!(@article)
-
-    assert_contains(article, ~s(<link rel="canonical" href="#{@canonical}">))
-    assert_contains(article, ~s(<meta property="og:image"))
-    assert_contains(article, ~s(<meta name="twitter:card" content="summary_large_image">))
-    assert_contains(article, ~s(<script type="application/ld+json">))
-    assert_contains(article, ~s(<article>))
-    assert_contains(article, ~s(<code class="makeup elixir" translate="no">))
-    assert_contains(article, ~s(<span class="kd">def</span>))
-    assert_contains(article, "obscura-pii-boundary-workflow.gif")
-    assert_contains(article, "obscura-pii-boundary-workflow.mp4")
-    refute_contains(article, "TODO(media)")
-    refute_contains(article, "localhost")
-    assert_analytics_beacon(article)
+    Enum.each(@articles, &verify_article/1)
+    verify_index()
+    verify_feed_and_sitemap()
+    verify_privacy()
 
     assert_file("assets/site.css")
     assert_file("assets/syntax.css")
@@ -30,26 +35,70 @@ defmodule Obscura.PagesVerifier do
     assert_file("sitemap.xml")
     assert_file(".nojekyll")
 
-    media_dir = Path.join(@article_dir, "media/#{@slug}")
-    assert_magic(Path.join(media_dir, "obscura-workbench-fast-detection.jpg"), <<0xFF, 0xD8>>)
-    assert_magic(Path.join(media_dir, "obscura-workbench-vault-llm.jpg"), <<0xFF, 0xD8>>)
-    assert_magic(Path.join(media_dir, "obscura-pii-boundary-workflow.gif"), "GIF89a")
-    assert_ftyp(Path.join(media_dir, "obscura-pii-boundary-workflow.mp4"))
-
-    assert_local_references_exist(article, @article_dir)
-    verify_root_redirect()
-    verify_privacy()
-    verify_sitemap()
-
-    IO.puts("Verified #{@canonical}")
+    IO.puts("Verified #{length(@articles)} Obscura articles and the blog index")
   end
 
-  defp verify_root_redirect do
+  defp verify_article(article) do
+    article_dir = article_dir(article)
+    html = File.read!(Path.join(article_dir, "index.html"))
+    canonical = canonical_url(article)
+
+    assert_contains(html, ~s(<link rel="canonical" href="#{canonical}">))
+    assert_contains(html, ~s(<meta property="og:image"))
+    assert_contains(html, ~s(<meta name="twitter:card" content="summary_large_image">))
+    assert_contains(html, ~s(<script type="application/ld+json">))
+    assert_contains(html, ~s(<article>))
+    refute_contains(html, "TODO(media)")
+    refute_contains(html, "localhost")
+    refute_contains(html, "cloudspaces.litng.ai")
+    assert_analytics_beacon(html)
+
+    Enum.each(article.expected_media, fn filename ->
+      media_path = Path.join([article_dir, "media", article.slug, filename])
+      assert_media_signature(media_path)
+      assert_contains(html, filename)
+    end)
+
+    if article.slug == "protecting-pii-in-elixir" do
+      assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
+      assert_contains(html, ~s(<span class="kd">def</span>))
+      assert_contains(html, "obscura-pii-boundary-workflow.gif")
+      assert_contains(html, "obscura-pii-boundary-workflow.mp4")
+    else
+      assert_contains(html, ~s(<code class="makeup bash" translate="no">))
+      assert_contains(html, ~s(<span class="kd">export</span>))
+    end
+
+    assert_local_references_exist(html, article_dir)
+    IO.puts("Verified #{canonical}")
+  end
+
+  defp verify_index do
     index = File.read!(Path.join(@root, "index.html"))
 
-    assert_contains(index, ~s(http-equiv="refresh"))
+    assert_contains(index, ~s(<link rel="canonical" href="#{@site_url}">))
+    assert_contains(index, "Building practical PII protection in Elixir")
+    refute_contains(index, ~s(http-equiv="refresh"))
+
+    Enum.each(@articles, fn article ->
+      assert_contains(index, "blog/#{article.slug}/")
+    end)
+
     assert_analytics_beacon(index)
     assert_local_references_exist(index, @root)
+  end
+
+  defp verify_feed_and_sitemap do
+    feed = File.read!(Path.join(@root, "feed.xml"))
+    sitemap = File.read!(Path.join(@root, "sitemap.xml"))
+
+    Enum.each(@articles, fn article ->
+      canonical = canonical_url(article)
+      assert_contains(feed, canonical)
+      assert_contains(sitemap, canonical)
+    end)
+
+    assert_contains(sitemap, "#{@site_url}privacy/")
   end
 
   defp verify_privacy do
@@ -62,11 +111,6 @@ defmodule Obscura.PagesVerifier do
     assert_contains(html, "does not log URL query strings")
     assert_analytics_beacon(html)
     assert_local_references_exist(html, privacy_dir)
-  end
-
-  defp verify_sitemap do
-    sitemap = File.read!(Path.join(@root, "sitemap.xml"))
-    assert_contains(sitemap, "#{@site_url}privacy/")
   end
 
   defp assert_analytics_beacon(html) do
@@ -105,6 +149,16 @@ defmodule Obscura.PagesVerifier do
     unless File.exists?(path), do: raise("missing generated file #{path}")
   end
 
+  defp assert_media_signature(path) do
+    case Path.extname(path) do
+      extension when extension in [".jpg", ".jpeg"] -> assert_magic(path, <<0xFF, 0xD8>>)
+      ".png" -> assert_magic(path, <<0x89, "PNG", 0x0D, 0x0A, 0x1A, 0x0A>>)
+      ".gif" -> assert_magic(path, "GIF89a")
+      ".mp4" -> assert_ftyp(path)
+      extension -> raise "unsupported media extension #{extension} for #{path}"
+    end
+  end
+
   defp assert_magic(path, expected) do
     actual = path |> File.read!() |> binary_part(0, byte_size(expected))
     unless actual == expected, do: raise("unexpected file signature for #{path}")
@@ -123,6 +177,9 @@ defmodule Obscura.PagesVerifier do
   defp refute_contains(content, unexpected) do
     if String.contains?(content, unexpected), do: raise("unexpected #{inspect(unexpected)}")
   end
+
+  defp article_dir(article), do: Path.join([@root, "blog", article.slug])
+  defp canonical_url(article), do: @site_url <> "blog/#{article.slug}/"
 end
 
 Obscura.PagesVerifier.run()
