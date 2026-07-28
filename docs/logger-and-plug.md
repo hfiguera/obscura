@@ -59,3 +59,49 @@ copies already observed by earlier plugs, request logging, tracing, crash
 reports, or caller variables. Place the helper before untrusted
 instrumentation and treat the original connection as sensitive for its full
 lifetime.
+
+## Privacy-safe Phoenix request logging
+
+`Obscura.Phoenix.Logger` is an opt-in telemetry handler that logs only the
+redacted params assigned by `Obscura.Phoenix.Plug`. It never reads
+`conn.params`.
+
+Disable Phoenix's default telemetry logger so it cannot emit the original
+parameters:
+
+```elixir
+config :phoenix, :logger, false
+```
+
+Mount the plug after `Plug.Parsers` and before the router. Keep assign mode so
+controllers continue to receive the original params:
+
+```elixir
+plug Plug.Parsers,
+  parsers: [:urlencoded, :multipart, :json],
+  json_decoder: Phoenix.json_library()
+
+plug Obscura.Phoenix.Plug,
+  mode: :assign_redacted,
+  fields: [:params],
+  profile: :fast,
+  entities: [:email, :phone, :credit_card, :us_ssn, :iban, :url]
+
+plug MyAppWeb.Router
+```
+
+Start the handler under the application supervisor:
+
+```elixir
+children = [
+  {Obscura.Phoenix.Logger, assign: :obscura_redacted}
+]
+```
+
+The handler logs the route template rather than the raw request path and omits
+exception reasons. If the redacted assign is absent, it logs `[FILTERED]`
+instead of falling back to the original params.
+
+This integration does not sanitize reverse-proxy logs, web-server access logs,
+socket/channel parameter logs, traces installed before the plug, or arbitrary
+application logs. Configure those boundaries independently.

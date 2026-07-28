@@ -122,6 +122,7 @@
     },
     Obscura.Operator.Custom => %{callbacks: [apply: 3]},
     Obscura.Operator.Hash => %{functions: [verify: 2]},
+    Obscura.Phoenix.Logger => %{functions: [child_spec: 1, start_link: 0, start_link: 1]},
     Obscura.Phoenix.Plug => %{functions: [call: 2, init: 1]},
     Obscura.Profile => %{
       functions: [
