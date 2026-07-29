@@ -19,6 +19,7 @@ defmodule Obscura.Phoenix.LoggerTest do
     use Phoenix.Router
 
     post("/users/:id", Controller, :create)
+    match(:*, "/any", Controller, :create, log: :warning)
   end
 
   defmodule Pipeline do
@@ -252,11 +253,71 @@ defmodule Obscura.Phoenix.LoggerTest do
     refute log =~ "secret@example.com"
   end
 
+  test "does not inherit request-process Logger metadata" do
+    previous_metadata = Logger.metadata()
+
+    :ok =
+      :logger.set_process_metadata(%{
+        user_email: "metadata-secret@example.com",
+        request_id: "request-123"
+      })
+
+    conn =
+      :get
+      |> conn("/users")
+      |> assign(:obscura_redacted, %{params: %{}})
+
+    try do
+      log =
+        capture_log(
+          [format: "$metadata$message", metadata: [:request_id, :user_email]],
+          fn -> emit_router_dispatch(conn) end
+        )
+
+      assert log =~ "Processing GET with /users"
+      refute log =~ "metadata-secret@example.com"
+      refute log =~ "request-123"
+
+      assert Logger.metadata()[:user_email] == "metadata-secret@example.com"
+      assert Logger.metadata()[:request_id] == "request-123"
+    after
+      Logger.reset_metadata(previous_metadata)
+    end
+  end
+
+  test "checks custom methods from real Phoenix router events" do
+    pii_conn =
+      "4111111111111111"
+      |> conn("/any")
+      |> assign(:obscura_redacted, %{params: %{}})
+
+    safe_conn =
+      "PROPFIND"
+      |> conn("/any")
+      |> assign(:obscura_redacted, %{params: %{}})
+
+    log =
+      capture_log(fn ->
+        assert Router.call(pii_conn, Router.init([])).status == 204
+        assert Router.call(safe_conn, Router.init([])).status == 204
+      end)
+
+    assert log =~ "Processing [FILTERED METHOD] with /any"
+    assert log =~ "Processing PROPFIND with /any"
+    refute log =~ "4111111111111111"
+  end
+
   test "fails closed before key analysis when parameter budgets are exceeded" do
+    oversized_integer = String.to_integer(String.duplicate("9", 1_000))
+
     scenarios = [
       Map.new(1..65, fn index -> {"field_#{index}", "value"} end),
       %{String.duplicate("k", 4_097) => "oversized-key"},
-      %{"values" => List.duplicate("value", 1_024)}
+      %{"values" => List.duplicate("value", 1_024)},
+      %{"value" => String.duplicate("v", 65_537)},
+      %{"value" => oversized_integer},
+      %{oversized_integer => "value"},
+      %{"values" => List.duplicate(42.0, 128)}
     ]
 
     parent = self()

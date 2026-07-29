@@ -50,6 +50,13 @@ defmodule Obscura.Phoenix.Logger do
   @max_parameter_keys 64
   @max_parameter_key_bytes 4_096
   @max_parameter_nodes 1_024
+  @max_parameter_value_bytes 65_536
+  @max_parameter_analysis_terms 128
+  @max_numeric_digits 64
+  @max_numeric_magnitude Integer.pow(10, @max_numeric_digits)
+
+  @max_method_bytes 32
+  @standard_methods ~w(GET HEAD POST PUT PATCH DELETE OPTIONS CONNECT TRACE)
 
   @allowed_options [:assign, :inspect_opts, :name]
 
@@ -70,8 +77,9 @@ defmodule Obscura.Phoenix.Logger do
   assigned params are rendered as `[FILTERED]` rather than invoking custom
   inspection code. Atom and numeric scalar representations are checked for
   high-confidence `:fast` profile PII before inspection. Parameter graphs
-  exceeding 64 keys, 4 KiB of cumulative key text, or 1,024 traversed values
-  also fail closed as `[FILTERED]`.
+  exceeding 64 keys, 4 KiB of cumulative key text, 64 KiB of cumulative scalar
+  value text, 1,024 traversed values, 128 terms requiring PII analysis, or 64
+  decimal digits in one number also fail closed as `[FILTERED]`.
   """
   @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(opts \\ []) do
@@ -141,7 +149,7 @@ defmodule Obscura.Phoenix.Logger do
 
       [
         "Processing ",
-        conn.method,
+        safe_method(conn.method, Map.fetch!(config, :key_entities)),
         " with ",
         route(metadata),
         ?\n,
@@ -447,12 +455,14 @@ defmodule Obscura.Phoenix.Logger do
   defp filtered_key(index), do: @filtered_key_prefix <> Integer.to_string(index) <> "]"
 
   defp parameter_budget_safe?(params) do
-    match?({:ok, _budget}, consume_parameter_term(params, {0, 0, 0}))
+    match?({:ok, _budget}, consume_parameter_term(params, {0, 0, 0, 0, 0}))
   end
 
-  defp consume_parameter_term(_term, {nodes, keys, key_bytes})
+  defp consume_parameter_term(_term, {nodes, keys, key_bytes, value_bytes, analysis_terms})
        when nodes >= @max_parameter_nodes or keys > @max_parameter_keys or
-              key_bytes > @max_parameter_key_bytes,
+              key_bytes > @max_parameter_key_bytes or
+              value_bytes > @max_parameter_value_bytes or
+              analysis_terms > @max_parameter_analysis_terms,
        do: :error
 
   defp consume_parameter_term(%{__struct__: module}, budget) when is_atom(module),
@@ -466,7 +476,30 @@ defmodule Obscura.Phoenix.Logger do
 
   defp consume_parameter_term(list, budget) when is_list(list) do
     with {:ok, budget} <- consume_parameter_node(budget) do
-      consume_parameter_list(list, budget)
+      case bounded_charlist_size(list) do
+        {:ok, count, size} ->
+          consume_parameter_charlist(count, size, budget)
+
+        :not_charlist ->
+          consume_parameter_list(list, budget)
+
+        :error ->
+          :error
+      end
+    end
+  end
+
+  defp consume_parameter_term(value, budget) when is_binary(value) do
+    with {:ok, budget} <- consume_parameter_node(budget) do
+      consume_parameter_value(byte_size(value), budget)
+    end
+  end
+
+  defp consume_parameter_term(value, budget) when is_atom(value) or is_number(value) do
+    with {:ok, size} <- bounded_scalar_size(value),
+         {:ok, budget} <- consume_parameter_node(budget),
+         {:ok, budget} <- consume_parameter_value(size, budget) do
+      consume_parameter_analysis(budget)
     end
   end
 
@@ -489,23 +522,109 @@ defmodule Obscura.Phoenix.Logger do
     end
   end
 
-  defp consume_parameter_node({nodes, keys, key_bytes}) do
-    budget = {nodes + 1, keys, key_bytes}
+  defp consume_parameter_charlist(count, size, budget) do
+    with {:ok, budget} <- consume_parameter_nodes(count, budget),
+         {:ok, budget} <- consume_parameter_value(size, budget) do
+      consume_parameter_analysis(budget)
+    end
+  end
+
+  defp consume_parameter_node({nodes, keys, key_bytes, value_bytes, analysis_terms}) do
+    budget = {nodes + 1, keys, key_bytes, value_bytes, analysis_terms}
 
     if elem(budget, 0) > @max_parameter_nodes, do: :error, else: {:ok, budget}
   end
 
-  defp consume_parameter_key(key, {nodes, keys, key_bytes}) do
-    key_bytes = if is_binary(key), do: key_bytes + byte_size(key), else: key_bytes
-    budget = {nodes, keys + 1, key_bytes}
+  defp consume_parameter_nodes(
+         count,
+         {nodes, keys, key_bytes, value_bytes, analysis_terms}
+       ) do
+    budget = {nodes + count, keys, key_bytes, value_bytes, analysis_terms}
 
-    if elem(budget, 1) > @max_parameter_keys or
-         elem(budget, 2) > @max_parameter_key_bytes do
+    if elem(budget, 0) > @max_parameter_nodes, do: :error, else: {:ok, budget}
+  end
+
+  defp consume_parameter_key(key, {nodes, keys, key_bytes, value_bytes, analysis_terms}) do
+    with {:ok, size} <- bounded_key_size(key) do
+      budget = {nodes, keys + 1, key_bytes + size, value_bytes, analysis_terms}
+
+      if elem(budget, 1) > @max_parameter_keys or
+           elem(budget, 2) > @max_parameter_key_bytes do
+        :error
+      else
+        consume_parameter_key_analysis(key, budget)
+      end
+    end
+  end
+
+  defp consume_parameter_key_analysis(key, budget)
+       when is_binary(key) or is_atom(key) or is_number(key),
+       do: consume_parameter_analysis(budget)
+
+  defp consume_parameter_key_analysis(_key, budget), do: {:ok, budget}
+
+  defp consume_parameter_value(
+         size,
+         {nodes, keys, key_bytes, value_bytes, analysis_terms}
+       ) do
+    budget = {nodes, keys, key_bytes, value_bytes + size, analysis_terms}
+
+    if elem(budget, 3) > @max_parameter_value_bytes, do: :error, else: {:ok, budget}
+  end
+
+  defp consume_parameter_analysis({nodes, keys, key_bytes, value_bytes, analysis_terms}) do
+    budget = {nodes, keys, key_bytes, value_bytes, analysis_terms + 1}
+
+    if elem(budget, 4) > @max_parameter_analysis_terms do
       :error
     else
       {:ok, budget}
     end
   end
+
+  defp bounded_key_size(key) when is_binary(key), do: {:ok, byte_size(key)}
+
+  defp bounded_key_size(key) when is_atom(key) or is_number(key),
+    do: bounded_scalar_size(key)
+
+  defp bounded_key_size(_key), do: {:ok, 0}
+
+  defp bounded_scalar_size(value) when is_atom(value),
+    do: {:ok, value |> Atom.to_string() |> byte_size()}
+
+  defp bounded_scalar_size(value) when is_integer(value) do
+    if value > -@max_numeric_magnitude and value < @max_numeric_magnitude do
+      {:ok, value |> Integer.to_string() |> byte_size()}
+    else
+      :error
+    end
+  end
+
+  defp bounded_scalar_size(value) when is_float(value),
+    do: {:ok, value |> Float.to_string() |> byte_size()}
+
+  defp bounded_charlist_size([]), do: :not_charlist
+  defp bounded_charlist_size(list), do: bounded_charlist_size(list, 0, 0)
+
+  defp bounded_charlist_size([], count, size), do: {:ok, count, size}
+
+  defp bounded_charlist_size(_list, count, _size) when count >= @max_parameter_nodes,
+    do: :error
+
+  defp bounded_charlist_size([value | rest], count, size) do
+    if unicode_codepoint?(value) and is_list(rest) do
+      bounded_charlist_size(rest, count + 1, size + utf8_codepoint_size(value))
+    else
+      :not_charlist
+    end
+  end
+
+  defp bounded_charlist_size(_improper, _count, _size), do: :not_charlist
+
+  defp utf8_codepoint_size(value) when value <= 0x7F, do: 1
+  defp utf8_codepoint_size(value) when value <= 0x7FF, do: 2
+  defp utf8_codepoint_size(value) when value <= 0xFFFF, do: 3
+  defp utf8_codepoint_size(_value), do: 4
 
   defp flat_charlist?([]), do: false
 
@@ -540,6 +659,17 @@ defmodule Obscura.Phoenix.Logger do
     end
   end
 
+  defp safe_method(method, _key_entities) when method in @standard_methods, do: method
+
+  defp safe_method(method, key_entities)
+       when is_binary(method) and byte_size(method) <= @max_method_bytes do
+    if text_contains_pii?(method, value_entities(key_entities)),
+      do: "[FILTERED METHOD]",
+      else: method
+  end
+
+  defp safe_method(_method, _key_entities), do: "[FILTERED METHOD]"
+
   defp route(metadata) do
     case Map.get(metadata, :route) do
       route when is_binary(route) -> route
@@ -557,7 +687,17 @@ defmodule Obscura.Phoenix.Logger do
   end
 
   defp log(false, _message), do: :ok
-  defp log(level, message), do: Elixir.Logger.log(level, message)
+
+  defp log(level, message) do
+    metadata = Elixir.Logger.metadata()
+    Elixir.Logger.reset_metadata()
+
+    try do
+      Elixir.Logger.log(level, message)
+    after
+      Elixir.Logger.reset_metadata(metadata)
+    end
+  end
 
   defp connection_type(:set_chunked), do: "Chunked"
   defp connection_type(_state), do: "Sent"

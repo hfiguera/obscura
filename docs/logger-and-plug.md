@@ -99,8 +99,12 @@ children = [
 ```
 
 The handler logs the route template rather than the raw request path and omits
-exception reasons. If the redacted assign is absent, it logs `[FILTERED]`
-instead of falling back to the original params. Opaque values, including
+exception reasons. Standard HTTP methods are logged directly; bounded custom
+methods are checked for high-confidence PII and suspicious methods are replaced
+with `[FILTERED METHOD]`. The handler does not inherit request-process Logger
+metadata, so metadata added earlier in the request cannot bypass the sanitized
+message. If the redacted assign is absent, it logs `[FILTERED]` instead of
+falling back to the original params. Opaque values, including
 multipart upload structs and tuples, are also logged as `[FILTERED]` so
 unchanged values cannot bypass structured redaction through `Inspect`.
 Character lists are reconstructed and checked for high-confidence `:fast`
@@ -115,9 +119,11 @@ high-confidence `:fast` profile PII are replaced with unique
 assign are not changed. Bare domain recognition is excluded from this key check
 because ordinary dotted field names such as `user.name` are ambiguous. Add
 application-specific dotted keys to Phoenix's filter policy when needed.
-Parameter graphs exceeding 64 keys, 4 KiB of cumulative key text, or 1,024
-traversed values fail closed as `[FILTERED]` before key recognition. These
-limits bound synchronous logger work on attacker-controlled request shapes.
+Parameter graphs exceeding 64 keys, 4 KiB of cumulative key text, 64 KiB of
+cumulative scalar value text, 1,024 traversed values, 128 terms requiring PII
+analysis, or 64 decimal digits in a single number fail closed as `[FILTERED]`
+before key recognition. These limits bound synchronous logger work on
+attacker-controlled request shapes.
 
 Recognition is still not a universal secret detector. Unsupported formats,
 unselected entities, and false negatives can remain in otherwise ordinary

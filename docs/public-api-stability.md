@@ -329,12 +329,16 @@ structs and tuples, are logged as `[FILTERED]`. Character lists containing
 high-confidence `:fast` profile PII are also filtered; ordinary integer arrays
 remain available to the inspect policy. Atom and numeric scalar representations
 are checked before inspection, including when used as map keys. Parameter graphs
-exceeding 64 keys, 4 KiB of cumulative key text, or 1,024 traversed values also
-fail closed. The logger applies Phoenix's configured `:filter_parameters`
-policy and replaces binary parameter keys containing high-confidence `:fast`
-profile PII before inspection. Bare domains are excluded from key recognition
-because ordinary dotted field names are ambiguous; applications can filter
-specific dotted keys through Phoenix's policy.
+exceeding 64 keys, 4 KiB of cumulative key text, 64 KiB of cumulative scalar
+value text, 1,024 traversed values, 128 terms requiring PII analysis, or 64
+decimal digits in one number also fail closed. Request-process Logger metadata
+is excluded from these records. Standard HTTP methods are preserved, while
+bounded custom methods are checked for PII. The logger applies Phoenix's
+configured `:filter_parameters` policy and replaces binary parameter keys
+containing high-confidence `:fast` profile PII before inspection. Bare domains
+are excluded from key recognition because ordinary dotted field names are
+ambiguous; applications can filter specific dotted keys through Phoenix's
+policy.
 
 ## Optional Dependencies And Assets
 
