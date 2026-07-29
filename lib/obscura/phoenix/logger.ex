@@ -120,11 +120,19 @@ defmodule Obscura.Phoenix.Logger do
         %{owner: owner, handler_id: handler_id} = config
       ) do
     if Process.alive?(owner) do
-      dispatch_event(event, measurements, metadata, config)
+      safely_dispatch_event(event, measurements, metadata, config)
     else
       :telemetry.detach(handler_id)
       :ok
     end
+  end
+
+  defp safely_dispatch_event(event, measurements, metadata, config) do
+    dispatch_event(event, measurements, metadata, config)
+  rescue
+    _error -> :ok
+  catch
+    _kind, _reason -> :ok
   end
 
   defp dispatch_event(
@@ -663,12 +671,34 @@ defmodule Obscura.Phoenix.Logger do
 
   defp safe_method(method, key_entities)
        when is_binary(method) and byte_size(method) <= @max_method_bytes do
-    if text_contains_pii?(method, value_entities(key_entities)),
-      do: "[FILTERED METHOD]",
-      else: method
+    if http_token?(method) and
+         not text_contains_pii?(method, value_entities(key_entities)),
+       do: method,
+       else: "[FILTERED METHOD]"
   end
 
   defp safe_method(_method, _key_entities), do: "[FILTERED METHOD]"
+
+  defp http_token?(<<>>), do: false
+  defp http_token?(method), do: http_token_bytes?(method)
+
+  defp http_token_bytes?(<<>>), do: true
+
+  defp http_token_bytes?(<<byte, rest::binary>>) do
+    if http_token_byte?(byte),
+      do: http_token_bytes?(rest),
+      else: false
+  end
+
+  defp http_token_byte?(byte)
+       when byte in ?0..?9 or byte in ?A..?Z or byte in ?a..?z,
+       do: true
+
+  defp http_token_byte?(byte)
+       when byte in [?!, ?#, ?$, ?%, ?&, ?', ?*, ?+, ?-, ?., ?^, ?_, ?`, ?|, ?~],
+       do: true
+
+  defp http_token_byte?(_byte), do: false
 
   defp route(metadata) do
     case Map.get(metadata, :route) do

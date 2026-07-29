@@ -38,6 +38,10 @@ defmodule Obscura.Phoenix.LoggerTest do
 
   def disabled_log_level(_conn), do: false
 
+  def failing_log_level(conn) do
+    raise "log level failed for #{conn.request_path}"
+  end
+
   setup do
     previous_filter_parameters = Application.fetch_env(:phoenix, :filter_parameters)
     Application.delete_env(:phoenix, :filter_parameters)
@@ -296,15 +300,66 @@ defmodule Obscura.Phoenix.LoggerTest do
       |> conn("/any")
       |> assign(:obscura_redacted, %{params: %{}})
 
+    extension_conn =
+      "M-SEARCH"
+      |> conn("/any")
+      |> assign(:obscura_redacted, %{params: %{}})
+
+    injected_conn =
+      "PROPFIND\nINJECTED"
+      |> conn("/any")
+      |> assign(:obscura_redacted, %{params: %{}})
+
+    terminal_conn =
+      "\e[31mPROPFIND"
+      |> conn("/any")
+      |> assign(:obscura_redacted, %{params: %{}})
+
     log =
       capture_log(fn ->
         assert Router.call(pii_conn, Router.init([])).status == 204
         assert Router.call(safe_conn, Router.init([])).status == 204
+        assert Router.call(extension_conn, Router.init([])).status == 204
+        assert Router.call(injected_conn, Router.init([])).status == 204
+        assert Router.call(terminal_conn, Router.init([])).status == 204
       end)
 
-    assert log =~ "Processing [FILTERED METHOD] with /any"
+    assert Enum.count(Regex.scan(~r/Processing \[FILTERED METHOD\] with \/any/, log)) == 3
     assert log =~ "Processing PROPFIND with /any"
+    assert log =~ "Processing M-SEARCH with /any"
     refute log =~ "4111111111111111"
+    refute log =~ "INJECTED"
+    refute log =~ "\e[31m"
+  end
+
+  test "contains dynamic log-level failures without leaking or detaching the handler", %{
+    logger_name: name
+  } do
+    conn =
+      :get
+      |> conn("/users/path-secret@example.com")
+      |> assign(:obscura_redacted, %{params: %{}})
+
+    previous_metadata = Logger.metadata()
+    :ok = :logger.set_process_metadata(%{user_email: "metadata-secret@example.com"})
+
+    try do
+      log =
+        capture_log(fn ->
+          emit_router_dispatch(conn, "/users/:id", {__MODULE__, :failing_log_level, []})
+        end)
+
+      assert log == ""
+      assert handler_count(name) == 1
+
+      recovered_log = capture_log(fn -> emit_router_dispatch(conn, "/users/:id") end)
+
+      assert recovered_log =~ "Processing GET with /users/:id"
+      refute recovered_log =~ "path-secret@example.com"
+      refute recovered_log =~ "metadata-secret@example.com"
+    after
+      Logger.reset_metadata(previous_metadata)
+    end
   end
 
   test "fails closed before key analysis when parameter budgets are exceeded" do

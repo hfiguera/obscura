@@ -100,8 +100,10 @@ children = [
 
 The handler logs the route template rather than the raw request path and omits
 exception reasons. Standard HTTP methods are logged directly; bounded custom
-methods are checked for high-confidence PII and suspicious methods are replaced
-with `[FILTERED METHOD]`. The handler does not inherit request-process Logger
+methods must use valid HTTP token characters and are checked for high-confidence
+PII; invalid or suspicious methods are replaced with `[FILTERED METHOD]`.
+Dynamic log-level callback failures are contained without exposing their reason
+or detaching the handler. The handler does not inherit request-process Logger
 metadata, so metadata added earlier in the request cannot bypass the sanitized
 message. If the redacted assign is absent, it logs `[FILTERED]` instead of
 falling back to the original params. Opaque values, including
