@@ -325,7 +325,9 @@ redaction options. Other values are outside the stable schema.
 options, default `[limit: 50, printable_limit: 500]`). Unknown logger options
 and invalid assign or inspection options fail startup with a structured
 `{:invalid_option, option, reason}` value. Opaque parameter terms are logged as
-`[FILTERED]`.
+`[FILTERED]`. The logger applies Phoenix's configured `:filter_parameters`
+policy and replaces binary parameter keys containing deterministic structured
+PII before inspection.
 
 ## Optional Dependencies And Assets
 

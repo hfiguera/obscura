@@ -36,6 +36,16 @@ defmodule Obscura.Phoenix.LoggerTest do
   end
 
   setup do
+    previous_filter_parameters = Application.fetch_env(:phoenix, :filter_parameters)
+    Application.delete_env(:phoenix, :filter_parameters)
+
+    on_exit(fn ->
+      case previous_filter_parameters do
+        {:ok, value} -> Application.put_env(:phoenix, :filter_parameters, value)
+        :error -> Application.delete_env(:phoenix, :filter_parameters)
+      end
+    end)
+
     name = :"obscura_phoenix_logger_#{System.unique_integer([:positive])}"
     pid = start_supervised!({ObscuraLogger, name: name})
     %{logger_name: name, logger_pid: pid}
@@ -136,6 +146,93 @@ defmodule Obscura.Phoenix.LoggerTest do
     refute log =~ "jane@example.com"
     refute log =~ "/tmp/"
     refute log =~ "%Plug.Upload{"
+  end
+
+  test "filters supported PII in parameter keys without changing request data" do
+    params = %{
+      "jane@example.com" => "first",
+      "support@example.com" => "second",
+      "nested" => %{"privacy@example.com" => "third"}
+    }
+
+    conn =
+      :post
+      |> conn("/users", params)
+      |> ObscuraPlug.call(
+        mode: :assign_redacted,
+        fields: [:params],
+        entities: [:email]
+      )
+
+    assert conn.params == params
+    assert conn.assigns.obscura_redacted.params == params
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ ~s("[FILTERED KEY )
+    assert log =~ ~s("nested" => %{"[FILTERED KEY )
+    assert log =~ "first"
+    assert log =~ "second"
+    assert log =~ "third"
+    assert length(Regex.scan(~r/\[FILTERED KEY \d+\]/, log)) == 3
+    refute log =~ "jane@example.com"
+    refute log =~ "support@example.com"
+    refute log =~ "privacy@example.com"
+  end
+
+  test "applies Phoenix discard filtering after Obscura redaction" do
+    Application.put_env(:phoenix, :filter_parameters, ["security_answer"])
+
+    conn =
+      :post
+      |> conn("/users", %{
+        "email" => "jane@example.com",
+        "security_answer" => "first-pet-name"
+      })
+      |> ObscuraPlug.call(
+        mode: :assign_redacted,
+        fields: [:params],
+        entities: [:email]
+      )
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ ~s("email" => "[EMAIL]")
+    assert log =~ ~s("security_answer" => "[FILTERED]")
+    refute log =~ "jane@example.com"
+    refute log =~ "first-pet-name"
+  end
+
+  test "supports Phoenix keep filtering" do
+    Application.put_env(:phoenix, :filter_parameters, {:keep, ["request_id"]})
+
+    conn =
+      :post
+      |> conn("/users", %{
+        "request_id" => "visible-id",
+        "security_answer" => "first-pet-name"
+      })
+      |> ObscuraPlug.call(mode: :assign_redacted, fields: [:params])
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ ~s("request_id" => "visible-id")
+    assert log =~ ~s("security_answer" => "[FILTERED]")
+    refute log =~ "first-pet-name"
+  end
+
+  test "fails closed when Phoenix filter configuration is invalid" do
+    Application.put_env(:phoenix, :filter_parameters, {:keep, :invalid})
+
+    conn =
+      :post
+      |> conn("/users", %{"security_answer" => "first-pet-name"})
+      |> ObscuraPlug.call(mode: :assign_redacted, fields: [:params])
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ "Parameters: \"[FILTERED]\""
+    refute log =~ "first-pet-name"
   end
 
   test "a supervised restart replaces the stale telemetry handler", %{

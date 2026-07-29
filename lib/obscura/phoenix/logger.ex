@@ -25,7 +25,10 @@ defmodule Obscura.Phoenix.Logger do
       ]
 
   When the expected assign is missing, parameters are logged as `[FILTERED]`.
-  Original request paths and exception reasons are intentionally omitted.
+  Phoenix's configured `:filter_parameters` policy is applied as an additional
+  safeguard. Parameter keys containing deterministic structured PII are
+  replaced before inspection. Original request paths and exception reasons are
+  intentionally omitted.
   """
 
   use GenServer
@@ -41,6 +44,18 @@ defmodule Obscura.Phoenix.Logger do
   ]
 
   @filtered "[FILTERED]"
+  @filtered_key_prefix "[FILTERED KEY "
+
+  @key_entities [
+    :credit_card,
+    :domain,
+    :email,
+    :iban,
+    :ip_address,
+    :phone,
+    :url,
+    :us_ssn
+  ]
 
   @allowed_options [:assign, :inspect_opts, :name]
 
@@ -121,7 +136,7 @@ defmodule Obscura.Phoenix.Logger do
          config
        ) do
     level = log_level(Map.get(metadata, :log), conn)
-    params = conn |> redacted_params(config) |> log_safe_term()
+    params = safe_parameters(conn, config)
     inspect_opts = Map.get(config, :inspect_opts, limit: 50, printable_limit: 500)
 
     log(level, fn ->
@@ -196,6 +211,111 @@ defmodule Obscura.Phoenix.Logger do
     end
   end
 
+  defp safe_parameters(conn, config) do
+    conn
+    |> redacted_params(config)
+    |> filter_parameters()
+    |> log_safe_term()
+  rescue
+    _error -> @filtered
+  catch
+    _kind, _reason -> @filtered
+  end
+
+  defp filter_parameters(values) do
+    :phoenix
+    |> Application.get_env(:filter_parameters, [])
+    |> compile_parameter_filter()
+    |> case do
+      {:ok, filter} -> apply_parameter_filter(values, filter)
+      :error -> @filtered
+    end
+  end
+
+  defp compile_parameter_filter({:compiled, _key_match, _value_match} = filter),
+    do: {:ok, filter}
+
+  defp compile_parameter_filter({:discard, parameters}),
+    do: compile_parameter_filter(parameters)
+
+  defp compile_parameter_filter({:keep, parameters}) when is_list(parameters),
+    do: {:ok, {:keep, parameters}}
+
+  defp compile_parameter_filter([]), do: {:ok, {:compiled, [], []}}
+
+  defp compile_parameter_filter(parameters)
+       when is_list(parameters) or is_binary(parameters) do
+    parameters = List.wrap(parameters)
+
+    if Enum.all?(parameters, &is_binary/1) do
+      key_match = :binary.compile_pattern(parameters)
+      value_match = parameters |> Enum.map(&(&1 <> "=")) |> :binary.compile_pattern()
+      {:ok, {:compiled, key_match, value_match}}
+    else
+      :error
+    end
+  end
+
+  defp compile_parameter_filter(_parameters), do: :error
+
+  defp apply_parameter_filter(values, {:compiled, key_match, value_match}),
+    do: discard_parameter_values(values, key_match, value_match)
+
+  defp apply_parameter_filter(values, {:keep, parameters}),
+    do: keep_parameter_values(values, parameters)
+
+  defp discard_parameter_values(%{__struct__: module} = struct, _key_match, _value_match)
+       when is_atom(module),
+       do: struct
+
+  defp discard_parameter_values(map, key_match, value_match) when is_map(map) do
+    Map.new(map, fn {key, value} ->
+      cond do
+        is_binary(key) and String.contains?(key, key_match) ->
+          {key, @filtered}
+
+        is_binary(value) and String.contains?(value, value_match) ->
+          {key, @filtered}
+
+        true ->
+          {key, discard_parameter_values(value, key_match, value_match)}
+      end
+    end)
+  end
+
+  defp discard_parameter_values(list, key_match, value_match) when is_list(list) do
+    if List.improper?(list) do
+      list
+    else
+      Enum.map(list, &discard_parameter_values(&1, key_match, value_match))
+    end
+  end
+
+  defp discard_parameter_values(value, _key_match, _value_match), do: value
+
+  defp keep_parameter_values(%{__struct__: module}, _parameters) when is_atom(module),
+    do: @filtered
+
+  defp keep_parameter_values(map, parameters) when is_map(map) do
+    Map.new(map, fn {key, value} ->
+      if is_binary(key) and key in parameters do
+        {key, value}
+      else
+        {key, keep_parameter_values(value, parameters)}
+      end
+    end)
+  end
+
+  defp keep_parameter_values(list, parameters) when is_list(list) do
+    if List.improper?(list) do
+      @filtered
+    else
+      Enum.map(list, &keep_parameter_values(&1, parameters))
+    end
+  end
+
+  defp keep_parameter_values(_value, _parameters), do: @filtered
+
   defp handler_config(opts) do
     with :ok <- validate_options(opts),
          :ok <- validate_assign(Keyword.get(opts, :assign, :obscura_redacted)),
@@ -257,7 +377,11 @@ defmodule Obscura.Phoenix.Logger do
   defp log_safe_term(%{__struct__: module}) when is_atom(module), do: @filtered
 
   defp log_safe_term(map) when is_map(map) do
-    Map.new(map, fn {key, value} -> {log_safe_term(key), log_safe_term(value)} end)
+    map
+    |> Enum.with_index(1)
+    |> Map.new(fn {{key, value}, index} ->
+      {log_safe_key(key, index), log_safe_term(value)}
+    end)
   end
 
   defp log_safe_term(list) when is_list(list) do
@@ -276,6 +400,32 @@ defmodule Obscura.Phoenix.Logger do
        do: value
 
   defp log_safe_term(_value), do: @filtered
+
+  defp log_safe_key(key, index) when is_binary(key) do
+    if String.starts_with?(key, @filtered_key_prefix) or key_contains_pii?(key) do
+      filtered_key(index)
+    else
+      key
+    end
+  end
+
+  defp log_safe_key(key, _index) when is_atom(key) or is_number(key), do: key
+  defp log_safe_key(_key, index), do: filtered_key(index)
+
+  defp key_contains_pii?(key) do
+    case Obscura.redact(key,
+           profile: :fast,
+           entities: @key_entities,
+           include_text: false,
+           telemetry: false
+         ) do
+      {:ok, %{text: ^key}} -> false
+      {:ok, _redacted} -> true
+      {:error, _reason} -> true
+    end
+  end
+
+  defp filtered_key(index), do: @filtered_key_prefix <> Integer.to_string(index) <> "]"
 
   defp route(metadata) do
     case Map.get(metadata, :route) do

@@ -103,6 +103,10 @@ exception reasons. If the redacted assign is absent, it logs `[FILTERED]`
 instead of falling back to the original params. Opaque values, including
 multipart upload structs, are also logged as `[FILTERED]` so filenames and
 temporary paths cannot bypass structured redaction through `Inspect`.
+Phoenix's configured `:filter_parameters` policy is applied to the redacted
+copy as an additional safeguard. Binary parameter keys containing deterministic
+structured PII are replaced with unique `[FILTERED KEY n]` labels before
+inspection; controller params and the Plug assign are not changed.
 
 Recognition is still not a universal secret detector. Unsupported formats,
 unselected entities, and false negatives can remain in otherwise ordinary
