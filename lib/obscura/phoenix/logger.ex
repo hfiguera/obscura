@@ -65,11 +65,11 @@ defmodule Obscura.Phoenix.Logger do
       parameters; defaults to `[limit: 50, printable_limit: 500]`
 
   Unknown options and invalid assign or inspection options stop startup with an
-  `{:invalid_option, option, reason}` error. Structs, tuples, character lists,
-  and other opaque terms in the assigned params are rendered as `[FILTERED]`
-  rather than invoking custom inspection code. Parameter graphs exceeding 64
-  keys, 4 KiB of cumulative key text, or 1,024 traversed values also fail
-  closed as `[FILTERED]`.
+  `{:invalid_option, option, reason}` error. Structs, tuples, character lists
+  containing high-confidence `:fast` profile PII, and other opaque terms in the
+  assigned params are rendered as `[FILTERED]` rather than invoking custom
+  inspection code. Parameter graphs exceeding 64 keys, 4 KiB of cumulative key
+  text, or 1,024 traversed values also fail closed as `[FILTERED]`.
   """
   @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(opts \\ []) do
@@ -393,7 +393,7 @@ defmodule Obscura.Phoenix.Logger do
   defp log_safe_term(list, key_entities) when is_list(list) do
     cond do
       List.improper?(list) -> @filtered
-      flat_charlist?(list) -> @filtered
+      flat_charlist?(list) -> log_safe_charlist(list, key_entities)
       true -> Enum.map(list, &log_safe_term(&1, key_entities))
     end
   end
@@ -408,7 +408,7 @@ defmodule Obscura.Phoenix.Logger do
 
   defp log_safe_key(key, index, key_entities) when is_binary(key) do
     if String.starts_with?(key, @filtered_key_prefix) or
-         key_contains_pii?(key, key_entities) do
+         text_contains_pii?(key, key_entities) do
       filtered_key(index)
     else
       key
@@ -418,16 +418,16 @@ defmodule Obscura.Phoenix.Logger do
   defp log_safe_key(key, _index, _key_entities) when is_atom(key) or is_number(key), do: key
   defp log_safe_key(_key, index, _key_entities), do: filtered_key(index)
 
-  defp key_contains_pii?(_key, :filter_all), do: true
+  defp text_contains_pii?(_text, :filter_all), do: true
 
-  defp key_contains_pii?(key, key_entities) when is_list(key_entities) do
-    case Obscura.redact(key,
+  defp text_contains_pii?(text, entities) when is_list(entities) do
+    case Obscura.redact(text,
            profile: :fast,
-           entities: key_entities,
+           entities: entities,
            include_text: false,
            telemetry: false
          ) do
-      {:ok, %{text: ^key}} -> false
+      {:ok, %{text: ^text}} -> false
       {:ok, _redacted} -> true
       {:error, _reason} -> true
     end
@@ -501,6 +501,17 @@ defmodule Obscura.Phoenix.Logger do
   defp flat_charlist?(list) do
     Enum.all?(list, &unicode_codepoint?/1)
   end
+
+  defp log_safe_charlist(list, key_entities) do
+    if text_contains_pii?(List.to_string(list), charlist_entities(key_entities)) do
+      @filtered
+    else
+      list
+    end
+  end
+
+  defp charlist_entities(:filter_all), do: :filter_all
+  defp charlist_entities(key_entities), do: [:domain | key_entities]
 
   defp unicode_codepoint?(value) when is_integer(value) do
     value >= 0 and value <= 0x10FFFF and value not in 0xD800..0xDFFF

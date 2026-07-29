@@ -153,6 +153,7 @@ defmodule Obscura.Phoenix.LoggerTest do
   test "filters opaque tuples and character lists left unchanged by structured redaction" do
     params = %{
       "charlist" => ~c"charlist-secret@example.com",
+      "domain_charlist" => ~c"private.example",
       "tuple" => {"tuple-secret@example.com"}
     }
 
@@ -171,9 +172,44 @@ defmodule Obscura.Phoenix.LoggerTest do
     log = capture_log(fn -> emit_router_dispatch(conn) end)
 
     assert log =~ ~s("charlist" => "[FILTERED]")
+    assert log =~ ~s("domain_charlist" => "[FILTERED]")
     assert log =~ ~s("tuple" => "[FILTERED]")
     refute log =~ "charlist-secret@example.com"
+    refute log =~ "private.example"
     refute log =~ "tuple-secret@example.com"
+  end
+
+  test "preserves ordinary integer arrays for the configured inspect policy" do
+    params = %{"ids" => [101, 102, 103], "ports" => [80, 443]}
+
+    conn =
+      :post
+      |> conn("/users", params)
+      |> ObscuraPlug.call(
+        mode: :assign_redacted,
+        fields: [:params],
+        profile: :fast,
+        entities: [:email]
+      )
+
+    name = :"integer_array_logger_#{System.unique_integer([:positive])}"
+
+    {:ok, pid} =
+      ObscuraLogger.start_link(
+        name: name,
+        inspect_opts: [charlists: :as_lists, limit: :infinity]
+      )
+
+    try do
+      log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+      assert log =~ ~s("ids" => [101, 102, 103])
+      assert log =~ ~s("ports" => [80, 443])
+      refute log =~ ~s("ids" => "[FILTERED]")
+      refute log =~ ~s("ports" => "[FILTERED]")
+    after
+      GenServer.stop(pid)
+    end
   end
 
   test "fails closed before key analysis when parameter budgets are exceeded" do

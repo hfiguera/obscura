@@ -101,9 +101,11 @@ children = [
 The handler logs the route template rather than the raw request path and omits
 exception reasons. If the redacted assign is absent, it logs `[FILTERED]`
 instead of falling back to the original params. Opaque values, including
-multipart upload structs, tuples, and character lists, are also logged as
-`[FILTERED]` so unchanged values cannot bypass structured redaction through
-`Inspect`.
+multipart upload structs and tuples, are also logged as `[FILTERED]` so
+unchanged values cannot bypass structured redaction through `Inspect`.
+Character lists are reconstructed and checked for high-confidence `:fast`
+profile PII before inspection; ordinary integer arrays remain available to the
+configured inspect policy.
 Phoenix's configured `:filter_parameters` policy is applied to the redacted
 copy as an additional safeguard. Binary parameter keys containing
 high-confidence `:fast` profile PII are replaced with unique
