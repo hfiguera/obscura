@@ -100,7 +100,15 @@ children = [
 
 The handler logs the route template rather than the raw request path and omits
 exception reasons. If the redacted assign is absent, it logs `[FILTERED]`
-instead of falling back to the original params.
+instead of falling back to the original params. Opaque values, including
+multipart upload structs, are also logged as `[FILTERED]` so filenames and
+temporary paths cannot bypass structured redaction through `Inspect`.
+
+Recognition is still not a universal secret detector. Unsupported formats,
+unselected entities, and false negatives can remain in otherwise ordinary
+string values. Configure entities and field policies for the application's
+request schema, and verify representative payloads before enabling parameter
+logging in production.
 
 This integration does not sanitize reverse-proxy logs, web-server access logs,
 socket/channel parameter logs, traces installed before the plug, or arbitrary

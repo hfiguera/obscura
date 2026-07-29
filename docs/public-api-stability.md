@@ -41,7 +41,7 @@ Default-argument functions are listed at every exported arity.
 | Operators | `Obscura.Operator.Custom` callback and `Obscura.Operator.Hash.verify/2` |
 | Structured data | `Obscura.Structured.analyze/1,2`, `redact/1,2`; structured result and item structs |
 | Protocol | `Obscura.Redactable.redact/2` and the documented derive contract |
-| Logging and Plug | `Obscura.Logger` helpers and the `Obscura.Phoenix.Plug` Plug callbacks |
+| Logging and Plug | `Obscura.Logger` helpers, `Obscura.Phoenix.Plug` callbacks, and `Obscura.Phoenix.Logger` startup and child-spec functions |
 | LLM workflows | All `Obscura.LLM` redaction and rehydration functions |
 | Streaming | `Obscura.Stream.Rehydrator.new/1`, `feed/2`, and `flush/1` |
 | Vaults | `Obscura.Vault`; `Obscura.Vault.Memory` and `ETS` startup/child specs; `Obscura.Vault.Backend`; `Obscura.Vault.Entry` |
@@ -318,6 +318,14 @@ Streaming rehydration requires `:vault` and supports `:token_prefix`,
 The Plug supports `:fields` (`[:params]`), `:mode` (`:assign_redacted`,
 `:replace`, or `:disabled`), `:assign` (`:obscura_redacted`), and supported
 redaction options. Other values are outside the stable schema.
+
+`Obscura.Phoenix.Logger` supports `:assign` (atom, default
+`:obscura_redacted`), `:name` (GenServer name, default
+`Obscura.Phoenix.Logger`), and `:inspect_opts` (valid `Inspect.Opts` keyword
+options, default `[limit: 50, printable_limit: 500]`). Unknown logger options
+and invalid assign or inspection options fail startup with a structured
+`{:invalid_option, option, reason}` value. Opaque parameter terms are logged as
+`[FILTERED]`.
 
 ## Optional Dependencies And Assets
 

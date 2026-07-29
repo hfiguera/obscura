@@ -42,6 +42,8 @@ defmodule Obscura.Phoenix.Logger do
 
   @filtered "[FILTERED]"
 
+  @allowed_options [:assign, :inspect_opts, :name]
+
   @doc """
   Starts the telemetry handler.
 
@@ -50,7 +52,13 @@ defmodule Obscura.Phoenix.Logger do
     * `:assign` - connection assign populated by `Obscura.Phoenix.Plug`;
       defaults to `:obscura_redacted`
     * `:name` - registered process name; defaults to this module
-    * `:inspect_opts` - options used to inspect redacted parameters
+    * `:inspect_opts` - valid `Inspect.Opts` options used to inspect redacted
+      parameters; defaults to `[limit: 50, printable_limit: 500]`
+
+  Unknown options and invalid assign or inspection options stop startup with an
+  `{:invalid_option, option, reason}` error. Structs and other opaque terms in
+  the assigned params are rendered as `[FILTERED]` rather than invoking custom
+  inspection code.
   """
   @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(opts \\ []) do
@@ -60,12 +68,20 @@ defmodule Obscura.Phoenix.Logger do
 
   @impl true
   def init(opts) do
-    handler_id = {__MODULE__, self()}
-    handler_config = Map.new(Keyword.take(opts, [:assign, :inspect_opts]))
+    Process.flag(:trap_exit, true)
 
-    case :telemetry.attach_many(handler_id, @events, &__MODULE__.handle_event/4, handler_config) do
-      :ok -> {:ok, handler_id}
-      {:error, reason} -> {:stop, reason}
+    with {:ok, handler_id, handler_config} <- handler_config(opts) do
+      detach_previous_handlers(Keyword.get(opts, :name, __MODULE__))
+
+      case :telemetry.attach_many(
+             handler_id,
+             @events,
+             &__MODULE__.handle_event/4,
+             handler_config
+           ) do
+        :ok -> {:ok, handler_id}
+        {:error, reason} -> {:stop, reason}
+      end
     end
   end
 
@@ -77,21 +93,35 @@ defmodule Obscura.Phoenix.Logger do
   @doc false
   @spec handle_event([atom()], map(), map(), map()) :: :ok
   def handle_event(
-        [:phoenix, :router_dispatch, :start],
-        _measurements,
-        %{log: false},
-        _config
-      ),
-      do: :ok
-
-  def handle_event(
-        [:phoenix, :router_dispatch, :start],
-        _measurements,
-        %{conn: conn} = metadata,
-        config
+        event,
+        measurements,
+        metadata,
+        %{owner: owner, handler_id: handler_id} = config
       ) do
+    if Process.alive?(owner) do
+      dispatch_event(event, measurements, metadata, config)
+    else
+      :telemetry.detach(handler_id)
+      :ok
+    end
+  end
+
+  defp dispatch_event(
+         [:phoenix, :router_dispatch, :start],
+         _measurements,
+         %{log: false},
+         _config
+       ),
+       do: :ok
+
+  defp dispatch_event(
+         [:phoenix, :router_dispatch, :start],
+         _measurements,
+         %{conn: conn} = metadata,
+         config
+       ) do
     level = log_level(Map.get(metadata, :log), conn)
-    params = redacted_params(conn, config)
+    params = conn |> redacted_params(config) |> log_safe_term()
     inspect_opts = Map.get(config, :inspect_opts, limit: 50, printable_limit: 500)
 
     log(level, fn ->
@@ -110,12 +140,12 @@ defmodule Obscura.Phoenix.Logger do
     end)
   end
 
-  def handle_event(
-        [:phoenix, :endpoint, :stop],
-        %{duration: duration},
-        %{conn: conn} = metadata,
-        _config
-      ) do
+  defp dispatch_event(
+         [:phoenix, :endpoint, :stop],
+         %{duration: duration},
+         %{conn: conn} = metadata,
+         _config
+       ) do
     level = log_level(get_in(metadata, [:options, :log]), conn)
 
     log(level, fn ->
@@ -129,20 +159,20 @@ defmodule Obscura.Phoenix.Logger do
     end)
   end
 
-  def handle_event(
-        [:phoenix, :error_rendered],
-        _measurements,
-        %{log: false},
-        _config
-      ),
-      do: :ok
+  defp dispatch_event(
+         [:phoenix, :error_rendered],
+         _measurements,
+         %{log: false},
+         _config
+       ),
+       do: :ok
 
-  def handle_event(
-        [:phoenix, :error_rendered],
-        _measurements,
-        metadata,
-        _config
-      ) do
+  defp dispatch_event(
+         [:phoenix, :error_rendered],
+         _measurements,
+         metadata,
+         _config
+       ) do
     level = Map.get(metadata, :log, :error)
 
     log(level, fn ->
@@ -165,6 +195,87 @@ defmodule Obscura.Phoenix.Logger do
       _missing -> @filtered
     end
   end
+
+  defp handler_config(opts) do
+    with :ok <- validate_options(opts),
+         :ok <- validate_assign(Keyword.get(opts, :assign, :obscura_redacted)),
+         :ok <- validate_inspect_opts(Keyword.get(opts, :inspect_opts, [])) do
+      name = Keyword.get(opts, :name, __MODULE__)
+      handler_id = {__MODULE__, name, make_ref()}
+
+      config =
+        opts
+        |> Keyword.take([:assign, :inspect_opts])
+        |> Map.new()
+        |> Map.merge(%{handler_id: handler_id, owner: self()})
+
+      {:ok, handler_id, config}
+    else
+      {:error, reason} -> {:stop, reason}
+    end
+  end
+
+  defp validate_options(opts) do
+    case Keyword.keys(opts) -- @allowed_options do
+      [] -> :ok
+      [option | _rest] -> {:error, {:invalid_option, option, :unknown_option}}
+    end
+  end
+
+  defp validate_assign(assign) when is_atom(assign), do: :ok
+  defp validate_assign(_assign), do: {:error, {:invalid_option, :assign, :expected_atom}}
+
+  defp validate_inspect_opts(opts) when is_list(opts) do
+    if Keyword.keyword?(opts) do
+      try do
+        _opts = Inspect.Opts.new(opts)
+        _rendered = inspect(%{sample: [1, "value"]}, opts)
+        :ok
+      rescue
+        _error -> {:error, {:invalid_option, :inspect_opts, :invalid_inspect_options}}
+      end
+    else
+      {:error, {:invalid_option, :inspect_opts, :expected_keyword_list}}
+    end
+  end
+
+  defp validate_inspect_opts(_opts),
+    do: {:error, {:invalid_option, :inspect_opts, :expected_keyword_list}}
+
+  defp detach_previous_handlers(name) do
+    @events
+    |> Enum.flat_map(&:telemetry.list_handlers/1)
+    |> Enum.map(& &1.id)
+    |> Enum.uniq()
+    |> Enum.filter(fn
+      {__MODULE__, ^name, _generation} -> true
+      _handler_id -> false
+    end)
+    |> Enum.each(&:telemetry.detach/1)
+  end
+
+  defp log_safe_term(%{__struct__: module}) when is_atom(module), do: @filtered
+
+  defp log_safe_term(map) when is_map(map) do
+    Map.new(map, fn {key, value} -> {log_safe_term(key), log_safe_term(value)} end)
+  end
+
+  defp log_safe_term(list) when is_list(list) do
+    if List.improper?(list), do: @filtered, else: Enum.map(list, &log_safe_term/1)
+  end
+
+  defp log_safe_term(tuple) when is_tuple(tuple) do
+    tuple
+    |> Tuple.to_list()
+    |> Enum.map(&log_safe_term/1)
+    |> List.to_tuple()
+  end
+
+  defp log_safe_term(value)
+       when is_binary(value) or is_number(value) or is_atom(value),
+       do: value
+
+  defp log_safe_term(_value), do: @filtered
 
   defp route(metadata) do
     case Map.get(metadata, :route) do
