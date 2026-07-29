@@ -47,6 +47,10 @@ defmodule Obscura.Phoenix.Logger do
   @filtered "[FILTERED]"
   @filtered_key_prefix "[FILTERED KEY "
 
+  @max_parameter_keys 64
+  @max_parameter_key_bytes 4_096
+  @max_parameter_nodes 1_024
+
   @allowed_options [:assign, :inspect_opts, :name]
 
   @doc """
@@ -61,9 +65,11 @@ defmodule Obscura.Phoenix.Logger do
       parameters; defaults to `[limit: 50, printable_limit: 500]`
 
   Unknown options and invalid assign or inspection options stop startup with an
-  `{:invalid_option, option, reason}` error. Structs and other opaque terms in
-  the assigned params are rendered as `[FILTERED]` rather than invoking custom
-  inspection code.
+  `{:invalid_option, option, reason}` error. Structs, tuples, character lists,
+  and other opaque terms in the assigned params are rendered as `[FILTERED]`
+  rather than invoking custom inspection code. Parameter graphs exceeding 64
+  keys, 4 KiB of cumulative key text, or 1,024 traversed values also fail
+  closed as `[FILTERED]`.
   """
   @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(opts \\ []) do
@@ -203,10 +209,15 @@ defmodule Obscura.Phoenix.Logger do
   end
 
   defp safe_parameters(conn, config) do
-    conn
-    |> redacted_params(config)
-    |> filter_parameters()
-    |> log_safe_term(Map.fetch!(config, :key_entities))
+    params = redacted_params(conn, config)
+
+    if parameter_budget_safe?(params) do
+      params
+      |> filter_parameters()
+      |> log_safe_term(Map.fetch!(config, :key_entities))
+    else
+      @filtered
+    end
   rescue
     _error -> @filtered
   catch
@@ -380,19 +391,14 @@ defmodule Obscura.Phoenix.Logger do
   end
 
   defp log_safe_term(list, key_entities) when is_list(list) do
-    if List.improper?(list) do
-      @filtered
-    else
-      Enum.map(list, &log_safe_term(&1, key_entities))
+    cond do
+      List.improper?(list) -> @filtered
+      flat_charlist?(list) -> @filtered
+      true -> Enum.map(list, &log_safe_term(&1, key_entities))
     end
   end
 
-  defp log_safe_term(tuple, key_entities) when is_tuple(tuple) do
-    tuple
-    |> Tuple.to_list()
-    |> Enum.map(&log_safe_term(&1, key_entities))
-    |> List.to_tuple()
-  end
+  defp log_safe_term(tuple, _key_entities) when is_tuple(tuple), do: @filtered
 
   defp log_safe_term(value, _key_entities)
        when is_binary(value) or is_number(value) or is_atom(value),
@@ -428,6 +434,79 @@ defmodule Obscura.Phoenix.Logger do
   end
 
   defp filtered_key(index), do: @filtered_key_prefix <> Integer.to_string(index) <> "]"
+
+  defp parameter_budget_safe?(params) do
+    match?({:ok, _budget}, consume_parameter_term(params, {0, 0, 0}))
+  end
+
+  defp consume_parameter_term(_term, {nodes, keys, key_bytes})
+       when nodes >= @max_parameter_nodes or keys > @max_parameter_keys or
+              key_bytes > @max_parameter_key_bytes,
+       do: :error
+
+  defp consume_parameter_term(%{__struct__: module}, budget) when is_atom(module),
+    do: consume_parameter_node(budget)
+
+  defp consume_parameter_term(map, budget) when is_map(map) do
+    with {:ok, budget} <- consume_parameter_node(budget) do
+      Enum.reduce_while(map, {:ok, budget}, &consume_parameter_entry/2)
+    end
+  end
+
+  defp consume_parameter_term(list, budget) when is_list(list) do
+    with {:ok, budget} <- consume_parameter_node(budget) do
+      consume_parameter_list(list, budget)
+    end
+  end
+
+  defp consume_parameter_term(_term, budget), do: consume_parameter_node(budget)
+
+  defp consume_parameter_entry({key, value}, {:ok, budget}) do
+    with {:ok, budget} <- consume_parameter_key(key, budget),
+         {:ok, budget} <- consume_parameter_term(value, budget) do
+      {:cont, {:ok, budget}}
+    else
+      :error -> {:halt, :error}
+    end
+  end
+
+  defp consume_parameter_list([], budget), do: {:ok, budget}
+
+  defp consume_parameter_list([value | rest], budget) do
+    with {:ok, budget} <- consume_parameter_term(value, budget) do
+      if is_list(rest), do: consume_parameter_list(rest, budget), else: {:ok, budget}
+    end
+  end
+
+  defp consume_parameter_node({nodes, keys, key_bytes}) do
+    budget = {nodes + 1, keys, key_bytes}
+
+    if elem(budget, 0) > @max_parameter_nodes, do: :error, else: {:ok, budget}
+  end
+
+  defp consume_parameter_key(key, {nodes, keys, key_bytes}) do
+    key_bytes = if is_binary(key), do: key_bytes + byte_size(key), else: key_bytes
+    budget = {nodes, keys + 1, key_bytes}
+
+    if elem(budget, 1) > @max_parameter_keys or
+         elem(budget, 2) > @max_parameter_key_bytes do
+      :error
+    else
+      {:ok, budget}
+    end
+  end
+
+  defp flat_charlist?([]), do: false
+
+  defp flat_charlist?(list) do
+    Enum.all?(list, &unicode_codepoint?/1)
+  end
+
+  defp unicode_codepoint?(value) when is_integer(value) do
+    value >= 0 and value <= 0x10FFFF and value not in 0xD800..0xDFFF
+  end
+
+  defp unicode_codepoint?(_value), do: false
 
   defp key_entities do
     case Obscura.Profile.fetch(:fast) do

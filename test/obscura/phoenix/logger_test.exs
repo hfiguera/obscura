@@ -150,6 +150,79 @@ defmodule Obscura.Phoenix.LoggerTest do
     refute log =~ "%Plug.Upload{"
   end
 
+  test "filters opaque tuples and character lists left unchanged by structured redaction" do
+    params = %{
+      "charlist" => ~c"charlist-secret@example.com",
+      "tuple" => {"tuple-secret@example.com"}
+    }
+
+    conn =
+      :post
+      |> conn("/users", params)
+      |> ObscuraPlug.call(
+        mode: :assign_redacted,
+        fields: [:params],
+        profile: :fast,
+        entities: [:email]
+      )
+
+    assert conn.assigns.obscura_redacted.params == params
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ ~s("charlist" => "[FILTERED]")
+    assert log =~ ~s("tuple" => "[FILTERED]")
+    refute log =~ "charlist-secret@example.com"
+    refute log =~ "tuple-secret@example.com"
+  end
+
+  test "fails closed before key analysis when parameter budgets are exceeded" do
+    scenarios = [
+      Map.new(1..65, fn index -> {"field_#{index}", "value"} end),
+      %{String.duplicate("k", 4_097) => "oversized-key"},
+      %{"values" => List.duplicate("value", 1_024)}
+    ]
+
+    parent = self()
+    tracer = spawn(fn -> forward_trace(parent) end)
+
+    :erlang.trace(self(), true, [:call, {:tracer, tracer}])
+    :erlang.trace_pattern({Obscura, :redact, 2}, true, [])
+
+    try do
+      Enum.each(scenarios, fn params ->
+        conn =
+          :post
+          |> conn("/users", params)
+          |> assign(:obscura_redacted, %{params: params})
+
+        log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+        assert log =~ "Parameters: \"[FILTERED]\""
+      end)
+
+      refute_receive {:trace, _pid, :call, {Obscura, :redact, _arguments}}, 20
+    after
+      :erlang.trace_pattern({Obscura, :redact, 2}, false, [])
+      :erlang.trace(self(), false, [:call])
+      Process.exit(tracer, :kill)
+    end
+  end
+
+  test "accepts a parameter graph at the key-count boundary" do
+    params = Map.new(1..64, fn index -> {"field_#{index}", "value"} end)
+
+    conn =
+      :post
+      |> conn("/users", params)
+      |> assign(:obscura_redacted, %{params: params})
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ "Parameters: %{"
+    refute log =~ "Parameters: \"[FILTERED]\""
+  end
+
   test "filters supported PII in parameter keys without changing request data" do
     params = %{
       "jane@example.com" => "first",

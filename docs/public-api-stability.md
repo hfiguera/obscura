@@ -324,8 +324,10 @@ redaction options. Other values are outside the stable schema.
 `Obscura.Phoenix.Logger`), and `:inspect_opts` (valid `Inspect.Opts` keyword
 options, default `[limit: 50, printable_limit: 500]`). Unknown logger options
 and invalid assign or inspection options fail startup with a structured
-`{:invalid_option, option, reason}` value. Opaque parameter terms are logged as
-`[FILTERED]`. The logger applies Phoenix's configured `:filter_parameters`
+`{:invalid_option, option, reason}` value. Opaque parameter terms, including
+structs, tuples, and character lists, are logged as `[FILTERED]`. Parameter
+graphs exceeding 64 keys, 4 KiB of cumulative key text, or 1,024 traversed
+values also fail closed. The logger applies Phoenix's configured `:filter_parameters`
 policy and replaces binary parameter keys containing high-confidence `:fast`
 profile PII before inspection. Bare domains are excluded from key recognition
 because ordinary dotted field names are ambiguous; applications can filter
