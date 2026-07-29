@@ -26,8 +26,9 @@ defmodule Obscura.Phoenix.Logger do
 
   When the expected assign is missing, parameters are logged as `[FILTERED]`.
   Phoenix's configured `:filter_parameters` policy is applied as an additional
-  safeguard. Parameter keys containing deterministic structured PII are
-  replaced before inspection. Original request paths and exception reasons are
+  safeguard. Parameter keys containing high-confidence `:fast` profile PII are
+  replaced before inspection. Ambiguous bare domains are left to explicit
+  Phoenix filter policies. Original request paths and exception reasons are
   intentionally omitted.
   """
 
@@ -45,17 +46,6 @@ defmodule Obscura.Phoenix.Logger do
 
   @filtered "[FILTERED]"
   @filtered_key_prefix "[FILTERED KEY "
-
-  @key_entities [
-    :credit_card,
-    :domain,
-    :email,
-    :iban,
-    :ip_address,
-    :phone,
-    :url,
-    :us_ssn
-  ]
 
   @allowed_options [:assign, :inspect_opts, :name]
 
@@ -136,10 +126,11 @@ defmodule Obscura.Phoenix.Logger do
          config
        ) do
     level = log_level(Map.get(metadata, :log), conn)
-    params = safe_parameters(conn, config)
     inspect_opts = Map.get(config, :inspect_opts, limit: 50, printable_limit: 500)
 
     log(level, fn ->
+      params = safe_parameters(conn, config)
+
       [
         "Processing ",
         conn.method,
@@ -215,7 +206,7 @@ defmodule Obscura.Phoenix.Logger do
     conn
     |> redacted_params(config)
     |> filter_parameters()
-    |> log_safe_term()
+    |> log_safe_term(Map.fetch!(config, :key_entities))
   rescue
     _error -> @filtered
   catch
@@ -327,7 +318,11 @@ defmodule Obscura.Phoenix.Logger do
         opts
         |> Keyword.take([:assign, :inspect_opts])
         |> Map.new()
-        |> Map.merge(%{handler_id: handler_id, owner: self()})
+        |> Map.merge(%{
+          handler_id: handler_id,
+          key_entities: key_entities(),
+          owner: self()
+        })
 
       {:ok, handler_id, config}
     else
@@ -374,48 +369,55 @@ defmodule Obscura.Phoenix.Logger do
     |> Enum.each(&:telemetry.detach/1)
   end
 
-  defp log_safe_term(%{__struct__: module}) when is_atom(module), do: @filtered
+  defp log_safe_term(%{__struct__: module}, _key_entities) when is_atom(module), do: @filtered
 
-  defp log_safe_term(map) when is_map(map) do
+  defp log_safe_term(map, key_entities) when is_map(map) do
     map
     |> Enum.with_index(1)
     |> Map.new(fn {{key, value}, index} ->
-      {log_safe_key(key, index), log_safe_term(value)}
+      {log_safe_key(key, index, key_entities), log_safe_term(value, key_entities)}
     end)
   end
 
-  defp log_safe_term(list) when is_list(list) do
-    if List.improper?(list), do: @filtered, else: Enum.map(list, &log_safe_term/1)
+  defp log_safe_term(list, key_entities) when is_list(list) do
+    if List.improper?(list) do
+      @filtered
+    else
+      Enum.map(list, &log_safe_term(&1, key_entities))
+    end
   end
 
-  defp log_safe_term(tuple) when is_tuple(tuple) do
+  defp log_safe_term(tuple, key_entities) when is_tuple(tuple) do
     tuple
     |> Tuple.to_list()
-    |> Enum.map(&log_safe_term/1)
+    |> Enum.map(&log_safe_term(&1, key_entities))
     |> List.to_tuple()
   end
 
-  defp log_safe_term(value)
+  defp log_safe_term(value, _key_entities)
        when is_binary(value) or is_number(value) or is_atom(value),
        do: value
 
-  defp log_safe_term(_value), do: @filtered
+  defp log_safe_term(_value, _key_entities), do: @filtered
 
-  defp log_safe_key(key, index) when is_binary(key) do
-    if String.starts_with?(key, @filtered_key_prefix) or key_contains_pii?(key) do
+  defp log_safe_key(key, index, key_entities) when is_binary(key) do
+    if String.starts_with?(key, @filtered_key_prefix) or
+         key_contains_pii?(key, key_entities) do
       filtered_key(index)
     else
       key
     end
   end
 
-  defp log_safe_key(key, _index) when is_atom(key) or is_number(key), do: key
-  defp log_safe_key(_key, index), do: filtered_key(index)
+  defp log_safe_key(key, _index, _key_entities) when is_atom(key) or is_number(key), do: key
+  defp log_safe_key(_key, index, _key_entities), do: filtered_key(index)
 
-  defp key_contains_pii?(key) do
+  defp key_contains_pii?(_key, :filter_all), do: true
+
+  defp key_contains_pii?(key, key_entities) when is_list(key_entities) do
     case Obscura.redact(key,
            profile: :fast,
-           entities: @key_entities,
+           entities: key_entities,
            include_text: false,
            telemetry: false
          ) do
@@ -426,6 +428,13 @@ defmodule Obscura.Phoenix.Logger do
   end
 
   defp filtered_key(index), do: @filtered_key_prefix <> Integer.to_string(index) <> "]"
+
+  defp key_entities do
+    case Obscura.Profile.fetch(:fast) do
+      {:ok, profile} -> profile.supported_entities -- [:domain]
+      {:error, _reason} -> :filter_all
+    end
+  end
 
   defp route(metadata) do
     case Map.get(metadata, :route) do

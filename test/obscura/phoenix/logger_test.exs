@@ -35,6 +35,8 @@ defmodule Obscura.Phoenix.LoggerTest do
     plug(Router)
   end
 
+  def disabled_log_level(_conn), do: false
+
   setup do
     previous_filter_parameters = Application.fetch_env(:phoenix, :filter_parameters)
     Application.delete_env(:phoenix, :filter_parameters)
@@ -174,10 +176,67 @@ defmodule Obscura.Phoenix.LoggerTest do
     assert log =~ "first"
     assert log =~ "second"
     assert log =~ "third"
-    assert length(Regex.scan(~r/\[FILTERED KEY \d+\]/, log)) == 3
+    assert Enum.count(Regex.scan(~r/\[FILTERED KEY \d+\]/, log)) == 3
     refute log =~ "jane@example.com"
     refute log =~ "support@example.com"
     refute log =~ "privacy@example.com"
+  end
+
+  test "uses the fast profile key taxonomy without filtering dotted field names" do
+    params = %{
+      "Address: 123 Main Street" => "address-key",
+      "Reviewed on 2026-07-29" => "date-key",
+      "api.version" => "version-field",
+      "profile.url" => "url-field",
+      "user.name" => "name-field"
+    }
+
+    conn =
+      :post
+      |> conn("/users", params)
+      |> ObscuraPlug.call(
+        mode: :assign_redacted,
+        fields: [:params],
+        profile: :fast,
+        entities: [:street_address, :date_time]
+      )
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ ~s("api.version" => "version-field")
+    assert log =~ ~s("profile.url" => "url-field")
+    assert log =~ ~s("user.name" => "name-field")
+    assert log =~ "address-key"
+    assert log =~ "date-key"
+    refute log =~ "Address: 123 Main Street"
+    refute log =~ "Reviewed on 2026-07-29"
+  end
+
+  test "does not analyze parameter keys when a dynamic log level returns false" do
+    conn =
+      :post
+      |> conn("/users", %{"jane@example.com" => "safe"})
+      |> assign(:obscura_redacted, %{params: %{"jane@example.com" => "safe"}})
+
+    parent = self()
+    tracer = spawn(fn -> forward_trace(parent) end)
+
+    :erlang.trace(self(), true, [:call, {:tracer, tracer}])
+    :erlang.trace_pattern({Obscura, :redact, 2}, true, [])
+
+    try do
+      log =
+        capture_log(fn ->
+          emit_router_dispatch(conn, "/users", {__MODULE__, :disabled_log_level, []})
+        end)
+
+      assert log == ""
+      refute_receive {:trace, _pid, :call, {Obscura, :redact, _arguments}}, 20
+    after
+      :erlang.trace_pattern({Obscura, :redact, 2}, false, [])
+      :erlang.trace(self(), false, [:call])
+      Process.exit(tracer, :kill)
+    end
   end
 
   test "applies Phoenix discard filtering after Obscura redaction" do
@@ -332,13 +391,13 @@ defmodule Obscura.Phoenix.LoggerTest do
     end
   end
 
-  defp emit_router_dispatch(conn, route \\ "/users") do
+  defp emit_router_dispatch(conn, route \\ "/users", log_level \\ :warning) do
     :telemetry.execute(
       [:phoenix, :router_dispatch, :start],
       %{system_time: System.system_time()},
       %{
         conn: conn,
-        log: :warning,
+        log: log_level,
         pipe_through: [:api],
         plug: __MODULE__,
         plug_opts: :index,
@@ -370,4 +429,10 @@ defmodule Obscura.Phoenix.LoggerTest do
   end
 
   defp eventually(_fun, 0), do: flunk("condition did not become true")
+
+  defp forward_trace(parent) do
+    receive do
+      message -> send(parent, message)
+    end
+  end
 end

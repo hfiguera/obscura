@@ -104,9 +104,12 @@ instead of falling back to the original params. Opaque values, including
 multipart upload structs, are also logged as `[FILTERED]` so filenames and
 temporary paths cannot bypass structured redaction through `Inspect`.
 Phoenix's configured `:filter_parameters` policy is applied to the redacted
-copy as an additional safeguard. Binary parameter keys containing deterministic
-structured PII are replaced with unique `[FILTERED KEY n]` labels before
-inspection; controller params and the Plug assign are not changed.
+copy as an additional safeguard. Binary parameter keys containing
+high-confidence `:fast` profile PII are replaced with unique
+`[FILTERED KEY n]` labels before inspection; controller params and the Plug
+assign are not changed. Bare domain recognition is excluded from this key check
+because ordinary dotted field names such as `user.name` are ambiguous. Add
+application-specific dotted keys to Phoenix's filter policy when needed.
 
 Recognition is still not a universal secret detector. Unsupported formats,
 unselected entities, and false negatives can remain in otherwise ordinary

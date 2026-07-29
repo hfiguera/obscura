@@ -326,8 +326,10 @@ options, default `[limit: 50, printable_limit: 500]`). Unknown logger options
 and invalid assign or inspection options fail startup with a structured
 `{:invalid_option, option, reason}` value. Opaque parameter terms are logged as
 `[FILTERED]`. The logger applies Phoenix's configured `:filter_parameters`
-policy and replaces binary parameter keys containing deterministic structured
-PII before inspection.
+policy and replaces binary parameter keys containing high-confidence `:fast`
+profile PII before inspection. Bare domains are excluded from key recognition
+because ordinary dotted field names are ambiguous; applications can filter
+specific dotted keys through Phoenix's policy.
 
 ## Optional Dependencies And Assets
 
