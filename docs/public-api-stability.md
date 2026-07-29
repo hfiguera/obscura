@@ -327,9 +327,10 @@ and invalid assign or inspection options fail startup with a structured
 `{:invalid_option, option, reason}` value. Opaque parameter terms, including
 structs and tuples, are logged as `[FILTERED]`. Character lists containing
 high-confidence `:fast` profile PII are also filtered; ordinary integer arrays
-remain available to the inspect policy. Parameter graphs exceeding 64 keys,
-4 KiB of cumulative key text, or 1,024 traversed values also fail closed. The
-logger applies Phoenix's configured `:filter_parameters`
+remain available to the inspect policy. Atom and numeric scalar representations
+are checked before inspection, including when used as map keys. Parameter graphs
+exceeding 64 keys, 4 KiB of cumulative key text, or 1,024 traversed values also
+fail closed. The logger applies Phoenix's configured `:filter_parameters`
 policy and replaces binary parameter keys containing high-confidence `:fast`
 profile PII before inspection. Bare domains are excluded from key recognition
 because ordinary dotted field names are ambiguous; applications can filter

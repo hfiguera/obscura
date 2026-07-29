@@ -105,7 +105,9 @@ multipart upload structs and tuples, are also logged as `[FILTERED]` so
 unchanged values cannot bypass structured redaction through `Inspect`.
 Character lists are reconstructed and checked for high-confidence `:fast`
 profile PII before inspection; ordinary integer arrays remain available to the
-configured inspect policy.
+configured inspect policy. Atom and numeric scalar representations, including
+map keys, receive the same check so inspection cannot turn an unanalyzed term
+into visible PII.
 Phoenix's configured `:filter_parameters` policy is applied to the redacted
 copy as an additional safeguard. Binary parameter keys containing
 high-confidence `:fast` profile PII are replaced with unique

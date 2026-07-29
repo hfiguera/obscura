@@ -212,6 +212,46 @@ defmodule Obscura.Phoenix.LoggerTest do
     end
   end
 
+  test "filters PII-bearing scalar values and keys while preserving ordinary scalars" do
+    card_number = 4_111_111_111_111_111
+    email_atom = :"secret@example.com"
+
+    params = %{
+      "card_number" => card_number,
+      "count" => 42,
+      "email_atom" => email_atom,
+      "status" => :approved,
+      card_number => "numeric-key-value",
+      email_atom => "atom-key-value"
+    }
+
+    conn =
+      :post
+      |> conn("/users", params)
+      |> ObscuraPlug.call(
+        mode: :assign_redacted,
+        fields: [:params],
+        profile: :fast,
+        entities: [:credit_card, :email]
+      )
+
+    assert conn.assigns.obscura_redacted.params["card_number"] == card_number
+    assert conn.assigns.obscura_redacted.params["email_atom"] == email_atom
+
+    conn = assign(conn, :obscura_redacted, %{params: params})
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ ~s("card_number" => "[FILTERED]")
+    assert log =~ ~s("count" => 42)
+    assert log =~ ~s("email_atom" => "[FILTERED]")
+    assert log =~ ~s("status" => :approved)
+    assert log =~ "numeric-key-value"
+    assert log =~ "atom-key-value"
+    refute log =~ "4111111111111111"
+    refute log =~ "secret@example.com"
+  end
+
   test "fails closed before key analysis when parameter budgets are exceeded" do
     scenarios = [
       Map.new(1..65, fn index -> {"field_#{index}", "value"} end),
