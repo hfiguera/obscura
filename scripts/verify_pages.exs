@@ -5,6 +5,10 @@ defmodule Obscura.PagesVerifier do
   @site_url "https://hfiguera.github.io/obscura/"
   @articles [
     %{
+      slug: "model-card-is-not-a-license",
+      expected_media: ["model-licensing-stack.jpg"]
+    },
+    %{
       slug: "running-obscura-on-nvidia-exla",
       expected_media: [
         "obscura-linux-nvidia-validation-path.png",
@@ -59,14 +63,21 @@ defmodule Obscura.PagesVerifier do
       assert_contains(html, filename)
     end)
 
-    if article.slug == "protecting-pii-in-elixir" do
-      assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
-      assert_contains(html, ~s(<span class="kd">def</span>))
-      assert_contains(html, "obscura-pii-boundary-workflow.gif")
-      assert_contains(html, "obscura-pii-boundary-workflow.mp4")
-    else
-      assert_contains(html, ~s(<code class="makeup bash" translate="no">))
-      assert_contains(html, ~s(<span class="kd">export</span>))
+    case article.slug do
+      "protecting-pii-in-elixir" ->
+        assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
+        assert_contains(html, ~s(<span class="kd">def</span>))
+        assert_contains(html, "obscura-pii-boundary-workflow.gif")
+        assert_contains(html, "obscura-pii-boundary-workflow.mp4")
+
+      "running-obscura-on-nvidia-exla" ->
+        assert_contains(html, ~s(<code class="makeup bash" translate="no">))
+        assert_contains(html, ~s(<span class="kd">export</span>))
+
+      "model-card-is-not-a-license" ->
+        assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
+        assert_contains(html, "requires_ldc_for_profit_membership")
+        assert_contains(html, "model-licensing-stack.jpg")
     end
 
     assert_local_references_exist(html, article_dir)
