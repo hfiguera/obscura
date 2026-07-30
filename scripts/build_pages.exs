@@ -14,18 +14,29 @@ defmodule Obscura.PagesBuilder do
   @nvidia_rss_date "Fri, 24 Jul 2026 00:00:00 GMT"
   @model_card_published_on "2026-07-29"
   @model_card_rss_date "Wed, 29 Jul 2026 00:00:00 GMT"
-  @latest_published_on "2026-08-05"
-  @latest_rss_date "Wed, 05 Aug 2026 00:00:00 GMT"
+  @fast_published_on "2026-08-05"
+  @fast_rss_date "Wed, 05 Aug 2026 00:00:00 GMT"
+  @latest_published_on "2026-08-07"
+  @latest_rss_date "Fri, 07 Aug 2026 00:00:00 GMT"
   @media_extensions [".gif", ".jpg", ".jpeg", ".mp4", ".png", ".webp"]
 
   @articles [
+    %{
+      slug: "privacy-safe-phoenix-request-logging",
+      title: "Privacy-Safe Phoenix Request Logging Without Changing Controller Params",
+      description:
+        "An engineering case study about closing the gap between redacted Phoenix assigns and default request logging without changing controller input.",
+      published_on: @latest_published_on,
+      rss_date: @latest_rss_date,
+      og_image: "phoenix-safe-logging-boundary.png"
+    },
     %{
       slug: "making-pii-detection-faster-without-keeping-input-alive",
       title: "Making PII Detection Faster Without Keeping the Input Alive",
       description:
         "An Elixir engineering case study about optimizing Obscura's fast profile while preserving output compatibility and proving BEAM binary ownership.",
-      published_on: @latest_published_on,
-      rss_date: @latest_rss_date,
+      published_on: @fast_published_on,
+      rss_date: @fast_rss_date,
       og_image: "fast-profile-binary-ownership.png"
     },
     %{

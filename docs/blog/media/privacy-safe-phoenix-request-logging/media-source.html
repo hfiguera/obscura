@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Privacy-safe Phoenix request logging boundary</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1440px;
+        height: 900px;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        color: #17211e;
+        background: #f4f8f6;
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .canvas {
+        width: 1440px;
+        height: 900px;
+        padding: 58px 68px 48px;
+        background: #f4f8f6;
+      }
+
+      header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 48px;
+        padding-bottom: 28px;
+        border-bottom: 2px solid #17211e;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: #08766a;
+        font-size: 17px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 980px;
+        margin: 0;
+        font-size: 49px;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding-top: 4px;
+        font-size: 21px;
+        font-weight: 800;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        color: #f4f8f6;
+        background: #08766a;
+        border-radius: 6px;
+        place-items: center;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 1fr 86px 1fr;
+        align-items: stretch;
+        gap: 0;
+        padding-top: 38px;
+      }
+
+      .lane {
+        min-height: 500px;
+        padding: 28px 30px;
+        border: 1px solid #b8c9c3;
+        background: #ffffff;
+      }
+
+      .lane.original {
+        border-top: 7px solid #2b665f;
+      }
+
+      .lane.safe {
+        border-top: 7px solid #08766a;
+      }
+
+      .lane-label {
+        margin: 0 0 9px;
+        color: #55706a;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        margin: 0 0 24px;
+        font-size: 28px;
+        line-height: 1.15;
+        letter-spacing: 0;
+      }
+
+      .node {
+        min-height: 86px;
+        padding: 17px 19px;
+        border: 1px solid #c5d3ce;
+        background: #f8fbf9;
+      }
+
+      .node + .arrow {
+        height: 42px;
+      }
+
+      .node strong {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 18px;
+      }
+
+      .node span {
+        color: #4f625d;
+        font-size: 16px;
+        line-height: 1.35;
+      }
+
+      .node.safe-node {
+        border-color: #7fbbb2;
+        background: #e7f4f0;
+      }
+
+      .node.output {
+        color: #f4f8f6;
+        border-color: #17211e;
+        background: #17211e;
+      }
+
+      .node.output span {
+        color: #c8d8d3;
+      }
+
+      .arrow {
+        display: grid;
+        color: #08766a;
+        font-size: 27px;
+        font-weight: 800;
+        place-items: center;
+      }
+
+      .divider {
+        display: grid;
+        color: #657873;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 13px;
+        font-weight: 700;
+        place-items: center;
+        text-transform: uppercase;
+        writing-mode: vertical-rl;
+      }
+
+      .blocked {
+        margin-top: 24px;
+        padding: 14px 17px;
+        color: #7c2d2d;
+        border: 1px solid #dc9d9d;
+        border-left: 6px solid #b84d4d;
+        background: #fff3f3;
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px;
+        margin-top: 34px;
+        padding-top: 20px;
+        border-top: 1px solid #b8c9c3;
+        color: #4f625d;
+        font-size: 16px;
+      }
+
+      footer strong {
+        color: #17211e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <header>
+        <div>
+          <p class="eyebrow">Phoenix logging boundary</p>
+          <h1>Keep original controller input out of request logs.</h1>
+        </div>
+        <div class="brand">
+          <span class="brand-mark">O</span>
+          <span>Obscura</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="lane original" aria-label="Application request path">
+          <p class="lane-label">Application path</p>
+          <h2>Original request stays available</h2>
+          <div class="node">
+            <strong>Plug.Parsers</strong>
+            <span>Creates <code>conn.params</code> from the request.</span>
+          </div>
+          <div class="arrow" aria-hidden="true">&darr;</div>
+          <div class="node">
+            <strong>Phoenix router and controller</strong>
+            <span>Receive the unchanged values required by application logic.</span>
+          </div>
+          <div class="blocked">Default Phoenix request logger disabled: it would read the original parameters.</div>
+        </section>
+
+        <div class="divider">explicit boundary</div>
+
+        <section class="lane safe" aria-label="Privacy-safe logging path">
+          <p class="lane-label">Logging path</p>
+          <h2>Only the sanitized copy crosses</h2>
+          <div class="node safe-node">
+            <strong>Obscura.Phoenix.Plug</strong>
+            <span>Writes redacted data to <code>conn.assigns</code>.</span>
+          </div>
+          <div class="arrow" aria-hidden="true">&darr;</div>
+          <div class="node safe-node">
+            <strong>Obscura.Phoenix.Logger</strong>
+            <span>Reads only the assign and fails closed when it is unavailable.</span>
+          </div>
+          <div class="arrow" aria-hidden="true">&darr;</div>
+          <div class="node output">
+            <strong>Privacy-safe request log</strong>
+            <span>Route template, redacted parameters, bounded inspection.</span>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span><strong>No raw fallback.</strong> A sanitized representation needs an explicit consumer.</span>
+        <span>hfiguera.github.io/obscura</span>
+      </footer>
+    </div>
+  </body>
+</html>
