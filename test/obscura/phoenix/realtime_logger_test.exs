@@ -1,0 +1,477 @@
+defmodule Obscura.Phoenix.RealtimeLoggerTest do
+  use ExUnit.Case, async: false
+
+  import ExUnit.CaptureLog
+  alias Obscura.Phoenix.ChannelLogger
+  alias Obscura.Phoenix.SocketLogger
+
+  defmodule RoomChannel do
+    use Phoenix.Channel, log_join: :info, log_handle_in: :info
+
+    @impl true
+    def join(_topic, _params, socket), do: {:ok, socket}
+
+    @impl true
+    def handle_in("new_message", _params, socket), do: {:reply, :ok, socket}
+
+    def handle_in("metadata_test", _params, socket) do
+      :ok =
+        :logger.set_process_metadata(%{
+          request_id: "logger-metadata-secret@example.test"
+        })
+
+      {:reply, :ok, socket}
+    end
+
+    def handle_in(_event, _params, socket), do: {:reply, :ok, socket}
+  end
+
+  defmodule UserSocket do
+    use Phoenix.Socket
+
+    channel("room:*", RoomChannel)
+
+    @impl true
+    def connect(_params, socket, _connect_info), do: {:ok, socket}
+
+    @impl true
+    def id(_socket), do: nil
+  end
+
+  defmodule Endpoint do
+    use Phoenix.Endpoint, otp_app: :obscura
+
+    socket("/socket", UserSocket,
+      websocket: true,
+      longpoll: false
+    )
+  end
+
+  import Phoenix.ChannelTest
+
+  @endpoint Endpoint
+
+  setup_all do
+    {:ok, _applications} = Application.ensure_all_started(:phoenix_pubsub)
+    previous_endpoint = Application.fetch_env(:obscura, Endpoint)
+
+    Application.put_env(:obscura, Endpoint,
+      secret_key_base: String.duplicate("a", 64),
+      pubsub_server: Obscura.Phoenix.RealtimeLoggerTest.PubSub,
+      server: false
+    )
+
+    start_supervised!({Phoenix.PubSub, name: Obscura.Phoenix.RealtimeLoggerTest.PubSub})
+    start_supervised!(Endpoint)
+
+    on_exit(fn ->
+      case previous_endpoint do
+        {:ok, value} -> Application.put_env(:obscura, Endpoint, value)
+        :error -> Application.delete_env(:obscura, Endpoint)
+      end
+    end)
+
+    :ok
+  end
+
+  setup do
+    previous_filter_parameters = Application.fetch_env(:phoenix, :filter_parameters)
+    Application.delete_env(:phoenix, :filter_parameters)
+
+    on_exit(fn ->
+      case previous_filter_parameters do
+        {:ok, value} -> Application.put_env(:phoenix, :filter_parameters, value)
+        :error -> Application.delete_env(:phoenix, :filter_parameters)
+      end
+    end)
+
+    :ok
+  end
+
+  test "real Phoenix socket connections omit params and connect info" do
+    start_socket_logger()
+
+    log =
+      capture_log(fn ->
+        result =
+          connect(
+            UserSocket,
+            %{"email" => "socket-secret@example.test"},
+            connect_info: %{
+              peer_data: %{address: {127, 0, 0, 1}},
+              x_headers: [{"x-secret", "connect-info-secret@example.test"}]
+            }
+          )
+
+        assert {:ok, %Phoenix.Socket{}} = result
+      end)
+
+    assert log =~ "CONNECTED TO Obscura.Phoenix.RealtimeLoggerTest.UserSocket"
+    assert log =~ "Parameters: [OMITTED]"
+    refute log =~ "socket-secret@example.test"
+    refute log =~ "connect-info-secret@example.test"
+    refute log =~ "peer_data"
+  end
+
+  test "socket connection params require explicit bounded fast redaction" do
+    start_socket_logger(connect_params: {:redact, entities: [:email]})
+
+    log =
+      capture_log(fn ->
+        assert {:ok, %Phoenix.Socket{}} =
+                 connect(UserSocket, %{
+                   "email" => "socket-secret@example.test",
+                   "locale" => "en"
+                 })
+      end)
+
+    assert log =~ ~s("email" => "[EMAIL]")
+    assert log =~ ~s("locale" => "en")
+    refute log =~ "socket-secret@example.test"
+  end
+
+  test "oversized socket parameter graphs fail closed" do
+    start_socket_logger(connect_params: {:redact, entities: [:email]})
+
+    log =
+      capture_log(fn ->
+        assert {:ok, %Phoenix.Socket{}} =
+                 connect(UserSocket, %{"body" => String.duplicate("x", 65_537)})
+      end)
+
+    assert log =~ "Parameters: [FILTERED]"
+    refute log =~ String.duplicate("x", 100)
+  end
+
+  test "socket drain logs only typed operational fields" do
+    start_socket_logger()
+
+    log =
+      capture_log(fn ->
+        :telemetry.execute(
+          [:phoenix, :socket_drain],
+          %{count: 4, total: 10, index: 1, rounds: 3},
+          %{
+            endpoint: :"endpoint-secret@example.test",
+            interval: 2_000,
+            log: :info,
+            socket: UserSocket
+          }
+        )
+      end)
+
+    assert log =~ "DRAINING 4 of 10 total connection(s)"
+    assert log =~ "Obscura.Phoenix.RealtimeLoggerTest.UserSocket"
+    assert log =~ "every 2000ms - round 1 of 3"
+    refute log =~ "endpoint-secret@example.test"
+  end
+
+  test "real Phoenix channel joins use configured topic patterns and omit payloads" do
+    start_channel_logger(topic_patterns: ["room:*"], events: ["new_message"])
+
+    socket =
+      socket(
+        UserSocket,
+        "socket-id-secret@example.test",
+        %{private_secret: "assign-secret@example.test"}
+      )
+
+    log =
+      capture_log(fn ->
+        assert {:ok, %{}, %Phoenix.Socket{}} =
+                 subscribe_and_join(
+                   socket,
+                   RoomChannel,
+                   "room:topic-secret@example.test",
+                   %{"email" => "join-secret@example.test"}
+                 )
+      end)
+
+    assert log =~ "JOINED room:*"
+    assert log =~ "Obscura.Phoenix.RealtimeLoggerTest.RoomChannel"
+    assert log =~ "Parameters: [OMITTED]"
+    refute log =~ "topic-secret@example.test"
+    refute log =~ "join-secret@example.test"
+    refute log =~ "socket-id-secret@example.test"
+    refute log =~ "assign-secret@example.test"
+  end
+
+  test "real Phoenix channel messages allow configured events and omit payloads" do
+    start_channel_logger(topic_patterns: ["room:*"], events: ["new_message"])
+    socket = joined_socket()
+
+    log =
+      capture_log(fn ->
+        ref = push(socket, "new_message", %{"email" => "message-secret@example.test"})
+        assert_reply(ref, :ok)
+      end)
+
+    assert log =~ "HANDLED new_message ON room:*"
+    assert log =~ "Parameters: [OMITTED]"
+    refute log =~ "message-secret@example.test"
+  end
+
+  test "unconfigured event names and topics fail closed" do
+    start_channel_logger(topic_patterns: ["safe:*"], events: ["new_message"])
+    socket = joined_socket("room:topic-secret@example.test")
+
+    log =
+      capture_log(fn ->
+        ref = push(socket, "event-secret@example.test", %{})
+        assert_reply(ref, :ok)
+      end)
+
+    assert log =~ "HANDLED [FILTERED EVENT] ON [FILTERED TOPIC]"
+    refute log =~ "event-secret@example.test"
+    refute log =~ "topic-secret@example.test"
+  end
+
+  test "channel payload redaction is explicit and bounded" do
+    start_channel_logger(
+      topic_patterns: ["room:*"],
+      events: ["new_message"],
+      join_params: {:redact, entities: [:email]},
+      handle_in_params: {:redact, entities: [:email]}
+    )
+
+    socket = socket(UserSocket, nil, %{})
+    token = make_ref()
+
+    join_log =
+      capture_log(fn ->
+        result =
+          subscribe_and_join(socket, RoomChannel, "room:42", %{
+            "email" => "join-secret@example.test",
+            "kind" => "support"
+          })
+
+        send(self(), {token, result})
+      end)
+
+    assert_receive {^token, {:ok, %{}, socket}}
+    assert join_log =~ ~s("email" => "[EMAIL]")
+    assert join_log =~ ~s("kind" => "support")
+    refute join_log =~ "join-secret@example.test"
+
+    log =
+      capture_log(fn ->
+        ref =
+          push(socket, "new_message", %{
+            "email" => "message-secret@example.test",
+            "body" => "hello"
+          })
+
+        assert_reply(ref, :ok)
+      end)
+
+    assert log =~ ~s("email" => "[EMAIL]")
+    assert log =~ ~s("body" => "hello")
+    refute log =~ "message-secret@example.test"
+  end
+
+  test "channel logging excludes metadata inherited from the channel process" do
+    start_channel_logger(topic_patterns: ["room:*"], events: ["metadata_test"])
+    socket = joined_socket()
+
+    log =
+      capture_log(fn ->
+        ref = push(socket, "metadata_test", %{})
+        assert_reply(ref, :ok)
+      end)
+
+    assert log =~ "HANDLED metadata_test ON room:*"
+    refute log =~ "logger-metadata-secret@example.test"
+    refute log =~ "request_id"
+  end
+
+  test "Phoenix internal topics and disabled channel levels remain silent" do
+    start_channel_logger(topic_patterns: ["phoenix:*"], events: ["heartbeat"])
+
+    log =
+      capture_log(fn ->
+        :telemetry.execute(
+          [:phoenix, :channel_handled_in],
+          %{duration: 10},
+          %{
+            event: "heartbeat",
+            params: %{},
+            socket: %{
+              channel: RoomChannel,
+              private: %{log_handle_in: :info},
+              topic: "phoenix:heartbeat"
+            }
+          }
+        )
+
+        :telemetry.execute(
+          [:phoenix, :channel_handled_in],
+          %{duration: 10},
+          %{
+            event: "heartbeat",
+            params: %{},
+            socket: %{
+              channel: RoomChannel,
+              private: %{log_handle_in: false},
+              topic: "room:42"
+            }
+          }
+        )
+      end)
+
+    assert log == ""
+  end
+
+  test "malformed telemetry metadata cannot detach either handler" do
+    start_socket_logger()
+    start_channel_logger(topic_patterns: ["room:*"], events: ["new_message"])
+
+    capture_log(fn ->
+      :telemetry.execute(
+        [:phoenix, :socket_connected],
+        %{duration: "duration-secret@example.test"},
+        %{params: fn -> "opaque-secret@example.test" end, log: :info}
+      )
+
+      :telemetry.execute(
+        [:phoenix, :channel_handled_in],
+        %{duration: :invalid},
+        %{
+          event: "event-secret@example.test",
+          params: fn -> "opaque-secret@example.test" end,
+          socket: %{private: %{log_handle_in: :info}, topic: <<255>>}
+        }
+      )
+    end)
+
+    log =
+      capture_log(fn ->
+        assert {:ok, %Phoenix.Socket{}} = connect(UserSocket, %{})
+      end)
+
+    assert log =~ "CONNECTED TO Obscura.Phoenix.RealtimeLoggerTest.UserSocket"
+  end
+
+  test "realtime payload policies reject model profiles and custom callbacks" do
+    assert {:error, {:invalid_option, :params, :fast_profile_required}} =
+             isolated_start(fn ->
+               SocketLogger.start_link(
+                 name: unique_name(:invalid_profile),
+                 connect_params: {:redact, profile: :balanced}
+               )
+             end)
+
+    assert {:error, {:invalid_option, :recognizers, :unsupported_realtime_redaction_option}} =
+             isolated_start(fn ->
+               ChannelLogger.start_link(
+                 name: unique_name(:invalid_recognizer),
+                 join_params: {:redact, recognizers: [RoomChannel]}
+               )
+             end)
+
+    assert {:error, {:invalid_option, :operators, :unsupported_realtime_redaction_option}} =
+             isolated_start(fn ->
+               ChannelLogger.start_link(
+                 name: unique_name(:invalid_operator),
+                 handle_in_params: {:redact, operators: %{default: %{type: :custom}}}
+               )
+             end)
+  end
+
+  test "unsafe configured topic patterns and event names are rejected" do
+    assert {:error, {:invalid_option, :topic_patterns, :invalid_pattern}} =
+             isolated_start(fn ->
+               ChannelLogger.start_link(
+                 name: unique_name(:invalid_topic),
+                 topic_patterns: ["room:secret@example.test"]
+               )
+             end)
+
+    assert {:error, {:invalid_option, :topic_patterns, :invalid_pattern}} =
+             isolated_start(fn ->
+               ChannelLogger.start_link(
+                 name: unique_name(:multiple_wildcards),
+                 topic_patterns: ["room:**"]
+               )
+             end)
+
+    assert {:error, {:invalid_option, :events, :invalid_event}} =
+             isolated_start(fn ->
+               ChannelLogger.start_link(
+                 name: unique_name(:invalid_event),
+                 events: ["secret@example.test"]
+               )
+             end)
+
+    assert {:error, {:invalid_option, :events, :invalid_event}} =
+             isolated_start(fn ->
+               ChannelLogger.start_link(
+                 name: unique_name(:control_event),
+                 events: [<<0xC2, 0x9B>>]
+               )
+             end)
+  end
+
+  test "startup refuses to coexist with Phoenix's raw socket logger" do
+    event = [:phoenix, :socket_connected]
+    handler_id = {Phoenix.Logger, event}
+    :telemetry.detach(handler_id)
+
+    :ok =
+      :telemetry.attach(
+        handler_id,
+        event,
+        &__MODULE__.discard_telemetry_event/4,
+        nil
+      )
+
+    on_exit(fn -> :telemetry.detach(handler_id) end)
+
+    assert {:error, {:unsafe_phoenix_logger_attached, ^event}} =
+             isolated_start(fn ->
+               SocketLogger.start_link(name: unique_name(:unsafe_default_logger))
+             end)
+  end
+
+  defp isolated_start(fun) do
+    caller = self()
+    token = make_ref()
+
+    {_pid, monitor} =
+      spawn_monitor(fn ->
+        Process.flag(:trap_exit, true)
+        send(caller, {token, fun.()})
+      end)
+
+    assert_receive {^token, result}
+    assert_receive {:DOWN, ^monitor, :process, _pid, :normal}
+    result
+  end
+
+  defp joined_socket(topic \\ "room:42", params \\ %{}) do
+    socket = socket(UserSocket, nil, %{private_secret: "assign-secret@example.test"})
+    token = make_ref()
+
+    capture_log(fn ->
+      send(self(), {token, subscribe_and_join(socket, RoomChannel, topic, params)})
+    end)
+
+    assert_receive {^token, {:ok, %{}, socket}}
+    socket
+  end
+
+  defp start_socket_logger(opts \\ []) do
+    name = unique_name(:socket_logger)
+    start_supervised!({SocketLogger, Keyword.put(opts, :name, name)})
+  end
+
+  defp start_channel_logger(opts) do
+    name = unique_name(:channel_logger)
+    start_supervised!({ChannelLogger, Keyword.put(opts, :name, name)})
+  end
+
+  defp unique_name(prefix),
+    do: String.to_atom("#{prefix}_#{System.unique_integer([:positive])}")
+
+  @doc false
+  def discard_telemetry_event(_event, _measurements, _metadata, _config), do: :ok
+end

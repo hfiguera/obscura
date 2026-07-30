@@ -122,8 +122,10 @@
     },
     Obscura.Operator.Custom => %{callbacks: [apply: 3]},
     Obscura.Operator.Hash => %{functions: [verify: 2]},
+    Obscura.Phoenix.ChannelLogger => %{functions: [child_spec: 1, start_link: 0, start_link: 1]},
     Obscura.Phoenix.Logger => %{functions: [child_spec: 1, start_link: 0, start_link: 1]},
     Obscura.Phoenix.Plug => %{functions: [call: 2, init: 1]},
+    Obscura.Phoenix.SocketLogger => %{functions: [child_spec: 1, start_link: 0, start_link: 1]},
     Obscura.Profile => %{
       functions: [
         available?: 1,
@@ -247,7 +249,8 @@
     Obscura.Recognizer.Phone.ExPhoneNumberValidator =>
       "Optional parser adapter depends on ex_phone_number.",
     Obscura.Recognizer.PrivacyFilter.Native => "Native OpenMed recognizer remains experimental.",
-    Obscura.Tiktoken => "Tokenizer compatibility API is not yet part of the core release promise.",
+    Obscura.Tiktoken =>
+      "Tokenizer compatibility API is not yet part of the core release promise.",
     Obscura.Tiktoken.Encoding => "Encoding representation and low-level functions may change."
   },
   deprecated: %{},

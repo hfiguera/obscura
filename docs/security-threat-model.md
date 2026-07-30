@@ -98,6 +98,21 @@ field policies detect the values. They do not make arbitrary terms
 non-sensitive. Plug and LLM helpers retain raw request/message data in the
 caller's original structures unless the caller replaces or discards it.
 
+The Phoenix request logger consumes only a pre-redacted Plug assign. The
+Phoenix socket and channel loggers omit parameters by default; explicit
+realtime inclusion is limited to bounded `:fast` redaction. They never inspect
+socket connection information, assigns, application-private socket data,
+identifiers, message references, callback results, or raw unmatched topics and
+event names. Logger metadata inherited from request, socket, or channel
+processes is excluded from Obscura's records.
+
+Phoenix emits raw connection and channel parameters in telemetry metadata.
+Obscura's handlers sanitize only their own Logger output and cannot prevent
+another telemetry handler from observing the original event. Deployers must
+review every handler attached to Phoenix socket and channel events. Outbound
+channel traffic, LiveView-specific telemetry, reverse proxies, transports, and
+application-authored logs remain separate boundaries.
+
 ### Vaults And Rehydration
 
 Memory and ETS vaults store raw values for reversible pseudonymization. Memory

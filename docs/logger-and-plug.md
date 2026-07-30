@@ -134,5 +134,89 @@ request schema, and verify representative payloads before enabling parameter
 logging in production.
 
 This integration does not sanitize reverse-proxy logs, web-server access logs,
-socket/channel parameter logs, traces installed before the plug, or arbitrary
-application logs. Configure those boundaries independently.
+traces installed before the plug, or arbitrary application logs. Configure
+those boundaries independently.
+
+## Privacy-safe Phoenix socket logging
+
+Disabling Phoenix's default logger also disables its socket connection and
+socket drain records. `Obscura.Phoenix.SocketLogger` restores those records
+without logging `connect_info` and omits connection parameters by default:
+
+```elixir
+children = [
+  {Obscura.Phoenix.Logger, assign: :obscura_redacted},
+  {Obscura.Phoenix.SocketLogger, connect_params: :omit}
+]
+```
+
+The connection result, socket module, transport, serializer, and duration are
+validated before logging. Drain records contain only validated counts, the
+socket module, and the configured interval. Invalid identifiers and
+measurements become fixed filtered or unknown labels.
+
+Applications can explicitly include a bounded redacted copy of connection
+parameters:
+
+```elixir
+{Obscura.Phoenix.SocketLogger,
+ connect_params:
+   {:redact,
+    entities: [:email, :phone, :credit_card, :us_ssn]}}
+```
+
+Realtime parameter redaction accepts only the dependency-light `:fast` profile
+and a narrow set of declarative redaction options. It does not accept
+model-backed profiles, custom recognizers, parser callbacks, or automatic asset
+preparation. Parameter graphs use the same key, byte, node, analysis, and
+numeric limits as request logging and fail closed as `[FILTERED]`.
+
+## Privacy-safe Phoenix channel logging
+
+`Obscura.Phoenix.ChannelLogger` restores channel join and incoming-event logs.
+Raw channel topics and event names are client-controlled, so they are not
+logged directly. Configure the static topic patterns and event names that are
+safe to expose:
+
+```elixir
+children = [
+  {Obscura.Phoenix.ChannelLogger,
+   topic_patterns: ["room:*", "users:*", "system"],
+   events: ["new_message", "typing", "mark_read"]}
+]
+```
+
+The logger emits the matched configured pattern, not the raw topic. Unmatched
+topics become `[FILTERED TOPIC]`, and unconfigured event names become
+`[FILTERED EVENT]`. Phoenix's internal `"phoenix"` topics remain silent. The
+handler preserves the channel's `:log_join` and `:log_handle_in` levels.
+
+Join and incoming-event parameters are independently omitted by default. A
+bounded redacted copy can be enabled explicitly:
+
+```elixir
+{Obscura.Phoenix.ChannelLogger,
+ topic_patterns: ["room:*"],
+ events: ["new_message"],
+ join_params: {:redact, entities: [:email, :phone]},
+ handle_in_params: {:redact, entities: [:email, :phone]}}
+```
+
+The handler never inspects socket assigns, application-private socket data,
+socket identifiers, message references, callback results, or outbound
+messages. It clears channel-process Logger metadata while emitting its record.
+Any failure produces only fixed safe labels or suppresses the record; it never
+falls back to raw values.
+
+Both realtime handlers refuse to start while Phoenix's corresponding default
+logger handler is attached. This prevents an apparently safe handler from
+running beside the raw default logger. Keep `config :phoenix, :logger, false`
+when using any of the Obscura Phoenix loggers.
+
+Phoenix telemetry metadata contains raw socket and channel parameters before
+Obscura receives the event. These handlers protect only the Logger records they
+produce. Other telemetry handlers attached to the same Phoenix events can
+still observe the raw metadata and must be reviewed independently. The
+integration also does not cover LiveView-specific telemetry, custom transport
+instrumentation, channel callback logs, broadcasts, pushes, reverse-proxy
+logs, or arbitrary application logs.

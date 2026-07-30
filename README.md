@@ -313,6 +313,11 @@ plug Obscura.Phoenix.Plug,
   entities: [:email]
 ```
 
+Opt-in Phoenix telemetry handlers provide privacy-safe HTTP request, socket,
+and channel logging. Realtime payloads are omitted by default; channel topics
+and event names use explicit application-configured labels rather than raw
+client values.
+
 Telemetry events include durations, counts, entities, and statuses, but omit
 raw text and span values. See [Logger and Plug integration](docs/logger-and-plug.md).
 

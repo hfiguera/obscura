@@ -175,6 +175,12 @@
     "Plug-Compatible Helper" => [{:test, "test/obscura/phoenix/plug_test.exs"}],
     "Privacy-safe Phoenix request logging" => [
       {:test, "test/obscura/phoenix/logger_test.exs"}
+    ],
+    "Privacy-safe Phoenix socket logging" => [
+      {:test, "test/obscura/phoenix/realtime_logger_test.exs"}
+    ],
+    "Privacy-safe Phoenix channel logging" => [
+      {:test, "test/obscura/phoenix/realtime_logger_test.exs"}
     ]
   }
 }

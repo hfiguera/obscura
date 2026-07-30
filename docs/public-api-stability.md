@@ -342,6 +342,17 @@ are excluded from key recognition because ordinary dotted field names are
 ambiguous; applications can filter specific dotted keys through Phoenix's
 policy.
 
+`Obscura.Phoenix.SocketLogger` supports `:connect_params` (`:omit` by default,
+or `{:redact, keyword()}`), `:name`, and `:inspect_opts`.
+`Obscura.Phoenix.ChannelLogger` supports `:topic_patterns` and `:events`
+(proper lists of bounded static strings), `:join_params` and
+`:handle_in_params` (`:omit` by default, or `{:redact, keyword()}`), `:name`,
+and `:inspect_opts`. Realtime redaction is restricted to `:fast` and the
+declarative `:entities` and `:max_depth` options. Unknown options fail startup.
+Raw topics and event names are never logged: only configured topic patterns and
+allow-listed event names are emitted. Both handlers reject startup while the
+corresponding Phoenix default logger handler remains attached.
+
 ## Optional Dependencies And Assets
 
 The package's required runtime dependencies are Jason, Telemetry, and Plug.
