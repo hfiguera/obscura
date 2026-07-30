@@ -31,9 +31,6 @@ defmodule Obscura.Eval.Operational.LoadRunner do
     request_count = Keyword.get(opts, :request_count)
     concurrency = Keyword.get(opts, :concurrency, 4)
     timeout = Keyword.get(opts, :timeout, 120_000)
-    started = monotonic_time()
-    deadline = started + milliseconds_to_native(duration_ms)
-    midpoint = started + milliseconds_to_native(duration_ms / 2)
 
     {:ok, sampler} =
       ResourceSampler.start_link(
@@ -43,11 +40,13 @@ defmodule Obscura.Eval.Operational.LoadRunner do
 
     sample_tuple = List.to_tuple(samples)
     budget = request_budget(request_count)
+    start_barrier = :atomics.new(2, signed: true)
 
     worker_context = %{
       stride: concurrency,
-      deadline: deadline,
-      midpoint: midpoint,
+      duration_ms: duration_ms,
+      start_barrier: start_barrier,
+      worker_count: concurrency,
       timeout: timeout,
       budget: budget
     }
@@ -68,6 +67,7 @@ defmodule Obscura.Eval.Operational.LoadRunner do
         {:exit, _reason} -> Map.put(empty_worker_summary(), :failed, 1)
       end)
 
+    started = :atomics.get(start_barrier, 2)
     resources = ResourceSampler.snapshot(sampler)
     GenServer.stop(sampler)
 
@@ -236,6 +236,17 @@ defmodule Obscura.Eval.Operational.LoadRunner do
   end
 
   defp sustained_worker(host, samples, index, context, summary) do
+    started = await_sustained_start(context.start_barrier, context.worker_count)
+
+    context =
+      context
+      |> Map.put(:deadline, started + milliseconds_to_native(context.duration_ms))
+      |> Map.put(:midpoint, started + milliseconds_to_native(context.duration_ms / 2))
+
+    run_sustained_worker(host, samples, index, context, summary)
+  end
+
+  defp run_sustained_worker(host, samples, index, context, summary) do
     if monotonic_time() >= context.deadline or not claim_request(context.budget) do
       summary
     else
@@ -256,7 +267,32 @@ defmodule Obscura.Eval.Operational.LoadRunner do
         |> count_sustained_result(result)
         |> update_half(half, latency)
 
-      sustained_worker(host, samples, index + context.stride, context, next_summary)
+      run_sustained_worker(host, samples, index + context.stride, context, next_summary)
+    end
+  end
+
+  defp await_sustained_start(barrier, worker_count) do
+    case :atomics.add_get(barrier, 1, 1) do
+      ^worker_count ->
+        started = monotonic_time()
+        :ok = :atomics.put(barrier, 2, started)
+        started
+
+      _ready_count ->
+        await_barrier_release(barrier)
+    end
+  end
+
+  defp await_barrier_release(barrier) do
+    case :atomics.get(barrier, 2) do
+      0 ->
+        receive do
+        after
+          1 -> await_barrier_release(barrier)
+        end
+
+      started ->
+        started
     end
   end
 
