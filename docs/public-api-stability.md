@@ -41,7 +41,7 @@ Default-argument functions are listed at every exported arity.
 | Operators | `Obscura.Operator.Custom` callback and `Obscura.Operator.Hash.verify/2` |
 | Structured data | `Obscura.Structured.analyze/1,2`, `redact/1,2`; structured result and item structs |
 | Protocol | `Obscura.Redactable.redact/2` and the documented derive contract |
-| Logging and Plug | `Obscura.Logger` helpers and the `Obscura.Phoenix.Plug` Plug callbacks |
+| Logging and Plug | `Obscura.Logger` helpers, `Obscura.Phoenix.Plug` callbacks, and `Obscura.Phoenix.Logger` startup and child-spec functions |
 | LLM workflows | All `Obscura.LLM` redaction and rehydration functions |
 | Streaming | `Obscura.Stream.Rehydrator.new/1`, `feed/2`, and `flush/1` |
 | Vaults | `Obscura.Vault`; `Obscura.Vault.Memory` and `ETS` startup/child specs; `Obscura.Vault.Backend`; `Obscura.Vault.Entry` |
@@ -318,6 +318,29 @@ Streaming rehydration requires `:vault` and supports `:token_prefix`,
 The Plug supports `:fields` (`[:params]`), `:mode` (`:assign_redacted`,
 `:replace`, or `:disabled`), `:assign` (`:obscura_redacted`), and supported
 redaction options. Other values are outside the stable schema.
+
+`Obscura.Phoenix.Logger` supports `:assign` (atom, default
+`:obscura_redacted`), `:name` (GenServer name, default
+`Obscura.Phoenix.Logger`), and `:inspect_opts` (valid `Inspect.Opts` keyword
+options, default `[limit: 50, printable_limit: 500]`). Unknown logger options
+and invalid assign or inspection options fail startup with a structured
+`{:invalid_option, option, reason}` value. Opaque parameter terms, including
+structs and tuples, are logged as `[FILTERED]`. Character lists containing
+high-confidence `:fast` profile PII are also filtered; ordinary integer arrays
+remain available to the inspect policy. Atom and numeric scalar representations
+are checked before inspection, including when used as map keys. Parameter graphs
+exceeding 64 keys, 4 KiB of cumulative key text, 64 KiB of cumulative scalar
+value text, 1,024 traversed values, 128 terms requiring PII analysis, or 64
+decimal digits in one number also fail closed. Request-process Logger metadata
+is excluded from these records. Standard HTTP methods are preserved, while
+bounded custom methods must use valid HTTP token characters and are checked for
+PII. Dynamic log-level callback failures are contained without exposing their
+reason or detaching the handler. The logger applies Phoenix's configured
+`:filter_parameters` policy and replaces binary parameter keys
+containing high-confidence `:fast` profile PII before inspection. Bare domains
+are excluded from key recognition because ordinary dotted field names are
+ambiguous; applications can filter specific dotted keys through Phoenix's
+policy.
 
 ## Optional Dependencies And Assets
 

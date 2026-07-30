@@ -172,6 +172,9 @@
   },
   "docs/logger-and-plug.md" => %{
     "Logger Helpers" => [{:test, "test/obscura/documented_examples_test.exs"}],
-    "Plug-Compatible Helper" => [{:test, "test/obscura/phoenix/plug_test.exs"}]
+    "Plug-Compatible Helper" => [{:test, "test/obscura/phoenix/plug_test.exs"}],
+    "Privacy-safe Phoenix request logging" => [
+      {:test, "test/obscura/phoenix/logger_test.exs"}
+    ]
   }
 }

@@ -58,6 +58,7 @@ defmodule Obscura.MixProject do
       {:ex_slop, "~> 0.4", only: [:dev, :test], runtime: false},
       {:credence, "~> 0.6", only: [:dev, :test], runtime: false},
       {:stream_data, "~> 1.4", only: :test},
+      {:phoenix, "~> 1.8", only: :test, runtime: false},
       {:nx, "~> 0.12", optional: true},
       {:bumblebee, "~> 0.7", optional: true},
       {:safetensors, "~> 0.1.3", optional: true},

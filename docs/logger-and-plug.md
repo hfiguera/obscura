@@ -59,3 +59,80 @@ copies already observed by earlier plugs, request logging, tracing, crash
 reports, or caller variables. Place the helper before untrusted
 instrumentation and treat the original connection as sensitive for its full
 lifetime.
+
+## Privacy-safe Phoenix request logging
+
+`Obscura.Phoenix.Logger` is an opt-in telemetry handler that logs only the
+redacted params assigned by `Obscura.Phoenix.Plug`. It never reads
+`conn.params`.
+
+Disable Phoenix's default telemetry logger so it cannot emit the original
+parameters:
+
+```elixir
+config :phoenix, :logger, false
+```
+
+Mount the plug after `Plug.Parsers` and before the router. Keep assign mode so
+controllers continue to receive the original params:
+
+```elixir
+plug Plug.Parsers,
+  parsers: [:urlencoded, :multipart, :json],
+  json_decoder: Phoenix.json_library()
+
+plug Obscura.Phoenix.Plug,
+  mode: :assign_redacted,
+  fields: [:params],
+  profile: :fast,
+  entities: [:email, :phone, :credit_card, :us_ssn, :iban, :url]
+
+plug MyAppWeb.Router
+```
+
+Start the handler under the application supervisor:
+
+```elixir
+children = [
+  {Obscura.Phoenix.Logger, assign: :obscura_redacted}
+]
+```
+
+The handler logs the route template rather than the raw request path and omits
+exception reasons. Standard HTTP methods are logged directly; bounded custom
+methods must use valid HTTP token characters and are checked for high-confidence
+PII; invalid or suspicious methods are replaced with `[FILTERED METHOD]`.
+Dynamic log-level callback failures are contained without exposing their reason
+or detaching the handler. The handler does not inherit request-process Logger
+metadata, so metadata added earlier in the request cannot bypass the sanitized
+message. If the redacted assign is absent, it logs `[FILTERED]` instead of
+falling back to the original params. Opaque values, including
+multipart upload structs and tuples, are also logged as `[FILTERED]` so
+unchanged values cannot bypass structured redaction through `Inspect`.
+Character lists are reconstructed and checked for high-confidence `:fast`
+profile PII before inspection; ordinary integer arrays remain available to the
+configured inspect policy. Atom and numeric scalar representations, including
+map keys, receive the same check so inspection cannot turn an unanalyzed term
+into visible PII.
+Phoenix's configured `:filter_parameters` policy is applied to the redacted
+copy as an additional safeguard. Binary parameter keys containing
+high-confidence `:fast` profile PII are replaced with unique
+`[FILTERED KEY n]` labels before inspection; controller params and the Plug
+assign are not changed. Bare domain recognition is excluded from this key check
+because ordinary dotted field names such as `user.name` are ambiguous. Add
+application-specific dotted keys to Phoenix's filter policy when needed.
+Parameter graphs exceeding 64 keys, 4 KiB of cumulative key text, 64 KiB of
+cumulative scalar value text, 1,024 traversed values, 128 terms requiring PII
+analysis, or 64 decimal digits in a single number fail closed as `[FILTERED]`
+before key recognition. These limits bound synchronous logger work on
+attacker-controlled request shapes.
+
+Recognition is still not a universal secret detector. Unsupported formats,
+unselected entities, and false negatives can remain in otherwise ordinary
+string values. Configure entities and field policies for the application's
+request schema, and verify representative payloads before enabling parameter
+logging in production.
+
+This integration does not sanitize reverse-proxy logs, web-server access logs,
+socket/channel parameter logs, traces installed before the plug, or arbitrary
+application logs. Configure those boundaries independently.
