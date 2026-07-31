@@ -3,6 +3,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
   alias Obscura.Analyzer.Explanation
   alias Obscura.Analyzer.Result
+  alias Obscura.Internal.ResultText
   alias Obscura.Phoenix.Plug, as: ObscuraPlug
   alias Obscura.Recognizer.Address
   alias Obscura.Recognizer.DenyList
@@ -220,6 +221,18 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
     end
   end
 
+  test "retained-size checks distinguish owned small binaries from borrowed large slices" do
+    source = safe_padding(200_000)
+    owned = source |> binary_part(100_000, 15) |> :binary.copy()
+    borrowed = binary_part(source, 100_000, 1_024)
+
+    assert ResultText.retained_byte_size(owned) == byte_size(owned)
+    refute ResultText.borrowed?(owned)
+
+    assert ResultText.retained_byte_size(borrowed) > byte_size(borrowed)
+    assert ResultText.borrowed?(borrowed)
+  end
+
   test "final text does not retain an unrelated large source binary" do
     text = long_url_text()
 
@@ -235,7 +248,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
              binary_part(text, result.byte_start, result.byte_end - result.byte_start)
 
     assert byte_size(text) > byte_size(result.text) * 100
-    assert :binary.referenced_byte_size(result.text) == byte_size(result.text)
+    assert ResultText.retained_byte_size(result.text) == byte_size(result.text)
   end
 
   test "analyze_many owns final text independently" do
@@ -249,7 +262,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
                telemetry: false
              )
 
-    assert :binary.referenced_byte_size(result.text) == byte_size(result.text)
+    assert ResultText.retained_byte_size(result.text) == byte_size(result.text)
   end
 
   test "custom recognizer borrowed text is normalized to owned final text" do
@@ -265,7 +278,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
                telemetry: false
              )
 
-    assert :binary.referenced_byte_size(result.text) == byte_size(result.text)
+    assert ResultText.retained_byte_size(result.text) == byte_size(result.text)
     assert result.metadata.matched_prefix_bytes == 8
   end
 
@@ -310,10 +323,10 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
     assert result.metadata.nested == [%{captured: captured}]
     assert result.explanation.metadata.nested == [%{captured: captured}]
 
-    assert :binary.referenced_byte_size(result.metadata.nested |> hd() |> Map.fetch!(:captured)) ==
+    assert ResultText.retained_byte_size(result.metadata.nested |> hd() |> Map.fetch!(:captured)) ==
              byte_size(captured)
 
-    assert :binary.referenced_byte_size(
+    assert ResultText.retained_byte_size(
              result.explanation.metadata.nested
              |> hd()
              |> Map.fetch!(:captured)
@@ -334,7 +347,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
       assert result.metadata.phone_e164 == "+442079460958"
 
-      assert :binary.referenced_byte_size(result.metadata.phone_e164) ==
+      assert ResultText.retained_byte_size(result.metadata.phone_e164) ==
                byte_size(result.metadata.phone_e164)
     end
   end
@@ -434,7 +447,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
     cloned_borrowed = borrowed_result.metadata.deferred.()
 
     assert cloned_borrowed == binary_part(text, 100_000, 1_024)
-    assert :binary.referenced_byte_size(cloned_borrowed) == byte_size(cloned_borrowed)
+    assert ResultText.retained_byte_size(cloned_borrowed) == byte_size(cloned_borrowed)
   end
 
   test "non-byte-aligned callback metadata does not retain its large source binary" do
@@ -454,7 +467,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
     assert bit_size(flags) == 8_191
     refute is_binary(flags)
-    assert :binary.referenced_byte_size(flags) == byte_size(flags)
+    assert ResultText.retained_byte_size(flags) == byte_size(flags)
     assert borrowed_binary_paths(result) == []
   end
 
@@ -484,7 +497,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
       assert escaped == original
       assert byte_size(escaped) == byte_size(text)
-      assert :binary.referenced_byte_size(escaped) == byte_size(escaped)
+      assert ResultText.retained_byte_size(escaped) == byte_size(escaped)
       refute :erts_debug.same(escaped, original)
     end
   end
@@ -545,7 +558,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
 
     assert %{__struct__: value} = result.metadata
     assert byte_size(value) == 1_024
-    assert :binary.referenced_byte_size(value) == 1_024
+    assert ResultText.retained_byte_size(value) == 1_024
     assert borrowed_binary_paths(result) == []
   end
 
@@ -754,7 +767,7 @@ defmodule Obscura.Analyzer.BinaryOwnershipTest do
   defp borrowed_binary_paths(term), do: inspect_binaries(term, [], [])
 
   defp inspect_binaries(value, path, acc) when is_binary(value) do
-    if :binary.referenced_byte_size(value) > byte_size(value), do: [path | acc], else: acc
+    if ResultText.borrowed?(value), do: [path | acc], else: acc
   end
 
   defp inspect_binaries(value, path, acc) when is_map(value) do

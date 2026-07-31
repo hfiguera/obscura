@@ -3,11 +3,49 @@
 Obscura separates dependency-light correctness from optional model and
 accelerator validation.
 
+## Supported Runtime Matrix
+
+Obscura supports Elixir 1.17 and later. Pull-request CI validates every accepted
+Elixir minor with one representative Erlang/OTP generation:
+
+| Lane | Elixir | Erlang/OTP | Purpose |
+| --- | --- | --- | --- |
+| Minimum | 1.17.3 | 27.3.4.15 | Compatibility gate and unpacked Hex-package validation |
+| Intermediate | 1.18.4 | 27.3.4.15 | Compatibility gate |
+| Intermediate | 1.19.5 | 28.5 | Compatibility gate |
+| Current | 1.20.2 | 29.0.3 | Complete dependency-light quality and evidence gates |
+
+Elixir 1.17 officially supports OTP 25 through 27. OTP 27 is used for the
+minimum lane because it is the newest supported OTP generation for that Elixir
+release. Elixir 1.18 remains on OTP 27, Elixir 1.19 advances to OTP 28, and the
+current Elixir 1.20 lane uses OTP 29. Scheduled optional-dependency
+compatibility runs on all four pairs. Pages and controlled accelerator
+workflows remain on the current pair; those jobs validate publication or
+provisioned infrastructure rather than package compatibility.
+
+Dependency and build caches are isolated by operating system, Elixir, OTP,
+and lockfile. After a cache restore, CI removes Obscura's compiled application
+files while retaining compiled dependencies. Compilation and tests then run in
+separate Mix processes so compile-time changes to process-global state cannot
+affect the test environment. A cold cache and a warm cache must produce the
+same result.
+
+Compatibility lanes set `OBSCURA_COMPATIBILITY_RUNTIME=1` to omit current-only
+lint, type-analysis, and Syntect documentation tooling from the project
+dependency graph. Elixir versions below 1.18 omit those tools automatically for
+local development. The compatibility graph retains all runtime dependencies,
+ordinary test dependencies, Phoenix integration tests, and optional
+Nx/Bumblebee contracts. The omitted tools are not dependencies of downstream
+Obscura applications.
+
 ## Tier 1: Pull Requests
 
-Every push and pull request runs without EXLA, Emily, Ortex, model downloads,
-or external services. It checks formatting, warnings, unit/fixture behavior,
-authoritative manifest integrity, static analysis, and documentation.
+Every pull request and every push to `main` runs without EXLA, Emily, Ortex,
+model downloads, or external services. The current-runtime lane checks
+formatting, warnings, unit/fixture behavior, authoritative manifest integrity,
+static analysis, and documentation. Each compatibility lane compiles with
+warnings as errors, runs the ordinary test suite, and verifies documentation
+links. The minimum lane also compiles and smoke-tests the unpacked Hex package.
 The lockfile hygiene subprocess fetches and evaluates the union of conditional
 optional dependency declarations so Mix can inspect their transitive graphs,
 but it does not compile or execute those adapters.
@@ -16,6 +54,12 @@ Local equivalent:
 
 ```sh
 mix ci.base
+```
+
+Run the compatibility subset under any supported Elixir/OTP pair with:
+
+```sh
+mix ci.compatibility
 ```
 
 ## Tier 2: Optional Compatibility
@@ -90,8 +134,8 @@ this document describes their intended boundaries and local reproduction.
 
 | Workflow | Trigger | Runner | Local command |
 | --- | --- | --- | --- |
-| `ci.yml` | every push and pull request | GitHub-hosted Ubuntu | `mix ci.base` |
-| `optional-compatibility.yml` | weekly and manual | GitHub-hosted Ubuntu | `mix ci.optional` |
+| `ci.yml` | pull requests and pushes to `main` | GitHub-hosted Ubuntu, Elixir 1.17 through 1.20 with representative OTP generations | `mix ci.compatibility` and `mix ci.base` |
+| `optional-compatibility.yml` | weekly and manual | GitHub-hosted Ubuntu, all supported Elixir minors | `mix ci.optional` |
 | `model-validation.yml` Apple | weekly/manual when enabled | `[self-hosted, macOS, ARM64, obscura-metal]` | `mix ci.real_model_smoke` with Emily environment |
 | `model-validation.yml` EXLA | weekly/manual when enabled | `[self-hosted, Linux, X64, obscura-exla]` | `mix ci.real_model_smoke` with EXLA environment |
 | `model-validation.yml` GLiNER | weekly/manual when enabled | `[self-hosted, macOS, ARM64, obscura-ortex]` | tagged GLiNER Ortex test |

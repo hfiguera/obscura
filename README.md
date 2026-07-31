@@ -20,6 +20,9 @@ recognition. Obscura does not require a hosted recognition service.
 
 ## Installation
 
+Obscura supports Elixir 1.17 and later. CI validates every supported Elixir
+minor from 1.17 through 1.20 against a representative Erlang/OTP generation.
+
 Add Obscura to an Elixir project:
 
 ```elixir

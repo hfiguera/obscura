@@ -26,6 +26,8 @@ exclude =
       else: [gliner_native: true] ++ exclude
   end)
 
+# Dependency compilation must not determine which levels the test suite can capture.
+Logger.configure(level: :debug)
 ExUnit.start(exclude: exclude)
 Code.require_file("support/soak_report_fixture.exs", __DIR__)
 Code.require_file("support/diagnostic_report_fixture.exs", __DIR__)

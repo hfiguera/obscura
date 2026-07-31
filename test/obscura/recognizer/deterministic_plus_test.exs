@@ -2,6 +2,7 @@ defmodule Obscura.Recognizer.DeterministicPlusTest do
   use ExUnit.Case, async: true
 
   alias Obscura.Eval.Profile
+  alias Obscura.Internal.ResultText
 
   test "phone recognizer detects generated short parenthesized phone numbers" do
     assert {:ok, [result]} =
@@ -85,7 +86,7 @@ defmodule Obscura.Recognizer.DeterministicPlusTest do
 
     assert phone.text == nil
     assert phone.metadata.deferred.() == sensitive
-    assert :binary.referenced_byte_size(phone.metadata.deferred.()) == byte_size(sensitive)
+    assert ResultText.retained_byte_size(phone.metadata.deferred.()) == byte_size(sensitive)
   end
 
   test "optional ex_phone_number parser improves Presidio international phone recall" do

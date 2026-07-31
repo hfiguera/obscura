@@ -3,6 +3,8 @@ Mix.Task.run("app.start")
 defmodule Obscura.FastProfileRetentionSoak do
   @moduledoc false
 
+  alias Obscura.Internal.ResultText
+
   @counter_completed 1
   @counter_failures 2
   @counter_controlled_failures 3
@@ -190,7 +192,7 @@ defmodule Obscura.FastProfileRetentionSoak do
            telemetry: false
          ) do
       {:ok, [%{text: value} = result]} when is_binary(value) ->
-        if :binary.referenced_byte_size(value) == byte_size(value) do
+        unless ResultText.borrowed?(value) do
           send(holder, {:hold, result})
           :atomics.add(counters, @counter_held, 1)
           :ok

@@ -4,6 +4,7 @@ defmodule Obscura.FastProfileRetentionProbe do
   @moduledoc false
 
   alias Obscura.Analyzer.Result
+  alias Obscura.Internal.ResultText
   alias Obscura.Recognizer.PatternDefinition
 
   defmodule BorrowingRecognizer do
@@ -1262,10 +1263,10 @@ defmodule Obscura.FastProfileRetentionProbe do
 
   defp inspect_term(value, path, state, sensitive_values) when is_bitstring(value) do
     bytes = byte_size(value)
-    referenced = :binary.referenced_byte_size(value)
+    referenced = ResultText.retained_byte_size(value)
     amplification = referenced / max(bytes, 1)
     text? = List.last(path) == :text
-    borrowed? = referenced > bytes
+    borrowed? = ResultText.borrowed?(value)
 
     sensitive? = Enum.any?(sensitive_values, &contains_sensitive_value?(value, &1))
 
