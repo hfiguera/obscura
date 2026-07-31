@@ -2,13 +2,15 @@
 
 All notable changes to Obscura are documented in this file.
 
-## Unreleased
+## 0.1.3 - 2026-07-31
 
-- Lowered the minimum supported Elixir version from 1.20 to 1.17 and added
-  per-minor Elixir and Erlang/OTP compatibility lanes.
+- Added opt-in privacy-safe Phoenix request logging that consumes a dedicated
+  redacted assign while leaving controller parameters unchanged.
 - Added opt-in privacy-safe Phoenix socket and channel telemetry loggers with
   omission-first payload policies, configured topic patterns and event names,
   bounded `:fast` redaction, and raw-default-logger conflict detection.
+- Lowered the minimum supported Elixir version from 1.20 to 1.17 and added
+  per-minor Elixir and Erlang/OTP compatibility lanes.
 - Bounded realtime parameter analysis, owned allowed event labels, rejected
   unsafe configured labels, and rejected correlation metadata keys containing
   high-confidence PII recognized by the `:fast` profile.
@@ -21,6 +23,8 @@ All notable changes to Obscura are documented in this file.
   its integration options during `init/1`.
 - Added real Phoenix endpoint coverage and a sustained real socket/channel
   redaction regression test.
+- Synchronized operational load-runner workers before starting measurement so
+  scheduler contention cannot produce empty reports.
 
 ## 0.1.2 - 2026-07-24
 
