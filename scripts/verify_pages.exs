@@ -5,6 +5,10 @@ defmodule Obscura.PagesVerifier do
   @site_url "https://hfiguera.github.io/obscura/"
   @articles [
     %{
+      slug: "privacy-safe-phoenix-realtime-logging",
+      expected_media: ["phoenix-realtime-logging-boundary.png"]
+    },
+    %{
       slug: "privacy-safe-phoenix-request-logging",
       expected_media: ["phoenix-safe-logging-boundary.png"]
     },
@@ -75,6 +79,13 @@ defmodule Obscura.PagesVerifier do
     end)
 
     case article.slug do
+      "privacy-safe-phoenix-realtime-logging" ->
+        assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
+        assert_contains(html, "Obscura.Phoenix.SocketLogger")
+        assert_contains(html, "Obscura.Phoenix.ChannelLogger")
+        assert_contains(html, "[OMITTED]")
+        assert_contains(html, "phoenix-realtime-logging-boundary.png")
+
       "privacy-safe-phoenix-request-logging" ->
         assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
         assert_contains(html, "Obscura.Phoenix.Logger")

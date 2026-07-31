@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Privacy-safe Phoenix realtime logging boundary</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1440px;
+        height: 900px;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        color: #18221f;
+        background: #f3f7f5;
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .canvas {
+        width: 1440px;
+        height: 900px;
+        padding: 54px 64px 46px;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+        padding-bottom: 25px;
+        border-bottom: 2px solid #18221f;
+      }
+
+      .eyebrow {
+        margin: 0 0 9px;
+        color: #08766a;
+        font-size: 17px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 1040px;
+        margin: 0;
+        font-size: 48px;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-top: 3px;
+        font-size: 20px;
+        font-weight: 800;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        color: #f3f7f5;
+        background: #08766a;
+        border-radius: 6px;
+        place-items: center;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 1fr 72px 1fr;
+        gap: 0;
+        padding-top: 34px;
+      }
+
+      .lane {
+        min-height: 548px;
+        padding: 24px 27px;
+        border: 1px solid #bdcbc6;
+        background: #ffffff;
+      }
+
+      .lane.raw {
+        border-top: 7px solid #b24f4f;
+      }
+
+      .lane.safe {
+        border-top: 7px solid #08766a;
+      }
+
+      .lane-label {
+        margin: 0 0 8px;
+        color: #58706a;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        margin: 0 0 18px;
+        font-size: 27px;
+        line-height: 1.15;
+        letter-spacing: 0;
+      }
+
+      .event {
+        display: grid;
+        grid-template-columns: 148px 1fr;
+        min-height: 82px;
+        border: 1px solid #ced8d4;
+        background: #f8faf9;
+      }
+
+      .event + .event {
+        margin-top: 12px;
+      }
+
+      .event-name {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        color: #273632;
+        border-right: 1px solid #ced8d4;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .event-value {
+        display: flex;
+        align-items: center;
+        padding: 15px 17px;
+        color: #5a3737;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .boundary {
+        display: grid;
+        color: #526760;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 13px;
+        font-weight: 800;
+        place-items: center;
+        text-transform: uppercase;
+        writing-mode: vertical-rl;
+      }
+
+      .policy {
+        padding: 15px 17px;
+        border: 1px solid #91bcb3;
+        background: #e8f4f0;
+      }
+
+      .policy + .policy {
+        margin-top: 12px;
+      }
+
+      .policy strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #164e47;
+        font-size: 17px;
+      }
+
+      .policy span {
+        color: #415d56;
+        font-size: 15px;
+        line-height: 1.35;
+      }
+
+      .output {
+        margin-top: 17px;
+        padding: 17px 19px;
+        color: #e8f3ef;
+        border: 1px solid #18221f;
+        background: #18221f;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .output strong {
+        color: #6fd0bd;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        padding-top: 23px;
+        color: #4f625d;
+        font-size: 16px;
+        line-height: 1.4;
+      }
+
+      footer strong {
+        color: #18221f;
+      }
+
+      .warning {
+        color: #8a3f3f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <header>
+        <div>
+          <p class="eyebrow">Realtime privacy boundary</p>
+          <h1>Useful Phoenix logs without copying client-controlled content</h1>
+        </div>
+        <div class="brand"><span class="brand-mark">O</span>Obscura</div>
+      </header>
+
+      <main>
+        <section class="lane raw">
+          <p class="lane-label">Phoenix telemetry</p>
+          <h2>Raw realtime inputs</h2>
+
+          <div class="event">
+            <div class="event-name">socket_connected</div>
+            <div class="event-value">params + connect_info + transport</div>
+          </div>
+          <div class="event">
+            <div class="event-name">channel_joined</div>
+            <div class="event-value">topic: support:jane@example.com<br>payload: %{email: ...}</div>
+          </div>
+          <div class="event">
+            <div class="event-name">handled_in</div>
+            <div class="event-value">event: reset-for-jane@example.com<br>payload + socket assigns</div>
+          </div>
+          <div class="event">
+            <div class="event-name">socket_drain</div>
+            <div class="event-value">counts + interval + socket module</div>
+          </div>
+        </section>
+
+        <div class="boundary">application-owned logging policy&nbsp;&nbsp;→</div>
+
+        <section class="lane safe">
+          <p class="lane-label">Obscura handlers</p>
+          <h2>Bounded operational records</h2>
+
+          <div class="policy">
+            <strong>Omit payloads by default</strong>
+            <span>No recognition work and no payload false-negative risk.</span>
+          </div>
+          <div class="policy">
+            <strong>Use static labels</strong>
+            <span>Configured topic patterns and event allowlists replace raw client values.</span>
+          </div>
+          <div class="policy">
+            <strong>Bound every exception</strong>
+            <span>Optional :fast redaction uses a 4 KiB ceiling; correlation accepts one UUID.</span>
+          </div>
+
+          <div class="output">
+            <strong>JOINED room:*</strong> (MyAppWeb.RoomChannel) in 846us<br>
+            &nbsp;&nbsp;Parameters: [OMITTED]<br><br>
+            <strong>HANDLED new_message ON room:*</strong> in 521us
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span><strong>Invariant:</strong> unknown input never becomes a log label by default.</span>
+        <span class="warning">Raw Phoenix telemetry remains sensitive to other attached handlers.</span>
+      </footer>
+    </div>
+  </body>
+</html>

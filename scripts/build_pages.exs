@@ -8,6 +8,8 @@ defmodule Obscura.PagesBuilder do
   @author_name "Humberto Figuera"
   @author_x_url "https://x.com/hfiguera"
   @author_github_url "https://github.com/hfiguera"
+  @realtime_published_on "2026-08-12"
+  @realtime_rss_date "Wed, 12 Aug 2026 00:00:00 GMT"
   @initial_published_on "2026-07-22"
   @initial_rss_date "Wed, 22 Jul 2026 00:00:00 GMT"
   @nvidia_published_on "2026-07-24"
@@ -21,6 +23,15 @@ defmodule Obscura.PagesBuilder do
   @media_extensions [".gif", ".jpg", ".jpeg", ".mp4", ".png", ".webp"]
 
   @articles [
+    %{
+      slug: "privacy-safe-phoenix-realtime-logging",
+      title: "Privacy-Safe Phoenix Socket and Channel Logging Without Exposing Payloads",
+      description:
+        "An engineering case study about restoring Phoenix socket and channel visibility with omitted payloads, static labels, bounded redaction, and explicit correlation.",
+      published_on: @realtime_published_on,
+      rss_date: @realtime_rss_date,
+      og_image: "phoenix-realtime-logging-boundary.png"
+    },
     %{
       slug: "privacy-safe-phoenix-request-logging",
       title: "Privacy-Safe Phoenix Request Logging Without Changing Controller Params",
@@ -333,7 +344,7 @@ defmodule Obscura.PagesBuilder do
         <link>#{@site_url}</link>
         <description>Engineering notes about PII detection and anonymization in Elixir.</description>
         <language>en</language>
-        <lastBuildDate>#{@latest_rss_date}</lastBuildDate>
+        <lastBuildDate>#{@realtime_rss_date}</lastBuildDate>
         #{items}
       </channel>
     </rss>
@@ -358,7 +369,7 @@ defmodule Obscura.PagesBuilder do
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
         <loc>#{@site_url}</loc>
-        <lastmod>#{@latest_published_on}</lastmod>
+        <lastmod>#{@realtime_published_on}</lastmod>
       </url>
       <url>
         <loc>#{@site_url}privacy/</loc>
