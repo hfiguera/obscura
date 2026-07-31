@@ -401,7 +401,8 @@ defmodule Obscura.Internal.PhoenixLog do
 
   defp compile_topic_pattern(pattern) do
     if safe_static_label?(pattern) do
-      compile_valid_topic_pattern(pattern, :binary.matches(pattern, "*"))
+      owned_pattern = :binary.copy(pattern)
+      compile_valid_topic_pattern(owned_pattern, :binary.matches(owned_pattern, "*"))
     else
       invalid_option(:topic_patterns, :invalid_pattern)
     end
@@ -541,10 +542,16 @@ defmodule Obscura.Internal.PhoenixLog do
        when is_list(parameters) or is_binary(parameters) do
     parameters = List.wrap(parameters)
 
-    if Enum.all?(parameters, &is_binary/1) do
-      key_match = :binary.compile_pattern(parameters)
-      value_match = parameters |> Enum.map(&(&1 <> "=")) |> :binary.compile_pattern()
-      {:ok, {:compiled, key_match, value_match}}
+    if Enum.all?(parameters, &(is_binary(&1) and byte_size(&1) > 0)) do
+      try do
+        key_match = :binary.compile_pattern(parameters)
+        value_match = parameters |> Enum.map(&(&1 <> "=")) |> :binary.compile_pattern()
+        {:ok, {:compiled, key_match, value_match}}
+      rescue
+        _error -> invalid_option(:filter_parameters, :invalid_phoenix_configuration)
+      catch
+        _kind, _reason -> invalid_option(:filter_parameters, :invalid_phoenix_configuration)
+      end
     else
       invalid_option(:filter_parameters, :invalid_phoenix_configuration)
     end
@@ -743,7 +750,7 @@ defmodule Obscura.Internal.PhoenixLog do
   defp consume_parameter_term(_term, budget, _mode), do: consume_parameter_node(budget)
 
   defp consume_parameter_entry({key, value}, {:ok, budget}, mode) do
-    with {:ok, budget} <- consume_parameter_key(key, budget),
+    with {:ok, budget} <- consume_parameter_key(key, budget, mode),
          {:ok, budget} <- consume_parameter_term(value, budget, mode) do
       {:cont, {:ok, budget}}
     else
@@ -776,7 +783,15 @@ defmodule Obscura.Internal.PhoenixLog do
     if elem(budget, 0) > @max_parameter_nodes, do: :error, else: {:ok, budget}
   end
 
-  defp consume_parameter_key(key, {nodes, keys, key_bytes, value_bytes, analysis_terms}) do
+  defp consume_parameter_key(key, _budget, :realtime)
+       when not is_binary(key) and not is_atom(key) and not is_number(key),
+       do: :error
+
+  defp consume_parameter_key(
+         key,
+         {nodes, keys, key_bytes, value_bytes, analysis_terms},
+         _mode
+       ) do
     with {:ok, size} <- bounded_key_size(key) do
       budget = {nodes, keys + 1, key_bytes + size, value_bytes, analysis_terms}
 

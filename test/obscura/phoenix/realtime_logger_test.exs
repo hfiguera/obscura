@@ -465,6 +465,23 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     assert :binary.referenced_byte_size(emitted_event) == byte_size(emitted_event)
   end
 
+  test "configured topic patterns do not retain larger source binaries" do
+    pattern = "room:" <> String.duplicate("a", 94) <> "*"
+    source = String.duplicate("x", 1_000_000) <> pattern
+    borrowed_pattern = binary_part(source, 1_000_000, byte_size(pattern))
+
+    assert :binary.referenced_byte_size(borrowed_pattern) > byte_size(borrowed_pattern)
+
+    assert {:ok, [{:prefix, prefix, configured_pattern}] = patterns} =
+             PhoenixLog.prepare_topic_patterns([borrowed_pattern])
+
+    assert configured_pattern == pattern
+    refute :erts_debug.same(configured_pattern, borrowed_pattern)
+    assert :binary.referenced_byte_size(configured_pattern) == byte_size(configured_pattern)
+    assert :binary.referenced_byte_size(prefix) <= byte_size(configured_pattern)
+    assert PhoenixLog.safe_topic(String.trim_trailing(pattern, "*") <> "42", patterns) == pattern
+  end
+
   test "unconfigured event names and topics fail closed" do
     start_channel_logger(topic_patterns: ["safe:*"], events: ["new_message"])
     socket = joined_socket("room:topic-secret@example.test")
@@ -658,6 +675,41 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     end
   end
 
+  test "realtime redaction rejects opaque map keys before structured analysis" do
+    {:ok, policy} =
+      PhoenixLog.prepare_params_policy(
+        {:redact, entities: [:email]},
+        limit: 50,
+        printable_limit: 500
+      )
+
+    worker = spawn_link(fn -> render_params_loop(policy) end)
+
+    :erlang.trace(worker, true, [:call, {:tracer, self()}])
+    :erlang.trace_pattern({Obscura.Structured, :redact, 2}, true, [])
+
+    try do
+      opaque_params = [
+        %{{:opaque, "tuple-key-secret@example.test"} => "safe"},
+        %{%ProtocolPayload{observer: self(), secret: "struct-key-secret@example.test"} => "safe"}
+      ]
+
+      for params <- opaque_params do
+        render_ref = make_ref()
+        send(worker, {:render, self(), render_ref, params})
+
+        assert_receive {^render_ref, "[FILTERED]"}
+        refute_receive {:trace, ^worker, :call, {Obscura.Structured, :redact, _arguments}}
+      end
+    after
+      :erlang.trace_pattern({Obscura.Structured, :redact, 2}, false, [])
+      :erlang.trace(worker, false, [:call])
+      send(worker, :stop)
+    end
+
+    refute_receive {:redactable_called, _secret}
+  end
+
   test "realtime redaction keeps structs opaque without protocol dispatch" do
     {:ok, policy} =
       PhoenixLog.prepare_params_policy(
@@ -781,6 +833,33 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
                  handle_in_params: {:redact, operators: %{default: %{type: :custom}}}
                )
              end)
+  end
+
+  test "invalid Phoenix filter patterns fail startup without exposing their values" do
+    secret = "filter-secret@example.test"
+    Application.put_env(:phoenix, :filter_parameters, [secret, ""])
+
+    results = [
+      isolated_start(fn ->
+        SocketLogger.start_link(
+          name: unique_name(:invalid_socket_filter),
+          connect_params: {:redact, entities: [:email]}
+        )
+      end),
+      isolated_start(fn ->
+        ChannelLogger.start_link(
+          name: unique_name(:invalid_channel_filter),
+          join_params: {:redact, entities: [:email]}
+        )
+      end)
+    ]
+
+    for result <- results do
+      assert result ==
+               {:error, {:invalid_option, :filter_parameters, :invalid_phoenix_configuration}}
+
+      refute inspect(result, limit: :infinity) =~ secret
+    end
   end
 
   test "unsafe configured topic patterns and event names are rejected" do

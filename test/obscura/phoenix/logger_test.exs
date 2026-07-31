@@ -461,6 +461,23 @@ defmodule Obscura.Phoenix.LoggerTest do
     refute log =~ "privacy@example.com"
   end
 
+  test "standard request logging keeps field-level handling for opaque map keys" do
+    secret = "opaque-key-secret@example.com"
+    params = %{{:opaque, secret} => "safe"}
+
+    conn =
+      :post
+      |> conn("/users")
+      |> Map.put(:params, params)
+      |> assign(:obscura_redacted, %{params: params})
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ ~s("[FILTERED KEY 1]" => "safe")
+    refute log =~ ~s(Parameters: "[FILTERED]")
+    refute log =~ secret
+  end
+
   test "uses the fast profile key taxonomy without filtering dotted field names" do
     params = %{
       "Address: 123 Main Street" => "address-key",
