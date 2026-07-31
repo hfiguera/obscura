@@ -9,7 +9,7 @@ defmodule Obscura.MixProject do
     [
       app: :obscura,
       version: @version,
-      elixir: "~> 1.20",
+      elixir: "~> 1.17",
       source_url: @source_url,
       homepage_url: @source_url,
       elixirc_options: [no_warn_undefined: optional_modules()],
@@ -37,6 +37,7 @@ defmodule Obscura.MixProject do
       preferred_envs: [
         ci: :test,
         "ci.base": :test,
+        "ci.minimum": :test,
         "ci.optional": :test,
         "ci.real_model_smoke": :test
       ]
@@ -48,15 +49,8 @@ defmodule Obscura.MixProject do
       {:jason, "~> 1.4"},
       {:telemetry, "~> 1.3"},
       {:plug, "~> 1.16"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.35", only: [:dev, :test], runtime: false},
-      {:makeup_syntect, "~> 0.1.4", only: [:dev, :test], runtime: false},
       # The Hex constraint lags makeup_syntect's upstream rustler_precompiled 0.9 support.
       {:rustler_precompiled, "~> 0.9", only: [:dev, :test], runtime: false, override: true},
-      {:ex_dna, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:ex_slop, "~> 0.4", only: [:dev, :test], runtime: false},
-      {:credence, "~> 0.6", only: [:dev, :test], runtime: false},
       {:stream_data, "~> 1.4", only: :test},
       {:phoenix, "~> 1.8", only: :test, runtime: false},
       {:nx, "~> 0.12", optional: true},
@@ -66,7 +60,24 @@ defmodule Obscura.MixProject do
     ]
 
     base_deps ++
+      quality_deps() ++
       real_model_deps() ++ mlx_model_deps() ++ gliner_ortex_deps() ++ gliner_tokenizer_deps()
+  end
+
+  defp quality_deps do
+    if System.get_env("OBSCURA_MINIMUM_RUNTIME") == "1" do
+      []
+    else
+      [
+        {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+        {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+        {:ex_doc, "~> 0.35", only: [:dev, :test], runtime: false},
+        {:makeup_syntect, "~> 0.1.4", only: [:dev, :test], runtime: false},
+        {:ex_dna, "~> 1.5", only: [:dev, :test], runtime: false},
+        {:ex_slop, "~> 0.4", only: [:dev, :test], runtime: false},
+        {:credence, "~> 0.6", only: [:dev, :test], runtime: false}
+      ]
+    end
   end
 
   defp docs do
@@ -179,6 +190,11 @@ defmodule Obscura.MixProject do
       "deps.check_unused": [
         "cmd env MIX_ENV=test OBSCURA_REAL_MODEL=1 OBSCURA_REAL_MODEL_BACKEND=emily OBSCURA_GLINER_ORTEX=1 mix deps.get --only test",
         "cmd env MIX_ENV=test OBSCURA_REAL_MODEL=1 OBSCURA_REAL_MODEL_BACKEND=emily OBSCURA_GLINER_ORTEX=1 mix deps.unlock --check-unused"
+      ],
+      "ci.minimum": [
+        "compile --warnings-as-errors",
+        "test",
+        "obscura.docs.verify"
       ],
       "ci.base": [
         "deps.check_unused",

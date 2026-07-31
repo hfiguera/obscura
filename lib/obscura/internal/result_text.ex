@@ -3,7 +3,13 @@ defmodule Obscura.Internal.ResultText do
 
   alias Obscura.Analyzer.Result
 
+  @compile {:inline, retained_byte_size: 1, borrowed?: 1}
   @max_callback_term_depth 256
+  @heap_binary_limit 64
+  @small_heap_binaries_report_bits (
+                                     probe = :binary.copy("ownership-probe")
+                                     :binary.referenced_byte_size(probe) == bit_size(probe)
+                                   )
 
   @spec maybe_materialize(String.t(), keyword()) :: String.t() | nil
   def maybe_materialize(value, opts) when is_binary(value) and is_list(opts) do
@@ -61,6 +67,24 @@ defmodule Obscura.Internal.ResultText do
   def own_term(value), do: value
 
   @doc false
+  @spec retained_byte_size(bitstring()) :: non_neg_integer()
+  def retained_byte_size(value) when is_bitstring(value) do
+    referenced = :binary.referenced_byte_size(value)
+
+    if @small_heap_binaries_report_bits and byte_size(value) <= @heap_binary_limit and
+         referenced == bit_size(value) do
+      byte_size(value)
+    else
+      referenced
+    end
+  end
+
+  @doc false
+  @spec borrowed?(bitstring()) :: boolean()
+  def borrowed?(value) when is_bitstring(value),
+    do: retained_byte_size(value) > byte_size(value)
+
+  @doc false
   @spec safe_callback_term?(term()) :: boolean()
   def safe_callback_term?(value), do: safe_callback_term?(value, nil)
 
@@ -92,7 +116,7 @@ defmodule Obscura.Internal.ResultText do
   end
 
   defp own(value) do
-    if :binary.referenced_byte_size(value) > byte_size(value) do
+    if borrowed?(value) do
       :binary.copy(value)
     else
       value

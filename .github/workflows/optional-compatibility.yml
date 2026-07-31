@@ -14,13 +14,28 @@ concurrency:
 
 jobs:
   optional:
-    name: Parser, HTTP, Nx, GLiNER, and checkpoint contracts
+    name: Optional contracts (${{ matrix.name }})
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: current Elixir 1.20 / OTP 29
+            lane: current
+            otp: 29.0.3
+            elixir: 1.20.2
+            minimum_runtime: "0"
+          - name: minimum Elixir 1.17 / OTP 27
+            lane: minimum
+            otp: 27.3.4.15
+            elixir: 1.17.3
+            minimum_runtime: "1"
     env:
       MIX_ENV: test
       MIX_HOME: ${{ github.workspace }}/.mix
       HEX_HOME: ${{ github.workspace }}/.hex
+      OBSCURA_MINIMUM_RUNTIME: ${{ matrix.minimum_runtime }}
     steps:
       - name: Check out source
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -28,8 +43,8 @@ jobs:
       - name: Set up Erlang and Elixir
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
         with:
-          otp-version: 29.0.3
-          elixir-version: 1.20.2
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
 
       - name: Restore dependency cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
@@ -39,7 +54,7 @@ jobs:
             _build
             .mix
             .hex
-          key: optional-${{ runner.os }}-${{ hashFiles('.tool-versions', 'mix.exs', 'mix.lock') }}
+          key: optional-${{ matrix.lane }}-${{ runner.os }}-otp-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-${{ hashFiles('mix.exs', 'mix.lock') }}
 
       - name: Install tools and dependencies
         run: |
