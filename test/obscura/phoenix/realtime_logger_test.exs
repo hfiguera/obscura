@@ -284,6 +284,55 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     assert channel_log =~ "HANDLED new_message ON warn-room:*"
   end
 
+  test "socket logger filters numeric PII atoms from Phoenix identifiers" do
+    start_socket_logger()
+
+    log =
+      capture_log(fn ->
+        :telemetry.execute(
+          [:phoenix, :socket_connected],
+          %{duration: 1},
+          %{
+            log: :info,
+            params: %{},
+            result: :ok,
+            serializer: :"123456789",
+            transport: :"2025550188",
+            user_socket: :"4111111111111111"
+          }
+        )
+      end)
+
+    assert [_, _, _] = Regex.scan(~r/\[FILTERED IDENTIFIER\]/, log)
+    refute log =~ "4111111111111111"
+    refute log =~ "2025550188"
+    refute log =~ "123456789"
+  end
+
+  test "channel logger filters numeric PII atoms from Phoenix identifiers" do
+    start_channel_logger(topic_patterns: ["room:*"], events: ["new_message"])
+
+    log =
+      capture_log(fn ->
+        :telemetry.execute(
+          [:phoenix, :channel_handled_in],
+          %{duration: 1},
+          %{
+            event: "new_message",
+            params: %{},
+            socket: %{
+              channel: :"4111111111111111",
+              private: %{log_handle_in: :info},
+              topic: "room:42"
+            }
+          }
+        )
+      end)
+
+    assert log =~ "HANDLED new_message ON room:* ([FILTERED IDENTIFIER])"
+    refute log =~ "4111111111111111"
+  end
+
   test "channel correlation emits only a validated UUID socket assign as metadata" do
     chat_id = "43ad7b8f-b62c-4e1b-8349-8c8ea0a72362"
 

@@ -477,8 +477,11 @@ defmodule Obscura.Internal.PhoenixLog do
 
   defp safe_static_label?(_label), do: false
 
-  defp identifier_text?(<<>>), do: false
-  defp identifier_text?(text), do: identifier_bytes?(text)
+  defp identifier_text?(<<first, rest::binary>>)
+       when first in ?A..?Z or first in ?a..?z or first == ?_,
+       do: identifier_bytes?(rest)
+
+  defp identifier_text?(_text), do: false
   defp identifier_bytes?(<<>>), do: true
 
   defp identifier_bytes?(<<byte, rest::binary>>)
