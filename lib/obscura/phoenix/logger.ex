@@ -10,6 +10,9 @@ defmodule Obscura.Phoenix.Logger do
 
       config :phoenix, :logger, false
 
+  Startup fails if a corresponding Phoenix default HTTP logger remains
+  attached, preventing raw and sanitized request records from running together.
+
   Place `Obscura.Phoenix.Plug` after `Plug.Parsers` and before the router:
 
       plug Obscura.Phoenix.Plug,
@@ -43,6 +46,10 @@ defmodule Obscura.Phoenix.Logger do
     [:phoenix, :endpoint, :stop],
     [:phoenix, :error_rendered],
     [:phoenix, :router_dispatch, :start]
+  ]
+
+  @unsafe_default_logger_events [
+    [:phoenix, :endpoint, :start] | @events
   ]
 
   @filtered "[FILTERED]"
@@ -223,6 +230,7 @@ defmodule Obscura.Phoenix.Logger do
 
   defp handler_config(opts) do
     with :ok <- PhoenixLog.validate_options(opts, @allowed_options),
+         :ok <- PhoenixLog.validate_default_logger(@unsafe_default_logger_events),
          :ok <- validate_assign(Keyword.get(opts, :assign, :obscura_redacted)),
          :ok <- PhoenixLog.validate_inspect_opts(Keyword.get(opts, :inspect_opts, [])) do
       name = Keyword.get(opts, :name, __MODULE__)

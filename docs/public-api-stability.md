@@ -317,7 +317,10 @@ Streaming rehydration requires `:vault` and supports `:token_prefix`,
 
 The Plug supports `:fields` (`[:params]`), `:mode` (`:assign_redacted`,
 `:replace`, or `:disabled`), `:assign` (`:obscura_redacted`), and supported
-redaction options. Other values are outside the stable schema.
+redaction options. Supported fields are `:params` and `:req_headers`.
+`init/1` validates and normalizes these integration options, removes duplicate
+fields after their first occurrence, and raises `ArgumentError` for invalid
+configuration before requests run. Other values are outside the stable schema.
 
 `Obscura.Phoenix.Logger` supports `:assign` (atom, default
 `:obscura_redacted`), `:name` (GenServer name, default
@@ -340,7 +343,9 @@ reason or detaching the handler. The logger applies Phoenix's configured
 containing high-confidence `:fast` profile PII before inspection. Bare domains
 are excluded from key recognition because ordinary dotted field names are
 ambiguous; applications can filter specific dotted keys through Phoenix's
-policy.
+policy. The request logger rejects startup while a corresponding Phoenix
+default HTTP logger remains attached, including the endpoint-start logger that
+can emit raw request paths.
 
 `Obscura.Phoenix.SocketLogger` supports `:connect_params` (`:omit` by default,
 or `{:redact, keyword()}`), `:name`, and `:inspect_opts`.

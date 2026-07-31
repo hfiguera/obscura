@@ -36,10 +36,45 @@ defmodule Obscura.Phoenix.LoggerTest do
     plug(Router)
   end
 
+  defmodule Endpoint do
+    use Phoenix.Endpoint, otp_app: :obscura
+
+    plug(Plug.Telemetry, event_prefix: [:phoenix, :endpoint])
+    plug(Plug.Parsers, parsers: [:urlencoded])
+
+    plug(Obscura.Phoenix.Plug,
+      mode: :assign_redacted,
+      fields: [:params],
+      entities: [:email]
+    )
+
+    plug(Router)
+  end
+
   def disabled_log_level(_conn), do: false
 
   def failing_log_level(conn) do
     raise "log level failed for #{conn.request_path}"
+  end
+
+  setup_all do
+    previous_endpoint = Application.fetch_env(:obscura, Endpoint)
+
+    Application.put_env(:obscura, Endpoint,
+      secret_key_base: String.duplicate("b", 64),
+      server: false
+    )
+
+    start_supervised!(Endpoint)
+
+    on_exit(fn ->
+      case previous_endpoint do
+        {:ok, value} -> Application.put_env(:obscura, Endpoint, value)
+        :error -> Application.delete_env(:obscura, Endpoint)
+      end
+    end)
+
+    :ok
   end
 
   setup do
@@ -667,6 +702,56 @@ defmodule Obscura.Phoenix.LoggerTest do
     refute log =~ "secret-marker"
   end
 
+  test "logs redacted params through a real Phoenix endpoint" do
+    conn =
+      :post
+      |> conn(
+        "/users/jane@example.com",
+        "email=jane%40example.com&password=endpoint-secret-marker"
+      )
+      |> put_req_header("content-type", "application/x-www-form-urlencoded")
+
+    log =
+      capture_log(fn ->
+        response = Endpoint.call(conn, Endpoint.init([]))
+        assert response.status == 204
+      end)
+
+    assert log =~ "Processing POST with /users/:id"
+    assert log =~ ~s("email" => "[EMAIL]")
+    assert log =~ ~s("password" => "[REDACTED]")
+    assert log =~ "Sent 204 in "
+    refute log =~ "jane@example.com"
+    refute log =~ "endpoint-secret-marker"
+  end
+
+  test "startup refuses to coexist with Phoenix's raw HTTP logger" do
+    event = [:phoenix, :endpoint, :start]
+    handler_id = {Phoenix.Logger, event}
+    :telemetry.detach(handler_id)
+
+    :ok =
+      :telemetry.attach(
+        handler_id,
+        event,
+        &__MODULE__.discard_telemetry_event/4,
+        nil
+      )
+
+    on_exit(fn -> :telemetry.detach(handler_id) end)
+
+    previous_trap_exit = Process.flag(:trap_exit, true)
+
+    try do
+      name = :"unsafe_http_logger_#{System.unique_integer([:positive])}"
+
+      assert {:error, {:unsafe_phoenix_logger_attached, ^event}} =
+               ObscuraLogger.start_link(name: name)
+    after
+      Process.flag(:trap_exit, previous_trap_exit)
+    end
+  end
+
   test "rejects invalid stable options during startup" do
     invalid_assign_name = :"invalid_assign_#{System.unique_integer([:positive])}"
     invalid_inspect_name = :"invalid_inspect_#{System.unique_integer([:positive])}"
@@ -731,4 +816,7 @@ defmodule Obscura.Phoenix.LoggerTest do
       message -> send(parent, message)
     end
   end
+
+  @doc false
+  def discard_telemetry_event(_event, _measurements, _metadata, _config), do: :ok
 end

@@ -33,6 +33,13 @@ so do not log it before or after calling the helper.
 
 `Obscura.Phoenix.Plug` depends on Plug, not Phoenix. It can be mounted in Phoenix or any Plug pipeline.
 
+The Plug validates its mode, fields, assign name, telemetry flag, and
+declarative redaction configuration during `init/1`, before the application
+serves requests. Supported fields are `:params` and `:req_headers`; duplicate
+fields are normalized to their first occurrence. Invalid modes, unsupported or
+improper field lists, invalid assign names, and invalid redaction options raise
+an `ArgumentError` during Plug initialization.
+
 Assign mode keeps original request fields and stores redacted copies under `conn.assigns.obscura_redacted`:
 
 ```elixir
@@ -51,7 +58,10 @@ plug Obscura.Phoenix.Plug,
   entities: [:email]
 ```
 
-Supported fields are the connection fields represented by the current Plug helper implementation, with `:params` covered by tests.
+Both supported fields are covered by integration tests. Header assign mode
+stores a redacted map while preserving the original `conn.req_headers` list.
+Replace mode rebuilds the request-header list from that map, so applications
+that depend on duplicate request-header entries should use assign mode.
 
 Assign mode intentionally preserves the original connection fields. Replace
 mode overwrites selected fields in the returned connection, but cannot erase
@@ -72,6 +82,12 @@ parameters:
 ```elixir
 config :phoenix, :logger, false
 ```
+
+The Obscura request logger refuses to start if any corresponding Phoenix HTTP
+logger handler remains attached, including the endpoint-start handler that can
+emit a raw request path. This turns a missing `config :phoenix, :logger, false`
+setting into a startup error instead of allowing raw and sanitized records to
+run side by side.
 
 Mount the plug after `Plug.Parsers` and before the router. Keep assign mode so
 controllers continue to receive the original params:
@@ -247,10 +263,11 @@ clears channel-process Logger metadata while emitting its record and then adds
 only the validated correlation metadata. Any failure produces only fixed safe
 labels or suppresses the record; it never falls back to raw values.
 
-Both realtime handlers refuse to start while Phoenix's corresponding default
-logger handler is attached. This prevents an apparently safe handler from
-running beside the raw default logger. Keep `config :phoenix, :logger, false`
-when using any of the Obscura Phoenix loggers.
+All three Phoenix handlers refuse to start while Phoenix's corresponding
+default logger handler is attached. This prevents an apparently safe handler
+from running beside the raw default logger. Keep
+`config :phoenix, :logger, false` when using any of the Obscura Phoenix
+loggers.
 
 Phoenix telemetry metadata contains raw socket and channel parameters before
 Obscura receives the event. These handlers protect only the Logger records they

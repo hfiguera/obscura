@@ -517,6 +517,42 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     refute log =~ "message-secret@example.test"
   end
 
+  test "sustained real socket and channel redaction stays responsive" do
+    socket_connections = 100
+    channel_events = 250
+    secret = "sustained-secret@example.test"
+
+    start_socket_logger(connect_params: {:redact, entities: [:email]})
+
+    start_channel_logger(
+      topic_patterns: ["room:*"],
+      events: ["new_message"],
+      handle_in_params: {:redact, entities: [:email]}
+    )
+
+    socket = joined_socket()
+    started_at = System.monotonic_time(:millisecond)
+
+    log =
+      capture_log(fn ->
+        for _index <- 1..socket_connections do
+          assert {:ok, %Phoenix.Socket{}} = connect(UserSocket, %{"email" => secret})
+        end
+
+        for _index <- 1..channel_events do
+          ref = push(socket, "new_message", %{"email" => secret})
+          assert_reply(ref, :ok)
+        end
+      end)
+
+    elapsed_ms = System.monotonic_time(:millisecond) - started_at
+
+    assert length(:binary.matches(log, "CONNECTED TO ")) == socket_connections
+    assert length(:binary.matches(log, "HANDLED new_message ON room:*")) == channel_events
+    assert elapsed_ms < 10_000
+    refute log =~ secret
+  end
+
   test "allow-listed event labels do not retain client-frame binaries" do
     configured_event = :binary.copy("e", 100)
     source = :binary.copy("x", 1_000_000) <> configured_event

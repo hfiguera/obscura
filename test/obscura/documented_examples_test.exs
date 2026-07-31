@@ -227,11 +227,22 @@ defmodule Obscura.DocumentedExamplesTest do
     assert metadata[:user] == "[EMAIL]"
     assert is_binary(elem(Obscura.Logger.safe_inspect(metadata, entities: [:email]), 1))
 
-    assert Plug.init(
+    plug_options =
+      Plug.init(
+        fields: [:params],
+        mode: :assign_redacted,
+        entities: [:email]
+      )
+
+    assert plug_options
+           |> Keyword.take([:fields, :mode, :assign, :telemetry, :entities])
+           |> Map.new() == %{
              fields: [:params],
              mode: :assign_redacted,
+             assign: :obscura_redacted,
+             telemetry: true,
              entities: [:email]
-           ) == [fields: [:params], mode: :assign_redacted, entities: [:email]]
+           }
   end
 
   test "operator guide examples match their schemas" do
