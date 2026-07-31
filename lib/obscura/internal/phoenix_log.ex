@@ -132,7 +132,8 @@ defmodule Obscura.Internal.PhoenixLog do
            |> Keyword.put(:profile, :fast)
            |> Keyword.put(:telemetry, false)
            |> Keyword.put(:include_text, false)
-           |> Keyword.put(:traverse_structs, false),
+           |> Keyword.put(:traverse_structs, false)
+           |> Keyword.put(:skip_protocol, true),
          {:ok, _probe} <- Obscura.Structured.redact(%{"sample" => "safe"}, redaction_opts) do
       {:ok,
        %{
@@ -671,11 +672,11 @@ defmodule Obscura.Internal.PhoenixLog do
   defp filtered_key(index), do: @filtered_key_prefix <> Integer.to_string(index) <> "]"
 
   defp parameter_budget_safe?(params) do
-    match?({:ok, _budget}, consume_parameter_term(params, {0, 0, 0, 0, 0}))
+    match?({:ok, _budget}, consume_parameter_term(params, {0, 0, 0, 0, 0}, :standard))
   end
 
   defp realtime_parameter_budget_safe?(params) do
-    case consume_parameter_term(params, {0, 0, 0, 0, 0}) do
+    case consume_parameter_term(params, {0, 0, 0, 0, 0}, :realtime) do
       {:ok, {_nodes, _keys, key_bytes, value_bytes, _analysis_terms}} ->
         key_bytes + value_bytes <= @max_realtime_parameter_analysis_bytes
 
@@ -684,40 +685,46 @@ defmodule Obscura.Internal.PhoenixLog do
     end
   end
 
-  defp consume_parameter_term(_term, {nodes, keys, key_bytes, value_bytes, analysis_terms})
+  defp consume_parameter_term(
+         _term,
+         {nodes, keys, key_bytes, value_bytes, analysis_terms},
+         _mode
+       )
        when nodes >= @max_parameter_nodes or keys > @max_parameter_keys or
               key_bytes > @max_parameter_key_bytes or
               value_bytes > @max_parameter_value_bytes or
               analysis_terms > @max_parameter_analysis_terms,
        do: :error
 
-  defp consume_parameter_term(%{__struct__: module}, budget) when is_atom(module),
+  defp consume_parameter_term(%{__struct__: module}, budget, _mode) when is_atom(module),
     do: consume_parameter_node(budget)
 
-  defp consume_parameter_term(map, budget) when is_map(map) do
+  defp consume_parameter_term(map, budget, mode) when is_map(map) do
     with {:ok, budget} <- consume_parameter_node(budget) do
-      Enum.reduce_while(map, {:ok, budget}, &consume_parameter_entry/2)
+      Enum.reduce_while(map, {:ok, budget}, fn entry, acc ->
+        consume_parameter_entry(entry, acc, mode)
+      end)
     end
   end
 
-  defp consume_parameter_term(list, budget) when is_list(list) do
+  defp consume_parameter_term(list, budget, mode) when is_list(list) do
     with {:ok, budget} <- consume_parameter_node(budget) do
       case bounded_charlist_size(list) do
         {:ok, count, size} -> consume_parameter_charlist(count, size, budget)
-        :not_charlist -> consume_parameter_list(list, budget)
+        :not_charlist -> consume_parameter_list(list, budget, mode)
         :error -> :error
       end
     end
   end
 
-  defp consume_parameter_term(value, budget) when is_binary(value) do
+  defp consume_parameter_term(value, budget, _mode) when is_binary(value) do
     with {:ok, budget} <- consume_parameter_node(budget),
          {:ok, budget} <- consume_parameter_value(byte_size(value), budget) do
       consume_parameter_analysis(budget)
     end
   end
 
-  defp consume_parameter_term(value, budget) when is_atom(value) or is_number(value) do
+  defp consume_parameter_term(value, budget, _mode) when is_atom(value) or is_number(value) do
     with {:ok, size} <- bounded_scalar_size(value),
          {:ok, budget} <- consume_parameter_node(budget),
          {:ok, budget} <- consume_parameter_value(size, budget) do
@@ -725,22 +732,23 @@ defmodule Obscura.Internal.PhoenixLog do
     end
   end
 
-  defp consume_parameter_term(_term, budget), do: consume_parameter_node(budget)
+  defp consume_parameter_term(value, _budget, :realtime) when is_tuple(value), do: :error
+  defp consume_parameter_term(_term, budget, _mode), do: consume_parameter_node(budget)
 
-  defp consume_parameter_entry({key, value}, {:ok, budget}) do
+  defp consume_parameter_entry({key, value}, {:ok, budget}, mode) do
     with {:ok, budget} <- consume_parameter_key(key, budget),
-         {:ok, budget} <- consume_parameter_term(value, budget) do
+         {:ok, budget} <- consume_parameter_term(value, budget, mode) do
       {:cont, {:ok, budget}}
     else
       :error -> {:halt, :error}
     end
   end
 
-  defp consume_parameter_list([], budget), do: {:ok, budget}
+  defp consume_parameter_list([], budget, _mode), do: {:ok, budget}
 
-  defp consume_parameter_list([value | rest], budget) do
-    with {:ok, budget} <- consume_parameter_term(value, budget) do
-      if is_list(rest), do: consume_parameter_list(rest, budget), else: {:ok, budget}
+  defp consume_parameter_list([value | rest], budget, mode) do
+    with {:ok, budget} <- consume_parameter_term(value, budget, mode) do
+      if is_list(rest), do: consume_parameter_list(rest, budget, mode), else: {:ok, budget}
     end
   end
 

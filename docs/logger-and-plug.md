@@ -172,7 +172,9 @@ preparation. Parameter graphs retain the request logger's structural limits and
 add a stricter 4 KiB ceiling across cumulative key and scalar value text. A
 payload over that realtime analysis ceiling fails closed as `[FILTERED]` before
 PII recognition runs. This bounds work in Phoenix's synchronous telemetry path
-without changing the parameters delivered to the socket or channel.
+without changing the parameters delivered to the socket or channel. Structs
+and tuple-bearing terms, including keyword lists, fail closed without invoking
+application protocol implementations.
 
 ## Privacy-safe Phoenix channel logging
 

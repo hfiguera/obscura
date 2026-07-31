@@ -21,7 +21,8 @@ defmodule Obscura.Phoenix.SocketLogger do
   Model-backed profiles and custom realtime callbacks are intentionally not
   accepted in this synchronous logging path. Parameter text above the fixed
   4 KiB realtime analysis budget is logged as `[FILTERED]` without running PII
-  recognition.
+  recognition. Structs and tuple-bearing terms, including keyword lists, also
+  fail closed without protocol dispatch.
   """
 
   use GenServer

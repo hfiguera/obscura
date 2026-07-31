@@ -6,6 +6,17 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
   alias Obscura.Phoenix.ChannelLogger
   alias Obscura.Phoenix.SocketLogger
 
+  defmodule ProtocolPayload do
+    defstruct [:observer, :secret]
+  end
+
+  defimpl Obscura.Redactable, for: ProtocolPayload do
+    def redact(value, _opts) do
+      send(value.observer, {:redactable_called, value.secret})
+      {:ok, %{"callback_output" => value.secret}, []}
+    end
+  end
+
   defmodule RoomChannel do
     use Phoenix.Channel, log_join: :info, log_handle_in: :info
 
@@ -512,6 +523,49 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     refute log =~ "[EMAIL]"
   end
 
+  test "real Phoenix channel treats struct parameters as opaque" do
+    start_channel_logger(
+      topic_patterns: ["room:*"],
+      events: ["new_message"],
+      handle_in_params: {:redact, entities: [:email]}
+    )
+
+    socket = joined_socket()
+    secret = String.duplicate("x", 1_000_000) <> "protocol-secret@example.test"
+    payload = %{"payload" => %ProtocolPayload{observer: self(), secret: secret}}
+
+    log =
+      capture_log(fn ->
+        ref = push(socket, "new_message", payload)
+        assert_reply(ref, :ok)
+      end)
+
+    assert log =~ ~s("payload" => "[FILTERED]")
+    refute log =~ "protocol-secret@example.test"
+    refute_receive {:redactable_called, _secret}
+  end
+
+  test "real Phoenix channel rejects keyword-list parameters before redaction" do
+    start_channel_logger(
+      topic_patterns: ["room:*"],
+      events: ["new_message"],
+      handle_in_params: {:redact, entities: [:email]}
+    )
+
+    socket = joined_socket()
+    dense = String.duplicate("person@example.test ", 3_000)
+
+    log =
+      capture_log(fn ->
+        ref = push(socket, "new_message", body: dense)
+        assert_reply(ref, :ok)
+      end)
+
+    assert log =~ "Parameters: [FILTERED]"
+    refute log =~ "person@example.test"
+    refute log =~ "[EMAIL]"
+  end
+
   test "realtime byte budget rejects dense payloads before structured analysis" do
     {:ok, policy} =
       PhoenixLog.prepare_params_policy(
@@ -540,11 +594,36 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
 
       assert_receive {^rejected_ref, "[FILTERED]"}
       refute_receive {:trace, ^worker, :call, {Obscura.Structured, :redact, _arguments}}
+
+      for params <- [[body: rejected["body"]], %{"payload" => [body: rejected["body"]]}] do
+        keyword_ref = make_ref()
+        send(worker, {:render, self(), keyword_ref, params})
+
+        assert_receive {^keyword_ref, "[FILTERED]"}
+        refute_receive {:trace, ^worker, :call, {Obscura.Structured, :redact, _arguments}}
+      end
     after
       :erlang.trace_pattern({Obscura.Structured, :redact, 2}, false, [])
       :erlang.trace(worker, false, [:call])
       send(worker, :stop)
     end
+  end
+
+  test "realtime redaction keeps structs opaque without protocol dispatch" do
+    {:ok, policy} =
+      PhoenixLog.prepare_params_policy(
+        {:redact, entities: [:email]},
+        limit: 50,
+        printable_limit: 500
+      )
+
+    secret = String.duplicate("x", 1_000_000) <> "injected-secret@example.test"
+    payload = %ProtocolPayload{observer: self(), secret: secret}
+
+    assert PhoenixLog.render_params(%{"payload" => payload}, policy) ==
+             ~s(%{"payload" => "[FILTERED]"})
+
+    refute_receive {:redactable_called, _secret}
   end
 
   test "channel logging excludes metadata inherited from the channel process" do

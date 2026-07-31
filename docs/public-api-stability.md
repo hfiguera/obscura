@@ -361,12 +361,14 @@ restricted to `:fast` and the declarative `:entities` and `:max_depth` options.
 Unknown options fail startup. Realtime parameter graphs retain the request
 logger's structural limits and add a fixed 4 KiB ceiling across cumulative key
 and scalar value text; payloads over that ceiling become `[FILTERED]` before
-PII recognition. Raw topics and event names are never logged: only configured
-topic patterns and allow-listed event names are emitted. Configured labels
-containing control or directional formatting codepoints fail startup, and
-emitted event labels come from owned startup configuration. Oversized topics
-fail closed before content validation. Both handlers reject startup while the
-corresponding Phoenix default logger handler remains attached.
+PII recognition. Structs and tuple-bearing terms, including keyword lists, fail
+closed without protocol dispatch. Raw topics and event names are never logged:
+only configured topic patterns and allow-listed event names are emitted.
+Configured labels containing control or directional formatting codepoints fail
+startup, and emitted event labels come from owned startup configuration.
+Oversized topics fail closed before content validation. Both handlers reject
+startup while the corresponding Phoenix default logger handler remains
+attached.
 
 ## Optional Dependencies And Assets
 

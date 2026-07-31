@@ -45,9 +45,11 @@ defmodule Obscura.Phoenix.ChannelLogger do
 
   Only the dependency-light `:fast` profile is accepted in this synchronous
   path. Parameter text above the fixed 4 KiB realtime analysis budget is logged
-  as `[FILTERED]` without running PII recognition. Apart from an explicitly
-  configured correlation assign, the handler never inspects socket assigns,
-  private application data, identifiers, references, or callback results.
+  as `[FILTERED]` without running PII recognition. Structs and tuple-bearing
+  terms, including keyword lists, also fail closed without protocol dispatch.
+  Apart from an explicitly configured correlation assign, the handler never
+  inspects socket assigns, private application data, identifiers, references,
+  or callback results.
 
   Configured topic and event labels containing control or directional
   formatting codepoints are rejected. Allowed event labels are emitted from
