@@ -62,8 +62,6 @@ jobs:
           path: |
             deps
             _build
-            .mix
-            .hex
           key: optional-${{ matrix.lane }}-${{ runner.os }}-otp-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-${{ hashFiles('mix.exs', 'mix.lock') }}
 
       - name: Install tools and dependencies
@@ -71,6 +69,9 @@ jobs:
           mix local.hex --force
           mix local.rebar --force
           mix deps.get
+
+      - name: Remove compiled application files
+        run: mix clean
 
       - name: Run optional compatibility suite
         run: mix ci.optional

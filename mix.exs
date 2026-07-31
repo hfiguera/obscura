@@ -185,7 +185,8 @@ defmodule Obscura.MixProject do
       "ci.soak_validate": ["obscura.operational.soak.verify"],
       "ci.diagnostic_validate": ["obscura.operational.diagnostic.verify"],
       "ci.optional": [
-        "test test/obscura/recognizer/deterministic_plus_test.exs test/obscura/recognizer/ner/serving_build_test.exs test/obscura/recognizer/gliner test/obscura/privacy_filter/checkpoint_test.exs test/obscura/privacy_filter/checkpoint"
+        "cmd mix compile --warnings-as-errors",
+        "cmd mix test test/obscura/recognizer/deterministic_plus_test.exs test/obscura/recognizer/ner/serving_build_test.exs test/obscura/recognizer/gliner test/obscura/privacy_filter/checkpoint_test.exs test/obscura/privacy_filter/checkpoint"
       ],
       "ci.real_model_smoke": [
         "cmd mix obscura.eval --compatibility --dataset generated_small --profile balanced --limit 3 --real-model --run-suffix ci_real_model_smoke",
@@ -197,15 +198,15 @@ defmodule Obscura.MixProject do
         "cmd env MIX_ENV=test OBSCURA_REAL_MODEL=1 OBSCURA_REAL_MODEL_BACKEND=emily OBSCURA_GLINER_ORTEX=1 mix deps.unlock --check-unused"
       ],
       "ci.compatibility": [
-        "compile --warnings-as-errors",
-        "test",
+        "cmd mix compile --warnings-as-errors",
+        "cmd mix test",
         "obscura.docs.verify"
       ],
       "ci.base": [
         "deps.check_unused",
         "format --check-formatted",
-        "compile --warnings-as-errors",
-        "test",
+        "cmd mix compile --warnings-as-errors",
+        "cmd mix test",
         "obscura.fixtures",
         "obscura.fixtures --suite accuracy",
         "obscura.eval --compatibility --dataset generated_small --profile fast --limit 5 --run-suffix ci_base",
