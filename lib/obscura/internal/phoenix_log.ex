@@ -21,9 +21,12 @@ defmodule Obscura.Internal.PhoenixLog do
 
   @max_patterns 64
   @max_events 128
+  @max_filter_parameters 256
+  @max_filter_parameter_bytes 4_096
   @max_label_bytes 128
   @max_topic_bytes 4_096
   @max_identifier_bytes 255
+  @max_identifier_digits 6
   @max_method_bytes 32
   @max_measurement 9_223_372_036_854_775_807
 
@@ -461,13 +464,19 @@ defmodule Obscura.Internal.PhoenixLog do
     end)
   end
 
-  defp validate_bounded_list(values, maximum, option) do
-    cond do
-      List.improper?(values) -> invalid_option(option, :expected_proper_list)
-      Enum.count_until(values, maximum + 1) > maximum -> invalid_option(option, :too_many_values)
-      true -> :ok
-    end
-  end
+  defp validate_bounded_list(values, maximum, option),
+    do: validate_bounded_list(values, maximum, option, 0)
+
+  defp validate_bounded_list([], _maximum, _option, _count), do: :ok
+
+  defp validate_bounded_list([_value | _rest], maximum, option, maximum),
+    do: invalid_option(option, :too_many_values)
+
+  defp validate_bounded_list([_value | rest], maximum, option, count),
+    do: validate_bounded_list(rest, maximum, option, count + 1)
+
+  defp validate_bounded_list(_improper, _maximum, option, _count),
+    do: invalid_option(option, :expected_proper_list)
 
   defp safe_static_label?(label) when is_binary(label) do
     byte_size(label) > 0 and byte_size(label) <= @max_label_bytes and
@@ -477,18 +486,44 @@ defmodule Obscura.Internal.PhoenixLog do
 
   defp safe_static_label?(_label), do: false
 
-  defp identifier_text?(<<first, rest::binary>>)
+  defp identifier_text?(<<"Elixir.", rest::binary>>), do: module_identifier?(rest, 0)
+  defp identifier_text?(text), do: simple_identifier?(text, 0)
+
+  defp simple_identifier?(<<first, rest::binary>>, digits)
        when first in ?A..?Z or first in ?a..?z or first == ?_,
-       do: identifier_bytes?(rest)
+       do: simple_identifier_tail?(rest, digits)
 
-  defp identifier_text?(_text), do: false
-  defp identifier_bytes?(<<>>), do: true
+  defp simple_identifier?(_text, _digits), do: false
+  defp simple_identifier_tail?(<<>>, _digits), do: true
 
-  defp identifier_bytes?(<<byte, rest::binary>>)
-       when byte in ?0..?9 or byte in ?A..?Z or byte in ?a..?z or byte in [?_, ?., ?:, ?-],
-       do: identifier_bytes?(rest)
+  defp simple_identifier_tail?(<<byte, rest::binary>>, digits)
+       when byte in ?A..?Z or byte in ?a..?z or byte == ?_,
+       do: simple_identifier_tail?(rest, digits)
 
-  defp identifier_bytes?(_text), do: false
+  defp simple_identifier_tail?(<<byte, rest::binary>>, digits)
+       when byte in ?0..?9 and digits < @max_identifier_digits,
+       do: simple_identifier_tail?(rest, digits + 1)
+
+  defp simple_identifier_tail?(_text, _digits), do: false
+
+  defp module_identifier?(<<first, rest::binary>>, digits) when first in ?A..?Z,
+    do: module_segment_tail?(rest, digits)
+
+  defp module_identifier?(_text, _digits), do: false
+  defp module_segment_tail?(<<>>, _digits), do: true
+
+  defp module_segment_tail?(<<?., rest::binary>>, digits),
+    do: module_identifier?(rest, digits)
+
+  defp module_segment_tail?(<<byte, rest::binary>>, digits)
+       when byte in ?A..?Z or byte in ?a..?z or byte == ?_,
+       do: module_segment_tail?(rest, digits)
+
+  defp module_segment_tail?(<<byte, rest::binary>>, digits)
+       when byte in ?0..?9 and digits < @max_identifier_digits,
+       do: module_segment_tail?(rest, digits + 1)
+
+  defp module_segment_tail?(_text, _digits), do: false
 
   defp safe_correlation_key?(key) do
     text = Atom.to_string(key)
@@ -536,8 +571,11 @@ defmodule Obscura.Internal.PhoenixLog do
   defp compile_parameter_filter({:discard, parameters}),
     do: compile_parameter_filter(parameters)
 
-  defp compile_parameter_filter({:keep, parameters}) when is_list(parameters),
-    do: {:ok, {:keep, parameters}}
+  defp compile_parameter_filter({:keep, parameters}) when is_list(parameters) do
+    with :ok <- validate_filter_parameters(parameters) do
+      {:ok, {:keep, Map.new(parameters, &{&1, true})}}
+    end
+  end
 
   defp compile_parameter_filter([]), do: {:ok, {:compiled, [], []}}
 
@@ -545,7 +583,7 @@ defmodule Obscura.Internal.PhoenixLog do
        when is_list(parameters) or is_binary(parameters) do
     parameters = List.wrap(parameters)
 
-    if Enum.all?(parameters, &(is_binary(&1) and byte_size(&1) > 0)) do
+    with :ok <- validate_filter_parameters(parameters) do
       try do
         key_match = :binary.compile_pattern(parameters)
         value_match = parameters |> Enum.map(&(&1 <> "=")) |> :binary.compile_pattern()
@@ -555,12 +593,28 @@ defmodule Obscura.Internal.PhoenixLog do
       catch
         _kind, _reason -> invalid_option(:filter_parameters, :invalid_phoenix_configuration)
       end
-    else
-      invalid_option(:filter_parameters, :invalid_phoenix_configuration)
     end
   end
 
   defp compile_parameter_filter(_parameters),
+    do: invalid_option(:filter_parameters, :invalid_phoenix_configuration)
+
+  defp validate_filter_parameters(parameters),
+    do: validate_filter_parameters(parameters, 0, 0)
+
+  defp validate_filter_parameters([], _count, _bytes), do: :ok
+
+  defp validate_filter_parameters([parameter | rest], count, bytes)
+       when is_binary(parameter) and byte_size(parameter) > 0 do
+    count = count + 1
+    bytes = bytes + byte_size(parameter)
+
+    if count <= @max_filter_parameters and bytes <= @max_filter_parameter_bytes,
+      do: validate_filter_parameters(rest, count, bytes),
+      else: invalid_option(:filter_parameters, :invalid_phoenix_configuration)
+  end
+
+  defp validate_filter_parameters(_invalid, _count, _bytes),
     do: invalid_option(:filter_parameters, :invalid_phoenix_configuration)
 
   defp apply_parameter_filter(values, {:compiled, key_match, value_match}),
@@ -603,7 +657,7 @@ defmodule Obscura.Internal.PhoenixLog do
 
   defp keep_parameter_values(map, parameters) when is_map(map) do
     Map.new(map, fn {key, value} ->
-      if is_binary(key) and key in parameters do
+      if is_binary(key) and Map.has_key?(parameters, key) do
         {key, value}
       else
         {key, keep_parameter_values(value, parameters)}

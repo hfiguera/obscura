@@ -176,6 +176,12 @@ without changing the parameters delivered to the socket or channel. Structs
 and tuple-bearing terms, including keyword lists, fail closed without invoking
 application protocol implementations.
 
+Phoenix parameter-filter configuration is bounded as part of the same path.
+Discard and keep policies accept at most 256 nonempty parameter names and
+4 KiB of cumulative name text. Keep policies are compiled into map lookups
+before telemetry events are handled. Invalid or oversized filter configuration
+prevents a realtime logger with parameter redaction from starting.
+
 ## Privacy-safe Phoenix channel logging
 
 `Obscura.Phoenix.ChannelLogger` restores channel join and incoming-event logs.

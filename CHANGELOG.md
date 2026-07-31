@@ -12,6 +12,8 @@ All notable changes to Obscura are documented in this file.
   high-confidence PII recognized by the `:fast` profile.
 - Added a 4 KiB realtime parameter-text ceiling so dense socket and channel
   payloads fail closed before synchronous PII recognition.
+- Hardened realtime identifier validation against prefixed structured PII and
+  bounded Phoenix parameter-filter configuration before event handling.
 
 ## 0.1.2 - 2026-07-24
 

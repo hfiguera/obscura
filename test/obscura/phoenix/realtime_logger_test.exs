@@ -333,6 +333,52 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     refute log =~ "4111111111111111"
   end
 
+  test "realtime loggers filter structured PII hidden behind identifier prefixes" do
+    start_socket_logger()
+    start_channel_logger(topic_patterns: ["room:*"], events: ["new_message"])
+
+    socket_log =
+      capture_log(fn ->
+        :telemetry.execute(
+          [:phoenix, :socket_connected],
+          %{duration: 1},
+          %{
+            log: :info,
+            params: %{},
+            result: :ok,
+            serializer: :"secret.example.test",
+            transport: :phone_2025550188,
+            user_socket: :card_4111111111111111
+          }
+        )
+      end)
+
+    channel_log =
+      capture_log(fn ->
+        :telemetry.execute(
+          [:phoenix, :channel_handled_in],
+          %{duration: 1},
+          %{
+            event: "new_message",
+            params: %{},
+            socket: %{
+              channel: :"ssn_123-45-6789",
+              private: %{log_handle_in: :info},
+              topic: "room:42"
+            }
+          }
+        )
+      end)
+
+    assert [_, _, _] = Regex.scan(~r/\[FILTERED IDENTIFIER\]/, socket_log)
+    assert channel_log =~ "HANDLED new_message ON room:* ([FILTERED IDENTIFIER])"
+
+    refute socket_log =~ "4111111111111111"
+    refute socket_log =~ "2025550188"
+    refute socket_log =~ "secret.example.test"
+    refute channel_log =~ "123-45-6789"
+  end
+
   test "channel correlation emits only a validated UUID socket assign as metadata" do
     chat_id = "43ad7b8f-b62c-4e1b-8349-8c8ea0a72362"
 
@@ -909,6 +955,55 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
 
       refute inspect(result, limit: :infinity) =~ secret
     end
+  end
+
+  test "Phoenix keep filters are bounded and compiled before realtime events" do
+    Application.put_env(:phoenix, :filter_parameters, {:keep, ["request_id"]})
+
+    assert {:ok, %{filter: {:keep, %{"request_id" => true}}} = policy} =
+             PhoenixLog.prepare_params_policy({:redact, []}, [])
+
+    rendered =
+      PhoenixLog.render_params(
+        %{"request_id" => "visible-id", "security_answer" => "first-pet-name"},
+        policy
+      )
+
+    assert rendered =~ ~s("request_id" => "visible-id")
+    assert rendered =~ ~s("security_answer" => "[FILTERED]")
+    refute rendered =~ "first-pet-name"
+
+    boundary = for index <- 1..256, do: "k#{index}"
+    Application.put_env(:phoenix, :filter_parameters, {:keep, boundary})
+
+    assert {:ok, %{filter: {:keep, compiled}}} =
+             PhoenixLog.prepare_params_policy({:redact, []}, [])
+
+    assert map_size(compiled) == 256
+
+    Application.put_env(
+      :phoenix,
+      :filter_parameters,
+      {:keep, for(index <- 1..257, do: "k#{index}")}
+    )
+
+    assert {:error, {:invalid_option, :filter_parameters, :invalid_phoenix_configuration}} =
+             isolated_start(fn ->
+               SocketLogger.start_link(
+                 name: unique_name(:oversized_keep_filter),
+                 connect_params: {:redact, []}
+               )
+             end)
+
+    Application.put_env(:phoenix, :filter_parameters, {:keep, [:binary.copy("k", 4_097)]})
+
+    assert {:error, {:invalid_option, :filter_parameters, :invalid_phoenix_configuration}} =
+             isolated_start(fn ->
+               ChannelLogger.start_link(
+                 name: unique_name(:oversized_keep_filter_bytes),
+                 join_params: {:redact, []}
+               )
+             end)
   end
 
   test "unsafe configured topic patterns and event names are rejected" do

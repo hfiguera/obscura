@@ -364,6 +364,9 @@ and scalar value text; payloads over that ceiling become `[FILTERED]` before
 PII recognition. Structs and tuple-bearing terms, including keyword lists, fail
 closed without protocol dispatch. Raw topics and event names are never logged:
 only configured topic patterns and allow-listed event names are emitted.
+Phoenix discard and keep filter configuration is limited to 256 nonempty
+parameter names and 4 KiB of cumulative name text; keep names are compiled into
+map lookups before realtime events are handled.
 Configured labels containing control or directional formatting codepoints fail
 startup, and emitted event labels come from owned startup configuration.
 Oversized topics fail closed before content validation. Both handlers reject
