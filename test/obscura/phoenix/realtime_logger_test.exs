@@ -2,6 +2,7 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
   use ExUnit.Case, async: false
 
   import ExUnit.CaptureLog
+  alias Obscura.Internal.PhoenixLog
   alias Obscura.Phoenix.ChannelLogger
   alias Obscura.Phoenix.SocketLogger
 
@@ -194,6 +195,47 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     refute log =~ "join-secret@example.test"
     refute log =~ "socket-id-secret@example.test"
     refute log =~ "assign-secret@example.test"
+  end
+
+  test "channel correlation emits only a validated UUID socket assign as metadata" do
+    chat_id = "43ad7b8f-b62c-4e1b-8349-8c8ea0a72362"
+
+    start_channel_logger(
+      topic_patterns: ["room:*"],
+      events: ["new_message"],
+      correlation: {:socket_assign, :chat_id, :uuid}
+    )
+
+    filter_id = unique_name(:correlation_capture)
+
+    :ok =
+      :logger.add_primary_filter(
+        filter_id,
+        {&__MODULE__.capture_logger_event/2, self()}
+      )
+
+    on_exit(fn -> :logger.remove_primary_filter(filter_id) end)
+
+    socket = socket(UserSocket, nil, %{chat_id: chat_id})
+
+    capture_log(fn ->
+      assert {:ok, %{}, %Phoenix.Socket{}} =
+               subscribe_and_join(socket, RoomChannel, "room:42", %{})
+    end)
+
+    assert_receive {:logger_event, %{meta: %{chat_id: ^chat_id}}}
+
+    {:ok, correlation} = PhoenixLog.prepare_correlation({:socket_assign, :chat_id, :uuid})
+
+    assert PhoenixLog.correlation_metadata(
+             %{assigns: %{chat_id: "not-a-uuid"}},
+             correlation,
+             true
+           ) ==
+             []
+
+    assert PhoenixLog.correlation_metadata(%{assigns: %{chat_id: chat_id}}, correlation, false) ==
+             []
   end
 
   test "real Phoenix channel messages allow configured events and omit payloads" do
@@ -409,6 +451,14 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
                  events: [<<0xC2, 0x9B>>]
                )
              end)
+
+    assert {:error, {:invalid_option, :correlation, :expected_omit_or_socket_assign}} =
+             isolated_start(fn ->
+               ChannelLogger.start_link(
+                 name: unique_name(:invalid_correlation),
+                 correlation: {:socket_assign, :chat_id, :text}
+               )
+             end)
   end
 
   test "startup refuses to coexist with Phoenix's raw socket logger" do
@@ -474,4 +524,10 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
 
   @doc false
   def discard_telemetry_event(_event, _measurements, _metadata, _config), do: :ok
+
+  @doc "Forwards Logger events to the test process without modifying them."
+  def capture_logger_event(event, test_pid) do
+    send(test_pid, {:logger_event, event})
+    event
+  end
 end

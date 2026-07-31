@@ -202,11 +202,26 @@ bounded redacted copy can be enabled explicitly:
  handle_in_params: {:redact, entities: [:email, :phone]}}
 ```
 
-The handler never inspects socket assigns, application-private socket data,
-socket identifiers, message references, callback results, or outbound
-messages. It clears channel-process Logger metadata while emitting its record.
-Any failure produces only fixed safe labels or suppresses the record; it never
-falls back to raw values.
+An application may opt in to include one validated UUID-valued socket assign
+as Logger metadata, allowing related channel events to be correlated:
+
+```elixir
+{Obscura.Phoenix.ChannelLogger,
+ topic_patterns: ["room:*"],
+ events: ["new_message"],
+ correlation: {:socket_assign, :chat_id, :uuid}}
+```
+
+The assign is included only for successful joins and handled events, and only
+when it is a canonical UUID string. Missing, malformed, or non-binary values
+are omitted. This supports log correlation only: it does not create spans,
+propagate trace context, or provide distributed tracing. Apart from this opt-in
+field, the handler never inspects socket assigns, application-private socket
+data, socket identifiers, message references, callback results, or outbound
+messages. It clears channel-process Logger metadata while emitting its record
+and then adds only the validated correlation metadata. Any failure produces
+only fixed safe labels or suppresses the record; it never falls back to raw
+values.
 
 Both realtime handlers refuse to start while Phoenix's corresponding default
 logger handler is attached. This prevents an apparently safe handler from

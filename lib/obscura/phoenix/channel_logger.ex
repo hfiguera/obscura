@@ -23,9 +23,22 @@ defmodule Obscura.Phoenix.ChannelLogger do
        join_params: {:redact, entities: [:email, :phone]},
        handle_in_params: {:redact, entities: [:email, :phone]}}
 
+  Applications can opt in to include one validated UUID-valued socket assign
+  as Logger metadata, allowing related channel events to be correlated.
+  Invalid or missing values are omitted:
+
+      {Obscura.Phoenix.ChannelLogger,
+       topic_patterns: ["room:*"],
+       events: ["new_message"],
+       correlation: {:socket_assign, :chat_id, :uuid}}
+
+  This metadata supports log correlation; it does not create spans, propagate
+  trace context, or provide distributed tracing.
+
   Only the dependency-light `:fast` profile is accepted in this synchronous
-  path. The handler never inspects socket assigns, private application data,
-  identifiers, references, or callback results.
+  path. Apart from an explicitly configured correlation assign, the handler
+  never inspects socket assigns, private application data, identifiers,
+  references, or callback results.
   """
 
   use GenServer
@@ -35,6 +48,7 @@ defmodule Obscura.Phoenix.ChannelLogger do
   @events [[:phoenix, :channel_joined], [:phoenix, :channel_handled_in]]
 
   @allowed_options [
+    :correlation,
     :events,
     :handle_in_params,
     :inspect_opts,
@@ -61,6 +75,8 @@ defmodule Obscura.Phoenix.ChannelLogger do
          {:ok, topic_patterns} <-
            PhoenixLog.prepare_topic_patterns(Keyword.get(opts, :topic_patterns, [])),
          {:ok, events} <- PhoenixLog.prepare_events(Keyword.get(opts, :events, [])),
+         {:ok, correlation} <-
+           PhoenixLog.prepare_correlation(Keyword.get(opts, :correlation, :omit)),
          {:ok, join_params} <-
            PhoenixLog.prepare_params_policy(Keyword.get(opts, :join_params, :omit), inspect_opts),
          {:ok, handle_in_params} <-
@@ -73,6 +89,7 @@ defmodule Obscura.Phoenix.ChannelLogger do
       detach_previous_handlers(name)
 
       config = %{
+        correlation: correlation,
         events: events,
         handle_in_params: handle_in_params,
         handler_id: handler_id,
@@ -116,18 +133,29 @@ defmodule Obscura.Phoenix.ChannelLogger do
     else
       level = channel_level(socket, :log_join)
 
-      PhoenixLog.log(level, fn ->
-        [
-          join_result(Map.get(metadata, :result)),
-          PhoenixLog.safe_topic(Map.get(socket, :topic), config.topic_patterns),
-          " (",
-          PhoenixLog.safe_identifier(Map.get(socket, :channel)),
-          ") in ",
-          PhoenixLog.duration(Map.get(measurements, :duration)),
-          "\n  Parameters: ",
-          PhoenixLog.render_params(Map.get(metadata, :params), config.join_params)
-        ]
-      end)
+      correlation_metadata =
+        PhoenixLog.correlation_metadata(
+          socket,
+          config.correlation,
+          Map.get(metadata, :result) == :ok
+        )
+
+      PhoenixLog.log(
+        level,
+        fn ->
+          [
+            join_result(Map.get(metadata, :result)),
+            PhoenixLog.safe_topic(Map.get(socket, :topic), config.topic_patterns),
+            " (",
+            PhoenixLog.safe_identifier(Map.get(socket, :channel)),
+            ") in ",
+            PhoenixLog.duration(Map.get(measurements, :duration)),
+            "\n  Parameters: ",
+            PhoenixLog.render_params(Map.get(metadata, :params), config.join_params)
+          ]
+        end,
+        correlation_metadata
+      )
     end
   end
 
@@ -138,21 +166,26 @@ defmodule Obscura.Phoenix.ChannelLogger do
       :ok
     else
       level = channel_level(socket, :log_handle_in)
+      correlation_metadata = PhoenixLog.correlation_metadata(socket, config.correlation, true)
 
-      PhoenixLog.log(level, fn ->
-        [
-          "HANDLED ",
-          PhoenixLog.safe_event(Map.get(metadata, :event), config.events),
-          " ON ",
-          PhoenixLog.safe_topic(Map.get(socket, :topic), config.topic_patterns),
-          " (",
-          PhoenixLog.safe_identifier(Map.get(socket, :channel)),
-          ") in ",
-          PhoenixLog.duration(Map.get(measurements, :duration)),
-          "\n  Parameters: ",
-          PhoenixLog.render_params(Map.get(metadata, :params), config.handle_in_params)
-        ]
-      end)
+      PhoenixLog.log(
+        level,
+        fn ->
+          [
+            "HANDLED ",
+            PhoenixLog.safe_event(Map.get(metadata, :event), config.events),
+            " ON ",
+            PhoenixLog.safe_topic(Map.get(socket, :topic), config.topic_patterns),
+            " (",
+            PhoenixLog.safe_identifier(Map.get(socket, :channel)),
+            ") in ",
+            PhoenixLog.duration(Map.get(measurements, :duration)),
+            "\n  Parameters: ",
+            PhoenixLog.render_params(Map.get(metadata, :params), config.handle_in_params)
+          ]
+        end,
+        correlation_metadata
+      )
     end
   end
 

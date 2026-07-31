@@ -347,9 +347,14 @@ or `{:redact, keyword()}`), `:name`, and `:inspect_opts`.
 `Obscura.Phoenix.ChannelLogger` supports `:topic_patterns` and `:events`
 (proper lists of bounded static strings), `:join_params` and
 `:handle_in_params` (`:omit` by default, or `{:redact, keyword()}`), `:name`,
-and `:inspect_opts`. Realtime redaction is restricted to `:fast` and the
-declarative `:entities` and `:max_depth` options. Unknown options fail startup.
-Raw topics and event names are never logged: only configured topic patterns and
+`:inspect_opts`, and `:correlation` (`:omit` by default, or
+`{:socket_assign, atom(), :uuid}`). A configured correlation assign is emitted
+as Logger metadata only for successful joins and handled events when its value
+is a valid UUID string, allowing related channel events to be correlated. This
+is log correlation metadata, not distributed tracing or trace-context
+propagation. Realtime redaction is restricted to `:fast` and the declarative
+`:entities` and `:max_depth` options. Unknown options fail startup. Raw topics
+and event names are never logged: only configured topic patterns and
 allow-listed event names are emitted. Both handlers reject startup while the
 corresponding Phoenix default logger handler remains attached.
 

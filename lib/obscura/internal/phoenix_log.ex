@@ -32,6 +32,9 @@ defmodule Obscura.Internal.PhoenixLog do
   @redaction_options [:entities, :max_depth]
 
   @type params_policy :: %{mode: :omit} | map()
+  @type correlation_policy ::
+          %{mode: :omit}
+          | %{mode: :socket_assign, assign: atom(), metadata_key: atom(), format: :uuid}
 
   @spec filtered() :: String.t()
   def filtered, do: @filtered
@@ -204,6 +207,42 @@ defmodule Obscura.Internal.PhoenixLog do
 
   def safe_topic(_topic, _patterns), do: @filtered_topic
 
+  @spec prepare_correlation(term()) :: {:ok, correlation_policy()} | {:error, term()}
+  def prepare_correlation(:omit), do: {:ok, %{mode: :omit}}
+
+  def prepare_correlation({:socket_assign, assign, :uuid})
+      when is_atom(assign) and not is_nil(assign) do
+    if safe_correlation_key?(assign) do
+      {:ok, %{mode: :socket_assign, assign: assign, metadata_key: assign, format: :uuid}}
+    else
+      invalid_option(:correlation, :invalid_metadata_key)
+    end
+  end
+
+  def prepare_correlation(_correlation),
+    do: invalid_option(:correlation, :expected_omit_or_socket_assign)
+
+  @spec correlation_metadata(term(), correlation_policy(), boolean()) :: keyword()
+  def correlation_metadata(_socket, _policy, false), do: []
+  def correlation_metadata(_socket, %{mode: :omit}, true), do: []
+
+  def correlation_metadata(
+        %{assigns: assigns},
+        %{mode: :socket_assign, assign: assign, metadata_key: metadata_key, format: :uuid},
+        true
+      )
+      when is_map(assigns) do
+    case Map.get(assigns, assign) do
+      value when is_binary(value) ->
+        if uuid?(value), do: [{metadata_key, value}], else: []
+
+      _value ->
+        []
+    end
+  end
+
+  def correlation_metadata(_socket, _policy, true), do: []
+
   @spec prepare_events(term()) :: {:ok, MapSet.t(String.t())} | {:error, term()}
   def prepare_events(events) when is_list(events) do
     with :ok <- validate_bounded_list(events, @max_events, :events) do
@@ -264,20 +303,24 @@ defmodule Obscura.Internal.PhoenixLog do
   def log_level(_level, _default), do: false
 
   @spec log(Logger.level() | false, (-> iodata())) :: :ok
-  def log(false, _message), do: :ok
+  def log(level, message), do: log(level, message, [])
 
-  def log(level, message) when level in @levels and is_function(message, 0) do
+  @spec log(Logger.level() | false, (-> iodata()), keyword()) :: :ok
+  def log(false, _message, _metadata), do: :ok
+
+  def log(level, message, safe_metadata)
+      when level in @levels and is_function(message, 0) and is_list(safe_metadata) do
     metadata = Logger.metadata()
     Logger.reset_metadata()
 
     try do
-      Logger.log(level, message)
+      Logger.log(level, message, safe_metadata)
     after
       Logger.reset_metadata(metadata)
     end
   end
 
-  def log(_level, _message), do: :ok
+  def log(_level, _message, _metadata), do: :ok
 
   @spec phoenix_logger_attached?([atom()]) :: boolean()
   def phoenix_logger_attached?(event) do
@@ -410,6 +453,30 @@ defmodule Obscura.Internal.PhoenixLog do
        do: identifier_bytes?(rest)
 
   defp identifier_bytes?(_text), do: false
+
+  defp safe_correlation_key?(key) do
+    key
+    |> Atom.to_string()
+    |> identifier_text?()
+  end
+
+  defp uuid?(
+         <<part1::binary-size(8), "-", part2::binary-size(4), "-", part3::binary-size(4), "-",
+           part4::binary-size(4), "-", part5::binary-size(12)>>
+       ) do
+    Enum.all?([part1, part2, part3, part4, part5], &hex?/1)
+  end
+
+  defp uuid?(_value), do: false
+
+  defp hex?(value), do: hex_bytes?(value)
+  defp hex_bytes?(<<>>), do: true
+
+  defp hex_bytes?(<<byte, rest::binary>>)
+       when byte in ?0..?9 or byte in ?A..?F or byte in ?a..?f,
+       do: hex_bytes?(rest)
+
+  defp hex_bytes?(_value), do: false
 
   defp label_contains_pii?(label) do
     case key_entities() do
