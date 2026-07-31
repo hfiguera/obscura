@@ -351,14 +351,17 @@ or `{:redact, keyword()}`), `:name`, and `:inspect_opts`.
 `{:socket_assign, atom(), :uuid}`). A configured correlation assign is emitted
 as Logger metadata only for successful joins and handled events when its value
 is a valid UUID string, allowing related channel events to be correlated.
-Correlation assign names must be bounded, PII-free static identifiers and
-cannot use Logger-reserved metadata keys. Phoenix join telemetry exposes the
+Correlation assign names must be bounded static identifiers, cannot use
+Logger-reserved metadata keys, and cannot contain high-confidence PII
+recognized by the `:fast` profile. Phoenix join telemetry exposes the
 pre-`join/3` socket, so an assign created by `join/3` is available to subsequent
 handled events but not to that join record. This is log correlation metadata,
 not distributed tracing or trace-context propagation. Realtime redaction is
 restricted to `:fast` and the declarative `:entities` and `:max_depth` options.
 Unknown options fail startup. Raw topics and event names are never logged: only
-configured topic patterns and allow-listed event names are emitted. Oversized
+configured topic patterns and allow-listed event names are emitted. Configured
+labels containing control or directional formatting codepoints fail startup,
+and emitted event labels come from owned startup configuration. Oversized
 topics fail closed before content validation. Both handlers reject startup
 while the corresponding Phoenix default logger handler remains attached.
 

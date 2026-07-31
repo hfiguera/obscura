@@ -27,6 +27,7 @@ defmodule Obscura.Internal.PhoenixLog do
   @max_measurement 9_223_372_036_854_775_807
 
   @standard_methods ~w(GET HEAD POST PUT PATCH DELETE OPTIONS CONNECT TRACE)
+  @unsafe_static_label ~r/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u
 
   @levels [:debug, :info, :notice, :warning, :error, :critical, :alert, :emergency]
 
@@ -53,6 +54,7 @@ defmodule Obscura.Internal.PhoenixLog do
   @redaction_options [:entities, :max_depth]
 
   @type params_policy :: %{mode: :omit} | map()
+  @type event_labels :: %{optional(String.t()) => String.t()}
   @type correlation_policy ::
           %{mode: :omit}
           | %{mode: :socket_assign, assign: atom(), metadata_key: atom(), format: :uuid}
@@ -265,7 +267,7 @@ defmodule Obscura.Internal.PhoenixLog do
 
   def correlation_metadata(_socket, _policy, true), do: []
 
-  @spec prepare_events(term()) :: {:ok, MapSet.t(String.t())} | {:error, term()}
+  @spec prepare_events(term()) :: {:ok, event_labels()} | {:error, term()}
   def prepare_events(events) when is_list(events) do
     with :ok <- validate_bounded_list(events, @max_events, :events) do
       compile_events(events)
@@ -274,9 +276,12 @@ defmodule Obscura.Internal.PhoenixLog do
 
   def prepare_events(_events), do: invalid_option(:events, :expected_list)
 
-  @spec safe_event(term(), MapSet.t(String.t())) :: String.t()
-  def safe_event(event, allowed) when is_binary(event) do
-    if MapSet.member?(allowed, event), do: event, else: @filtered_event
+  @spec safe_event(term(), event_labels()) :: String.t()
+  def safe_event(event, allowed) when is_binary(event) and is_map(allowed) do
+    case :maps.find(event, allowed) do
+      {:ok, configured_event} -> configured_event
+      :error -> @filtered_event
+    end
   end
 
   def safe_event(_event, _allowed), do: @filtered_event
@@ -442,9 +447,10 @@ defmodule Obscura.Internal.PhoenixLog do
   defp matching_topic_pattern_entry(_topic, _pattern), do: nil
 
   defp compile_events(events) do
-    Enum.reduce_while(events, {:ok, MapSet.new()}, fn event, {:ok, compiled} ->
+    Enum.reduce_while(events, {:ok, %{}}, fn event, {:ok, compiled} ->
       if safe_static_label?(event) do
-        {:cont, {:ok, MapSet.put(compiled, event)}}
+        owned_event = :binary.copy(event)
+        {:cont, {:ok, Map.put(compiled, owned_event, owned_event)}}
       else
         {:halt, invalid_option(:events, :invalid_event)}
       end
@@ -461,7 +467,8 @@ defmodule Obscura.Internal.PhoenixLog do
 
   defp safe_static_label?(label) when is_binary(label) do
     byte_size(label) > 0 and byte_size(label) <= @max_label_bytes and
-      String.valid?(label) and String.printable?(label) and not label_contains_pii?(label)
+      String.valid?(label) and String.printable?(label) and
+      not Regex.match?(@unsafe_static_label, label) and not label_contains_pii?(label)
   end
 
   defp safe_static_label?(_label), do: false
@@ -693,8 +700,9 @@ defmodule Obscura.Internal.PhoenixLog do
   end
 
   defp consume_parameter_term(value, budget) when is_binary(value) do
-    with {:ok, budget} <- consume_parameter_node(budget) do
-      consume_parameter_value(byte_size(value), budget)
+    with {:ok, budget} <- consume_parameter_node(budget),
+         {:ok, budget} <- consume_parameter_value(byte_size(value), budget) do
+      consume_parameter_analysis(budget)
     end
   end
 

@@ -306,7 +306,7 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
 
     config = %{
       correlation: correlation,
-      events: MapSet.new(["new_message"]),
+      events: %{"new_message" => "new_message"},
       handle_in_params: %{mode: :omit},
       handler_id: make_ref(),
       join_params: %{mode: :omit},
@@ -346,6 +346,49 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     assert log =~ "HANDLED new_message ON room:*"
     assert log =~ "Parameters: [OMITTED]"
     refute log =~ "message-secret@example.test"
+  end
+
+  test "allow-listed event labels do not retain client-frame binaries" do
+    configured_event = :binary.copy("e", 100)
+    source = :binary.copy("x", 1_000_000) <> configured_event
+    incoming_event = binary_part(source, 1_000_000, byte_size(configured_event))
+
+    assert :binary.referenced_byte_size(incoming_event) > byte_size(incoming_event)
+
+    start_channel_logger(topic_patterns: ["room:*"], events: [configured_event])
+
+    filter_id = unique_name(:event_ownership_capture)
+
+    :ok =
+      :logger.add_primary_filter(
+        filter_id,
+        {&__MODULE__.capture_logger_event/2, self()}
+      )
+
+    on_exit(fn -> :logger.remove_primary_filter(filter_id) end)
+
+    capture_log(fn ->
+      :telemetry.execute(
+        [:phoenix, :channel_handled_in],
+        %{duration: 1},
+        %{
+          event: incoming_event,
+          params: %{},
+          socket: %{
+            channel: RoomChannel,
+            private: %{log_handle_in: :info},
+            topic: "room:42"
+          }
+        }
+      )
+    end)
+
+    assert_receive {:logger_event,
+                    %{msg: {:string, ["HANDLED ", emitted_event | _message_segments]}}}
+
+    assert emitted_event == configured_event
+    refute :erts_debug.same(emitted_event, incoming_event)
+    assert :binary.referenced_byte_size(emitted_event) == byte_size(emitted_event)
   end
 
   test "unconfigured event names and topics fail closed" do
@@ -412,6 +455,25 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     assert log =~ ~s("email" => "[EMAIL]")
     assert log =~ ~s("body" => "hello")
     refute log =~ "message-secret@example.test"
+  end
+
+  test "channel payloads over the analysis-term limit fail closed" do
+    start_channel_logger(
+      topic_patterns: ["room:*"],
+      events: ["new_message"],
+      handle_in_params: {:redact, entities: [:email]}
+    )
+
+    socket = joined_socket()
+
+    log =
+      capture_log(fn ->
+        ref = push(socket, "new_message", %{"values" => List.duplicate("value", 128)})
+        assert_reply(ref, :ok)
+      end)
+
+    assert log =~ "Parameters: [FILTERED]"
+    refute log =~ ~s("values")
   end
 
   test "channel logging excludes metadata inherited from the channel process" do
@@ -554,6 +616,32 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
                  events: [<<0xC2, 0x9B>>]
                )
              end)
+
+    for {suffix, label} <- [
+          newline: "safe\nINJECTED",
+          carriage_return: "safe\rINJECTED",
+          tab: "safe\tINJECTED",
+          escape: "safe\e[31m",
+          bidi_override: "safe\u202Etxt",
+          zero_width: "safe\u200Btxt",
+          line_separator: "safe\u2028txt"
+        ] do
+      assert {:error, {:invalid_option, :events, :invalid_event}} =
+               isolated_start(fn ->
+                 ChannelLogger.start_link(
+                   name: unique_name(:"control_event_#{suffix}"),
+                   events: [label]
+                 )
+               end)
+
+      assert {:error, {:invalid_option, :topic_patterns, :invalid_pattern}} =
+               isolated_start(fn ->
+                 ChannelLogger.start_link(
+                   name: unique_name(:"control_topic_#{suffix}"),
+                   topic_patterns: [label]
+                 )
+               end)
+    end
 
     assert {:error, {:invalid_option, :correlation, :expected_omit_or_socket_assign}} =
              isolated_start(fn ->

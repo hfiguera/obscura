@@ -368,6 +368,7 @@ defmodule Obscura.Phoenix.LoggerTest do
     scenarios = [
       Map.new(1..65, fn index -> {"field_#{index}", "value"} end),
       %{String.duplicate("k", 4_097) => "oversized-key"},
+      %{"values" => List.duplicate("value", 128)},
       %{"values" => List.duplicate("value", 1_024)},
       %{"value" => String.duplicate("v", 65_537)},
       %{"value" => oversized_integer},

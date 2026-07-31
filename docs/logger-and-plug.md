@@ -189,8 +189,11 @@ children = [
 The logger emits the matched configured pattern, not the raw topic. Unmatched
 topics become `[FILTERED TOPIC]`, and unconfigured event names become
 `[FILTERED EVENT]`. Oversized topics are filtered before UTF-8 validation or
-pattern matching. Phoenix's internal `"phoenix"` topics remain silent. The
-handler preserves the channel's `:log_join` and `:log_handle_in` levels.
+pattern matching. Configured labels containing control or directional
+formatting codepoints fail startup. Allowed event names are emitted from owned
+startup configuration rather than client-frame binaries. Phoenix's internal
+`"phoenix"` topics remain silent. The handler preserves the channel's
+`:log_join` and `:log_handle_in` levels.
 
 Join and incoming-event parameters are independently omitted by default. A
 bounded redacted copy can be enabled explicitly:
@@ -215,8 +218,8 @@ as Logger metadata, allowing related channel events to be correlated:
 
 The assign name becomes the Logger metadata key. It must be a bounded static
 identifier and must not collide with Logger-reserved metadata such as `:pid`,
-`:gl`, `:time`, or `:domain`. PII-bearing keys are also rejected; invalid keys
-fail startup.
+`:gl`, `:time`, or `:domain`. Keys containing high-confidence PII recognized
+by the `:fast` profile are also rejected; invalid keys fail startup.
 
 The assign is included only for successful joins and handled events, and only
 when it is a canonical UUID string. Missing, malformed, or non-binary values

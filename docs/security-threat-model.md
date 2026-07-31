@@ -105,12 +105,15 @@ information, application-private socket data, identifiers, message references,
 callback results are never inspected. Raw unmatched topics and event names are
 never emitted. The channel logger may inspect exactly one explicitly configured
 socket assign for log correlation. It emits that assign only when its value is
-a valid UUID and its name is a bounded, PII-free, non-reserved Logger metadata
-key. Oversized raw topics fail closed before UTF-8 validation or pattern
-matching. Correlation UUIDs can still identify sessions or workflows, so
-deployers remain responsible for access control, retention, and downstream log
-handling. Logger metadata inherited from request, socket, or channel processes
-is excluded from Obscura's records.
+a valid UUID and its name is a bounded, non-reserved Logger metadata key that
+does not contain high-confidence PII recognized by the `:fast` profile.
+Configured labels containing control or directional formatting codepoints fail
+startup. Allowed event labels are emitted from owned startup configuration,
+not client-frame binaries. Oversized raw topics fail closed before UTF-8
+validation or pattern matching. Correlation UUIDs can still identify sessions
+or workflows, so deployers remain responsible for access control, retention,
+and downstream log handling. Logger metadata inherited from request, socket,
+or channel processes is excluded from Obscura's records.
 
 Phoenix emits raw connection and channel parameters in telemetry metadata.
 Obscura's handlers sanitize only their own Logger output and cannot prevent

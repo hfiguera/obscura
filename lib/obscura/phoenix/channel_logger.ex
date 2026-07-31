@@ -34,8 +34,9 @@ defmodule Obscura.Phoenix.ChannelLogger do
        correlation: {:socket_assign, :chat_id, :uuid}}
 
   This metadata supports log correlation; it does not create spans, propagate
-  trace context, or provide distributed tracing. Logger-reserved, PII-bearing,
-  and oversized assign names are rejected at startup.
+  trace context, or provide distributed tracing. Logger-reserved and oversized
+  assign names, plus names containing high-confidence PII recognized by the
+  `:fast` profile, are rejected at startup.
 
   Phoenix's join telemetry contains the socket from before `join/3` runs.
   Consequently, a correlation assign must already exist before `join/3` to
@@ -46,6 +47,10 @@ defmodule Obscura.Phoenix.ChannelLogger do
   path. Apart from an explicitly configured correlation assign, the handler
   never inspects socket assigns, private application data, identifiers,
   references, or callback results.
+
+  Configured topic and event labels containing control or directional
+  formatting codepoints are rejected. Allowed event labels are emitted from
+  owned startup configuration rather than client-frame binaries.
   """
 
   use GenServer
