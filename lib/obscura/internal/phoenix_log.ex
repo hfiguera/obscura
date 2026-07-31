@@ -29,6 +29,26 @@ defmodule Obscura.Internal.PhoenixLog do
 
   @levels [:debug, :info, :notice, :warning, :error, :critical, :alert, :emergency]
 
+  @reserved_logger_metadata_keys [
+    :application,
+    :crash_reason,
+    :domain,
+    :erl_level,
+    :error_logger,
+    :file,
+    :function,
+    :gl,
+    :initial_call,
+    :line,
+    :logger_formatter,
+    :mfa,
+    :module,
+    :pid,
+    :registered_name,
+    :report_cb,
+    :time
+  ]
+
   @redaction_options [:entities, :max_depth]
 
   @type params_policy :: %{mode: :omit} | map()
@@ -455,9 +475,10 @@ defmodule Obscura.Internal.PhoenixLog do
   defp identifier_bytes?(_text), do: false
 
   defp safe_correlation_key?(key) do
-    key
-    |> Atom.to_string()
-    |> identifier_text?()
+    text = Atom.to_string(key)
+
+    byte_size(text) <= @max_identifier_bytes and identifier_text?(text) and
+      key not in @reserved_logger_metadata_keys
   end
 
   defp uuid?(

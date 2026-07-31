@@ -100,11 +100,16 @@ caller's original structures unless the caller replaces or discards it.
 
 The Phoenix request logger consumes only a pre-redacted Plug assign. The
 Phoenix socket and channel loggers omit parameters by default; explicit
-realtime inclusion is limited to bounded `:fast` redaction. They never inspect
-socket connection information, assigns, application-private socket data,
-identifiers, message references, callback results, or raw unmatched topics and
-event names. Logger metadata inherited from request, socket, or channel
-processes is excluded from Obscura's records.
+realtime inclusion is limited to bounded `:fast` redaction. Socket connection
+information, application-private socket data, identifiers, message references,
+callback results, and raw unmatched topics and event names are never inspected.
+The channel logger may inspect exactly one explicitly configured socket assign
+for log correlation. It emits that assign only when its value is a valid UUID
+and its name is a bounded, non-reserved Logger metadata key. Correlation UUIDs
+can still identify sessions or workflows, so deployers remain responsible for
+access control, retention, and downstream log handling. Logger metadata
+inherited from request, socket, or channel processes is excluded from
+Obscura's records.
 
 Phoenix emits raw connection and channel parameters in telemetry metadata.
 Obscura's handlers sanitize only their own Logger output and cannot prevent

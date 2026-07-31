@@ -212,16 +212,24 @@ as Logger metadata, allowing related channel events to be correlated:
  correlation: {:socket_assign, :chat_id, :uuid}}
 ```
 
+The assign name becomes the Logger metadata key. It must be a bounded static
+identifier and must not collide with Logger-reserved metadata such as `:pid`,
+`:gl`, `:time`, or `:domain`; invalid keys fail startup.
+
 The assign is included only for successful joins and handled events, and only
 when it is a canonical UUID string. Missing, malformed, or non-binary values
-are omitted. This supports log correlation only: it does not create spans,
-propagate trace context, or provide distributed tracing. Apart from this opt-in
-field, the handler never inspects socket assigns, application-private socket
-data, socket identifiers, message references, callback results, or outbound
-messages. It clears channel-process Logger metadata while emitting its record
-and then adds only the validated correlation metadata. Any failure produces
-only fixed safe labels or suppresses the record; it never falls back to raw
-values.
+are omitted. Phoenix's join telemetry contains the socket from before
+`join/3` runs. The assign must therefore exist before `join/3` to appear on the
+join record. An assign added by `join/3` is available to subsequent handled
+events, but not to that join record.
+
+This supports log correlation only: it does not create spans, propagate trace
+context, or provide distributed tracing. Apart from this opt-in field, the
+handler never inspects socket assigns, application-private socket data, socket
+identifiers, message references, callback results, or outbound messages. It
+clears channel-process Logger metadata while emitting its record and then adds
+only the validated correlation metadata. Any failure produces only fixed safe
+labels or suppresses the record; it never falls back to raw values.
 
 Both realtime handlers refuse to start while Phoenix's corresponding default
 logger handler is attached. This prevents an apparently safe handler from

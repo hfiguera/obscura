@@ -27,10 +27,23 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     def handle_in(_event, _params, socket), do: {:reply, :ok, socket}
   end
 
+  defmodule JoinAssignChannel do
+    use Phoenix.Channel, log_join: :info, log_handle_in: :info
+
+    @chat_id "43ad7b8f-b62c-4e1b-8349-8c8ea0a72362"
+
+    @impl true
+    def join(_topic, _params, socket), do: {:ok, assign(socket, :chat_id, @chat_id)}
+
+    @impl true
+    def handle_in("new_message", _params, socket), do: {:reply, :ok, socket}
+  end
+
   defmodule UserSocket do
     use Phoenix.Socket
 
     channel("room:*", RoomChannel)
+    channel("join-assign:*", JoinAssignChannel)
 
     @impl true
     def connect(_params, socket, _connect_info), do: {:ok, socket}
@@ -236,6 +249,88 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
 
     assert PhoenixLog.correlation_metadata(%{assigns: %{chat_id: chat_id}}, correlation, false) ==
              []
+  end
+
+  test "join correlation uses the pre-join socket and later events use join assigns" do
+    chat_id = "43ad7b8f-b62c-4e1b-8349-8c8ea0a72362"
+
+    start_channel_logger(
+      topic_patterns: ["join-assign:*"],
+      events: ["new_message"],
+      correlation: {:socket_assign, :chat_id, :uuid}
+    )
+
+    filter_id = unique_name(:join_assign_correlation_capture)
+
+    :ok =
+      :logger.add_primary_filter(
+        filter_id,
+        {&__MODULE__.capture_logger_event/2, self()}
+      )
+
+    on_exit(fn -> :logger.remove_primary_filter(filter_id) end)
+
+    socket = socket(UserSocket, nil, %{})
+
+    token = make_ref()
+
+    capture_log(fn ->
+      send(
+        self(),
+        {token, subscribe_and_join(socket, JoinAssignChannel, "join-assign:42", %{})}
+      )
+    end)
+
+    assert_receive {:logger_event, %{meta: join_metadata}}
+    refute Map.has_key?(join_metadata, :chat_id)
+    assert_receive {^token, {:ok, %{}, %Phoenix.Socket{} = joined_socket}}
+
+    capture_log(fn ->
+      ref = push(joined_socket, "new_message", %{})
+      assert_reply(ref, :ok)
+    end)
+
+    assert_receive {:logger_event, %{meta: %{chat_id: ^chat_id}}}
+  end
+
+  test "disabled channel events do not evaluate correlation metadata" do
+    {:ok, correlation} =
+      PhoenixLog.prepare_correlation({:socket_assign, :chat_id, :uuid})
+
+    socket = %{
+      topic: "room:42",
+      channel: RoomChannel,
+      private: %{log_handle_in: false},
+      assigns: %{chat_id: "43ad7b8f-b62c-4e1b-8349-8c8ea0a72362"}
+    }
+
+    config = %{
+      correlation: correlation,
+      events: MapSet.new(["new_message"]),
+      handle_in_params: %{mode: :omit},
+      handler_id: make_ref(),
+      join_params: %{mode: :omit},
+      owner: self(),
+      topic_patterns: [{:prefix, "room:", "room:*"}]
+    }
+
+    :erlang.trace(self(), true, [:call])
+    :erlang.trace_pattern({PhoenixLog, :correlation_metadata, 3}, true, [:local])
+
+    try do
+      assert :ok =
+               ChannelLogger.handle_event(
+                 [:phoenix, :channel_handled_in],
+                 %{duration: 1},
+                 %{event: "new_message", params: %{}, socket: socket},
+                 config
+               )
+
+      refute_receive {:trace, _, :call, {PhoenixLog, :correlation_metadata, _}}
+    after
+      :erlang.trace_pattern({PhoenixLog, :correlation_metadata, 3}, false, [:local])
+      :erlang.trace(self(), false, [:call])
+    end
   end
 
   test "real Phoenix channel messages allow configured events and omit payloads" do
@@ -459,6 +554,37 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
                  correlation: {:socket_assign, :chat_id, :text}
                )
              end)
+
+    assert {:error, {:invalid_option, :correlation, :invalid_metadata_key}} =
+             isolated_start(fn ->
+               ChannelLogger.start_link(
+                 name: unique_name(:reserved_correlation),
+                 correlation: {:socket_assign, :gl, :uuid}
+               )
+             end)
+
+    for key <- [
+          :application,
+          :crash_reason,
+          :domain,
+          :erl_level,
+          :error_logger,
+          :file,
+          :function,
+          :gl,
+          :initial_call,
+          :line,
+          :logger_formatter,
+          :mfa,
+          :module,
+          :pid,
+          :registered_name,
+          :report_cb,
+          :time
+        ] do
+      assert {:error, {:invalid_option, :correlation, :invalid_metadata_key}} =
+               PhoenixLog.prepare_correlation({:socket_assign, key, :uuid})
+    end
   end
 
   test "startup refuses to coexist with Phoenix's raw socket logger" do
