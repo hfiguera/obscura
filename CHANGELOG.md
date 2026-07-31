@@ -5,7 +5,7 @@ All notable changes to Obscura are documented in this file.
 ## Unreleased
 
 - Lowered the minimum supported Elixir version from 1.20 to 1.17 and added
-  minimum/current Elixir and Erlang/OTP compatibility lanes.
+  per-minor Elixir and Erlang/OTP compatibility lanes.
 - Added opt-in privacy-safe Phoenix socket and channel telemetry loggers with
   omission-first payload policies, configured topic patterns and event names,
   bounded `:fast` redaction, and raw-default-logger conflict detection.

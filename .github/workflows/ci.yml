@@ -25,18 +25,30 @@ jobs:
             otp: 29.0.3
             elixir: 1.20.2
             command: mix ci.base
-            minimum_runtime: "0"
+            compatibility_runtime: "0"
+          - name: Elixir 1.19 / OTP 28 compatibility
+            lane: elixir-1-19
+            otp: 28.5
+            elixir: 1.19.5
+            command: mix ci.compatibility
+            compatibility_runtime: "1"
+          - name: Elixir 1.18 / OTP 27 compatibility
+            lane: elixir-1-18
+            otp: 27.3.4.15
+            elixir: 1.18.4
+            command: mix ci.compatibility
+            compatibility_runtime: "1"
           - name: Minimum Elixir 1.17 / OTP 27 compatibility
             lane: minimum
             otp: 27.3.4.15
             elixir: 1.17.3
-            command: mix ci.minimum
-            minimum_runtime: "1"
+            command: mix ci.compatibility
+            compatibility_runtime: "1"
     env:
       MIX_ENV: test
       MIX_HOME: ${{ github.workspace }}/.mix
       HEX_HOME: ${{ github.workspace }}/.hex
-      OBSCURA_MINIMUM_RUNTIME: ${{ matrix.minimum_runtime }}
+      OBSCURA_COMPATIBILITY_RUNTIME: ${{ matrix.compatibility_runtime }}
     steps:
       - name: Check out source
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4

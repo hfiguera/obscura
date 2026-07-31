@@ -37,7 +37,7 @@ defmodule Obscura.MixProject do
       preferred_envs: [
         ci: :test,
         "ci.base": :test,
-        "ci.minimum": :test,
+        "ci.compatibility": :test,
         "ci.optional": :test,
         "ci.real_model_smoke": :test
       ]
@@ -65,7 +65,7 @@ defmodule Obscura.MixProject do
   end
 
   defp quality_deps do
-    if System.get_env("OBSCURA_MINIMUM_RUNTIME") == "1" do
+    if compatibility_runtime?() do
       []
     else
       [
@@ -78,6 +78,11 @@ defmodule Obscura.MixProject do
         {:credence, "~> 0.6", only: [:dev, :test], runtime: false}
       ]
     end
+  end
+
+  defp compatibility_runtime? do
+    System.get_env("OBSCURA_COMPATIBILITY_RUNTIME") == "1" or
+      Version.compare(System.version(), "1.18.0") == :lt
   end
 
   defp docs do
@@ -191,7 +196,7 @@ defmodule Obscura.MixProject do
         "cmd env MIX_ENV=test OBSCURA_REAL_MODEL=1 OBSCURA_REAL_MODEL_BACKEND=emily OBSCURA_GLINER_ORTEX=1 mix deps.get --only test",
         "cmd env MIX_ENV=test OBSCURA_REAL_MODEL=1 OBSCURA_REAL_MODEL_BACKEND=emily OBSCURA_GLINER_ORTEX=1 mix deps.unlock --check-unused"
       ],
-      "ci.minimum": [
+      "ci.compatibility": [
         "compile --warnings-as-errors",
         "test",
         "obscura.docs.verify"
