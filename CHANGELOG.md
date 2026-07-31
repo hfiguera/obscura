@@ -7,6 +7,8 @@ All notable changes to Obscura are documented in this file.
 - Added opt-in privacy-safe Phoenix socket and channel telemetry loggers with
   omission-first payload policies, configured topic patterns and event names,
   bounded `:fast` redaction, and raw-default-logger conflict detection.
+- Bounded raw channel-topic validation and rejected PII-bearing correlation
+  metadata keys during logger startup.
 
 ## 0.1.2 - 2026-07-24
 

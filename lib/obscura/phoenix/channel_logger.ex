@@ -6,7 +6,8 @@ defmodule Obscura.Phoenix.ChannelLogger do
   default logger after `config :phoenix, :logger, false` disables it. Raw topics
   and event names are never logged. Applications declare safe topic patterns
   and event names at startup; unmatched values are rendered as filtered labels.
-  Join and incoming-event parameters are omitted by default.
+  Oversized topics are filtered before content validation. Join and
+  incoming-event parameters are omitted by default.
 
       children = [
         {Obscura.Phoenix.ChannelLogger,
@@ -33,8 +34,8 @@ defmodule Obscura.Phoenix.ChannelLogger do
        correlation: {:socket_assign, :chat_id, :uuid}}
 
   This metadata supports log correlation; it does not create spans, propagate
-  trace context, or provide distributed tracing. Logger-reserved and oversized
-  assign names are rejected at startup.
+  trace context, or provide distributed tracing. Logger-reserved, PII-bearing,
+  and oversized assign names are rejected at startup.
 
   Phoenix's join telemetry contains the socket from before `join/3` runs.
   Consequently, a correlation assign must already exist before `join/3` to

@@ -363,6 +363,14 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     refute log =~ "topic-secret@example.test"
   end
 
+  test "oversized raw topics fail closed before configured pattern matching" do
+    {:ok, patterns} = PhoenixLog.prepare_topic_patterns(["room:*"])
+    oversized_topic = "room:" <> :binary.copy("x", 1_000_000)
+
+    assert PhoenixLog.safe_topic("room:42", patterns) == "room:*"
+    assert PhoenixLog.safe_topic(oversized_topic, patterns) == "[FILTERED TOPIC]"
+  end
+
   test "channel payload redaction is explicit and bounded" do
     start_channel_logger(
       topic_patterns: ["room:*"],
@@ -585,6 +593,9 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
       assert {:error, {:invalid_option, :correlation, :invalid_metadata_key}} =
                PhoenixLog.prepare_correlation({:socket_assign, key, :uuid})
     end
+
+    assert {:error, {:invalid_option, :correlation, :invalid_metadata_key}} =
+             PhoenixLog.prepare_correlation({:socket_assign, :"4111111111111111", :uuid})
   end
 
   test "startup refuses to coexist with Phoenix's raw socket logger" do

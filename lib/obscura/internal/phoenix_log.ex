@@ -21,6 +21,7 @@ defmodule Obscura.Internal.PhoenixLog do
   @max_patterns 64
   @max_events 128
   @max_label_bytes 128
+  @max_topic_bytes 4_096
   @max_identifier_bytes 255
   @max_method_bytes 32
   @max_measurement 9_223_372_036_854_775_807
@@ -221,7 +222,8 @@ defmodule Obscura.Internal.PhoenixLog do
     do: invalid_option(:topic_patterns, :expected_list)
 
   @spec safe_topic(term(), list()) :: String.t()
-  def safe_topic(topic, patterns) when is_binary(topic) do
+  def safe_topic(topic, patterns)
+      when is_binary(topic) and byte_size(topic) <= @max_topic_bytes do
     if String.valid?(topic), do: matching_topic_pattern(topic, patterns), else: @filtered_topic
   end
 
@@ -478,7 +480,7 @@ defmodule Obscura.Internal.PhoenixLog do
     text = Atom.to_string(key)
 
     byte_size(text) <= @max_identifier_bytes and identifier_text?(text) and
-      key not in @reserved_logger_metadata_keys
+      key not in @reserved_logger_metadata_keys and not label_contains_pii?(text)
   end
 
   defp uuid?(
