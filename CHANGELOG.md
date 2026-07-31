@@ -10,6 +10,8 @@ All notable changes to Obscura are documented in this file.
 - Bounded realtime parameter analysis, owned allowed event labels, rejected
   unsafe configured labels, and rejected correlation metadata keys containing
   high-confidence PII recognized by the `:fast` profile.
+- Added a 4 KiB realtime parameter-text ceiling so dense socket and channel
+  payloads fail closed before synchronous PII recognition.
 
 ## 0.1.2 - 2026-07-24
 

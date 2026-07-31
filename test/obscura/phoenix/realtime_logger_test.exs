@@ -157,6 +157,20 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     refute log =~ String.duplicate("x", 100)
   end
 
+  test "dense socket parameters over the realtime analysis budget fail closed" do
+    start_socket_logger(connect_params: {:redact, entities: [:email]})
+    dense = String.duplicate("person@example.test ", 400)
+
+    log =
+      capture_log(fn ->
+        assert {:ok, %Phoenix.Socket{}} = connect(UserSocket, %{"body" => dense})
+      end)
+
+    assert log =~ "Parameters: [FILTERED]"
+    refute log =~ "person@example.test"
+    refute log =~ "[EMAIL]"
+  end
+
   test "socket drain logs only typed operational fields" do
     start_socket_logger()
 
@@ -476,6 +490,63 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     refute log =~ ~s("values")
   end
 
+  test "dense channel payloads over the realtime analysis budget fail closed" do
+    start_channel_logger(
+      topic_patterns: ["room:*"],
+      events: ["new_message"],
+      handle_in_params: {:redact, entities: [:email]}
+    )
+
+    socket = joined_socket()
+    dense = String.duplicate("person@example.test ", 400)
+
+    log =
+      capture_log(fn ->
+        ref = push(socket, "new_message", %{"body" => dense})
+        assert_reply(ref, :ok)
+      end)
+
+    assert log =~ "HANDLED new_message ON room:*"
+    assert log =~ "Parameters: [FILTERED]"
+    refute log =~ "person@example.test"
+    refute log =~ "[EMAIL]"
+  end
+
+  test "realtime byte budget rejects dense payloads before structured analysis" do
+    {:ok, policy} =
+      PhoenixLog.prepare_params_policy(
+        {:redact, entities: [:email]},
+        limit: 50,
+        printable_limit: 500
+      )
+
+    accepted = %{"body" => String.duplicate("x", 4_092)}
+    rejected = %{"body" => String.duplicate("person@example.test ", 3_000)}
+    worker = spawn_link(fn -> render_params_loop(policy) end)
+
+    :erlang.trace(worker, true, [:call, {:tracer, self()}])
+    :erlang.trace_pattern({Obscura.Structured, :redact, 2}, true, [])
+
+    try do
+      accepted_ref = make_ref()
+      send(worker, {:render, self(), accepted_ref, accepted})
+
+      assert_receive {:trace, ^worker, :call, {Obscura.Structured, :redact, _arguments}}
+      assert_receive {^accepted_ref, accepted_rendering}
+      refute accepted_rendering == "[FILTERED]"
+
+      rejected_ref = make_ref()
+      send(worker, {:render, self(), rejected_ref, rejected})
+
+      assert_receive {^rejected_ref, "[FILTERED]"}
+      refute_receive {:trace, ^worker, :call, {Obscura.Structured, :redact, _arguments}}
+    after
+      :erlang.trace_pattern({Obscura.Structured, :redact, 2}, false, [])
+      :erlang.trace(worker, false, [:call])
+      send(worker, :stop)
+    end
+  end
+
   test "channel logging excludes metadata inherited from the channel process" do
     start_channel_logger(topic_patterns: ["room:*"], events: ["metadata_test"])
     socket = joined_socket()
@@ -742,6 +813,17 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
   defp start_channel_logger(opts) do
     name = unique_name(:channel_logger)
     start_supervised!({ChannelLogger, Keyword.put(opts, :name, name)})
+  end
+
+  defp render_params_loop(policy) do
+    receive do
+      {:render, caller, reference, params} ->
+        send(caller, {reference, PhoenixLog.render_params(params, policy)})
+        render_params_loop(policy)
+
+      :stop ->
+        :ok
+    end
   end
 
   defp unique_name(prefix),

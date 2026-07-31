@@ -15,6 +15,7 @@ defmodule Obscura.Internal.PhoenixLog do
   @max_parameter_nodes 1_024
   @max_parameter_value_bytes 65_536
   @max_parameter_analysis_terms 128
+  @max_realtime_parameter_analysis_bytes 4_096
   @max_numeric_digits 64
   @max_numeric_magnitude Integer.pow(10, @max_numeric_digits)
 
@@ -160,10 +161,10 @@ defmodule Obscura.Internal.PhoenixLog do
   def render_params(_params, %{mode: :omit}), do: @omitted
 
   def render_params(params, %{mode: :redact} = policy) do
-    with true <- parameter_budget_safe?(params),
+    with true <- realtime_parameter_budget_safe?(params),
          filtered <- apply_parameter_filter(params, policy.filter),
          {:ok, result} <- Obscura.Structured.redact(filtered, policy.redaction_opts),
-         true <- parameter_budget_safe?(result.data) do
+         true <- realtime_parameter_budget_safe?(result.data) do
       result.data
       |> log_safe_term(policy.key_entities)
       |> inspect(policy.inspect_opts)
@@ -671,6 +672,16 @@ defmodule Obscura.Internal.PhoenixLog do
 
   defp parameter_budget_safe?(params) do
     match?({:ok, _budget}, consume_parameter_term(params, {0, 0, 0, 0, 0}))
+  end
+
+  defp realtime_parameter_budget_safe?(params) do
+    case consume_parameter_term(params, {0, 0, 0, 0, 0}) do
+      {:ok, {_nodes, _keys, key_bytes, value_bytes, _analysis_terms}} ->
+        key_bytes + value_bytes <= @max_realtime_parameter_analysis_bytes
+
+      :error ->
+        false
+    end
   end
 
   defp consume_parameter_term(_term, {nodes, keys, key_bytes, value_bytes, analysis_terms})

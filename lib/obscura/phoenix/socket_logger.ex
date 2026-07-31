@@ -19,7 +19,9 @@ defmodule Obscura.Phoenix.SocketLogger do
        connect_params: {:redact, entities: [:email, :phone, :credit_card]}}
 
   Model-backed profiles and custom realtime callbacks are intentionally not
-  accepted in this synchronous logging path.
+  accepted in this synchronous logging path. Parameter text above the fixed
+  4 KiB realtime analysis budget is logged as `[FILTERED]` without running PII
+  recognition.
   """
 
   use GenServer

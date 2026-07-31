@@ -168,8 +168,11 @@ parameters:
 Realtime parameter redaction accepts only the dependency-light `:fast` profile
 and a narrow set of declarative redaction options. It does not accept
 model-backed profiles, custom recognizers, parser callbacks, or automatic asset
-preparation. Parameter graphs use the same key, byte, node, analysis, and
-numeric limits as request logging and fail closed as `[FILTERED]`.
+preparation. Parameter graphs retain the request logger's structural limits and
+add a stricter 4 KiB ceiling across cumulative key and scalar value text. A
+payload over that realtime analysis ceiling fails closed as `[FILTERED]` before
+PII recognition runs. This bounds work in Phoenix's synchronous telemetry path
+without changing the parameters delivered to the socket or channel.
 
 ## Privacy-safe Phoenix channel logging
 

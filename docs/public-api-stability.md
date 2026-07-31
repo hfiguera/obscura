@@ -358,12 +358,15 @@ pre-`join/3` socket, so an assign created by `join/3` is available to subsequent
 handled events but not to that join record. This is log correlation metadata,
 not distributed tracing or trace-context propagation. Realtime redaction is
 restricted to `:fast` and the declarative `:entities` and `:max_depth` options.
-Unknown options fail startup. Raw topics and event names are never logged: only
-configured topic patterns and allow-listed event names are emitted. Configured
-labels containing control or directional formatting codepoints fail startup,
-and emitted event labels come from owned startup configuration. Oversized
-topics fail closed before content validation. Both handlers reject startup
-while the corresponding Phoenix default logger handler remains attached.
+Unknown options fail startup. Realtime parameter graphs retain the request
+logger's structural limits and add a fixed 4 KiB ceiling across cumulative key
+and scalar value text; payloads over that ceiling become `[FILTERED]` before
+PII recognition. Raw topics and event names are never logged: only configured
+topic patterns and allow-listed event names are emitted. Configured labels
+containing control or directional formatting codepoints fail startup, and
+emitted event labels come from owned startup configuration. Oversized topics
+fail closed before content validation. Both handlers reject startup while the
+corresponding Phoenix default logger handler remains attached.
 
 ## Optional Dependencies And Assets
 
