@@ -368,7 +368,6 @@ defmodule Obscura.Phoenix.LoggerTest do
     scenarios = [
       Map.new(1..65, fn index -> {"field_#{index}", "value"} end),
       %{String.duplicate("k", 4_097) => "oversized-key"},
-      %{"values" => List.duplicate("value", 128)},
       %{"values" => List.duplicate("value", 1_024)},
       %{"value" => String.duplicate("v", 65_537)},
       %{"value" => oversized_integer},
@@ -400,6 +399,20 @@ defmodule Obscura.Phoenix.LoggerTest do
       :erlang.trace(self(), false, [:call])
       Process.exit(tracer, :kill)
     end
+  end
+
+  test "does not charge pre-redacted binary values against the PII analysis budget" do
+    params = %{"values" => List.duplicate("value", 128)}
+
+    conn =
+      :post
+      |> conn("/users", params)
+      |> assign(:obscura_redacted, %{params: params})
+
+    log = capture_log(fn -> emit_router_dispatch(conn) end)
+
+    assert log =~ ~s(Parameters: %{"values" => ["value")
+    refute log =~ "Parameters: \"[FILTERED]\""
   end
 
   test "accepts a parameter graph at the key-count boundary" do

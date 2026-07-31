@@ -328,6 +328,7 @@ defmodule Obscura.Internal.PhoenixLog do
   @spec log_level(term(), Logger.level()) :: Logger.level() | false
   def log_level(false, _default), do: false
   def log_level(nil, default), do: default
+  def log_level(:warn, _default), do: :warning
   def log_level(level, _default) when level in @levels, do: level
   def log_level(_level, _default), do: false
 
@@ -717,10 +718,16 @@ defmodule Obscura.Internal.PhoenixLog do
     end
   end
 
-  defp consume_parameter_term(value, budget, _mode) when is_binary(value) do
+  defp consume_parameter_term(value, budget, :realtime) when is_binary(value) do
     with {:ok, budget} <- consume_parameter_node(budget),
          {:ok, budget} <- consume_parameter_value(byte_size(value), budget) do
       consume_parameter_analysis(budget)
+    end
+  end
+
+  defp consume_parameter_term(value, budget, _mode) when is_binary(value) do
+    with {:ok, budget} <- consume_parameter_node(budget) do
+      consume_parameter_value(byte_size(value), budget)
     end
   end
 

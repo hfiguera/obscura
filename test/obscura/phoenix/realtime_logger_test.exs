@@ -50,11 +50,22 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     def handle_in("new_message", _params, socket), do: {:reply, :ok, socket}
   end
 
+  defmodule WarnChannel do
+    use Phoenix.Channel, log_join: :warn, log_handle_in: :warn
+
+    @impl true
+    def join(_topic, _params, socket), do: {:ok, socket}
+
+    @impl true
+    def handle_in("new_message", _params, socket), do: {:reply, :ok, socket}
+  end
+
   defmodule UserSocket do
     use Phoenix.Socket
 
     channel("room:*", RoomChannel)
     channel("join-assign:*", JoinAssignChannel)
+    channel("warn-room:*", WarnChannel)
 
     @impl true
     def connect(_params, socket, _connect_info), do: {:ok, socket}
@@ -233,6 +244,44 @@ defmodule Obscura.Phoenix.RealtimeLoggerTest do
     refute log =~ "join-secret@example.test"
     refute log =~ "socket-id-secret@example.test"
     refute log =~ "assign-secret@example.test"
+  end
+
+  test "deprecated Phoenix warn levels emit as warning for sockets and real channels" do
+    assert PhoenixLog.log_level(:warn, :info) == :warning
+
+    start_socket_logger()
+    start_channel_logger(topic_patterns: ["warn-room:*"], events: ["new_message"])
+
+    socket_log =
+      capture_log(fn ->
+        :telemetry.execute(
+          [:phoenix, :socket_connected],
+          %{duration: 1},
+          %{
+            log: :warn,
+            params: %{},
+            result: :ok,
+            serializer: Phoenix.Socket.V2.JSONSerializer,
+            transport: :websocket,
+            user_socket: UserSocket
+          }
+        )
+      end)
+
+    socket = socket(UserSocket, nil, %{})
+
+    channel_log =
+      capture_log(fn ->
+        assert {:ok, %{}, joined_socket} =
+                 subscribe_and_join(socket, WarnChannel, "warn-room:42", %{})
+
+        ref = push(joined_socket, "new_message", %{})
+        assert_reply(ref, :ok)
+      end)
+
+    assert socket_log =~ "CONNECTED TO Obscura.Phoenix.RealtimeLoggerTest.UserSocket"
+    assert channel_log =~ "JOINED warn-room:*"
+    assert channel_log =~ "HANDLED new_message ON warn-room:*"
   end
 
   test "channel correlation emits only a validated UUID socket assign as metadata" do
