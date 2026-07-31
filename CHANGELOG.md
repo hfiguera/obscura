@@ -2,6 +2,24 @@
 
 All notable changes to Obscura are documented in this file.
 
+## Unreleased
+
+- Added opt-in privacy-safe Phoenix socket and channel telemetry loggers with
+  omission-first payload policies, configured topic patterns and event names,
+  bounded `:fast` redaction, and raw-default-logger conflict detection.
+- Bounded realtime parameter analysis, owned allowed event labels, rejected
+  unsafe configured labels, and rejected correlation metadata keys containing
+  high-confidence PII recognized by the `:fast` profile.
+- Added a 4 KiB realtime parameter-text ceiling so dense socket and channel
+  payloads fail closed before synchronous PII recognition.
+- Hardened realtime identifier validation against prefixed structured PII and
+  bounded Phoenix parameter-filter configuration before event handling.
+- Made the privacy-safe HTTP logger reject startup while any corresponding
+  Phoenix default logger is attached, and made the Plug validate and normalize
+  its integration options during `init/1`.
+- Added real Phoenix endpoint coverage and a sustained real socket/channel
+  redaction regression test.
+
 ## 0.1.2 - 2026-07-24
 
 - Improved `:fast` latency and throughput, with the largest gains on large

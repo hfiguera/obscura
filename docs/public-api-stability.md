@@ -317,7 +317,10 @@ Streaming rehydration requires `:vault` and supports `:token_prefix`,
 
 The Plug supports `:fields` (`[:params]`), `:mode` (`:assign_redacted`,
 `:replace`, or `:disabled`), `:assign` (`:obscura_redacted`), and supported
-redaction options. Other values are outside the stable schema.
+redaction options. Supported fields are `:params` and `:req_headers`.
+`init/1` validates and normalizes these integration options, removes duplicate
+fields after their first occurrence, and raises `ArgumentError` for invalid
+configuration before requests run. Other values are outside the stable schema.
 
 `Obscura.Phoenix.Logger` supports `:assign` (atom, default
 `:obscura_redacted`), `:name` (GenServer name, default
@@ -340,7 +343,40 @@ reason or detaching the handler. The logger applies Phoenix's configured
 containing high-confidence `:fast` profile PII before inspection. Bare domains
 are excluded from key recognition because ordinary dotted field names are
 ambiguous; applications can filter specific dotted keys through Phoenix's
-policy.
+policy. The request logger rejects startup while a corresponding Phoenix
+default HTTP logger remains attached, including the endpoint-start logger that
+can emit raw request paths.
+
+`Obscura.Phoenix.SocketLogger` supports `:connect_params` (`:omit` by default,
+or `{:redact, keyword()}`), `:name`, and `:inspect_opts`.
+`Obscura.Phoenix.ChannelLogger` supports `:topic_patterns` and `:events`
+(proper lists of bounded static strings), `:join_params` and
+`:handle_in_params` (`:omit` by default, or `{:redact, keyword()}`), `:name`,
+`:inspect_opts`, and `:correlation` (`:omit` by default, or
+`{:socket_assign, atom(), :uuid}`). A configured correlation assign is emitted
+as Logger metadata only for successful joins and handled events when its value
+is a valid UUID string, allowing related channel events to be correlated.
+Correlation assign names must be bounded static identifiers, cannot use
+Logger-reserved metadata keys, and cannot contain high-confidence PII
+recognized by the `:fast` profile. Phoenix join telemetry exposes the
+pre-`join/3` socket, so an assign created by `join/3` is available to subsequent
+handled events but not to that join record. This is log correlation metadata,
+not distributed tracing or trace-context propagation. Realtime redaction is
+restricted to `:fast` and the declarative `:entities` and `:max_depth` options.
+Unknown options fail startup. Realtime parameter graphs retain the request
+logger's structural limits and add a fixed 4 KiB ceiling across cumulative key
+and scalar value text; payloads over that ceiling become `[FILTERED]` before
+PII recognition. Structs and tuple-bearing terms, including keyword lists, fail
+closed without protocol dispatch. Raw topics and event names are never logged:
+only configured topic patterns and allow-listed event names are emitted.
+Phoenix discard and keep filter configuration is limited to 256 nonempty
+parameter names and 4 KiB of cumulative name text; keep names are compiled into
+map lookups before realtime events are handled.
+Configured labels containing control or directional formatting codepoints fail
+startup, and emitted event labels come from owned startup configuration.
+Oversized topics fail closed before content validation. Both handlers reject
+startup while the corresponding Phoenix default logger handler remains
+attached.
 
 ## Optional Dependencies And Assets
 

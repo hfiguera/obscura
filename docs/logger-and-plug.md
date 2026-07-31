@@ -33,6 +33,13 @@ so do not log it before or after calling the helper.
 
 `Obscura.Phoenix.Plug` depends on Plug, not Phoenix. It can be mounted in Phoenix or any Plug pipeline.
 
+The Plug validates its mode, fields, assign name, telemetry flag, and
+declarative redaction configuration during `init/1`, before the application
+serves requests. Supported fields are `:params` and `:req_headers`; duplicate
+fields are normalized to their first occurrence. Invalid modes, unsupported or
+improper field lists, invalid assign names, and invalid redaction options raise
+an `ArgumentError` during Plug initialization.
+
 Assign mode keeps original request fields and stores redacted copies under `conn.assigns.obscura_redacted`:
 
 ```elixir
@@ -51,7 +58,10 @@ plug Obscura.Phoenix.Plug,
   entities: [:email]
 ```
 
-Supported fields are the connection fields represented by the current Plug helper implementation, with `:params` covered by tests.
+Both supported fields are covered by integration tests. Header assign mode
+stores a redacted map while preserving the original `conn.req_headers` list.
+Replace mode rebuilds the request-header list from that map, so applications
+that depend on duplicate request-header entries should use assign mode.
 
 Assign mode intentionally preserves the original connection fields. Replace
 mode overwrites selected fields in the returned connection, but cannot erase
@@ -72,6 +82,12 @@ parameters:
 ```elixir
 config :phoenix, :logger, false
 ```
+
+The Obscura request logger refuses to start if any corresponding Phoenix HTTP
+logger handler remains attached, including the endpoint-start handler that can
+emit a raw request path. This turns a missing `config :phoenix, :logger, false`
+setting into a startup error instead of allowing raw and sanitized records to
+run side by side.
 
 Mount the plug after `Plug.Parsers` and before the router. Keep assign mode so
 controllers continue to receive the original params:
@@ -134,5 +150,129 @@ request schema, and verify representative payloads before enabling parameter
 logging in production.
 
 This integration does not sanitize reverse-proxy logs, web-server access logs,
-socket/channel parameter logs, traces installed before the plug, or arbitrary
-application logs. Configure those boundaries independently.
+traces installed before the plug, or arbitrary application logs. Configure
+those boundaries independently.
+
+## Privacy-safe Phoenix socket logging
+
+Disabling Phoenix's default logger also disables its socket connection and
+socket drain records. `Obscura.Phoenix.SocketLogger` restores those records
+without logging `connect_info` and omits connection parameters by default:
+
+```elixir
+children = [
+  {Obscura.Phoenix.Logger, assign: :obscura_redacted},
+  {Obscura.Phoenix.SocketLogger, connect_params: :omit}
+]
+```
+
+The connection result, socket module, transport, serializer, and duration are
+validated before logging. Drain records contain only validated counts, the
+socket module, and the configured interval. Invalid identifiers and
+measurements become fixed filtered or unknown labels.
+
+Applications can explicitly include a bounded redacted copy of connection
+parameters:
+
+```elixir
+{Obscura.Phoenix.SocketLogger,
+ connect_params:
+   {:redact,
+    entities: [:email, :phone, :credit_card, :us_ssn]}}
+```
+
+Realtime parameter redaction accepts only the dependency-light `:fast` profile
+and a narrow set of declarative redaction options. It does not accept
+model-backed profiles, custom recognizers, parser callbacks, or automatic asset
+preparation. Parameter graphs retain the request logger's structural limits and
+add a stricter 4 KiB ceiling across cumulative key and scalar value text. A
+payload over that realtime analysis ceiling fails closed as `[FILTERED]` before
+PII recognition runs. This bounds work in Phoenix's synchronous telemetry path
+without changing the parameters delivered to the socket or channel. Structs
+and tuple-bearing terms, including keyword lists, fail closed without invoking
+application protocol implementations.
+
+Phoenix parameter-filter configuration is bounded as part of the same path.
+Discard and keep policies accept at most 256 nonempty parameter names and
+4 KiB of cumulative name text. Keep policies are compiled into map lookups
+before telemetry events are handled. Invalid or oversized filter configuration
+prevents a realtime logger with parameter redaction from starting.
+
+## Privacy-safe Phoenix channel logging
+
+`Obscura.Phoenix.ChannelLogger` restores channel join and incoming-event logs.
+Raw channel topics and event names are client-controlled, so they are not
+logged directly. Configure the static topic patterns and event names that are
+safe to expose:
+
+```elixir
+children = [
+  {Obscura.Phoenix.ChannelLogger,
+   topic_patterns: ["room:*", "users:*", "system"],
+   events: ["new_message", "typing", "mark_read"]}
+]
+```
+
+The logger emits the matched configured pattern, not the raw topic. Unmatched
+topics become `[FILTERED TOPIC]`, and unconfigured event names become
+`[FILTERED EVENT]`. Oversized topics are filtered before UTF-8 validation or
+pattern matching. Configured labels containing control or directional
+formatting codepoints fail startup. Allowed event names are emitted from owned
+startup configuration rather than client-frame binaries. Phoenix's internal
+`"phoenix"` topics remain silent. The handler preserves the channel's
+`:log_join` and `:log_handle_in` levels.
+
+Join and incoming-event parameters are independently omitted by default. A
+bounded redacted copy can be enabled explicitly:
+
+```elixir
+{Obscura.Phoenix.ChannelLogger,
+ topic_patterns: ["room:*"],
+ events: ["new_message"],
+ join_params: {:redact, entities: [:email, :phone]},
+ handle_in_params: {:redact, entities: [:email, :phone]}}
+```
+
+An application may opt in to include one validated UUID-valued socket assign
+as Logger metadata, allowing related channel events to be correlated:
+
+```elixir
+{Obscura.Phoenix.ChannelLogger,
+ topic_patterns: ["room:*"],
+ events: ["new_message"],
+ correlation: {:socket_assign, :chat_id, :uuid}}
+```
+
+The assign name becomes the Logger metadata key. It must be a bounded static
+identifier and must not collide with Logger-reserved metadata such as `:pid`,
+`:gl`, `:time`, or `:domain`. Keys containing high-confidence PII recognized
+by the `:fast` profile are also rejected; invalid keys fail startup.
+
+The assign is included only for successful joins and handled events, and only
+when it is a canonical UUID string. Missing, malformed, or non-binary values
+are omitted. Phoenix's join telemetry contains the socket from before
+`join/3` runs. The assign must therefore exist before `join/3` to appear on the
+join record. An assign added by `join/3` is available to subsequent handled
+events, but not to that join record.
+
+This supports log correlation only: it does not create spans, propagate trace
+context, or provide distributed tracing. Apart from this opt-in field, the
+handler never inspects socket assigns, application-private socket data, socket
+identifiers, message references, callback results, or outbound messages. It
+clears channel-process Logger metadata while emitting its record and then adds
+only the validated correlation metadata. Any failure produces only fixed safe
+labels or suppresses the record; it never falls back to raw values.
+
+All three Phoenix handlers refuse to start while Phoenix's corresponding
+default logger handler is attached. This prevents an apparently safe handler
+from running beside the raw default logger. Keep
+`config :phoenix, :logger, false` when using any of the Obscura Phoenix
+loggers.
+
+Phoenix telemetry metadata contains raw socket and channel parameters before
+Obscura receives the event. These handlers protect only the Logger records they
+produce. Other telemetry handlers attached to the same Phoenix events can
+still observe the raw metadata and must be reviewed independently. The
+integration also does not cover LiveView-specific telemetry, custom transport
+instrumentation, channel callback logs, broadcasts, pushes, reverse-proxy
+logs, or arbitrary application logs.
