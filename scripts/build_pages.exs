@@ -9,18 +9,29 @@ defmodule Obscura.PagesBuilder do
   @initial_rss_date "Wed, 22 Jul 2026 00:00:00 GMT"
   @nvidia_published_on "2026-07-24"
   @nvidia_rss_date "Fri, 24 Jul 2026 00:00:00 GMT"
-  @latest_published_on "2026-07-29"
-  @latest_rss_date "Wed, 29 Jul 2026 00:00:00 GMT"
+  @model_card_published_on "2026-07-29"
+  @model_card_rss_date "Wed, 29 Jul 2026 00:00:00 GMT"
+  @latest_published_on "2026-08-05"
+  @latest_rss_date "Wed, 05 Aug 2026 00:00:00 GMT"
   @media_extensions [".gif", ".jpg", ".jpeg", ".mp4", ".png", ".webp"]
 
   @articles [
+    %{
+      slug: "making-pii-detection-faster-without-keeping-input-alive",
+      title: "Making PII Detection Faster Without Keeping the Input Alive",
+      description:
+        "An Elixir engineering case study about optimizing Obscura's fast profile while preserving output compatibility and proving BEAM binary ownership.",
+      published_on: @latest_published_on,
+      rss_date: @latest_rss_date,
+      og_image: "fast-profile-binary-ownership.png"
+    },
     %{
       slug: "model-card-is-not-a-license",
       title: "A Model Card Is Not a License: What We Learned Shipping Local NER in Obscura",
       description:
         "An engineering case study about base-model licenses, fine-tuning data agreements, checkpoint provenance, and the licensing changes shipped in Obscura 0.1.1.",
-      published_on: @latest_published_on,
-      rss_date: @latest_rss_date,
+      published_on: @model_card_published_on,
+      rss_date: @model_card_rss_date,
       og_image: "model-licensing-stack.jpg"
     },
     %{

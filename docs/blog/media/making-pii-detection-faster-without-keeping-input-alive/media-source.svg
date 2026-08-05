@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+  <rect width="1440" height="900" fill="#151c1a"/>
+
+  <rect x="76" y="68" width="40" height="40" rx="6" fill="#8ee6c0"/>
+  <text x="96" y="96" text-anchor="middle" fill="#12342b"
+        font-family="Arial, sans-serif" font-size="25" font-weight="700">O</text>
+  <text x="130" y="97" fill="#f1f5f2"
+        font-family="Arial, sans-serif" font-size="22" font-weight="700">Obscura</text>
+  <text x="1364" y="96" text-anchor="end" fill="#8ee6c0"
+        font-family="Menlo, monospace" font-size="17">:fast / BEAM binary ownership</text>
+
+  <text x="76" y="198" fill="#f1f5f2"
+        font-family="Arial, sans-serif" font-size="58" font-weight="700">
+    A tiny detection should not keep
+  </text>
+  <text x="76" y="262" fill="#f1f5f2"
+        font-family="Arial, sans-serif" font-size="58" font-weight="700">
+    the whole request alive.
+  </text>
+
+  <rect x="76" y="326" width="586" height="390" rx="8" fill="#1e2825" stroke="#3e4d48"/>
+  <text x="106" y="372" fill="#aab6b1"
+        font-family="Arial, sans-serif" font-size="16" font-weight="700">BEFORE / BORROWED SUB-BINARY</text>
+  <rect x="106" y="402" width="526" height="118" fill="#2f2424" stroke="#d57a7a" stroke-width="2"/>
+  <text x="126" y="444" fill="#f1f5f2"
+        font-family="Arial, sans-serif" font-size="24" font-weight="700">1 MB source allocation</text>
+  <text x="126" y="476" fill="#c5ceca"
+        font-family="Arial, sans-serif" font-size="16">Request body and unrelated PII remain reachable</text>
+  <rect x="548" y="480" width="68" height="26" fill="#4b4029" stroke="#f0c36a" stroke-width="2"/>
+  <line x1="106" y1="558" x2="106" y2="666" stroke="#d57a7a" stroke-width="4"/>
+  <text x="128" y="590" fill="#f1f5f2"
+        font-family="Arial, sans-serif" font-size="22" font-weight="700">17-byte result</text>
+  <text x="128" y="624" fill="#c5ceca"
+        font-family="Arial, sans-serif" font-size="17">Still references the complete source allocation.</text>
+  <text x="128" y="652" fill="#c5ceca"
+        font-family="Arial, sans-serif" font-size="17">Measured amplification: up to 744.879x.</text>
+
+  <line x1="686" y1="520" x2="754" y2="520" stroke="#8ee6c0" stroke-width="5"/>
+  <path d="M 742 506 L 758 520 L 742 534" fill="none" stroke="#8ee6c0" stroke-width="5"/>
+
+  <rect x="778" y="326" width="586" height="390" rx="8" fill="#1e2825" stroke="#62b895"/>
+  <text x="808" y="372" fill="#aab6b1"
+        font-family="Arial, sans-serif" font-size="16" font-weight="700">AFTER / FINAL OWNERSHIP BOUNDARY</text>
+  <rect x="808" y="402" width="526" height="118" fill="#1d3029" stroke="#62b895" stroke-width="2"/>
+  <text x="828" y="444" fill="#f1f5f2"
+        font-family="Arial, sans-serif" font-size="24" font-weight="700">17 independently owned bytes</text>
+  <text x="828" y="476" fill="#c5ceca"
+        font-family="Arial, sans-serif" font-size="16">The large source can become unreachable</text>
+  <line x1="808" y1="558" x2="808" y2="666" stroke="#8ee6c0" stroke-width="4"/>
+  <text x="830" y="590" fill="#f1f5f2"
+        font-family="Arial, sans-serif" font-size="22" font-weight="700">Copy only accepted escaping data</text>
+  <text x="830" y="624" fill="#c5ceca"
+        font-family="Arial, sans-serif" font-size="17">Or return no text when include_text: false.</text>
+  <text x="830" y="652" fill="#c5ceca"
+        font-family="Arial, sans-serif" font-size="17">Final referenced amplification: 1.0x.</text>
+
+  <line x1="76" y1="760" x2="1364" y2="760" stroke="#3e4d48"/>
+  <text x="76" y="806" fill="#8ee6c0"
+        font-family="Arial, sans-serif" font-size="19" font-weight="700">46/46</text>
+  <text x="145" y="806" fill="#dce4e0"
+        font-family="Arial, sans-serif" font-size="17">semantic cases matched</text>
+
+  <text x="495" y="806" fill="#8ee6c0"
+        font-family="Arial, sans-serif" font-size="19" font-weight="700">42/42</text>
+  <text x="564" y="806" fill="#dce4e0"
+        font-family="Arial, sans-serif" font-size="17">ownership probes passed</text>
+
+  <text x="1020" y="806" fill="#8ee6c0"
+        font-family="Arial, sans-serif" font-size="19" font-weight="700">8.6%</text>
+  <text x="1078" y="806" fill="#dce4e0"
+        font-family="Arial, sans-serif" font-size="17">sustained throughput gain</text>
+</svg>
