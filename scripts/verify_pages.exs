@@ -5,6 +5,10 @@ defmodule Obscura.PagesVerifier do
   @site_url "https://hfiguera.github.io/obscura/"
   @articles [
     %{
+      slug: "making-pii-detection-faster-without-keeping-input-alive",
+      expected_media: ["fast-profile-binary-ownership.png"]
+    },
+    %{
       slug: "model-card-is-not-a-license",
       expected_media: ["model-licensing-stack.jpg"]
     },
@@ -52,6 +56,9 @@ defmodule Obscura.PagesVerifier do
     assert_contains(html, ~s(<meta name="twitter:card" content="summary_large_image">))
     assert_contains(html, ~s(<script type="application/ld+json">))
     assert_contains(html, ~s(<article>))
+    assert_contains(html, "By Humberto Figuera")
+    assert_contains(html, ~s(href="https://x.com/hfiguera"))
+    assert_contains(html, ~s(href="https://github.com/hfiguera"))
     refute_contains(html, "TODO(media)")
     refute_contains(html, "localhost")
     refute_contains(html, "cloudspaces.litng.ai")
@@ -78,6 +85,11 @@ defmodule Obscura.PagesVerifier do
         assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
         assert_contains(html, "requires_ldc_for_profit_membership")
         assert_contains(html, "model-licensing-stack.jpg")
+
+      "making-pii-detection-faster-without-keeping-input-alive" ->
+        assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
+        assert_contains(html, "referenced_byte_size")
+        assert_contains(html, "fast-profile-binary-ownership.png")
     end
 
     assert_local_references_exist(html, article_dir)
