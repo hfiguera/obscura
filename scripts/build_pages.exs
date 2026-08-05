@@ -5,6 +5,9 @@ defmodule Obscura.PagesBuilder do
   @stylesheet_source "docs/blog/site.css"
   @site_url "https://hfiguera.github.io/obscura/"
   @analytics_token "f968ea7d6e614cc9a3e2d537ced91a10"
+  @author_name "Humberto Figuera"
+  @author_x_url "https://x.com/hfiguera"
+  @author_github_url "https://github.com/hfiguera"
   @initial_published_on "2026-07-22"
   @initial_rss_date "Wed, 22 Jul 2026 00:00:00 GMT"
   @nvidia_published_on "2026-07-24"
@@ -105,7 +108,12 @@ defmodule Obscura.PagesBuilder do
     |> ExDoc.DocAST.to_html()
     |> String.replace(
       "</h1>",
-      "</h1>\n<p class=\"article-meta\">Published #{article.published_on} · Obscura 0.1.x</p>",
+      """
+      </h1>
+      <p class="article-meta">Published #{article.published_on} · Obscura 0.1.x</p>
+      <p class="article-author">By #{@author_name} · <a href="#{@author_x_url}">X @hfiguera</a> · <a href="#{@author_github_url}">GitHub @hfiguera</a></p>
+      """
+      |> String.trim(),
       global: false
     )
   end
@@ -118,6 +126,11 @@ defmodule Obscura.PagesBuilder do
       Jason.encode!(%{
         "@context" => "https://schema.org",
         "@type" => "TechArticle",
+        "author" => %{
+          "@type" => "Person",
+          "name" => @author_name,
+          "sameAs" => [@author_x_url, @author_github_url]
+        },
         "dateModified" => article.published_on,
         "datePublished" => article.published_on,
         "description" => article.description,

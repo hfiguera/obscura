@@ -214,10 +214,20 @@ article h1 {
 }
 
 .article-meta {
-  margin: 0 0 36px;
+  margin: 0 0 8px;
   color: var(--muted);
   font-size: 14px;
   font-weight: 600;
+}
+
+.article-author {
+  margin: 0 0 36px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.article-author a {
+  font-weight: 700;
 }
 
 article h2 {
