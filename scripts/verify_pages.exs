@@ -5,6 +5,10 @@ defmodule Obscura.PagesVerifier do
   @site_url "https://hfiguera.github.io/obscura/"
   @articles [
     %{
+      slug: "privacy-safe-phoenix-request-logging",
+      expected_media: ["phoenix-safe-logging-boundary.png"]
+    },
+    %{
       slug: "making-pii-detection-faster-without-keeping-input-alive",
       expected_media: ["fast-profile-binary-ownership.png"]
     },
@@ -71,6 +75,12 @@ defmodule Obscura.PagesVerifier do
     end)
 
     case article.slug do
+      "privacy-safe-phoenix-request-logging" ->
+        assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
+        assert_contains(html, "Obscura.Phoenix.Logger")
+        assert_contains(html, "[FILTERED METHOD]")
+        assert_contains(html, "phoenix-safe-logging-boundary.png")
+
       "protecting-pii-in-elixir" ->
         assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
         assert_contains(html, ~s(<span class="kd">def</span>))
