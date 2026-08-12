@@ -49,7 +49,7 @@ correlation policies when an application genuinely needs them.
 ## Why Realtime Logging Is a Different Boundary
 
 This article builds on the request boundary described in
-[Privacy-Safe Phoenix Request Logging Without Changing Controller Params](../privacy-safe-phoenix-request-logging/).
+[Privacy-Safe Phoenix Request Logging Without Changing Controller Params](privacy-safe-phoenix-request-logging.md).
 That integration has a useful handoff point:
 
 ```text
@@ -271,7 +271,7 @@ are rejected during startup.
 The configured pattern is copied into owned handler configuration. A log entry
 does not retain the larger client frame from which the incoming topic may have
 been sliced. This is the same ownership distinction explored in
-[Making PII Detection Faster Without Keeping the Input Alive](../making-pii-detection-faster-without-keeping-input-alive/):
+[Making PII Detection Faster Without Keeping the Input Alive](making-pii-detection-faster-without-keeping-input-alive.md):
 a small returned value should not retain a larger client-controlled binary.
 
 ## Event Names Use an Allowlist

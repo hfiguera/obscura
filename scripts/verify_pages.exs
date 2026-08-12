@@ -85,6 +85,12 @@ defmodule Obscura.PagesVerifier do
         assert_contains(html, "Obscura.Phoenix.ChannelLogger")
         assert_contains(html, "[OMITTED]")
         assert_contains(html, "phoenix-realtime-logging-boundary.png")
+        assert_contains(html, ~s(href="../privacy-safe-phoenix-request-logging/"))
+
+        assert_contains(
+          html,
+          ~s(href="../making-pii-detection-faster-without-keeping-input-alive/")
+        )
 
       "privacy-safe-phoenix-request-logging" ->
         assert_contains(html, ~s(<code class="makeup elixir" translate="no">))

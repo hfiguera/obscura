@@ -128,6 +128,7 @@ defmodule Obscura.PagesBuilder do
     ast
     |> ExDoc.DocAST.highlight(ExDoc.Language.Elixir)
     |> ExDoc.DocAST.to_html()
+    |> rewrite_article_links()
     |> String.replace(
       "</h1>",
       """
@@ -407,6 +408,16 @@ defmodule Obscura.PagesBuilder do
   defp media_source(article), do: "docs/blog/media/#{article.slug}"
   defp article_output(article), do: Path.join([@output_root, "blog", article.slug])
   defp canonical_url(article), do: @site_url <> "blog/#{article.slug}/"
+
+  defp rewrite_article_links(html) do
+    Enum.reduce(@articles, html, fn article, rendered ->
+      String.replace(
+        rendered,
+        ~s(href="#{article.slug}.md"),
+        ~s(href="../#{article.slug}/")
+      )
+    end)
+  end
 
   defp site_header(root) do
     """
