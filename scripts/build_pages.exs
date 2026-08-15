@@ -8,6 +8,8 @@ defmodule Obscura.PagesBuilder do
   @author_name "Humberto Figuera"
   @author_x_url "https://x.com/hfiguera"
   @author_github_url "https://github.com/hfiguera"
+  @agent_published_on "2026-08-15"
+  @agent_rss_date "Sat, 15 Aug 2026 00:00:00 GMT"
   @realtime_published_on "2026-08-12"
   @realtime_rss_date "Wed, 12 Aug 2026 00:00:00 GMT"
   @initial_published_on "2026-07-22"
@@ -23,6 +25,15 @@ defmodule Obscura.PagesBuilder do
   @media_extensions [".gif", ".jpg", ".jpeg", ".mp4", ".png", ".webp"]
 
   @articles [
+    %{
+      slug: "the-agent-needs-identity-the-model-does-not",
+      title: "The Agent Needs Identity. The Model Does Not.",
+      description:
+        "An Elixir engineering case study about keeping customer identity inside a Phoenix application while Jido, OpenAI, and trusted tools operate on stable Obscura pseudonyms.",
+      published_on: @agent_published_on,
+      rss_date: @agent_rss_date,
+      og_image: "obscura-jido-agent-boundary.png"
+    },
     %{
       slug: "privacy-safe-phoenix-realtime-logging",
       title: "Privacy-Safe Phoenix Socket and Channel Logging Without Exposing Payloads",
@@ -345,7 +356,7 @@ defmodule Obscura.PagesBuilder do
         <link>#{@site_url}</link>
         <description>Engineering notes about PII detection and anonymization in Elixir.</description>
         <language>en</language>
-        <lastBuildDate>#{@realtime_rss_date}</lastBuildDate>
+        <lastBuildDate>#{@agent_rss_date}</lastBuildDate>
         #{items}
       </channel>
     </rss>

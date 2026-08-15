@@ -5,6 +5,14 @@ defmodule Obscura.PagesVerifier do
   @site_url "https://hfiguera.github.io/obscura/"
   @articles [
     %{
+      slug: "the-agent-needs-identity-the-model-does-not",
+      expected_media: [
+        "obscura-jido-agent-boundary.png",
+        "obscura-jido-agent-workflow.gif",
+        "obscura-jido-agent-workflow.mp4"
+      ]
+    },
+    %{
       slug: "privacy-safe-phoenix-realtime-logging",
       expected_media: ["phoenix-realtime-logging-boundary.png"]
     },
@@ -79,6 +87,14 @@ defmodule Obscura.PagesVerifier do
     end)
 
     case article.slug do
+      "the-agent-needs-identity-the-model-does-not" ->
+        assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
+        assert_contains(html, "Obscura.LLM.redact_messages")
+        assert_contains(html, "The application owns identity")
+        assert_contains(html, "obscura-jido-agent-workflow.gif")
+        assert_contains(html, "obscura-jido-agent-workflow.mp4")
+        assert_contains(html, "github.com/hfiguera/obscura_jido_example")
+
       "privacy-safe-phoenix-realtime-logging" ->
         assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
         assert_contains(html, "Obscura.Phoenix.SocketLogger")
