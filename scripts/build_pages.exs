@@ -8,6 +8,8 @@ defmodule Obscura.PagesBuilder do
   @author_name "Humberto Figuera"
   @author_x_url "https://x.com/hfiguera"
   @author_github_url "https://github.com/hfiguera"
+  @presidio_published_on "2026-08-21"
+  @presidio_rss_date "Fri, 21 Aug 2026 00:00:00 GMT"
   @agent_published_on "2026-08-15"
   @agent_rss_date "Sat, 15 Aug 2026 00:00:00 GMT"
   @realtime_published_on "2026-08-12"
@@ -25,6 +27,16 @@ defmodule Obscura.PagesBuilder do
   @media_extensions [".gif", ".jpg", ".jpeg", ".mp4", ".png", ".webp"]
 
   @articles [
+    %{
+      slug: "should-pii-detection-live-inside-the-beam",
+      title: "Should PII Detection Live Inside the BEAM?",
+      description:
+        "A practical comparison of native Obscura integration and a separately operated Presidio privacy service for Elixir applications.",
+      published_on: @presidio_published_on,
+      rss_date: @presidio_rss_date,
+      version: "0.1.3",
+      og_image: "presidio-obscura-boundary-choice.png"
+    },
     %{
       slug: "the-agent-needs-identity-the-model-does-not",
       title: "The Agent Needs Identity. The Model Does Not.",
@@ -144,7 +156,7 @@ defmodule Obscura.PagesBuilder do
       "</h1>",
       """
       </h1>
-      <p class="article-meta">Published #{article.published_on} · Obscura 0.1.x</p>
+      <p class="article-meta">Published #{article.published_on} · Obscura #{Map.get(article, :version, "0.1.x")}</p>
       <p class="article-author">By #{@author_name} · <a href="#{@author_x_url}">X @hfiguera</a> · <a href="#{@author_github_url}">GitHub @hfiguera</a></p>
       """
       |> String.trim(),
@@ -356,7 +368,7 @@ defmodule Obscura.PagesBuilder do
         <link>#{@site_url}</link>
         <description>Engineering notes about PII detection and anonymization in Elixir.</description>
         <language>en</language>
-        <lastBuildDate>#{@agent_rss_date}</lastBuildDate>
+        <lastBuildDate>#{@presidio_rss_date}</lastBuildDate>
         #{items}
       </channel>
     </rss>
@@ -381,7 +393,7 @@ defmodule Obscura.PagesBuilder do
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
         <loc>#{@site_url}</loc>
-        <lastmod>#{@realtime_published_on}</lastmod>
+        <lastmod>#{@presidio_published_on}</lastmod>
       </url>
       <url>
         <loc>#{@site_url}privacy/</loc>

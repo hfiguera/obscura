@@ -5,6 +5,10 @@ defmodule Obscura.PagesVerifier do
   @site_url "https://hfiguera.github.io/obscura/"
   @articles [
     %{
+      slug: "should-pii-detection-live-inside-the-beam",
+      expected_media: ["presidio-obscura-boundary-choice.png"]
+    },
+    %{
       slug: "the-agent-needs-identity-the-model-does-not",
       expected_media: [
         "obscura-jido-agent-boundary.png",
@@ -87,6 +91,13 @@ defmodule Obscura.PagesVerifier do
     end)
 
     case article.slug do
+      "should-pii-detection-live-inside-the-beam" ->
+        assert_contains(html, "Presidio")
+        assert_contains(html, "Obscura")
+        assert_contains(html, "0.8024")
+        assert_contains(html, "presidio-obscura-boundary-choice.png")
+        assert_contains(html, "authoritative-presidio-comparison-report.md")
+
       "the-agent-needs-identity-the-model-does-not" ->
         assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
         assert_contains(html, "Obscura.LLM.redact_messages")

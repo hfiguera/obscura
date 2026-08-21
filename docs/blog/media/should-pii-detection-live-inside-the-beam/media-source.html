@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Presidio and Obscura privacy boundary choice</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1080px;
+        height: 675px;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        color: #17211f;
+        background: #f4f7f5;
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .canvas {
+        width: 1440px;
+        height: 900px;
+        padding: 54px 64px 44px;
+        transform: scale(0.71);
+        transform-origin: top left;
+      }
+
+      header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 40px;
+        padding-bottom: 26px;
+        border-bottom: 2px solid #17211f;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: #08766a;
+        font-size: 17px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 980px;
+        margin: 0;
+        font-size: 50px;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        padding-top: 34px;
+      }
+
+      .lane {
+        min-height: 596px;
+        padding: 26px 28px 24px;
+        background: #ffffff;
+        border: 1px solid #c5d0cc;
+        border-top-width: 7px;
+      }
+
+      .lane.presidio {
+        border-top-color: #3269a8;
+      }
+
+      .lane.obscura {
+        border-top-color: #08766a;
+      }
+
+      .lane-label {
+        margin: 0 0 7px;
+        color: #60716c;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 14px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        margin: 0 0 22px;
+        font-size: 29px;
+        line-height: 1.15;
+        letter-spacing: 0;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: 1fr 52px 1fr 52px 1fr;
+        align-items: stretch;
+        min-height: 150px;
+      }
+
+      .node {
+        display: grid;
+        min-width: 0;
+        padding: 15px 13px;
+        border: 1px solid #c6d2ce;
+        background: #f7faf8;
+        place-content: center;
+        text-align: center;
+      }
+
+      .node strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 17px;
+        line-height: 1.2;
+      }
+
+      .node span {
+        color: #566762;
+        font-size: 14px;
+        line-height: 1.3;
+      }
+
+      .presidio .node.boundary {
+        color: #ffffff;
+        border-color: #3269a8;
+        background: #3269a8;
+      }
+
+      .obscura .node.boundary {
+        color: #ffffff;
+        border-color: #08766a;
+        background: #08766a;
+      }
+
+      .node.boundary span {
+        color: #e9f4f1;
+      }
+
+      .arrow {
+        display: grid;
+        color: #6b7b76;
+        font-size: 27px;
+        font-weight: 800;
+        place-items: center;
+      }
+
+      .ownership {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .fact {
+        min-height: 118px;
+        padding: 16px 17px;
+        border-left: 5px solid #d38b22;
+        background: #fff8e9;
+      }
+
+      .fact strong {
+        display: block;
+        margin-bottom: 7px;
+        color: #6f4709;
+        font-size: 15px;
+        text-transform: uppercase;
+      }
+
+      .fact span {
+        color: #4d514f;
+        font-size: 15px;
+        line-height: 1.35;
+      }
+
+      .scope {
+        margin-top: 18px;
+        padding-top: 17px;
+        border-top: 1px solid #d2dbd7;
+        color: #53645f;
+        font-size: 15px;
+        line-height: 1.4;
+      }
+
+      .scope strong {
+        color: #17211f;
+      }
+
+      footer {
+        margin-top: 28px;
+        padding-top: 18px;
+        color: #53645f;
+        border-top: 1px solid #b9c7c2;
+        font-size: 16px;
+      }
+
+      footer strong {
+        color: #17211f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <header>
+        <div>
+          <p class="eyebrow">One privacy goal, two operating models</p>
+          <h1>Where should PII detection live?</h1>
+        </div>
+      </header>
+
+      <main>
+        <section class="lane presidio" aria-label="Presidio service boundary">
+          <p class="lane-label">Central service boundary</p>
+          <h2>Presidio outside the application</h2>
+
+          <div class="flow">
+            <div class="node">
+              <strong>Elixir app</strong>
+              <span>Text and policy</span>
+            </div>
+            <div class="arrow" aria-hidden="true">&rarr;</div>
+            <div class="node boundary">
+              <strong>Presidio</strong>
+              <span>Python privacy service</span>
+            </div>
+            <div class="arrow" aria-hidden="true">&rarr;</div>
+            <div class="node">
+              <strong>Protected result</strong>
+              <span>Returned across the contract</span>
+            </div>
+          </div>
+
+          <div class="ownership">
+            <div class="fact">
+              <strong>Strength</strong>
+              <span>Broad ecosystem, languages, NLP engines, images, and independent scale.</span>
+            </div>
+            <div class="fact">
+              <strong>Application owns</strong>
+              <span>Network, schemas, authentication, timeouts, and service availability.</span>
+            </div>
+          </div>
+
+          <p class="scope"><strong>Best fit:</strong> shared privacy platforms, Python data systems, broad language coverage, and OCR workflows.</p>
+        </section>
+
+        <section class="lane obscura" aria-label="Obscura native Elixir boundary">
+          <p class="lane-label">Native application boundary</p>
+          <h2>Obscura inside the BEAM</h2>
+
+          <div class="flow">
+            <div class="node">
+              <strong>Elixir value</strong>
+              <span>Text, map, struct, or message</span>
+            </div>
+            <div class="arrow" aria-hidden="true">&rarr;</div>
+            <div class="node boundary">
+              <strong>Obscura</strong>
+              <span>Local library and vault</span>
+            </div>
+            <div class="arrow" aria-hidden="true">&rarr;</div>
+            <div class="node">
+              <strong>Protected value</strong>
+              <span>Continues inside the app</span>
+            </div>
+          </div>
+
+          <div class="ownership">
+            <div class="fact">
+              <strong>Strength</strong>
+              <span>Native terms, supervision, Logger and Phoenix boundaries, no service hop.</span>
+            </div>
+            <div class="fact">
+              <strong>Application owns</strong>
+              <span>Runtime capacity, model assets, local policy, and vault lifecycle.</span>
+            </div>
+          </div>
+
+          <p class="scope"><strong>Best fit:</strong> Elixir applications protecting request, logging, API, and LLM boundaries inside the BEAM.</p>
+        </section>
+      </main>
+
+      <footer>
+        <span><strong>Not a winner.</strong> A decision about ownership, scope, and operations.</span>
+      </footer>
+    </div>
+  </body>
+</html>
