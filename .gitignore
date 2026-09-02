@@ -5,6 +5,7 @@ inspiration/
 .privacy-filter-reference-venv/
 .gliner-urchade-venv/
 .piiranha-venv/
+.pplx-pii-venv/
 vendor/ortex/native/ortex/target/
 vendor/ortex/priv/native/
 __pycache__/
