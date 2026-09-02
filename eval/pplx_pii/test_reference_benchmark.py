@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -115,6 +117,35 @@ class ReferenceBenchmarkTest(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "prediction.value"):
             benchmark.assert_raw_omitted({"prediction": {"value": "private"}})
+
+    def test_prediction_artifact_omits_source_text(self) -> None:
+        results = [
+            {
+                "sample": {"id": "sample-1"},
+                "latency_ms": 2.5,
+                "predicted": [
+                    {
+                        "entity": "email",
+                        "source_entity": "private_email",
+                        "char_start": 3,
+                        "char_end": 12,
+                        "byte_start": 3,
+                        "byte_end": 12,
+                        "score": 0.9,
+                    }
+                ],
+            }
+        ]
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "predictions.json"
+            benchmark.write_prediction_artifact(path, "fixture", SCRIPT, results)
+            artifact = json.loads(path.read_text(encoding="utf-8"))
+
+        self.assertTrue(artifact["raw_text_omitted"])
+        self.assertNotIn("text", artifact["rows"][0])
+        self.assertNotIn("value", artifact["rows"][0]["predictions"][0])
+        self.assertEqual("sample-1", artifact["rows"][0]["sample_id"])
 
 
 if __name__ == "__main__":

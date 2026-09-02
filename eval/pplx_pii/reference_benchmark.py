@@ -91,6 +91,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-dir")
     parser.add_argument("--backbone-dir")
     parser.add_argument("--out-dir", default=str(ROOT / "eval" / "reports"))
+    parser.add_argument(
+        "--predictions-out",
+        help="Write a raw-text-free prediction artifact for hybrid evaluation.",
+    )
     parser.add_argument("--run-suffix", default="")
     return parser.parse_args()
 
@@ -124,6 +128,13 @@ def main() -> int:
             masker(samples[0]["text"])
 
     results = run_model(masker, samples, presidio.char_to_byte)
+    if args.predictions_out:
+        write_prediction_artifact(
+            Path(args.predictions_out),
+            args.dataset,
+            selection_path,
+            results,
+        )
     supported_entities = selection["entity_policy"]["entities"]
     typed_results = typed_protocol_results(results, supported_entities)
     typed = presidio.score_results(typed_results, supported_entities)
@@ -257,6 +268,44 @@ def typed_protocol_results(
         }
         for result in results
     ]
+
+
+def write_prediction_artifact(
+    path: Path,
+    dataset: str,
+    selection_path: Path,
+    results: list[dict[str, Any]],
+) -> None:
+    artifact = {
+        "schema_version": 1,
+        "producer": "perplexity-ai/pplx-pii-masking",
+        "model_revision": MODEL_REVISION,
+        "dataset": dataset,
+        "selection_sha256": sha256_file(selection_path),
+        "rows": [
+            {
+                "sample_id": result["sample"]["id"],
+                "latency_ms": result["latency_ms"],
+                "predictions": [
+                    {
+                        "entity": span["entity"],
+                        "source_entity": span["source_entity"],
+                        "char_start": span["char_start"],
+                        "char_end": span["char_end"],
+                        "byte_start": span["byte_start"],
+                        "byte_end": span["byte_end"],
+                        "score": span["score"],
+                    }
+                    for span in result["predicted"]
+                ],
+            }
+            for result in results
+        ],
+        "raw_text_omitted": True,
+    }
+    assert_raw_omitted(artifact)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(artifact, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def score_characters(results: list[dict[str, Any]]) -> dict[str, Any]:

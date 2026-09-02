@@ -4,12 +4,18 @@ Evaluation date: 2026-09-02
 
 ## Decision
 
-`perplexity-ai/pplx-pii-masking` is **not a new Obscura champion** under the
-current eight-entity, typed exact-span protocol.
+`perplexity-ai/pplx-pii-masking` is **not a new Obscura product champion** under
+the current eight-entity, typed exact-span protocol.
 
 It remains a useful research candidate for a separate privacy-context profile
 or a recall-oriented hybrid. That would be a new contract, not a replacement
 for `:balanced` or `:accurate`.
+
+A follow-up hybrid experiment found one promising narrower result:
+`:accurate` plus nonoverlapping Perplexity email, phone, and URL predictions
+produced the best observed exact F1 on all three selections. The gains are
+small and the policy was identified during exploratory evaluation, so this is
+a candidate for fresh validation rather than a promoted champion.
 
 ## Pinned Assets
 
@@ -89,6 +95,50 @@ One wording variant exposed a real exact-boundary error: the model returned
 example, not an aggregate claim, but it illustrates why character coverage
 cannot replace exact-span evaluation.
 
+## Hybrid Results
+
+The hybrid experiment used the same ordered selections and exact byte span
+scorer. Obscura wins every overlap. Perplexity can only add nonoverlapping
+predictions allowed by a policy.
+
+The original conservative hypothesis admitted `person`, `email`, `phone`, and
+`url`. On top of `:fast`, it adds substantial recall but remains behind
+`:accurate`:
+
+| Dataset | `:fast` F1 | `:fast` + PPLX F1 | `:accurate` F1 |
+| --- | ---: | ---: | ---: |
+| `generated_large/template_heldout` | 0.6684 | 0.7877 | 0.8024 |
+| `synth_dataset_v2/all` | 0.6382 | 0.8003 | 0.8423 |
+| `nemotron_pii_test_subset/all` | 0.4074 | 0.6089 | 0.6973 |
+
+Adding that same policy to `:accurate` is inconsistent. It moves exact F1 to
+`0.8041`, `0.8288`, and `0.7220`, respectively. The loss on
+`synth_dataset_v2` rejects it as a champion policy.
+
+A contact-only ablation excludes person and location. It produced the best
+observed result on every selection:
+
+| Dataset | Base P / R / F1 | Contact hybrid P / R / F1 | F1 change | Added spans |
+| --- | ---: | ---: | ---: | ---: |
+| `generated_large/template_heldout` | 0.8249 / 0.7810 / 0.8024 | 0.8139 / 0.8088 / 0.8113 | +0.0090 | 45 |
+| `synth_dataset_v2/all` | 0.8266 / 0.8586 / 0.8423 | 0.8160 / 0.8896 / 0.8512 | +0.0089 | 77 |
+| `nemotron_pii_test_subset/all` | 0.8716 / 0.5811 / 0.6973 | 0.8593 / 0.5963 / 0.7040 | +0.0067 | 41 |
+
+This candidate pays for a modest recall increase with lower precision. Under
+the sequential experimental runner, mean latency increases from `33.44` to
+`62.05` ms, `38.33` to `68.06` ms, and `41.84` to `108.88` ms. The matching
+hybrid P95 values are `84.21`, `81.26`, and `169.62` ms.
+
+These are exploratory numbers, not promotion evidence. The contact policy was
+identified while comparing policies on these evaluation sets. Calling it a
+champion now would reuse the test sets for selection. It also depends on a
+Python model runner and therefore does not yet satisfy Obscura's native BEAM
+product boundary.
+
+Before promotion, freeze the contact policy, evaluate it once on a new untouched
+set, implement or package an acceptable runtime boundary, and decide whether
+the small F1 gain justifies the latency and deployment cost.
+
 ## Ideas To Bring Into Obscura
 
 The strongest contribution from
@@ -123,7 +173,7 @@ The defensible follow-up is an experimental hybrid, not promotion:
 
 1. Keep deterministic recognizers authoritative for email, phone, card, SSN,
    IP, and other structured entities.
-2. Use the model only for privacy-context categories that add recall.
+2. Validate the contact-only policy on an untouched dataset before tuning it.
 3. Refine `account_number` locally before assigning an Obscura entity.
 4. Normalize model boundaries, then evaluate on a train selection before one
    untouched heldout run.
