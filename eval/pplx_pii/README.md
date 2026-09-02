@@ -92,3 +92,31 @@ Then score all fixed merge policies:
 Repeat with the matching authoritative selection for `synth_dataset_v2` and
 `nemotron_pii_test_subset`. Prediction artifacts and reports are ignored by
 Git and contain no source text or detected values.
+
+## Incremental Error Analysis
+
+To distinguish model-only gains from structured formats, export a second set
+of Obscura predictions with the existing optional phone parser:
+
+```console
+OBSCURA_REAL_MODEL_BACKEND=emily \
+OBSCURA_EMILY_DEVICE=gpu \
+OBSCURA_EMILY_FALLBACK=raise \
+mix run eval/pplx_pii/export_obscura_predictions.exs \
+  --profile accurate \
+  --dataset generated_large \
+  --selection eval/authoritative/selections/generated_large_template_heldout.json \
+  --out eval/predictions/hybrid/accurate-phone-parser-generated_large.json \
+  --phone-parser
+```
+
+Repeat for all three datasets, then run:
+
+```console
+.pplx-pii-venv/bin/python eval/pplx_pii/incremental_error_analysis.py
+```
+
+The analysis classifies every accepted contact addition, applies a basic shape
+gate, measures how many exact phone additions the existing parser recovers,
+and runs an independent URL scheme and punctuation probe. Its ignored JSON
+report contains only aggregate counts, metrics, and format categories.

@@ -19,7 +19,13 @@ defmodule Obscura.PplxPii.ExportPredictions do
   def main(args) do
     {opts, remaining, invalid} =
       OptionParser.parse(args,
-        strict: [profile: :string, dataset: :string, selection: :string, out: :string]
+        strict: [
+          profile: :string,
+          dataset: :string,
+          selection: :string,
+          out: :string,
+          phone_parser: :boolean
+        ]
       )
 
     if remaining != [] or invalid != [], do: fail!("invalid arguments")
@@ -40,13 +46,15 @@ defmodule Obscura.PplxPii.ExportPredictions do
 
     samples = select_samples!(loaded.samples, selection)
     analyzer_profile = prepare_profile!(profile)
-    rows = Enum.map(samples, &prediction_row(&1, analyzer_profile, entities))
+    analyze_opts = analyzer_options(analyzer_profile, entities, opts)
+    rows = Enum.map(samples, &prediction_row(&1, analyze_opts))
 
     artifact = %{
       schema_version: 1,
       producer: "Obscura",
       profile: Atom.to_string(profile),
       dataset: Atom.to_string(dataset),
+      phone_parser: Keyword.get(opts, :phone_parser, false),
       selection_sha256: sha256_file(selection_path),
       rows: rows,
       raw_text_omitted: true
@@ -103,15 +111,27 @@ defmodule Obscura.PplxPii.ExportPredictions do
     end
   end
 
-  defp prediction_row(sample, profile, entities) do
+  defp analyzer_options(profile, entities, opts) do
+    [profile: profile, entities: entities, include_text: false]
+    |> maybe_put_phone_parser(opts)
+  end
+
+  defp maybe_put_phone_parser(analyze_opts, opts) do
+    if Keyword.get(opts, :phone_parser, false) do
+      Keyword.put(
+        analyze_opts,
+        :phone_parser,
+        Obscura.Recognizer.Phone.ExPhoneNumberValidator
+      )
+    else
+      analyze_opts
+    end
+  end
+
+  defp prediction_row(sample, analyze_opts) do
     started_at = System.monotonic_time()
 
-    {:ok, predictions} =
-      Obscura.analyze(sample.text,
-        profile: profile,
-        entities: entities,
-        include_text: false
-      )
+    {:ok, predictions} = Obscura.analyze(sample.text, analyze_opts)
 
     %{
       sample_id: sample.id,

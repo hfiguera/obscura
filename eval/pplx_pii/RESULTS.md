@@ -15,7 +15,9 @@ A follow-up hybrid experiment found one promising narrower result:
 `:accurate` plus nonoverlapping Perplexity email, phone, and URL predictions
 produced the best observed exact F1 on all three selections. The gains are
 small and the policy was identified during exploratory evaluation, so this is
-a candidate for fresh validation rather than a promoted champion.
+a candidate for analysis rather than a promoted champion. Incremental error
+analysis found no exact gain behind this contact policy that demonstrates a
+need for a model.
 
 ## Pinned Assets
 
@@ -139,6 +141,59 @@ Before promotion, freeze the contact policy, evaluate it once on a new untouched
 set, implement or package an acceptable runtime boundary, and decide whether
 the small F1 gain justifies the latency and deployment cost.
 
+## Incremental Error Analysis
+
+The contact hybrid accepted 163 nonoverlapping Perplexity spans. Only 87 were
+new exact true positives: 69 phones and 18 URLs. It added no exact emails. The
+rest were 3 boundary mismatches, 26 wrong entity types, and 47 false positives.
+The policy admits only contact entities, so this result cannot establish that
+Perplexity has no semantic capability.
+
+A separate broad diagnostic did find 69 exact person spans and 149 exact
+location spans missed by `:accurate`. Those came with 291 nonexact person
+additions and 773 nonexact location additions. They are real model behavior,
+but they are not responsible for the contact hybrid's improvement and the
+corresponding person and location policies did not produce a champion.
+
+The errors are systematic rather than ambiguous. Perplexity classified 15 MAC
+addresses, 3 IP addresses, and 2 secrets as URLs on Nemotron. Its phone output
+also included a credit card. On the other datasets, invalid phone candidates
+included short words and punctuation. A basic contact-shape gate removed all
+of the added false positives in this experiment:
+
+| Dataset | Base F1 | PPLX contact F1 | Shape-gated PPLX F1 |
+| --- | ---: | ---: | ---: |
+| `generated_large/template_heldout` | 0.8024 | 0.8113 | 0.8186 |
+| `synth_dataset_v2/all` | 0.8423 | 0.8512 | 0.8583 |
+| `nemotron_pii_test_subset/all` | 0.6973 | 0.7040 | 0.7081 |
+
+The gate still depends on the model to generate candidates, so it is not a
+deterministic replacement. It does show that the model's useful contact spans
+have ordinary structured shapes.
+
+The 69 exact phone additions contain 7 to 12 digits and use conventional
+spaces, hyphens, dots, parentheses, or international prefixes. Obscura's
+existing optional `ex_phone_number` path independently recovered 37 of them.
+It cannot be enabled broadly as-is: while it improved F1 from 0.8024 to 0.8141
+on `generated_large` and from 0.8423 to 0.8489 on `synth_dataset_v2`, it reduced
+Nemotron F1 from 0.6973 to 0.6537. On Nemotron it added 189 phone predictions
+over non-phone identifiers, primarily generic IDs, patient IDs, US Social
+Security numbers, and credit cards.
+
+The URL result is cleaner. All 18 exact Perplexity URL additions were found by
+an independent deterministic probe that supports `https` and `ftp` and trims
+sentence punctuation. Thirteen were HTTPS URLs and five were FTP URLs;
+seventeen were followed by punctuation. The probe found 24 new exact URLs on
+Nemotron with no new false positives and moved aggregate F1 from 0.6973 to
+0.7101. This is analysis evidence for improving the URL recognizer, not a
+promoted implementation.
+
+The current evidence therefore does not justify a model dependency for these
+gains. The better next experiments are deterministic: normalize URL boundaries
+and evaluate FTP support, then expand phone formats behind strict context and
+negative checks for IDs, dates, cards, and SSNs. Any resulting recognizer
+change still needs a fresh untouched validation set.
+
 ## Ideas To Bring Into Obscura
 
 The strongest contribution from
@@ -169,16 +224,19 @@ product use.
 
 ## Next Candidate Path
 
-The defensible follow-up is an experimental hybrid, not promotion:
+The defensible follow-up is deterministic contact recognition, not hybrid
+promotion:
 
 1. Keep deterministic recognizers authoritative for email, phone, card, SSN,
    IP, and other structured entities.
-2. Validate the contact-only policy on an untouched dataset before tuning it.
-3. Refine `account_number` locally before assigning an Obscura entity.
-4. Normalize model boundaries, then evaluate on a train selection before one
-   untouched heldout run.
-5. Require improvement on all three authoritative datasets and add the new
-   conversation consistency suite before considering a stable profile.
+2. Prototype trailing-punctuation normalization and FTP support in the URL
+   recognizer.
+3. Test specific missing phone layouts with strict context and negative
+   structured-identifier checks instead of enabling the broad parser path.
+4. Use the Perplexity model as a research oracle for finding candidate fixture
+   classes, not as a required runtime dependency.
+5. Require improvements on all three authoritative datasets and one fresh
+   untouched selection before changing a stable profile.
 
 The model card and reference implementation are available from the
 [pplx-pii-masking repository](https://huggingface.co/perplexity-ai/pplx-pii-masking).
