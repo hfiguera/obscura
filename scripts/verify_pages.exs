@@ -5,6 +5,10 @@ defmodule Obscura.PagesVerifier do
   @site_url "https://hfiguera.github.io/obscura/"
   @articles [
     %{
+      slug: "an-ai-hybrid-improved-pii-detection-we-still-did-not-ship-it",
+      expected_media: ["incremental-error-analysis-decision.png"]
+    },
+    %{
       slug: "should-pii-detection-live-inside-the-beam",
       expected_media: ["presidio-obscura-boundary-choice.png"]
     },
@@ -91,6 +95,15 @@ defmodule Obscura.PagesVerifier do
     end)
 
     case article.slug do
+      "an-ai-hybrid-improved-pii-detection-we-still-did-not-ship-it" ->
+        assert_contains(html, "Perplexity")
+        assert_contains(html, "incremental error analysis")
+        assert_contains(html, "163")
+        assert_contains(html, "0.7101")
+        assert_contains(html, "incremental-error-analysis-decision.png")
+        assert_contains(html, "pplx-pii-masking")
+        assert_contains(html, ~s(href="../should-pii-detection-live-inside-the-beam/"))
+
       "should-pii-detection-live-inside-the-beam" ->
         assert_contains(html, "Presidio")
         assert_contains(html, "Obscura")

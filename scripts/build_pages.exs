@@ -8,6 +8,8 @@ defmodule Obscura.PagesBuilder do
   @author_name "Humberto Figuera"
   @author_x_url "https://x.com/hfiguera"
   @author_github_url "https://github.com/hfiguera"
+  @perplexity_published_on "2026-09-02"
+  @perplexity_rss_date "Wed, 02 Sep 2026 00:00:00 GMT"
   @presidio_published_on "2026-08-21"
   @presidio_rss_date "Fri, 21 Aug 2026 00:00:00 GMT"
   @agent_published_on "2026-08-15"
@@ -27,6 +29,16 @@ defmodule Obscura.PagesBuilder do
   @media_extensions [".gif", ".jpg", ".jpeg", ".mp4", ".png", ".webp"]
 
   @articles [
+    %{
+      slug: "an-ai-hybrid-improved-pii-detection-we-still-did-not-ship-it",
+      title: "An AI Hybrid Improved PII Detection. We Still Did Not Ship It.",
+      description:
+        "An engineering case study about testing Perplexity's PII model, finding an apparent hybrid win, and using incremental error analysis to reject a new runtime dependency.",
+      published_on: @perplexity_published_on,
+      rss_date: @perplexity_rss_date,
+      version: "0.1.3",
+      og_image: "incremental-error-analysis-decision.png"
+    },
     %{
       slug: "should-pii-detection-live-inside-the-beam",
       title: "Should PII Detection Live Inside the BEAM?",
@@ -368,7 +380,7 @@ defmodule Obscura.PagesBuilder do
         <link>#{@site_url}</link>
         <description>Engineering notes about PII detection and anonymization in Elixir.</description>
         <language>en</language>
-        <lastBuildDate>#{@presidio_rss_date}</lastBuildDate>
+        <lastBuildDate>#{@perplexity_rss_date}</lastBuildDate>
         #{items}
       </channel>
     </rss>
@@ -393,7 +405,7 @@ defmodule Obscura.PagesBuilder do
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
         <loc>#{@site_url}</loc>
-        <lastmod>#{@presidio_published_on}</lastmod>
+        <lastmod>#{@perplexity_published_on}</lastmod>
       </url>
       <url>
         <loc>#{@site_url}privacy/</loc>
