@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Incremental error analysis decision</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1440px;
+        height: 900px;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        color: #17211f;
+        background: #f4f7f5;
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .canvas {
+        width: 1440px;
+        height: 900px;
+        padding: 54px 64px 46px;
+      }
+
+      header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 40px;
+        padding-bottom: 28px;
+        border-bottom: 2px solid #17211f;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: #08766a;
+        font-size: 18px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 970px;
+        margin: 0;
+        font-size: 52px;
+        line-height: 1.06;
+        letter-spacing: 0;
+      }
+
+      .version {
+        flex: 0 0 auto;
+        margin: 0 0 4px;
+        color: #5d6d68;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 17px;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 30px;
+        padding-top: 32px;
+      }
+
+      .score {
+        min-height: 568px;
+        padding: 28px;
+        color: #ffffff;
+        background: #285d91;
+        border-top: 7px solid #183b5d;
+      }
+
+      .label {
+        margin: 0 0 14px;
+        font-size: 16px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .score h2 {
+        margin: 0;
+        font-size: 37px;
+        line-height: 1.12;
+        letter-spacing: 0;
+      }
+
+      .score-list {
+        display: grid;
+        gap: 15px;
+        margin-top: 35px;
+      }
+
+      .score-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+      }
+
+      .score-row span {
+        font-size: 16px;
+        line-height: 1.3;
+      }
+
+      .score-row strong {
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 25px;
+      }
+
+      .score-note {
+        margin: 30px 0 0;
+        color: #e3eef7;
+        font-size: 18px;
+        line-height: 1.45;
+      }
+
+      .analysis {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        gap: 18px;
+      }
+
+      .analysis-title {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .analysis-title h2 {
+        margin: 0;
+        font-size: 31px;
+        letter-spacing: 0;
+      }
+
+      .total {
+        color: #5d6d68;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 18px;
+      }
+
+      .outcomes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .outcome {
+        min-height: 156px;
+        padding: 20px 22px;
+        background: #ffffff;
+        border: 1px solid #c5d0cc;
+        border-top-width: 6px;
+      }
+
+      .outcome.exact {
+        border-top-color: #08766a;
+      }
+
+      .outcome.rejected {
+        border-top-color: #bb4c49;
+      }
+
+      .outcome h3 {
+        margin: 0 0 13px;
+        font-size: 22px;
+        letter-spacing: 0;
+      }
+
+      .metric-line {
+        display: flex;
+        align-items: baseline;
+        gap: 23px;
+      }
+
+      .metric-line strong {
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 37px;
+      }
+
+      .metric-line span {
+        color: #53645f;
+        font-size: 17px;
+        line-height: 1.4;
+      }
+
+      .decision {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .finding {
+        display: grid;
+        align-content: start;
+        padding: 21px 22px;
+        background: #fff8e9;
+        border-left: 6px solid #cc861e;
+      }
+
+      .finding strong {
+        display: block;
+        margin-bottom: 18px;
+        color: #724b10;
+        font-size: 18px;
+      }
+
+      .finding b {
+        display: block;
+        margin-bottom: 14px;
+        color: #17211f;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 36px;
+        line-height: 1.05;
+      }
+
+      .finding span {
+        color: #4f5653;
+        font-size: 16px;
+        line-height: 1.42;
+      }
+
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+        margin-top: 26px;
+        padding: 20px 24px;
+        color: #ffffff;
+        background: #17211f;
+      }
+
+      footer strong {
+        font-size: 23px;
+        letter-spacing: 0;
+      }
+
+      footer span {
+        color: #d6e1dd;
+        font-size: 17px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <header>
+        <div>
+          <p class="eyebrow">Obscura evaluation</p>
+          <h1>A higher score is not the decision</h1>
+        </div>
+        <p class="version">Obscura 0.1.3</p>
+      </header>
+
+      <main>
+        <section class="score" aria-label="Hybrid aggregate result">
+          <p class="label">Contact hybrid</p>
+          <h2>Exact F1 improved on all three datasets</h2>
+          <div class="score-list">
+            <div class="score-row">
+              <span>Generated</span>
+              <strong>+0.0090</strong>
+            </div>
+            <div class="score-row">
+              <span>Synth dataset</span>
+              <strong>+0.0089</strong>
+            </div>
+            <div class="score-row">
+              <span>Nemotron</span>
+              <strong>+0.0067</strong>
+            </div>
+          </div>
+          <p class="score-note">Promising aggregate results created the next
+            question: what capability did the model uniquely add?</p>
+        </section>
+
+        <section class="analysis" aria-label="Incremental error analysis">
+          <div class="analysis-title">
+            <h2>Every accepted model addition</h2>
+            <span class="total">163 spans</span>
+          </div>
+
+          <div class="outcomes">
+            <article class="outcome exact">
+              <h3>New exact matches</h3>
+              <div class="metric-line">
+                <strong>87</strong>
+                <span>69 phones<br>18 URLs<br>0 emails</span>
+              </div>
+            </article>
+            <article class="outcome rejected">
+              <h3>Rejected additions</h3>
+              <div class="metric-line">
+                <strong>76</strong>
+                <span>3 boundaries<br>26 wrong types<br>47 false positives</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="decision">
+            <article class="finding">
+              <strong>Phone evidence</strong>
+              <b>37 of 69</b>
+              <span>The existing optional parser recovered over half of the
+                gains, but broad matching confused IDs and cards for phones.</span>
+            </article>
+            <article class="finding">
+              <strong>URL evidence</strong>
+              <b>18 of 18 + 6</b>
+              <span>A deterministic probe recovered every model gain plus six
+                more exact URLs, with no new false positives.</span>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <strong>Decision: do not add the model dependency</strong>
+        <span>Improve deterministic recognizers, then validate on untouched data.</span>
+      </footer>
+    </div>
+  </body>
+</html>
