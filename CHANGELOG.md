@@ -2,7 +2,7 @@
 
 All notable changes to Obscura are documented in this file.
 
-## 0.2.0 - release candidate
+## 0.2.0 - 2026-09-05
 
 - Added the stable `:efficient` CPU profile with deterministic recognition and
   native spaCy person/location NER on Apple Silicon macOS and glibc Linux.
@@ -13,6 +13,8 @@ All notable changes to Obscura are documented in this file.
 - Added untouched application-like accuracy evaluation, sustained workload
   validation for 1–4 workers, and native release compatibility checks.
 - Preserved worker capacity when a caller abandons an unused reservation.
+- Updated Nx, Bumblebee, Phoenix, and supporting dependencies while preserving
+  the Elixir 1.17 minimum and dependency-light core.
 
 ## 0.1.3 - 2026-07-31
 

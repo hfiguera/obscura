@@ -4,7 +4,7 @@ Obscura is an early-release library. Its stable profiles have governed contracts
 and current benchmark evidence, but the project does not yet claim universal
 production readiness, regulatory compliance, or complete Presidio parity.
 
-The `0.1.x` compatibility promise applies only to modules and functions listed
+The `0.2.x` compatibility promise applies only to modules and functions listed
 in `docs/public-api-stability.md`. Low-level model adapters, evaluation
 tooling, and internal implementation modules can change independently of that
 surface.

@@ -145,8 +145,9 @@ deployment's workload and contention.
 
 [Build evidence](results/builds.json) records byte-identical independent native
 rebuilds on all three targets, matching fresh model exports on macOS and Linux,
-and a clean packaged consumer on Elixir 1.17.3 / OTP 27 with four native workers
-and no Python, Nx, or Bumblebee. The full macOS suite passed 864 checks with
+and clean packaged consumers for both the candidate and final 0.2.0 package on
+Elixir 1.17.3 / OTP 27 with four native workers and no Python, Nx, or Bumblebee.
+The final package passed with networking disabled. The full macOS suite passed 864 checks with
 14 optional exclusions; native Linux compatibility passed 183 tests on each
 architecture. The final installer/native tests passed another 34 checks.
 
@@ -157,9 +158,12 @@ the frozen policy or evaluation selection.
 
 Run `python3 scripts/efficient/verify_candidate.py` to verify the local evidence
 against the current sources and asset manifest. This checks evidence only and
-never publishes anything. The candidate remains **unpublished** at the user's
-request. The added hosted Linux CI workflow has not run and remains required
-before a future release. Linux x86-64 and ARM64 servers are the production
-targets. Apple Silicon macOS results validate the local development environment;
+never publishes anything. Hosted [Linux release validation](https://github.com/hfiguera/obscura/actions/runs/33981834669)
+and [dependency-light CI](https://github.com/hfiguera/obscura/actions/runs/33981834653)
+passed on `7ac965dbb50380ed3fa4b0e51e1e1c843f5612e6` before release preparation.
+The release PR reruns these checks after finalizing the 0.2.0 metadata. Native
+assets are distributed with the `v0.2.0` GitHub release; Hex publication is a
+separate step. Linux x86-64 and ARM64 servers are the production targets.
+Apple Silicon macOS results validate the local development environment;
 older macOS compatibility is outside the release requirements. All recorded
 measurements and evaluation thresholds are unchanged by this platform scope.

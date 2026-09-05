@@ -81,7 +81,7 @@ Obscura.analyze("Rachel works at Google in Paris.",
 ```
 
 The low-level recognizer, serving, model registry, and model-specific options
-are experimental in `0.1.x`. Public profile names and their documented runtime
+are experimental in `0.2.x`. Public profile names and their documented runtime
 contracts have the stability described in `public-api-stability.md`.
 
 ## Optional Backend Selection
@@ -240,7 +240,7 @@ across recognizers.
 
 Obscura contains experimental adapters for GLiNER through Ortex or native Nx,
 generic ONNX token classification, and native Privacy Filter checkpoints.
-They are useful for controlled evaluation but are outside the stable `0.1.x`
+They are useful for controlled evaluation but are outside the stable `0.2.x`
 compatibility promise.
 
 Experimental adapters require explicit local assets and dependencies. They do

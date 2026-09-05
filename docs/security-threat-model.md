@@ -2,7 +2,7 @@
 
 ## Purpose And Status
 
-This threat model defines Obscura's security boundary for the `0.1.x`
+This threat model defines Obscura's security boundary for the `0.2.x`
 early-release line. It covers raw PII lifetime, anonymization, reversible vaults,
 model execution, observability, callbacks, structured data, command output,
 and benchmark reports.

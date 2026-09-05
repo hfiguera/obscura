@@ -1,9 +1,6 @@
 # Efficient CPU profile
 
-This is the unpublished `:efficient` release candidate for the 0.2 line.
-Installation from public release URLs becomes available only after publication.
-For this checkout, use `--from-source --allow-download` or the verified local
-binaries recorded in the asset manifest. It combines
+The stable `:efficient` profile, introduced in Obscura 0.2.0, combines
 Obscura's deterministic recognizers with a native port of spaCy's pinned
 `en_core_web_lg` 3.8.0 NER model and the frozen `efficient_v1` boundary policy.
 Use it when CPU cost and memory matter and English person/location recognition
@@ -20,6 +17,11 @@ The experimental `:spacy_cpu` alias remains available with its original span
 policy. It does not silently acquire the new form-field boundary rules.
 
 ## Install once, prepare at startup
+
+Install Obscura from the `v0.2.0` GitHub tag as shown in the
+[installation guide](../README.md#installation). Native binaries are attached
+to that GitHub release; model weights are downloaded from Explosion and
+exported locally. Hex publication is separate.
 
 Install the platform libraries: `brew install pcre2` on Apple Silicon macOS,
 or `apt-get install curl libopenblas0-pthread libpcre2-8-0` on supported Debian/Ubuntu
