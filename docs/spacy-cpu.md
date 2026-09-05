@@ -163,10 +163,10 @@ executable and pinned weights. Real-model tests skip when assets/platform are
 unavailable. No authoritative accuracy profile is promoted by these checks.
 
 For reproducible Docker Desktop checks of both Linux architectures, see
-[Linux validation](../eval/spacy_native/linux/README.md). The lane requires the
+[Linux validation](https://github.com/hfiguera/obscura/blob/main/eval/spacy_native/linux/README.md). The lane requires the
 real assets, tests the public profile and worker lifecycle, and compares all
 2,648 selected documents to the pinned native baseline twice with networking
-disabled; see the [recorded Linux results](../eval/spacy_native/results/LINUX.md).
+disabled; see the [recorded Linux results](https://github.com/hfiguera/obscura/blob/main/eval/spacy_native/results/LINUX.md).
 x86-64 runs under emulation on an Apple Silicon host, so its timing
 does not predict performance on physical x86-64 hardware.
 
