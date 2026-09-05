@@ -8,6 +8,8 @@ defmodule Obscura.PagesBuilder do
   @author_name "Humberto Figuera"
   @author_x_url "https://x.com/hfiguera"
   @author_github_url "https://github.com/hfiguera"
+  @efficient_published_on "2026-09-05"
+  @efficient_rss_date "Sat, 05 Sep 2026 00:00:00 GMT"
   @perplexity_published_on "2026-09-02"
   @perplexity_rss_date "Wed, 02 Sep 2026 00:00:00 GMT"
   @presidio_published_on "2026-08-21"
@@ -29,6 +31,16 @@ defmodule Obscura.PagesBuilder do
   @media_extensions [".gif", ".jpg", ".jpeg", ".mp4", ".png", ".webp"]
 
   @articles [
+    %{
+      slug: "beyond-regex-why-we-shipped-a-cpu-profile-for-pii-detection",
+      title: "Beyond Regex: Why We Shipped a CPU Profile for PII Detection",
+      description:
+        "What spaCy NER adds to PII detection in Elixir: measured recall and precision tradeoffs, a native CPU runtime, and a reproducible Obscura 0.2.0 example.",
+      published_on: @efficient_published_on,
+      rss_date: @efficient_rss_date,
+      version: "0.2.0",
+      og_image: "efficient-cpu-tradeoff.png"
+    },
     %{
       slug: "an-ai-hybrid-improved-pii-detection-we-still-did-not-ship-it",
       title: "An AI Hybrid Improved PII Detection. We Still Did Not Ship It.",
@@ -380,7 +392,7 @@ defmodule Obscura.PagesBuilder do
         <link>#{@site_url}</link>
         <description>Engineering notes about PII detection and anonymization in Elixir.</description>
         <language>en</language>
-        <lastBuildDate>#{@perplexity_rss_date}</lastBuildDate>
+        <lastBuildDate>#{@efficient_rss_date}</lastBuildDate>
         #{items}
       </channel>
     </rss>
@@ -405,7 +417,7 @@ defmodule Obscura.PagesBuilder do
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
         <loc>#{@site_url}</loc>
-        <lastmod>#{@perplexity_published_on}</lastmod>
+        <lastmod>#{@efficient_published_on}</lastmod>
       </url>
       <url>
         <loc>#{@site_url}privacy/</loc>

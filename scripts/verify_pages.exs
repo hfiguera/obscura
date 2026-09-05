@@ -5,6 +5,10 @@ defmodule Obscura.PagesVerifier do
   @site_url "https://hfiguera.github.io/obscura/"
   @articles [
     %{
+      slug: "beyond-regex-why-we-shipped-a-cpu-profile-for-pii-detection",
+      expected_media: ["efficient-cpu-tradeoff.png"]
+    },
+    %{
       slug: "an-ai-hybrid-improved-pii-detection-we-still-did-not-ship-it",
       expected_media: ["incremental-error-analysis-decision.png"]
     },
@@ -95,6 +99,20 @@ defmodule Obscura.PagesVerifier do
     end)
 
     case article.slug do
+      "beyond-regex-why-we-shipped-a-cpu-profile-for-pii-detection" ->
+        assert_contains(html, ~s(<code class="makeup elixir" translate="no">))
+        assert_contains(html, ~s(<code class="makeup bash" translate="no">))
+        assert_contains(html, "Obscura 0.2.0")
+        assert_contains(html, "0.6654")
+        assert_contains(html, "Erlang Port")
+        assert_contains(html, "Completely uncovered spans")
+        assert_contains(html, ~s(href="https://hexdocs.pm/obscura/0.2.0/efficient.html"))
+
+        assert_contains(
+          html,
+          ~s(href="../an-ai-hybrid-improved-pii-detection-we-still-did-not-ship-it/")
+        )
+
       "an-ai-hybrid-improved-pii-detection-we-still-did-not-ship-it" ->
         assert_contains(html, "Perplexity")
         assert_contains(html, "incremental error analysis")
