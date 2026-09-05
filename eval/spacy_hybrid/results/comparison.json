@@ -1,0 +1,3932 @@
+{
+  "authoritative_manifest_sha256": "2ec5ff1f07e494b4885ee3799c49c3e37c5d2814b5689306efd94ea549d4615f",
+  "comparisons": [
+    {
+      "authoritative": {
+        "accurate": {
+          "id": "accurate:generated_large:template_heldout",
+          "metrics": {
+            "f1": 0.8023567220139262,
+            "f2": 0.7894182124789207,
+            "false_negatives": 210,
+            "false_positives": 159,
+            "latency": {
+              "max_ms": 79.388,
+              "mean_ms": 34.42958487654322,
+              "p50_ms": 40.089,
+              "p95_ms": 48.573
+            },
+            "offset_mismatches": 58,
+            "output_fingerprint_sha256": "ac1354fca1c9434edd409e947b962e7e36343950b236d4430d75a199277efc8a",
+            "per_entity": {
+              "location": {
+                "f1": 0.6753585397653195,
+                "f2": 0.6727272727272727,
+                "false_negatives": 127,
+                "false_positives": 122,
+                "offset_mismatches": 13,
+                "precision": 0.6797900262467191,
+                "prediction_count": 394,
+                "recall": 0.6709844559585493,
+                "support_count": 399,
+                "true_positives": 259,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.9210810810810811,
+                "f2": 0.9252823631624674,
+                "false_negatives": 33,
+                "false_positives": 40,
+                "offset_mismatches": 40,
+                "precision": 0.9141630901287554,
+                "prediction_count": 506,
+                "recall": 0.9281045751633987,
+                "support_count": 499,
+                "true_positives": 426,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.707182320441989,
+                "f2": 0.6015037593984963,
+                "false_negatives": 53,
+                "false_positives": 0,
+                "offset_mismatches": 5,
+                "precision": 1.0,
+                "prediction_count": 69,
+                "recall": 0.5470085470085471,
+                "support_count": 122,
+                "true_positives": 64,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.8248898678414097,
+            "recall": 0.781021897810219,
+            "span_iou": {
+              "f1": 0.7564296520423601,
+              "f2": 0.7449344457687723,
+              "false_negatives": 267,
+              "false_positives": 216,
+              "iou_threshold": 0.9,
+              "precision": 0.7763975155279503,
+              "recall": 0.7374631268436578,
+              "total_predicted_spans": 969,
+              "total_supported_expected_spans": 1020,
+              "true_positives": 750,
+              "wrong_entity_type": 3
+            },
+            "true_positives": 749,
+            "unsupported_expected_spans": 964,
+            "wrong_entity_type": 3
+          },
+          "report": "eval/authoritative/reports/accurate__generated_large__template_heldout.json",
+          "sha256": "f5d8d9fd8f1bf18280077f67f863b7a75695c3c80e8fd6bdd60335be4a617740",
+          "strict_exact": {
+            "f1": 0.7531422825540472,
+            "precision": 0.7729618163054696,
+            "recall": 0.734313725490196
+          }
+        },
+        "balanced": {
+          "id": "balanced:generated_large:template_heldout",
+          "metrics": {
+            "f1": 0.7878128400435256,
+            "f2": 0.767762460233298,
+            "false_negatives": 235,
+            "false_positives": 155,
+            "latency": {
+              "max_ms": 73.014,
+              "mean_ms": 21.473027777777798,
+              "p50_ms": 21.099,
+              "p95_ms": 23.637
+            },
+            "offset_mismatches": 58,
+            "per_entity": {
+              "location": {
+                "f1": 0.6341463414634146,
+                "f2": 0.6170886075949368,
+                "false_negatives": 152,
+                "false_positives": 118,
+                "offset_mismatches": 13,
+                "precision": 0.6647727272727273,
+                "prediction_count": 365,
+                "recall": 0.6062176165803109,
+                "support_count": 399,
+                "true_positives": 234,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.9210810810810811,
+                "f2": 0.9252823631624674,
+                "false_negatives": 33,
+                "false_positives": 40,
+                "offset_mismatches": 40,
+                "precision": 0.9141630901287554,
+                "prediction_count": 506,
+                "recall": 0.9281045751633987,
+                "support_count": 499,
+                "true_positives": 426,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.707182320441989,
+                "f2": 0.6015037593984963,
+                "false_negatives": 53,
+                "false_positives": 0,
+                "offset_mismatches": 5,
+                "precision": 1.0,
+                "prediction_count": 69,
+                "recall": 0.5470085470085471,
+                "support_count": 122,
+                "true_positives": 64,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.8236632536973834,
+            "recall": 0.7549530761209593,
+            "span_iou": {
+              "f1": 0.7420675537359263,
+              "f2": 0.7242757242757242,
+              "false_negatives": 292,
+              "false_positives": 212,
+              "iou_threshold": 0.9,
+              "precision": 0.7737459978655283,
+              "recall": 0.7128810226155359,
+              "total_predicted_spans": 940,
+              "total_supported_expected_spans": 1020,
+              "true_positives": 725,
+              "wrong_entity_type": 3
+            },
+            "true_positives": 724,
+            "unsupported_expected_spans": 964,
+            "wrong_entity_type": 3
+          },
+          "report": "eval/authoritative/reports/balanced__generated_large__template_heldout.json",
+          "sha256": "d3f025fe84b593473d87c87051786c63b294c71684a0c80c4d868d0d4003cc16",
+          "strict_exact": {
+            "f1": 0.7387755102040816,
+            "precision": 0.7702127659574468,
+            "recall": 0.7098039215686275
+          }
+        },
+        "fast": {
+          "id": "fast:generated_large:template_heldout",
+          "metrics": {
+            "f1": 0.6666666666666667,
+            "f2": 0.5630176852473696,
+            "false_negatives": 483,
+            "false_positives": 20,
+            "latency": {
+              "max_ms": 14.303,
+              "mean_ms": 0.13380709876543204,
+              "p50_ms": 0.071,
+              "p95_ms": 0.297
+            },
+            "offset_mismatches": 34,
+            "per_entity": {
+              "location": {
+                "f1": 0.7263843648208469,
+                "f2": 0.6302996042962126,
+                "false_negatives": 162,
+                "false_positives": 6,
+                "offset_mismatches": 14,
+                "precision": 0.9737991266375546,
+                "prediction_count": 243,
+                "recall": 0.5792207792207792,
+                "support_count": 399,
+                "true_positives": 223,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.5872340425531916,
+                "f2": 0.47983310152990266,
+                "false_negatives": 277,
+                "false_positives": 14,
+                "offset_mismatches": 15,
+                "precision": 0.9366515837104072,
+                "prediction_count": 236,
+                "recall": 0.42768595041322316,
+                "support_count": 499,
+                "true_positives": 207,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.768421052631579,
+                "f2": 0.6746765249537894,
+                "false_negatives": 44,
+                "false_positives": 0,
+                "offset_mismatches": 5,
+                "precision": 1.0,
+                "prediction_count": 78,
+                "recall": 0.6239316239316239,
+                "support_count": 122,
+                "true_positives": 73,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.9617590822179732,
+            "recall": 0.5101419878296146,
+            "span_iou": {
+              "f1": 0.6379201014584654,
+              "f2": 0.5423765365538065,
+              "false_negatives": 517,
+              "false_positives": 54,
+              "iou_threshold": 0.9,
+              "precision": 0.9030520646319569,
+              "recall": 0.4931372549019608,
+              "total_predicted_spans": 557,
+              "total_supported_expected_spans": 1020,
+              "true_positives": 503,
+              "wrong_entity_type": 0
+            },
+            "true_positives": 503,
+            "unsupported_expected_spans": 964,
+            "wrong_entity_type": 0
+          },
+          "report": "eval/authoritative/reports/fast__generated_large__template_heldout.json",
+          "sha256": "f4ae6387e7c6e4b9fecf06f737ad609254a17a6b99e8aec4e0d18c4c9c65b494",
+          "strict_exact": {
+            "f1": 0.6379201014584654,
+            "precision": 0.9030520646319569,
+            "recall": 0.4931372549019608
+          }
+        },
+        "presidio": {
+          "id": "external:presidio_spacy_en_core_web_lg:presidio_obscura_common_v1:generated_large:template_heldout",
+          "metrics": {
+            "f1": 0.6809001731102134,
+            "f2": 0.6526548672566372,
+            "false_negatives": 339,
+            "false_positives": 214,
+            "latency": {
+              "max_ms": 9.019165998324752,
+              "mean_ms": 3.416879626187168,
+              "median_ms": 3.202459018211812,
+              "p50_ms": 3.202459018211812,
+              "p95_ms": 6.204749981407076,
+              "throughput_samples_per_second": 292.6646851518973
+            },
+            "offset_mismatches": 43,
+            "per_entity": {
+              "location": {
+                "f1": 0.407108239095315,
+                "f2": 0.35333707234997197,
+                "false_negatives": 262,
+                "false_positives": 105,
+                "offset_mismatches": 11,
+                "precision": 0.5454545454545454,
+                "prediction_count": 242,
+                "recall": 0.3247422680412371,
+                "support_count": 399,
+                "true_positives": 126,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.7712031558185404,
+                "f2": 0.8095238095238094,
+                "false_negatives": 76,
+                "false_positives": 156,
+                "offset_mismatches": 32,
+                "precision": 0.7148080438756855,
+                "prediction_count": 579,
+                "recall": 0.8372591006423983,
+                "support_count": 499,
+                "true_positives": 391,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.7487179487179486,
+                "f2": 0.6506238859180037,
+                "false_negatives": 49,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 73,
+                "recall": 0.5983606557377049,
+                "support_count": 122,
+                "true_positives": 73,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 1,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 1,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.7338308457711443,
+            "recall": 0.635091496232508,
+            "span_iou": {
+              "f1": 0.6445291235710398,
+              "f2": 0.6192468619246861,
+              "false_negatives": 389,
+              "false_positives": 264,
+              "iou_threshold": 0.9,
+              "precision": 0.6915887850467289,
+              "recall": 0.6034658511722731,
+              "total_predicted_spans": 895,
+              "total_supported_expected_spans": 1020,
+              "true_positives": 592,
+              "wrong_entity_type": 39
+            },
+            "true_positives": 590,
+            "unsupported_expected_spans": 964,
+            "wrong_entity_type": 48
+          },
+          "report": "eval/authoritative/reports/external__presidio_spacy_en_core_web_lg__presidio_obscura_common_v1__generated_large__template_heldout.json",
+          "sha256": "fefe0b28e322b5f0b5f89b416c23e8732d9d689478ce426bb8521c109c6ad6a7",
+          "strict_exact": {
+            "f1": 0.6161879895561357,
+            "precision": 0.659217877094972,
+            "recall": 0.5784313725490197
+          }
+        }
+      },
+      "candidates": {
+        "fast": {
+          "mean_ms": 0.09858564814814823,
+          "mean_ms_by_repetition": [
+            0.08407870370370389,
+            0.11309259259259256
+          ],
+          "metrics": {
+            "f1": 0.6684385382059801,
+            "f2": 0.5635222944207932,
+            "false_negatives": 483,
+            "false_positives": 16,
+            "latency": {
+              "max_ms": 3.303,
+              "mean_ms": 0.08407870370370389,
+              "p50_ms": 0.074,
+              "p95_ms": 0.142
+            },
+            "offset_mismatches": 34,
+            "per_entity": {
+              "location": {
+                "f1": 0.7263843648208469,
+                "f2": 0.6302996042962126,
+                "false_negatives": 162,
+                "false_positives": 6,
+                "offset_mismatches": 14,
+                "precision": 0.9737991266375546,
+                "prediction_count": 243,
+                "recall": 0.5792207792207792,
+                "support_count": 399,
+                "true_positives": 223,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.5905848787446506,
+                "f2": 0.48072457036692984,
+                "false_negatives": 277,
+                "false_positives": 10,
+                "offset_mismatches": 15,
+                "precision": 0.9539170506912442,
+                "prediction_count": 232,
+                "recall": 0.42768595041322316,
+                "support_count": 499,
+                "true_positives": 207,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.768421052631579,
+                "f2": 0.6746765249537894,
+                "false_negatives": 44,
+                "false_positives": 0,
+                "offset_mismatches": 5,
+                "precision": 1.0,
+                "prediction_count": 78,
+                "recall": 0.6239316239316239,
+                "support_count": 122,
+                "true_positives": 73,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.9691714836223507,
+            "recall": 0.5101419878296146,
+            "span_iou": {
+              "f1": 0.6395422759059123,
+              "f2": 0.5428448089790633,
+              "false_negatives": 517,
+              "false_positives": 50,
+              "iou_threshold": 0.9,
+              "precision": 0.9095840867992767,
+              "recall": 0.4931372549019608,
+              "total_predicted_spans": 553,
+              "total_supported_expected_spans": 1020,
+              "true_positives": 503,
+              "wrong_entity_type": 0
+            },
+            "total_predicted_spans": 553,
+            "total_samples": 648,
+            "total_supported_expected_spans": 1020,
+            "true_positives": 503,
+            "unsupported_expected_spans": 964,
+            "wrong_entity_type": 0
+          },
+          "obscura_analysis_mean_ms": 0.09858564814814823,
+          "output_fingerprint_sha256": "46ea5e1c66d8c9d2b31548070d80f1e69ad8daa77795ffddb5816c9e010c1408",
+          "p95_ms_by_repetition": [
+            0.142,
+            0.245
+          ],
+          "python_processing_mean_ms": 0.0,
+          "strict_exact": {
+            "f1": 0.6395422759059123,
+            "f2": 0.5428448089790633,
+            "false_negatives": 517,
+            "false_positives": 50,
+            "precision": 0.9095840867992767,
+            "recall": 0.4931372549019608,
+            "true_positives": 503
+          }
+        },
+        "fast_reference": {
+          "mean_ms": 0.11202623456790126,
+          "mean_ms_by_repetition": [
+            0.11113888888888894,
+            0.11291358024691359
+          ],
+          "metrics": {
+            "f1": 0.6666666666666667,
+            "f2": 0.5630176852473696,
+            "false_negatives": 483,
+            "false_positives": 20,
+            "latency": {
+              "max_ms": 0.334,
+              "mean_ms": 0.11113888888888894,
+              "p50_ms": 0.069,
+              "p95_ms": 0.233
+            },
+            "offset_mismatches": 34,
+            "per_entity": {
+              "location": {
+                "f1": 0.7263843648208469,
+                "f2": 0.6302996042962126,
+                "false_negatives": 162,
+                "false_positives": 6,
+                "offset_mismatches": 14,
+                "precision": 0.9737991266375546,
+                "prediction_count": 243,
+                "recall": 0.5792207792207792,
+                "support_count": 399,
+                "true_positives": 223,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.5872340425531916,
+                "f2": 0.47983310152990266,
+                "false_negatives": 277,
+                "false_positives": 14,
+                "offset_mismatches": 15,
+                "precision": 0.9366515837104072,
+                "prediction_count": 236,
+                "recall": 0.42768595041322316,
+                "support_count": 499,
+                "true_positives": 207,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.768421052631579,
+                "f2": 0.6746765249537894,
+                "false_negatives": 44,
+                "false_positives": 0,
+                "offset_mismatches": 5,
+                "precision": 1.0,
+                "prediction_count": 78,
+                "recall": 0.6239316239316239,
+                "support_count": 122,
+                "true_positives": 73,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.9617590822179732,
+            "recall": 0.5101419878296146,
+            "span_iou": {
+              "f1": 0.6379201014584654,
+              "f2": 0.5423765365538065,
+              "false_negatives": 517,
+              "false_positives": 54,
+              "iou_threshold": 0.9,
+              "precision": 0.9030520646319569,
+              "recall": 0.4931372549019608,
+              "total_predicted_spans": 557,
+              "total_supported_expected_spans": 1020,
+              "true_positives": 503,
+              "wrong_entity_type": 0
+            },
+            "total_predicted_spans": 557,
+            "total_samples": 648,
+            "total_supported_expected_spans": 1020,
+            "true_positives": 503,
+            "unsupported_expected_spans": 964,
+            "wrong_entity_type": 0
+          },
+          "obscura_analysis_mean_ms": 0.11202623456790126,
+          "output_fingerprint_sha256": "fa87fcca4fdb016a9c005b427c04baf75c732151d5d3fda0180f45c244c46d02",
+          "p95_ms_by_repetition": [
+            0.233,
+            0.232
+          ],
+          "python_processing_mean_ms": 0.0,
+          "strict_exact": {
+            "f1": 0.6379201014584654,
+            "f2": 0.5423765365538065,
+            "false_negatives": 517,
+            "false_positives": 54,
+            "precision": 0.9030520646319569,
+            "recall": 0.4931372549019608,
+            "true_positives": 503
+          }
+        },
+        "hybrid_spacy_full": {
+          "mean_ms": 3.529950989574231,
+          "mean_ms_by_repetition": [
+            3.6005736021316324,
+            3.45932837701683
+          ],
+          "metrics": {
+            "f1": 0.783811475409836,
+            "f2": 0.8056023588879528,
+            "false_negatives": 167,
+            "false_positives": 255,
+            "latency": {
+              "max_ms": 24.10366600087285,
+              "mean_ms": 3.6005736021316324,
+              "p50_ms": 3.354167024563998,
+              "p95_ms": 6.171832998365164
+            },
+            "offset_mismatches": 70,
+            "per_entity": {
+              "location": {
+                "f1": 0.7442455242966751,
+                "f2": 0.7546680497925311,
+                "false_negatives": 91,
+                "false_positives": 109,
+                "offset_mismatches": 17,
+                "precision": 0.7275,
+                "prediction_count": 417,
+                "recall": 0.7617801047120419,
+                "support_count": 399,
+                "true_positives": 291,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.7893700787401575,
+                "f2": 0.8463486703250316,
+                "false_negatives": 50,
+                "false_positives": 164,
+                "offset_mismatches": 48,
+                "precision": 0.7097345132743362,
+                "prediction_count": 613,
+                "recall": 0.8891352549889135,
+                "support_count": 499,
+                "true_positives": 401,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.768421052631579,
+                "f2": 0.6746765249537894,
+                "false_negatives": 44,
+                "false_positives": 0,
+                "offset_mismatches": 5,
+                "precision": 1.0,
+                "prediction_count": 78,
+                "recall": 0.6239316239316239,
+                "support_count": 122,
+                "true_positives": 73,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.75,
+            "recall": 0.8208154506437768,
+            "span_iou": {
+              "f1": 0.7309160305343512,
+              "f2": 0.7498042286609241,
+              "false_negatives": 238,
+              "false_positives": 326,
+              "iou_threshold": 0.9,
+              "precision": 0.7014652014652014,
+              "recall": 0.7629482071713147,
+              "total_predicted_spans": 1108,
+              "total_supported_expected_spans": 1020,
+              "true_positives": 766,
+              "wrong_entity_type": 16
+            },
+            "total_predicted_spans": 1108,
+            "total_samples": 648,
+            "total_supported_expected_spans": 1020,
+            "true_positives": 765,
+            "unsupported_expected_spans": 964,
+            "wrong_entity_type": 18
+          },
+          "obscura_analysis_mean_ms": 0.11915972222222221,
+          "output_fingerprint_sha256": "e8f86c0df8cc3cbc8c168486abcc2e219e2f94072f9bf6b46cdd8178a2de6e27",
+          "p95_ms_by_repetition": [
+            6.171832998365164,
+            6.013499984368682
+          ],
+          "python_processing_mean_ms": 3.410791267352006,
+          "strict_exact": {
+            "f1": 0.7189849624060151,
+            "f2": 0.7372783346183501,
+            "false_negatives": 255,
+            "false_positives": 343,
+            "precision": 0.6904332129963899,
+            "recall": 0.75,
+            "true_positives": 765
+          }
+        },
+        "hybrid_spacy_ner_only": {
+          "mean_ms": 1.655471719268957,
+          "mean_ms_by_repetition": [
+            1.6651924708547174,
+            1.6457509676831965
+          ],
+          "metrics": {
+            "f1": 0.783811475409836,
+            "f2": 0.8056023588879528,
+            "false_negatives": 167,
+            "false_positives": 255,
+            "latency": {
+              "max_ms": 3.4717089700326325,
+              "mean_ms": 1.6651924708547174,
+              "p50_ms": 1.5572500411607324,
+              "p95_ms": 2.8452919662259517
+            },
+            "offset_mismatches": 70,
+            "per_entity": {
+              "location": {
+                "f1": 0.7442455242966751,
+                "f2": 0.7546680497925311,
+                "false_negatives": 91,
+                "false_positives": 109,
+                "offset_mismatches": 17,
+                "precision": 0.7275,
+                "prediction_count": 417,
+                "recall": 0.7617801047120419,
+                "support_count": 399,
+                "true_positives": 291,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.7893700787401575,
+                "f2": 0.8463486703250316,
+                "false_negatives": 50,
+                "false_positives": 164,
+                "offset_mismatches": 48,
+                "precision": 0.7097345132743362,
+                "prediction_count": 613,
+                "recall": 0.8891352549889135,
+                "support_count": 499,
+                "true_positives": 401,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.768421052631579,
+                "f2": 0.6746765249537894,
+                "false_negatives": 44,
+                "false_positives": 0,
+                "offset_mismatches": 5,
+                "precision": 1.0,
+                "prediction_count": 78,
+                "recall": 0.6239316239316239,
+                "support_count": 122,
+                "true_positives": 73,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.75,
+            "recall": 0.8208154506437768,
+            "span_iou": {
+              "f1": 0.7309160305343512,
+              "f2": 0.7498042286609241,
+              "false_negatives": 238,
+              "false_positives": 326,
+              "iou_threshold": 0.9,
+              "precision": 0.7014652014652014,
+              "recall": 0.7629482071713147,
+              "total_predicted_spans": 1108,
+              "total_supported_expected_spans": 1020,
+              "true_positives": 766,
+              "wrong_entity_type": 16
+            },
+            "total_predicted_spans": 1108,
+            "total_samples": 648,
+            "total_supported_expected_spans": 1020,
+            "true_positives": 765,
+            "unsupported_expected_spans": 964,
+            "wrong_entity_type": 18
+          },
+          "obscura_analysis_mean_ms": 0.13489043209876528,
+          "output_fingerprint_sha256": "e8f86c0df8cc3cbc8c168486abcc2e219e2f94072f9bf6b46cdd8178a2de6e27",
+          "p95_ms_by_repetition": [
+            2.8452919662259517,
+            2.8612500496059656
+          ],
+          "python_processing_mean_ms": 1.5205812871701911,
+          "strict_exact": {
+            "f1": 0.7189849624060151,
+            "f2": 0.7372783346183501,
+            "false_negatives": 255,
+            "false_positives": 343,
+            "precision": 0.6904332129963899,
+            "recall": 0.75,
+            "true_positives": 765
+          }
+        },
+        "presidio": {
+          "mean_ms": 3.780517929740592,
+          "mean_ms_by_repetition": [
+            3.8098176548014577,
+            3.7512182046797267
+          ],
+          "metrics": {
+            "f1": 0.6809001731102134,
+            "f2": 0.6526548672566372,
+            "false_negatives": 339,
+            "false_positives": 214,
+            "latency": {
+              "max_ms": 20.004707970656455,
+              "mean_ms": 3.8098176548014577,
+              "p50_ms": 3.54079098906368,
+              "p95_ms": 6.825667049270123
+            },
+            "offset_mismatches": 43,
+            "per_entity": {
+              "location": {
+                "f1": 0.407108239095315,
+                "f2": 0.35333707234997197,
+                "false_negatives": 262,
+                "false_positives": 105,
+                "offset_mismatches": 11,
+                "precision": 0.5454545454545454,
+                "prediction_count": 242,
+                "recall": 0.3247422680412371,
+                "support_count": 399,
+                "true_positives": 126,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.7712031558185404,
+                "f2": 0.8095238095238094,
+                "false_negatives": 76,
+                "false_positives": 156,
+                "offset_mismatches": 32,
+                "precision": 0.7148080438756855,
+                "prediction_count": 579,
+                "recall": 0.8372591006423983,
+                "support_count": 499,
+                "true_positives": 391,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.7487179487179486,
+                "f2": 0.6506238859180037,
+                "false_negatives": 49,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 73,
+                "recall": 0.5983606557377049,
+                "support_count": 122,
+                "true_positives": 73,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 1,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 1,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.7338308457711443,
+            "recall": 0.635091496232508,
+            "span_iou": {
+              "f1": 0.6445291235710398,
+              "f2": 0.6192468619246861,
+              "false_negatives": 389,
+              "false_positives": 264,
+              "iou_threshold": 0.9,
+              "precision": 0.6915887850467289,
+              "recall": 0.6034658511722731,
+              "total_predicted_spans": 895,
+              "total_supported_expected_spans": 1020,
+              "true_positives": 592,
+              "wrong_entity_type": 39
+            },
+            "total_predicted_spans": 895,
+            "total_samples": 648,
+            "total_supported_expected_spans": 1020,
+            "true_positives": 590,
+            "unsupported_expected_spans": 964,
+            "wrong_entity_type": 48
+          },
+          "obscura_analysis_mean_ms": 0.0,
+          "output_fingerprint_sha256": "00f3b686f8cb242aa785630f22e406ded9496f6b29476c9cea0d132bac700a7f",
+          "p95_ms_by_repetition": [
+            6.825667049270123,
+            6.670541944913566
+          ],
+          "python_processing_mean_ms": 3.780517929740592,
+          "strict_exact": {
+            "f1": 0.6161879895561359,
+            "f2": 0.592964824120603,
+            "false_negatives": 430,
+            "false_positives": 305,
+            "precision": 0.659217877094972,
+            "recall": 0.5784313725490197,
+            "true_positives": 590
+          }
+        }
+      },
+      "controls_match_authoritative_counts": {
+        "fast_reference": true,
+        "presidio": true
+      },
+      "dataset": "generated_large",
+      "full_vs_ner_only_changed_documents": 0,
+      "repetition_checks": {
+        "fast": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "fast_reference": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "hybrid_spacy_full": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "hybrid_spacy_ner_only": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "presidio": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        }
+      },
+      "samples": 648,
+      "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+      "structured_prediction_mismatching_documents": {
+        "hybrid_spacy_full": 0,
+        "hybrid_spacy_ner_only": 0
+      }
+    },
+    {
+      "authoritative": {
+        "accurate": {
+          "id": "accurate:synth_dataset_v2:all",
+          "metrics": {
+            "f1": 0.8422774869109947,
+            "f2": 0.8519793459552495,
+            "false_negatives": 212,
+            "false_positives": 270,
+            "latency": {
+              "max_ms": 97.406,
+              "mean_ms": 39.734174666666675,
+              "p50_ms": 43.642,
+              "p95_ms": 49.042
+            },
+            "offset_mismatches": 76,
+            "output_fingerprint_sha256": "74bee4b1743fa266c3996d9b5e91d95989a1f512529219ebca918b3e9b3d70f3",
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.9509433962264151,
+                "f2": 0.9361069836552749,
+                "false_negatives": 10,
+                "false_positives": 3,
+                "offset_mismatches": 0,
+                "precision": 0.9767441860465116,
+                "prediction_count": 129,
+                "recall": 0.9264705882352942,
+                "support_count": 136,
+                "true_positives": 126,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 49,
+                "recall": 1.0,
+                "support_count": 49,
+                "true_positives": 49,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 14,
+                "recall": 1.0,
+                "support_count": 14,
+                "true_positives": 14,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.6444708680142687,
+                "f2": 0.6737941322725012,
+                "false_negatives": 119,
+                "false_positives": 180,
+                "offset_mismatches": 21,
+                "precision": 0.6008869179600886,
+                "prediction_count": 472,
+                "recall": 0.6948717948717948,
+                "support_count": 411,
+                "true_positives": 271,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.9512195121951219,
+                "f2": 0.958230958230958,
+                "false_negatives": 30,
+                "false_positives": 50,
+                "offset_mismatches": 47,
+                "precision": 0.9397590361445783,
+                "prediction_count": 877,
+                "recall": 0.9629629629629629,
+                "support_count": 857,
+                "true_positives": 780,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.5391304347826087,
+                "f2": 0.4223433242506813,
+                "false_negatives": 53,
+                "false_positives": 0,
+                "offset_mismatches": 8,
+                "precision": 1.0,
+                "prediction_count": 39,
+                "recall": 0.36904761904761907,
+                "support_count": 92,
+                "true_positives": 31,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 37,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 37,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 16,
+                "recall": 1.0,
+                "support_count": 16,
+                "true_positives": 16,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.8265895953757225,
+            "recall": 0.8585723815877252,
+            "span_iou": {
+              "f1": 0.804862842892768,
+              "f2": 0.8136896508256649,
+              "false_negatives": 284,
+              "false_positives": 342,
+              "iou_threshold": 0.9,
+              "precision": 0.7905695039804042,
+              "recall": 0.8196825396825397,
+              "total_predicted_spans": 1633,
+              "total_supported_expected_spans": 1575,
+              "true_positives": 1291,
+              "wrong_entity_type": 0
+            },
+            "true_positives": 1287,
+            "unsupported_expected_spans": 1288,
+            "wrong_entity_type": 0
+          },
+          "report": "eval/authoritative/reports/accurate__synth_dataset_v2__all.json",
+          "sha256": "e5e9d630c18b042fd1bc3908299e0e290228fd85dc7a147252ca1eea1ca140ff",
+          "strict_exact": {
+            "f1": 0.8023690773067331,
+            "precision": 0.7881200244947949,
+            "recall": 0.8171428571428572
+          }
+        },
+        "balanced": {
+          "id": "balanced:synth_dataset_v2:all",
+          "metrics": {
+            "f1": 0.8387734915924827,
+            "f2": 0.8442851453604141,
+            "false_negatives": 228,
+            "false_positives": 261,
+            "latency": {
+              "max_ms": 68.293,
+              "mean_ms": 22.34433133333335,
+              "p50_ms": 21.968,
+              "p95_ms": 24.718
+            },
+            "offset_mismatches": 75,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.9509433962264151,
+                "f2": 0.9361069836552749,
+                "false_negatives": 10,
+                "false_positives": 3,
+                "offset_mismatches": 0,
+                "precision": 0.9767441860465116,
+                "prediction_count": 129,
+                "recall": 0.9264705882352942,
+                "support_count": 136,
+                "true_positives": 126,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 49,
+                "recall": 1.0,
+                "support_count": 49,
+                "true_positives": 49,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 14,
+                "recall": 1.0,
+                "support_count": 14,
+                "true_positives": 14,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.6266829865361078,
+                "f2": 0.6432160804020101,
+                "false_negatives": 135,
+                "false_positives": 170,
+                "offset_mismatches": 20,
+                "precision": 0.6009389671361502,
+                "prediction_count": 446,
+                "recall": 0.6547314578005116,
+                "support_count": 411,
+                "true_positives": 256,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.9506398537477148,
+                "f2": 0.9579955784819455,
+                "false_negatives": 30,
+                "false_positives": 51,
+                "offset_mismatches": 47,
+                "precision": 0.9386281588447654,
+                "prediction_count": 878,
+                "recall": 0.9629629629629629,
+                "support_count": 857,
+                "true_positives": 780,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.5391304347826087,
+                "f2": 0.4223433242506813,
+                "false_negatives": 53,
+                "false_positives": 0,
+                "offset_mismatches": 8,
+                "precision": 1.0,
+                "prediction_count": 39,
+                "recall": 0.36904761904761907,
+                "support_count": 92,
+                "true_positives": 31,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 37,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 37,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 16,
+                "recall": 1.0,
+                "support_count": 16,
+                "true_positives": 16,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.8297455968688845,
+            "recall": 0.848,
+            "span_iou": {
+              "f1": 0.8017593465284323,
+              "f2": 0.8067779463834092,
+              "false_negatives": 299,
+              "false_positives": 332,
+              "iou_threshold": 0.9,
+              "precision": 0.7935323383084577,
+              "recall": 0.8101587301587302,
+              "total_predicted_spans": 1608,
+              "total_supported_expected_spans": 1575,
+              "true_positives": 1276,
+              "wrong_entity_type": 0
+            },
+            "true_positives": 1272,
+            "unsupported_expected_spans": 1288,
+            "wrong_entity_type": 0
+          },
+          "report": "eval/authoritative/reports/balanced__synth_dataset_v2__all.json",
+          "sha256": "af74fbf1020d27c2f47536980a5fdc278c5a5cf0cc9843c0ec5f50e5f6658edf",
+          "strict_exact": {
+            "f1": 0.7992459943449576,
+            "precision": 0.7910447761194029,
+            "recall": 0.8076190476190476
+          }
+        },
+        "fast": {
+          "id": "fast:synth_dataset_v2:all",
+          "metrics": {
+            "f1": 0.6381888082016232,
+            "f2": 0.5360987512559208,
+            "false_negatives": 795,
+            "false_positives": 52,
+            "latency": {
+              "max_ms": 15.11,
+              "mean_ms": 0.12081733333333322,
+              "p50_ms": 0.069,
+              "p95_ms": 0.396
+            },
+            "offset_mismatches": 33,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.9509433962264151,
+                "f2": 0.9361069836552749,
+                "false_negatives": 10,
+                "false_positives": 3,
+                "offset_mismatches": 0,
+                "precision": 0.9767441860465116,
+                "prediction_count": 129,
+                "recall": 0.9264705882352942,
+                "support_count": 136,
+                "true_positives": 126,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 49,
+                "recall": 1.0,
+                "support_count": 49,
+                "true_positives": 49,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 14,
+                "recall": 1.0,
+                "support_count": 14,
+                "true_positives": 14,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.5551601423487544,
+                "f2": 0.4411764705882353,
+                "false_negatives": 246,
+                "false_positives": 4,
+                "offset_mismatches": 9,
+                "precision": 0.975,
+                "prediction_count": 169,
+                "recall": 0.3880597014925373,
+                "support_count": 411,
+                "true_positives": 156,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.5861781848459617,
+                "f2": 0.47261009667024706,
+                "false_negatives": 489,
+                "false_positives": 8,
+                "offset_mismatches": 16,
+                "precision": 0.9777777777777777,
+                "prediction_count": 376,
+                "recall": 0.41854934601664684,
+                "support_count": 857,
+                "true_positives": 352,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.576271186440678,
+                "f2": 0.45945945945945943,
+                "false_negatives": 50,
+                "false_positives": 0,
+                "offset_mismatches": 8,
+                "precision": 1.0,
+                "prediction_count": 42,
+                "recall": 0.40476190476190477,
+                "support_count": 92,
+                "true_positives": 34,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 37,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 37,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 16,
+                "recall": 1.0,
+                "support_count": 16,
+                "true_positives": 16,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.934918648310388,
+            "recall": 0.48443579766536965,
+            "span_iou": {
+              "f1": 0.6206896551724138,
+              "f2": 0.5236960179472799,
+              "false_negatives": 828,
+              "false_positives": 85,
+              "iou_threshold": 0.9,
+              "precision": 0.8978365384615384,
+              "recall": 0.4742857142857143,
+              "total_predicted_spans": 832,
+              "total_supported_expected_spans": 1575,
+              "true_positives": 747,
+              "wrong_entity_type": 0
+            },
+            "true_positives": 747,
+            "unsupported_expected_spans": 1288,
+            "wrong_entity_type": 0
+          },
+          "report": "eval/authoritative/reports/fast__synth_dataset_v2__all.json",
+          "sha256": "1d02ec66f5b4c97bbe9ef77a82dbcfa65d70e448cb9e9cb4c547fd15793df59c",
+          "strict_exact": {
+            "f1": 0.6206896551724138,
+            "precision": 0.8978365384615384,
+            "recall": 0.4742857142857143
+          }
+        },
+        "presidio": {
+          "id": "external:presidio_spacy_en_core_web_lg:presidio_obscura_common_v1:synth_dataset_v2:all",
+          "metrics": {
+            "f1": 0.7210561949898443,
+            "f2": 0.7347868083344832,
+            "false_negatives": 366,
+            "false_positives": 458,
+            "latency": {
+              "max_ms": 219.75516603561118,
+              "mean_ms": 3.7587818480096757,
+              "median_ms": 3.1655830098316073,
+              "p50_ms": 3.1655830098316073,
+              "p95_ms": 7.08199996734038,
+              "throughput_samples_per_second": 266.0436387202181
+            },
+            "offset_mismatches": 73,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.8713692946058093,
+                "f2": 0.8089368258859784,
+                "false_negatives": 31,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 105,
+                "recall": 0.7720588235294118,
+                "support_count": 136,
+                "true_positives": 105,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 49,
+                "recall": 1.0,
+                "support_count": 49,
+                "true_positives": 49,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 14,
+                "recall": 1.0,
+                "support_count": 14,
+                "true_positives": 14,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.4553686934023286,
+                "f2": 0.4529078744209984,
+                "false_negatives": 214,
+                "false_positives": 207,
+                "offset_mismatches": 21,
+                "precision": 0.4595300261096606,
+                "prediction_count": 404,
+                "recall": 0.4512820512820513,
+                "support_count": 411,
+                "true_positives": 176,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.7794994040524433,
+                "f2": 0.7971721111652853,
+                "false_negatives": 154,
+                "false_positives": 216,
+                "offset_mismatches": 49,
+                "precision": 0.7517241379310344,
+                "prediction_count": 919,
+                "recall": 0.8094059405940595,
+                "support_count": 857,
+                "true_positives": 654,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.6375,
+                "f2": 0.5971896955503513,
+                "false_negatives": 38,
+                "false_positives": 20,
+                "offset_mismatches": 3,
+                "precision": 0.7183098591549296,
+                "prediction_count": 74,
+                "recall": 0.5730337078651685,
+                "support_count": 92,
+                "true_positives": 51,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 86,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 86,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 16,
+                "recall": 1.0,
+                "support_count": 16,
+                "true_positives": 16,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.6992777413000657,
+            "recall": 0.7442348008385744,
+            "span_iou": {
+              "f1": 0.6874197689345315,
+              "f2": 0.6998170412963931,
+              "false_negatives": 441,
+              "false_positives": 533,
+              "iou_threshold": 0.9,
+              "precision": 0.6677057356608479,
+              "recall": 0.7083333333333334,
+              "total_predicted_spans": 1667,
+              "total_supported_expected_spans": 1575,
+              "true_positives": 1071,
+              "wrong_entity_type": 63
+            },
+            "true_positives": 1065,
+            "unsupported_expected_spans": 1288,
+            "wrong_entity_type": 71
+          },
+          "report": "eval/authoritative/reports/external__presidio_spacy_en_core_web_lg__presidio_obscura_common_v1__synth_dataset_v2__all.json",
+          "sha256": "1fc34c728e1126e357b560bbef428328663223dc412541bc8ed878062dbc4e6f",
+          "strict_exact": {
+            "f1": 0.6570018507094386,
+            "precision": 0.638872225554889,
+            "recall": 0.6761904761904762
+          }
+        }
+      },
+      "candidates": {
+        "fast": {
+          "mean_ms": 0.09528866666666677,
+          "mean_ms_by_repetition": [
+            0.07693533333333345,
+            0.11364200000000009
+          ],
+          "metrics": {
+            "f1": 0.6381888082016232,
+            "f2": 0.5360987512559208,
+            "false_negatives": 795,
+            "false_positives": 52,
+            "latency": {
+              "max_ms": 1.719,
+              "mean_ms": 0.07693533333333345,
+              "p50_ms": 0.064,
+              "p95_ms": 0.134
+            },
+            "offset_mismatches": 33,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.9509433962264151,
+                "f2": 0.9361069836552749,
+                "false_negatives": 10,
+                "false_positives": 3,
+                "offset_mismatches": 0,
+                "precision": 0.9767441860465116,
+                "prediction_count": 129,
+                "recall": 0.9264705882352942,
+                "support_count": 136,
+                "true_positives": 126,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 49,
+                "recall": 1.0,
+                "support_count": 49,
+                "true_positives": 49,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 14,
+                "recall": 1.0,
+                "support_count": 14,
+                "true_positives": 14,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.5551601423487544,
+                "f2": 0.4411764705882353,
+                "false_negatives": 246,
+                "false_positives": 4,
+                "offset_mismatches": 9,
+                "precision": 0.975,
+                "prediction_count": 169,
+                "recall": 0.3880597014925373,
+                "support_count": 411,
+                "true_positives": 156,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.5861781848459617,
+                "f2": 0.47261009667024706,
+                "false_negatives": 489,
+                "false_positives": 8,
+                "offset_mismatches": 16,
+                "precision": 0.9777777777777777,
+                "prediction_count": 376,
+                "recall": 0.41854934601664684,
+                "support_count": 857,
+                "true_positives": 352,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.576271186440678,
+                "f2": 0.45945945945945943,
+                "false_negatives": 50,
+                "false_positives": 0,
+                "offset_mismatches": 8,
+                "precision": 1.0,
+                "prediction_count": 42,
+                "recall": 0.40476190476190477,
+                "support_count": 92,
+                "true_positives": 34,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 37,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 37,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 16,
+                "recall": 1.0,
+                "support_count": 16,
+                "true_positives": 16,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.934918648310388,
+            "recall": 0.48443579766536965,
+            "span_iou": {
+              "f1": 0.6206896551724138,
+              "f2": 0.5236960179472799,
+              "false_negatives": 828,
+              "false_positives": 85,
+              "iou_threshold": 0.9,
+              "precision": 0.8978365384615384,
+              "recall": 0.4742857142857143,
+              "total_predicted_spans": 832,
+              "total_supported_expected_spans": 1575,
+              "true_positives": 747,
+              "wrong_entity_type": 0
+            },
+            "total_predicted_spans": 832,
+            "total_samples": 1500,
+            "total_supported_expected_spans": 1575,
+            "true_positives": 747,
+            "unsupported_expected_spans": 1288,
+            "wrong_entity_type": 0
+          },
+          "obscura_analysis_mean_ms": 0.09528866666666677,
+          "output_fingerprint_sha256": "0f62a55efb15d15525fb9aeab2e3b0c409632fdc3a632e301dbcf5dcd36cd177",
+          "p95_ms_by_repetition": [
+            0.134,
+            0.327
+          ],
+          "python_processing_mean_ms": 0.0,
+          "strict_exact": {
+            "f1": 0.6206896551724138,
+            "f2": 0.5236960179472799,
+            "false_negatives": 828,
+            "false_positives": 85,
+            "precision": 0.8978365384615384,
+            "recall": 0.4742857142857143,
+            "true_positives": 747
+          }
+        },
+        "fast_reference": {
+          "mean_ms": 0.11173700000000013,
+          "mean_ms_by_repetition": [
+            0.11059933333333351,
+            0.11287466666666675
+          ],
+          "metrics": {
+            "f1": 0.6381888082016232,
+            "f2": 0.5360987512559208,
+            "false_negatives": 795,
+            "false_positives": 52,
+            "latency": {
+              "max_ms": 0.43,
+              "mean_ms": 0.11059933333333351,
+              "p50_ms": 0.065,
+              "p95_ms": 0.321
+            },
+            "offset_mismatches": 33,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.9509433962264151,
+                "f2": 0.9361069836552749,
+                "false_negatives": 10,
+                "false_positives": 3,
+                "offset_mismatches": 0,
+                "precision": 0.9767441860465116,
+                "prediction_count": 129,
+                "recall": 0.9264705882352942,
+                "support_count": 136,
+                "true_positives": 126,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 49,
+                "recall": 1.0,
+                "support_count": 49,
+                "true_positives": 49,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 14,
+                "recall": 1.0,
+                "support_count": 14,
+                "true_positives": 14,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.5551601423487544,
+                "f2": 0.4411764705882353,
+                "false_negatives": 246,
+                "false_positives": 4,
+                "offset_mismatches": 9,
+                "precision": 0.975,
+                "prediction_count": 169,
+                "recall": 0.3880597014925373,
+                "support_count": 411,
+                "true_positives": 156,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.5861781848459617,
+                "f2": 0.47261009667024706,
+                "false_negatives": 489,
+                "false_positives": 8,
+                "offset_mismatches": 16,
+                "precision": 0.9777777777777777,
+                "prediction_count": 376,
+                "recall": 0.41854934601664684,
+                "support_count": 857,
+                "true_positives": 352,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.576271186440678,
+                "f2": 0.45945945945945943,
+                "false_negatives": 50,
+                "false_positives": 0,
+                "offset_mismatches": 8,
+                "precision": 1.0,
+                "prediction_count": 42,
+                "recall": 0.40476190476190477,
+                "support_count": 92,
+                "true_positives": 34,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 37,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 37,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 16,
+                "recall": 1.0,
+                "support_count": 16,
+                "true_positives": 16,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.934918648310388,
+            "recall": 0.48443579766536965,
+            "span_iou": {
+              "f1": 0.6206896551724138,
+              "f2": 0.5236960179472799,
+              "false_negatives": 828,
+              "false_positives": 85,
+              "iou_threshold": 0.9,
+              "precision": 0.8978365384615384,
+              "recall": 0.4742857142857143,
+              "total_predicted_spans": 832,
+              "total_supported_expected_spans": 1575,
+              "true_positives": 747,
+              "wrong_entity_type": 0
+            },
+            "total_predicted_spans": 832,
+            "total_samples": 1500,
+            "total_supported_expected_spans": 1575,
+            "true_positives": 747,
+            "unsupported_expected_spans": 1288,
+            "wrong_entity_type": 0
+          },
+          "obscura_analysis_mean_ms": 0.11173700000000013,
+          "output_fingerprint_sha256": "0f62a55efb15d15525fb9aeab2e3b0c409632fdc3a632e301dbcf5dcd36cd177",
+          "p95_ms_by_repetition": [
+            0.321,
+            0.327
+          ],
+          "python_processing_mean_ms": 0.0,
+          "strict_exact": {
+            "f1": 0.6206896551724138,
+            "f2": 0.5236960179472799,
+            "false_negatives": 828,
+            "false_positives": 85,
+            "precision": 0.8978365384615384,
+            "recall": 0.4742857142857143,
+            "true_positives": 747
+          }
+        },
+        "hybrid_spacy_full": {
+          "mean_ms": 3.821133285037913,
+          "mean_ms_by_repetition": [
+            3.7718619296318576,
+            3.8704046404439687
+          ],
+          "metrics": {
+            "f1": 0.7909822866344605,
+            "f2": 0.8239398819108964,
+            "false_negatives": 221,
+            "false_positives": 428,
+            "latency": {
+              "max_ms": 14.165500010039658,
+              "mean_ms": 3.7718619296318576,
+              "p50_ms": 3.297999987691641,
+              "p95_ms": 7.209792031638324
+            },
+            "offset_mismatches": 87,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.9509433962264151,
+                "f2": 0.9361069836552749,
+                "false_negatives": 10,
+                "false_positives": 3,
+                "offset_mismatches": 0,
+                "precision": 0.9767441860465116,
+                "prediction_count": 129,
+                "recall": 0.9264705882352942,
+                "support_count": 136,
+                "true_positives": 126,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 49,
+                "recall": 1.0,
+                "support_count": 49,
+                "true_positives": 49,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 14,
+                "recall": 1.0,
+                "support_count": 14,
+                "true_positives": 14,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.6393629124004551,
+                "f2": 0.6877141458639257,
+                "false_negatives": 107,
+                "false_positives": 210,
+                "offset_mismatches": 23,
+                "precision": 0.5723014256619144,
+                "prediction_count": 514,
+                "recall": 0.7242268041237113,
+                "support_count": 411,
+                "true_positives": 281,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.8203939745075318,
+                "f2": 0.8573504480503755,
+                "false_negatives": 93,
+                "false_positives": 217,
+                "offset_mismatches": 56,
+                "precision": 0.7654054054054054,
+                "prediction_count": 981,
+                "recall": 0.8838951310861424,
+                "support_count": 857,
+                "true_positives": 708,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.576271186440678,
+                "f2": 0.45945945945945943,
+                "false_negatives": 50,
+                "false_positives": 0,
+                "offset_mismatches": 8,
+                "precision": 1.0,
+                "prediction_count": 42,
+                "recall": 0.40476190476190477,
+                "support_count": 92,
+                "true_positives": 34,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 37,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 37,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 16,
+                "recall": 1.0,
+                "support_count": 16,
+                "true_positives": 16,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.7415458937198067,
+            "recall": 0.8474810213940649,
+            "span_iou": {
+              "f1": 0.7491638795986622,
+              "f2": 0.7785642062689586,
+              "false_negatives": 309,
+              "false_positives": 516,
+              "iou_threshold": 0.9,
+              "precision": 0.7048054919908466,
+              "recall": 0.799480856586632,
+              "total_predicted_spans": 1782,
+              "total_supported_expected_spans": 1575,
+              "true_positives": 1232,
+              "wrong_entity_type": 34
+            },
+            "total_predicted_spans": 1782,
+            "total_samples": 1500,
+            "total_supported_expected_spans": 1575,
+            "true_positives": 1228,
+            "unsupported_expected_spans": 1288,
+            "wrong_entity_type": 39
+          },
+          "obscura_analysis_mean_ms": 0.1174353333333333,
+          "output_fingerprint_sha256": "d1bfe0e1e0bab2c8d0b929fe370f0e24a3c0f8a4987a52501e5cf0bd86dddcfe",
+          "p95_ms_by_repetition": [
+            7.209792031638324,
+            7.342333028201014
+          ],
+          "python_processing_mean_ms": 3.703697951704574,
+          "strict_exact": {
+            "f1": 0.7316056002383081,
+            "f2": 0.7597129423410046,
+            "false_negatives": 347,
+            "false_positives": 554,
+            "precision": 0.6891133557800224,
+            "recall": 0.7796825396825396,
+            "true_positives": 1228
+          }
+        },
+        "hybrid_spacy_ner_only": {
+          "mean_ms": 1.7596292255014296,
+          "mean_ms_by_repetition": [
+            1.7635597506198186,
+            1.7556987003830407
+          ],
+          "metrics": {
+            "f1": 0.7907425265188043,
+            "f2": 0.82461786001609,
+            "false_negatives": 219,
+            "false_positives": 432,
+            "latency": {
+              "max_ms": 5.806500036567449,
+              "mean_ms": 1.7635597506198186,
+              "p50_ms": 1.5586250012144447,
+              "p95_ms": 3.3197079881168903
+            },
+            "offset_mismatches": 87,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.9509433962264151,
+                "f2": 0.9361069836552749,
+                "false_negatives": 10,
+                "false_positives": 3,
+                "offset_mismatches": 0,
+                "precision": 0.9767441860465116,
+                "prediction_count": 129,
+                "recall": 0.9264705882352942,
+                "support_count": 136,
+                "true_positives": 126,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 49,
+                "recall": 1.0,
+                "support_count": 49,
+                "true_positives": 49,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 14,
+                "recall": 1.0,
+                "support_count": 14,
+                "true_positives": 14,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.6386363636363637,
+                "f2": 0.6873776908023483,
+                "false_negatives": 107,
+                "false_positives": 211,
+                "offset_mismatches": 23,
+                "precision": 0.5711382113821138,
+                "prediction_count": 515,
+                "recall": 0.7242268041237113,
+                "support_count": 411,
+                "true_positives": 281,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.8203350664355863,
+                "f2": 0.8587324625060474,
+                "false_negatives": 91,
+                "false_positives": 220,
+                "offset_mismatches": 56,
+                "precision": 0.7634408602150538,
+                "prediction_count": 986,
+                "recall": 0.8863920099875156,
+                "support_count": 857,
+                "true_positives": 710,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.576271186440678,
+                "f2": 0.45945945945945943,
+                "false_negatives": 50,
+                "false_positives": 0,
+                "offset_mismatches": 8,
+                "precision": 1.0,
+                "prediction_count": 42,
+                "recall": 0.40476190476190477,
+                "support_count": 92,
+                "true_positives": 34,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 37,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 37,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 16,
+                "recall": 1.0,
+                "support_count": 16,
+                "true_positives": 16,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.740072202166065,
+            "recall": 0.8488612836438924,
+            "span_iou": {
+              "f1": 0.7490136570561455,
+              "f2": 0.77923718110634,
+              "false_negatives": 307,
+              "false_positives": 520,
+              "iou_threshold": 0.9,
+              "precision": 0.7035347776510832,
+              "recall": 0.8007787151200519,
+              "total_predicted_spans": 1788,
+              "total_supported_expected_spans": 1575,
+              "true_positives": 1234,
+              "wrong_entity_type": 34
+            },
+            "total_predicted_spans": 1788,
+            "total_samples": 1500,
+            "total_supported_expected_spans": 1575,
+            "true_positives": 1230,
+            "unsupported_expected_spans": 1288,
+            "wrong_entity_type": 39
+          },
+          "obscura_analysis_mean_ms": 0.11817266666666654,
+          "output_fingerprint_sha256": "f980f6161ed4c89ac82d597903686729090475a501035137a2c41cdee65ce8aa",
+          "p95_ms_by_repetition": [
+            3.3197079881168903,
+            3.3296660352684557
+          ],
+          "python_processing_mean_ms": 1.6414565588347614,
+          "strict_exact": {
+            "f1": 0.7314897413024085,
+            "f2": 0.760385756676558,
+            "false_negatives": 345,
+            "false_positives": 558,
+            "precision": 0.6879194630872483,
+            "recall": 0.780952380952381,
+            "true_positives": 1230
+          }
+        },
+        "presidio": {
+          "mean_ms": 3.9623066618417697,
+          "mean_ms_by_repetition": [
+            3.9710372149711475,
+            3.9535761087123924
+          ],
+          "metrics": {
+            "f1": 0.7210561949898443,
+            "f2": 0.7347868083344832,
+            "false_negatives": 366,
+            "false_positives": 458,
+            "latency": {
+              "max_ms": 29.83841602690518,
+              "mean_ms": 3.9710372149711475,
+              "p50_ms": 3.492916002869606,
+              "p95_ms": 7.723958988208324
+            },
+            "offset_mismatches": 73,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.8713692946058093,
+                "f2": 0.8089368258859784,
+                "false_negatives": 31,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 105,
+                "recall": 0.7720588235294118,
+                "support_count": 136,
+                "true_positives": 105,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 49,
+                "recall": 1.0,
+                "support_count": 49,
+                "true_positives": 49,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 14,
+                "recall": 1.0,
+                "support_count": 14,
+                "true_positives": 14,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.4553686934023286,
+                "f2": 0.4529078744209984,
+                "false_negatives": 214,
+                "false_positives": 207,
+                "offset_mismatches": 21,
+                "precision": 0.4595300261096606,
+                "prediction_count": 404,
+                "recall": 0.4512820512820513,
+                "support_count": 411,
+                "true_positives": 176,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.7794994040524433,
+                "f2": 0.7971721111652853,
+                "false_negatives": 154,
+                "false_positives": 216,
+                "offset_mismatches": 49,
+                "precision": 0.7517241379310344,
+                "prediction_count": 919,
+                "recall": 0.8094059405940595,
+                "support_count": 857,
+                "true_positives": 654,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.6375,
+                "f2": 0.5971896955503513,
+                "false_negatives": 38,
+                "false_positives": 20,
+                "offset_mismatches": 3,
+                "precision": 0.7183098591549296,
+                "prediction_count": 74,
+                "recall": 0.5730337078651685,
+                "support_count": 92,
+                "true_positives": 51,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": null,
+                "f2": null,
+                "false_negatives": 0,
+                "false_positives": 86,
+                "offset_mismatches": 0,
+                "precision": 0.0,
+                "prediction_count": 86,
+                "recall": null,
+                "support_count": 0,
+                "true_positives": 0,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 1.0,
+                "f2": 1.0,
+                "false_negatives": 0,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 16,
+                "recall": 1.0,
+                "support_count": 16,
+                "true_positives": 16,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.6992777413000657,
+            "recall": 0.7442348008385744,
+            "span_iou": {
+              "f1": 0.6874197689345315,
+              "f2": 0.6998170412963931,
+              "false_negatives": 441,
+              "false_positives": 533,
+              "iou_threshold": 0.9,
+              "precision": 0.6677057356608479,
+              "recall": 0.7083333333333334,
+              "total_predicted_spans": 1667,
+              "total_supported_expected_spans": 1575,
+              "true_positives": 1071,
+              "wrong_entity_type": 63
+            },
+            "total_predicted_spans": 1667,
+            "total_samples": 1500,
+            "total_supported_expected_spans": 1575,
+            "true_positives": 1065,
+            "unsupported_expected_spans": 1288,
+            "wrong_entity_type": 71
+          },
+          "obscura_analysis_mean_ms": 0.0,
+          "output_fingerprint_sha256": "5b8e2a0379c9f6e3eb7a7cca4b70799650311dd09951901a38ff8fcfbce8cbf3",
+          "p95_ms_by_repetition": [
+            7.723958988208324,
+            7.591708039399236
+          ],
+          "python_processing_mean_ms": 3.9623066618417697,
+          "strict_exact": {
+            "f1": 0.6570018507094387,
+            "f2": 0.6683820760637631,
+            "false_negatives": 510,
+            "false_positives": 602,
+            "precision": 0.638872225554889,
+            "recall": 0.6761904761904762,
+            "true_positives": 1065
+          }
+        }
+      },
+      "controls_match_authoritative_counts": {
+        "fast_reference": true,
+        "presidio": true
+      },
+      "dataset": "synth_dataset_v2",
+      "full_vs_ner_only_changed_documents": 7,
+      "repetition_checks": {
+        "fast": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "fast_reference": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "hybrid_spacy_full": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "hybrid_spacy_ner_only": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "presidio": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        }
+      },
+      "samples": 1500,
+      "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc",
+      "structured_prediction_mismatching_documents": {
+        "hybrid_spacy_full": 0,
+        "hybrid_spacy_ner_only": 0
+      }
+    },
+    {
+      "authoritative": {
+        "accurate": {
+          "id": "accurate:nemotron_pii_test_subset:all",
+          "metrics": {
+            "f1": 0.6973084886128365,
+            "f2": 0.6225968648328897,
+            "false_negatives": 607,
+            "false_positives": 124,
+            "latency": {
+              "max_ms": 114.488,
+              "mean_ms": 66.06046599999999,
+              "p50_ms": 76.38,
+              "p95_ms": 86.334
+            },
+            "offset_mismatches": 258,
+            "output_fingerprint_sha256": "4e8b5debe60730af3a9811b3f85bd97b2cf8e57a437b20996a792271784af98e",
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.15254237288135594,
+                "f2": 0.10250569476082003,
+                "false_negatives": 98,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.8181818181818182,
+                "prediction_count": 11,
+                "recall": 0.08411214953271028,
+                "support_count": 107,
+                "true_positives": 9,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 0.9942196531791908,
+                "f2": 0.9907834101382488,
+                "false_negatives": 2,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 172,
+                "recall": 0.9885057471264368,
+                "support_count": 174,
+                "true_positives": 172,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 0.6944444444444445,
+                "f2": 0.7861635220125786,
+                "false_negatives": 4,
+                "false_positives": 18,
+                "offset_mismatches": 0,
+                "precision": 0.5813953488372093,
+                "prediction_count": 43,
+                "recall": 0.8620689655172413,
+                "support_count": 29,
+                "true_positives": 25,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.6881028938906752,
+                "f2": 0.584380120152922,
+                "false_negatives": 189,
+                "false_positives": 5,
+                "offset_mismatches": 1,
+                "precision": 0.9771689497716894,
+                "prediction_count": 220,
+                "recall": 0.5310173697270472,
+                "support_count": 404,
+                "true_positives": 214,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.5538461538461539,
+                "f2": 0.45496323529411764,
+                "false_negatives": 289,
+                "false_positives": 30,
+                "offset_mismatches": 172,
+                "precision": 0.868421052631579,
+                "prediction_count": 400,
+                "recall": 0.406570841889117,
+                "support_count": 659,
+                "true_positives": 198,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.7514450867052023,
+                "f2": 0.8795669824086604,
+                "false_negatives": 1,
+                "false_positives": 85,
+                "offset_mismatches": 0,
+                "precision": 0.6046511627906976,
+                "prediction_count": 215,
+                "recall": 0.9923664122137404,
+                "support_count": 131,
+                "true_positives": 130,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": 0.6440677966101694,
+                "f2": 0.5307262569832403,
+                "false_negatives": 42,
+                "false_positives": 0,
+                "offset_mismatches": 85,
+                "precision": 1.0,
+                "prediction_count": 123,
+                "recall": 0.475,
+                "support_count": 165,
+                "true_positives": 38,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 0.9824561403508771,
+                "f2": 0.9929078014184396,
+                "false_negatives": 0,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.9655172413793104,
+                "prediction_count": 58,
+                "recall": 1.0,
+                "support_count": 56,
+                "true_positives": 56,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.8716356107660456,
+            "recall": 0.5810904071773637,
+            "span_iou": {
+              "f1": 0.6120660599932591,
+              "f2": 0.557602554654876,
+              "false_negatives": 817,
+              "false_positives": 334,
+              "iou_threshold": 0.9,
+              "precision": 0.7310789049919485,
+              "recall": 0.5263768115942029,
+              "total_predicted_spans": 1242,
+              "total_supported_expected_spans": 1725,
+              "true_positives": 908,
+              "wrong_entity_type": 0
+            },
+            "true_positives": 842,
+            "unsupported_expected_spans": 2361,
+            "wrong_entity_type": 18
+          },
+          "report": "eval/authoritative/reports/accurate__nemotron_pii_test_subset__all.json",
+          "sha256": "39a92d978a441a3935851f3c7bd1775694ef9fd6b2bdc9a3fb22dcdb01928e92",
+          "strict_exact": {
+            "f1": 0.5675766767778901,
+            "precision": 0.677938808373591,
+            "recall": 0.4881159420289855
+          }
+        },
+        "balanced": {
+          "id": "balanced:nemotron_pii_test_subset:all",
+          "metrics": {
+            "f1": 0.6953999171156237,
+            "f2": 0.6205621301775146,
+            "false_negatives": 610,
+            "false_positives": 125,
+            "latency": {
+              "max_ms": 75.623,
+              "mean_ms": 24.321589999999986,
+              "p50_ms": 23.991,
+              "p95_ms": 26.761
+            },
+            "offset_mismatches": 258,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.15254237288135594,
+                "f2": 0.10250569476082003,
+                "false_negatives": 98,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.8181818181818182,
+                "prediction_count": 11,
+                "recall": 0.08411214953271028,
+                "support_count": 107,
+                "true_positives": 9,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 0.9942196531791908,
+                "f2": 0.9907834101382488,
+                "false_negatives": 2,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 172,
+                "recall": 0.9885057471264368,
+                "support_count": 174,
+                "true_positives": 172,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 0.6944444444444445,
+                "f2": 0.7861635220125786,
+                "false_negatives": 4,
+                "false_positives": 18,
+                "offset_mismatches": 0,
+                "precision": 0.5813953488372093,
+                "prediction_count": 43,
+                "recall": 0.8620689655172413,
+                "support_count": 29,
+                "true_positives": 25,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.6817447495961227,
+                "f2": 0.5771334792122539,
+                "false_negatives": 192,
+                "false_positives": 5,
+                "offset_mismatches": 1,
+                "precision": 0.9768518518518519,
+                "prediction_count": 217,
+                "recall": 0.5235732009925558,
+                "support_count": 404,
+                "true_positives": 211,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.553072625698324,
+                "f2": 0.45475424896646754,
+                "false_negatives": 289,
+                "false_positives": 31,
+                "offset_mismatches": 172,
+                "precision": 0.8646288209606987,
+                "prediction_count": 401,
+                "recall": 0.406570841889117,
+                "support_count": 659,
+                "true_positives": 198,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.7514450867052023,
+                "f2": 0.8795669824086604,
+                "false_negatives": 1,
+                "false_positives": 85,
+                "offset_mismatches": 0,
+                "precision": 0.6046511627906976,
+                "prediction_count": 215,
+                "recall": 0.9923664122137404,
+                "support_count": 131,
+                "true_positives": 130,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": 0.6440677966101694,
+                "f2": 0.5307262569832403,
+                "false_negatives": 42,
+                "false_positives": 0,
+                "offset_mismatches": 85,
+                "precision": 1.0,
+                "prediction_count": 123,
+                "recall": 0.475,
+                "support_count": 165,
+                "true_positives": 38,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 0.9824561403508771,
+                "f2": 0.9929078014184396,
+                "false_negatives": 0,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.9655172413793104,
+                "prediction_count": 58,
+                "recall": 1.0,
+                "support_count": 56,
+                "true_positives": 56,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.8703319502074689,
+            "recall": 0.5790200138026225,
+            "span_iou": {
+              "f1": 0.6104553119730186,
+              "f2": 0.555896805896806,
+              "false_negatives": 820,
+              "false_positives": 335,
+              "iou_threshold": 0.9,
+              "precision": 0.7298387096774194,
+              "recall": 0.5246376811594203,
+              "total_predicted_spans": 1240,
+              "total_supported_expected_spans": 1725,
+              "true_positives": 905,
+              "wrong_entity_type": 0
+            },
+            "true_positives": 839,
+            "unsupported_expected_spans": 2361,
+            "wrong_entity_type": 18
+          },
+          "report": "eval/authoritative/reports/balanced__nemotron_pii_test_subset__all.json",
+          "sha256": "97e413ac330b9a4dd173e619bbd350684036ad57cd9af6d25560de6467cad6c3",
+          "strict_exact": {
+            "f1": 0.5659359190556492,
+            "precision": 0.6766129032258065,
+            "recall": 0.4863768115942029
+          }
+        },
+        "fast": {
+          "id": "fast:nemotron_pii_test_subset:all",
+          "metrics": {
+            "f1": 0.40744186046511627,
+            "f2": 0.31442928930366115,
+            "false_negatives": 1167,
+            "false_positives": 107,
+            "latency": {
+              "max_ms": 18.736,
+              "mean_ms": 0.31885600000000003,
+              "p50_ms": 0.241,
+              "p95_ms": 0.617
+            },
+            "offset_mismatches": 101,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.15254237288135594,
+                "f2": 0.10250569476082003,
+                "false_negatives": 98,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.8181818181818182,
+                "prediction_count": 11,
+                "recall": 0.08411214953271028,
+                "support_count": 107,
+                "true_positives": 9,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 0.9942196531791908,
+                "f2": 0.9907834101382488,
+                "false_negatives": 2,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 172,
+                "recall": 0.9885057471264368,
+                "support_count": 174,
+                "true_positives": 172,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 0.6944444444444445,
+                "f2": 0.7861635220125786,
+                "false_negatives": 4,
+                "false_positives": 18,
+                "offset_mismatches": 0,
+                "precision": 0.5813953488372093,
+                "prediction_count": 43,
+                "recall": 0.8620689655172413,
+                "support_count": 29,
+                "true_positives": 25,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.0049261083743842365,
+                "f2": 0.003090234857849197,
+                "false_negatives": 403,
+                "false_positives": 1,
+                "offset_mismatches": 0,
+                "precision": 0.5,
+                "prediction_count": 2,
+                "recall": 0.0024752475247524753,
+                "support_count": 404,
+                "true_positives": 1,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.02095808383233533,
+                "f2": 0.013477088948787063,
+                "false_negatives": 636,
+                "false_positives": 18,
+                "offset_mismatches": 16,
+                "precision": 0.28,
+                "prediction_count": 41,
+                "recall": 0.01088646967340591,
+                "support_count": 659,
+                "true_positives": 7,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.7514450867052023,
+                "f2": 0.8795669824086604,
+                "false_negatives": 1,
+                "false_positives": 85,
+                "offset_mismatches": 0,
+                "precision": 0.6046511627906976,
+                "prediction_count": 215,
+                "recall": 0.9923664122137404,
+                "support_count": 131,
+                "true_positives": 130,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": 0.6440677966101694,
+                "f2": 0.5307262569832403,
+                "false_negatives": 42,
+                "false_positives": 0,
+                "offset_mismatches": 85,
+                "precision": 1.0,
+                "prediction_count": 123,
+                "recall": 0.475,
+                "support_count": 165,
+                "true_positives": 38,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 0.9824561403508771,
+                "f2": 0.9929078014184396,
+                "false_negatives": 0,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.9655172413793104,
+                "prediction_count": 58,
+                "recall": 1.0,
+                "support_count": 56,
+                "true_positives": 56,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.8036697247706422,
+            "recall": 0.27289719626168224,
+            "span_iou": {
+              "f1": 0.42175732217573225,
+              "f2": 0.3331130204890946,
+              "false_negatives": 1221,
+              "false_positives": 161,
+              "iou_threshold": 0.9,
+              "precision": 0.7578947368421053,
+              "recall": 0.2921739130434783,
+              "total_predicted_spans": 665,
+              "total_supported_expected_spans": 1725,
+              "true_positives": 504,
+              "wrong_entity_type": 0
+            },
+            "true_positives": 438,
+            "unsupported_expected_spans": 2361,
+            "wrong_entity_type": 19
+          },
+          "report": "eval/authoritative/reports/fast__nemotron_pii_test_subset__all.json",
+          "sha256": "1285ea147ccc3d87c0a13bd4068111f37276c503cce9f95a3c1167d099d14cbc",
+          "strict_exact": {
+            "f1": 0.36652719665271966,
+            "precision": 0.6586466165413534,
+            "recall": 0.2539130434782609
+          }
+        },
+        "presidio": {
+          "id": "external:presidio_spacy_en_core_web_lg:presidio_obscura_common_v1:nemotron_pii_test_subset:all",
+          "metrics": {
+            "f1": 0.6253541076487251,
+            "f2": 0.6436798367108907,
+            "false_negatives": 462,
+            "false_positives": 596,
+            "latency": {
+              "max_ms": 82.69949996611103,
+              "mean_ms": 24.46529250452295,
+              "median_ms": 20.70620801532641,
+              "p50_ms": 20.70620801532641,
+              "p95_ms": 57.90233303559944,
+              "throughput_samples_per_second": 40.87423029236736
+            },
+            "offset_mismatches": 329,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.15254237288135594,
+                "f2": 0.10250569476082003,
+                "false_negatives": 98,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.8181818181818182,
+                "prediction_count": 11,
+                "recall": 0.08411214953271028,
+                "support_count": 107,
+                "true_positives": 9,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 0.9942196531791908,
+                "f2": 0.9907834101382488,
+                "false_negatives": 2,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 172,
+                "recall": 0.9885057471264368,
+                "support_count": 174,
+                "true_positives": 172,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 0.7466666666666666,
+                "f2": 0.8641975308641976,
+                "false_negatives": 1,
+                "false_positives": 18,
+                "offset_mismatches": 0,
+                "precision": 0.6086956521739131,
+                "prediction_count": 46,
+                "recall": 0.9655172413793104,
+                "support_count": 29,
+                "true_positives": 28,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.716535433070866,
+                "f2": 0.6957186544342507,
+                "false_negatives": 127,
+                "false_positives": 89,
+                "offset_mismatches": 4,
+                "precision": 0.7541436464088398,
+                "prediction_count": 366,
+                "recall": 0.6825,
+                "support_count": 404,
+                "true_positives": 273,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.4798807749627422,
+                "f2": 0.4123975409836066,
+                "false_negatives": 266,
+                "false_positives": 83,
+                "offset_mismatches": 232,
+                "precision": 0.6598360655737705,
+                "prediction_count": 476,
+                "recall": 0.3770491803278688,
+                "support_count": 659,
+                "true_positives": 161,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.6265060240963856,
+                "f2": 0.8044554455445544,
+                "false_negatives": 1,
+                "false_positives": 154,
+                "offset_mismatches": 0,
+                "precision": 0.45774647887323944,
+                "prediction_count": 284,
+                "recall": 0.9923664122137404,
+                "support_count": 131,
+                "true_positives": 130,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": 0.3068181818181819,
+                "f2": 0.47535211267605637,
+                "false_negatives": 18,
+                "false_positives": 226,
+                "offset_mismatches": 93,
+                "precision": 0.19285714285714287,
+                "prediction_count": 373,
+                "recall": 0.75,
+                "support_count": 165,
+                "true_positives": 54,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 0.5989304812834224,
+                "f2": 0.7887323943661971,
+                "false_negatives": 0,
+                "false_positives": 75,
+                "offset_mismatches": 0,
+                "precision": 0.42748091603053434,
+                "prediction_count": 131,
+                "recall": 1.0,
+                "support_count": 56,
+                "true_positives": 56,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.597025016903313,
+            "recall": 0.6565055762081784,
+            "span_iou": {
+              "f1": 0.5402038505096263,
+              "f2": 0.5527871132228531,
+              "false_negatives": 745,
+              "false_positives": 879,
+              "iou_threshold": 0.9,
+              "precision": 0.5204582651391162,
+              "recall": 0.5615067686874632,
+              "total_predicted_spans": 1859,
+              "total_supported_expected_spans": 1725,
+              "true_positives": 954,
+              "wrong_entity_type": 26
+            },
+            "true_positives": 883,
+            "unsupported_expected_spans": 2361,
+            "wrong_entity_type": 51
+          },
+          "report": "eval/authoritative/reports/external__presidio_spacy_en_core_web_lg__presidio_obscura_common_v1__nemotron_pii_test_subset__all.json",
+          "sha256": "652c99b3fd433f65caa0156e1096a735e87bd613799409525f1c8eadf5373d31",
+          "strict_exact": {
+            "f1": 0.4927455357142857,
+            "precision": 0.47498655190962885,
+            "recall": 0.5118840579710144
+          }
+        }
+      },
+      "candidates": {
+        "fast": {
+          "mean_ms": 0.322465,
+          "mean_ms_by_repetition": [
+            0.30556400000000006,
+            0.339366
+          ],
+          "metrics": {
+            "f1": 0.40744186046511627,
+            "f2": 0.31442928930366115,
+            "false_negatives": 1167,
+            "false_positives": 107,
+            "latency": {
+              "max_ms": 1.514,
+              "mean_ms": 0.30556400000000006,
+              "p50_ms": 0.221,
+              "p95_ms": 0.842
+            },
+            "offset_mismatches": 101,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.15254237288135594,
+                "f2": 0.10250569476082003,
+                "false_negatives": 98,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.8181818181818182,
+                "prediction_count": 11,
+                "recall": 0.08411214953271028,
+                "support_count": 107,
+                "true_positives": 9,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 0.9942196531791908,
+                "f2": 0.9907834101382488,
+                "false_negatives": 2,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 172,
+                "recall": 0.9885057471264368,
+                "support_count": 174,
+                "true_positives": 172,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 0.6944444444444445,
+                "f2": 0.7861635220125786,
+                "false_negatives": 4,
+                "false_positives": 18,
+                "offset_mismatches": 0,
+                "precision": 0.5813953488372093,
+                "prediction_count": 43,
+                "recall": 0.8620689655172413,
+                "support_count": 29,
+                "true_positives": 25,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.0049261083743842365,
+                "f2": 0.003090234857849197,
+                "false_negatives": 403,
+                "false_positives": 1,
+                "offset_mismatches": 0,
+                "precision": 0.5,
+                "prediction_count": 2,
+                "recall": 0.0024752475247524753,
+                "support_count": 404,
+                "true_positives": 1,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.02095808383233533,
+                "f2": 0.013477088948787063,
+                "false_negatives": 636,
+                "false_positives": 18,
+                "offset_mismatches": 16,
+                "precision": 0.28,
+                "prediction_count": 41,
+                "recall": 0.01088646967340591,
+                "support_count": 659,
+                "true_positives": 7,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.7514450867052023,
+                "f2": 0.8795669824086604,
+                "false_negatives": 1,
+                "false_positives": 85,
+                "offset_mismatches": 0,
+                "precision": 0.6046511627906976,
+                "prediction_count": 215,
+                "recall": 0.9923664122137404,
+                "support_count": 131,
+                "true_positives": 130,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": 0.6440677966101694,
+                "f2": 0.5307262569832403,
+                "false_negatives": 42,
+                "false_positives": 0,
+                "offset_mismatches": 85,
+                "precision": 1.0,
+                "prediction_count": 123,
+                "recall": 0.475,
+                "support_count": 165,
+                "true_positives": 38,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 0.9824561403508771,
+                "f2": 0.9929078014184396,
+                "false_negatives": 0,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.9655172413793104,
+                "prediction_count": 58,
+                "recall": 1.0,
+                "support_count": 56,
+                "true_positives": 56,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.8036697247706422,
+            "recall": 0.27289719626168224,
+            "span_iou": {
+              "f1": 0.42175732217573225,
+              "f2": 0.3331130204890946,
+              "false_negatives": 1221,
+              "false_positives": 161,
+              "iou_threshold": 0.9,
+              "precision": 0.7578947368421053,
+              "recall": 0.2921739130434783,
+              "total_predicted_spans": 665,
+              "total_supported_expected_spans": 1725,
+              "true_positives": 504,
+              "wrong_entity_type": 0
+            },
+            "total_predicted_spans": 665,
+            "total_samples": 500,
+            "total_supported_expected_spans": 1725,
+            "true_positives": 438,
+            "unsupported_expected_spans": 2361,
+            "wrong_entity_type": 19
+          },
+          "obscura_analysis_mean_ms": 0.322465,
+          "output_fingerprint_sha256": "2e14b2f13cbc4d47f64cd8705d065733580edf92a15c9d2a485c709c0284d8a3",
+          "p95_ms_by_repetition": [
+            0.842,
+            0.857
+          ],
+          "python_processing_mean_ms": 0.0,
+          "strict_exact": {
+            "f1": 0.36652719665271966,
+            "f2": 0.28949107732980833,
+            "false_negatives": 1287,
+            "false_positives": 227,
+            "precision": 0.6586466165413534,
+            "recall": 0.2539130434782609,
+            "true_positives": 438
+          }
+        },
+        "fast_reference": {
+          "mean_ms": 0.3892239999999999,
+          "mean_ms_by_repetition": [
+            0.43672600000000006,
+            0.3417219999999998
+          ],
+          "metrics": {
+            "f1": 0.40744186046511627,
+            "f2": 0.31442928930366115,
+            "false_negatives": 1167,
+            "false_positives": 107,
+            "latency": {
+              "max_ms": 1.584,
+              "mean_ms": 0.43672600000000006,
+              "p50_ms": 0.342,
+              "p95_ms": 0.903
+            },
+            "offset_mismatches": 101,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.15254237288135594,
+                "f2": 0.10250569476082003,
+                "false_negatives": 98,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.8181818181818182,
+                "prediction_count": 11,
+                "recall": 0.08411214953271028,
+                "support_count": 107,
+                "true_positives": 9,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 0.9942196531791908,
+                "f2": 0.9907834101382488,
+                "false_negatives": 2,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 172,
+                "recall": 0.9885057471264368,
+                "support_count": 174,
+                "true_positives": 172,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 0.6944444444444445,
+                "f2": 0.7861635220125786,
+                "false_negatives": 4,
+                "false_positives": 18,
+                "offset_mismatches": 0,
+                "precision": 0.5813953488372093,
+                "prediction_count": 43,
+                "recall": 0.8620689655172413,
+                "support_count": 29,
+                "true_positives": 25,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.0049261083743842365,
+                "f2": 0.003090234857849197,
+                "false_negatives": 403,
+                "false_positives": 1,
+                "offset_mismatches": 0,
+                "precision": 0.5,
+                "prediction_count": 2,
+                "recall": 0.0024752475247524753,
+                "support_count": 404,
+                "true_positives": 1,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.02095808383233533,
+                "f2": 0.013477088948787063,
+                "false_negatives": 636,
+                "false_positives": 18,
+                "offset_mismatches": 16,
+                "precision": 0.28,
+                "prediction_count": 41,
+                "recall": 0.01088646967340591,
+                "support_count": 659,
+                "true_positives": 7,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.7514450867052023,
+                "f2": 0.8795669824086604,
+                "false_negatives": 1,
+                "false_positives": 85,
+                "offset_mismatches": 0,
+                "precision": 0.6046511627906976,
+                "prediction_count": 215,
+                "recall": 0.9923664122137404,
+                "support_count": 131,
+                "true_positives": 130,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": 0.6440677966101694,
+                "f2": 0.5307262569832403,
+                "false_negatives": 42,
+                "false_positives": 0,
+                "offset_mismatches": 85,
+                "precision": 1.0,
+                "prediction_count": 123,
+                "recall": 0.475,
+                "support_count": 165,
+                "true_positives": 38,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 0.9824561403508771,
+                "f2": 0.9929078014184396,
+                "false_negatives": 0,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.9655172413793104,
+                "prediction_count": 58,
+                "recall": 1.0,
+                "support_count": 56,
+                "true_positives": 56,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.8036697247706422,
+            "recall": 0.27289719626168224,
+            "span_iou": {
+              "f1": 0.42175732217573225,
+              "f2": 0.3331130204890946,
+              "false_negatives": 1221,
+              "false_positives": 161,
+              "iou_threshold": 0.9,
+              "precision": 0.7578947368421053,
+              "recall": 0.2921739130434783,
+              "total_predicted_spans": 665,
+              "total_supported_expected_spans": 1725,
+              "true_positives": 504,
+              "wrong_entity_type": 0
+            },
+            "total_predicted_spans": 665,
+            "total_samples": 500,
+            "total_supported_expected_spans": 1725,
+            "true_positives": 438,
+            "unsupported_expected_spans": 2361,
+            "wrong_entity_type": 19
+          },
+          "obscura_analysis_mean_ms": 0.3892239999999999,
+          "output_fingerprint_sha256": "2e14b2f13cbc4d47f64cd8705d065733580edf92a15c9d2a485c709c0284d8a3",
+          "p95_ms_by_repetition": [
+            0.903,
+            0.885
+          ],
+          "python_processing_mean_ms": 0.0,
+          "strict_exact": {
+            "f1": 0.36652719665271966,
+            "f2": 0.28949107732980833,
+            "false_negatives": 1287,
+            "false_positives": 227,
+            "precision": 0.6586466165413534,
+            "recall": 0.2539130434782609,
+            "true_positives": 438
+          }
+        },
+        "hybrid_spacy_full": {
+          "mean_ms": 25.311743266489383,
+          "mean_ms_by_repetition": [
+            25.838362172619032,
+            24.785124360359735
+          ],
+          "metrics": {
+            "f1": 0.6940418679549114,
+            "f2": 0.653030303030303,
+            "false_negatives": 510,
+            "false_positives": 250,
+            "latency": {
+              "max_ms": 87.5356670416221,
+              "mean_ms": 25.838362172619032,
+              "p50_ms": 21.764833954375238,
+              "p95_ms": 61.50991698102653
+            },
+            "offset_mismatches": 323,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.15254237288135594,
+                "f2": 0.10250569476082003,
+                "false_negatives": 98,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.8181818181818182,
+                "prediction_count": 11,
+                "recall": 0.08411214953271028,
+                "support_count": 107,
+                "true_positives": 9,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 0.9942196531791908,
+                "f2": 0.9907834101382488,
+                "false_negatives": 2,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 172,
+                "recall": 0.9885057471264368,
+                "support_count": 174,
+                "true_positives": 172,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 0.6944444444444445,
+                "f2": 0.7861635220125786,
+                "false_negatives": 4,
+                "false_positives": 18,
+                "offset_mismatches": 0,
+                "precision": 0.5813953488372093,
+                "prediction_count": 43,
+                "recall": 0.8620689655172413,
+                "support_count": 29,
+                "true_positives": 25,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.7267904509283819,
+                "f2": 0.7000510986203372,
+                "false_negatives": 127,
+                "false_positives": 79,
+                "offset_mismatches": 3,
+                "precision": 0.7762039660056658,
+                "prediction_count": 356,
+                "recall": 0.683291770573566,
+                "support_count": 404,
+                "true_positives": 274,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.46745562130177515,
+                "f2": 0.40554414784394244,
+                "false_negatives": 266,
+                "false_positives": 94,
+                "offset_mismatches": 235,
+                "precision": 0.626984126984127,
+                "prediction_count": 487,
+                "recall": 0.37264150943396224,
+                "support_count": 659,
+                "true_positives": 158,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.7514450867052023,
+                "f2": 0.8795669824086604,
+                "false_negatives": 1,
+                "false_positives": 85,
+                "offset_mismatches": 0,
+                "precision": 0.6046511627906976,
+                "prediction_count": 215,
+                "recall": 0.9923664122137404,
+                "support_count": 131,
+                "true_positives": 130,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": 0.6440677966101694,
+                "f2": 0.5307262569832403,
+                "false_negatives": 42,
+                "false_positives": 0,
+                "offset_mismatches": 85,
+                "precision": 1.0,
+                "prediction_count": 123,
+                "recall": 0.475,
+                "support_count": 165,
+                "true_positives": 38,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 0.9824561403508771,
+                "f2": 0.9929078014184396,
+                "false_negatives": 0,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.9655172413793104,
+                "prediction_count": 58,
+                "recall": 1.0,
+                "support_count": 56,
+                "true_positives": 56,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.7751798561151079,
+            "recall": 0.6282798833819242,
+            "span_iou": {
+              "f1": 0.5847511027095148,
+              "f2": 0.5573573573573574,
+              "false_negatives": 789,
+              "false_positives": 529,
+              "iou_threshold": 0.9,
+              "precision": 0.6369251887439945,
+              "recall": 0.5404775771694816,
+              "total_predicted_spans": 1465,
+              "total_supported_expected_spans": 1725,
+              "true_positives": 928,
+              "wrong_entity_type": 8
+            },
+            "total_predicted_spans": 1465,
+            "total_samples": 500,
+            "total_supported_expected_spans": 1725,
+            "true_positives": 862,
+            "unsupported_expected_spans": 2361,
+            "wrong_entity_type": 30
+          },
+          "obscura_analysis_mean_ms": 0.7537129999999997,
+          "output_fingerprint_sha256": "1d457e4d1f7ae0bb1f1512485f10b705d2698047476eea23dbd6134909f596ad",
+          "p95_ms_by_repetition": [
+            61.50991698102653,
+            58.62862501128763
+          ],
+          "python_processing_mean_ms": 24.558030266489368,
+          "strict_exact": {
+            "f1": 0.5404388714733542,
+            "f2": 0.5152420800956365,
+            "false_negatives": 863,
+            "false_positives": 603,
+            "precision": 0.5883959044368601,
+            "recall": 0.49971014492753624,
+            "true_positives": 862
+          }
+        },
+        "hybrid_spacy_ner_only": {
+          "mean_ms": 11.63915353258378,
+          "mean_ms_by_repetition": [
+            11.735048678915163,
+            11.543258386252395
+          ],
+          "metrics": {
+            "f1": 0.6937625754527164,
+            "f2": 0.6529313740342373,
+            "false_negatives": 510,
+            "false_positives": 251,
+            "latency": {
+              "max_ms": 40.114416007138786,
+              "mean_ms": 11.735048678915163,
+              "p50_ms": 9.716875009708106,
+              "p95_ms": 28.536375031650067
+            },
+            "offset_mismatches": 323,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.15254237288135594,
+                "f2": 0.10250569476082003,
+                "false_negatives": 98,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.8181818181818182,
+                "prediction_count": 11,
+                "recall": 0.08411214953271028,
+                "support_count": 107,
+                "true_positives": 9,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 0.9942196531791908,
+                "f2": 0.9907834101382488,
+                "false_negatives": 2,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 172,
+                "recall": 0.9885057471264368,
+                "support_count": 174,
+                "true_positives": 172,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 0.6944444444444445,
+                "f2": 0.7861635220125786,
+                "false_negatives": 4,
+                "false_positives": 18,
+                "offset_mismatches": 0,
+                "precision": 0.5813953488372093,
+                "prediction_count": 43,
+                "recall": 0.8620689655172413,
+                "support_count": 29,
+                "true_positives": 25,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.7258278145695364,
+                "f2": 0.6996935648621041,
+                "false_negatives": 127,
+                "false_positives": 80,
+                "offset_mismatches": 3,
+                "precision": 0.7740112994350282,
+                "prediction_count": 357,
+                "recall": 0.683291770573566,
+                "support_count": 404,
+                "true_positives": 274,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.46745562130177515,
+                "f2": 0.40554414784394244,
+                "false_negatives": 266,
+                "false_positives": 94,
+                "offset_mismatches": 235,
+                "precision": 0.626984126984127,
+                "prediction_count": 487,
+                "recall": 0.37264150943396224,
+                "support_count": 659,
+                "true_positives": 158,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.7514450867052023,
+                "f2": 0.8795669824086604,
+                "false_negatives": 1,
+                "false_positives": 85,
+                "offset_mismatches": 0,
+                "precision": 0.6046511627906976,
+                "prediction_count": 215,
+                "recall": 0.9923664122137404,
+                "support_count": 131,
+                "true_positives": 130,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": 0.6440677966101694,
+                "f2": 0.5307262569832403,
+                "false_negatives": 42,
+                "false_positives": 0,
+                "offset_mismatches": 85,
+                "precision": 1.0,
+                "prediction_count": 123,
+                "recall": 0.475,
+                "support_count": 165,
+                "true_positives": 38,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 0.9824561403508771,
+                "f2": 0.9929078014184396,
+                "false_negatives": 0,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.9655172413793104,
+                "prediction_count": 58,
+                "recall": 1.0,
+                "support_count": 56,
+                "true_positives": 56,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.7744833782569631,
+            "recall": 0.6282798833819242,
+            "span_iou": {
+              "f1": 0.5845669291338583,
+              "f2": 0.5572904155656978,
+              "false_negatives": 789,
+              "false_positives": 530,
+              "iou_threshold": 0.9,
+              "precision": 0.6364883401920439,
+              "recall": 0.5404775771694816,
+              "total_predicted_spans": 1466,
+              "total_supported_expected_spans": 1725,
+              "true_positives": 928,
+              "wrong_entity_type": 8
+            },
+            "total_predicted_spans": 1466,
+            "total_samples": 500,
+            "total_supported_expected_spans": 1725,
+            "true_positives": 862,
+            "unsupported_expected_spans": 2361,
+            "wrong_entity_type": 30
+          },
+          "obscura_analysis_mean_ms": 0.7548519999999992,
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "p95_ms_by_repetition": [
+            28.536375031650067,
+            27.66116698149219
+          ],
+          "python_processing_mean_ms": 10.884301532583777,
+          "strict_exact": {
+            "f1": 0.5402695079912253,
+            "f2": 0.5151804924695196,
+            "false_negatives": 863,
+            "false_positives": 604,
+            "precision": 0.5879945429740792,
+            "recall": 0.49971014492753624,
+            "true_positives": 862
+          }
+        },
+        "presidio": {
+          "mean_ms": 26.041980081005022,
+          "mean_ms_by_repetition": [
+            26.061689247377217,
+            26.022270914632827
+          ],
+          "metrics": {
+            "f1": 0.6253541076487251,
+            "f2": 0.6436798367108907,
+            "false_negatives": 462,
+            "false_positives": 596,
+            "latency": {
+              "max_ms": 89.18645797530189,
+              "mean_ms": 26.061689247377217,
+              "p50_ms": 21.89995802473277,
+              "p95_ms": 61.56100000953302
+            },
+            "offset_mismatches": 329,
+            "per_entity": {
+              "credit_card": {
+                "f1": 0.15254237288135594,
+                "f2": 0.10250569476082003,
+                "false_negatives": 98,
+                "false_positives": 2,
+                "offset_mismatches": 0,
+                "precision": 0.8181818181818182,
+                "prediction_count": 11,
+                "recall": 0.08411214953271028,
+                "support_count": 107,
+                "true_positives": 9,
+                "wrong_entity_type": 0
+              },
+              "email": {
+                "f1": 0.9942196531791908,
+                "f2": 0.9907834101382488,
+                "false_negatives": 2,
+                "false_positives": 0,
+                "offset_mismatches": 0,
+                "precision": 1.0,
+                "prediction_count": 172,
+                "recall": 0.9885057471264368,
+                "support_count": 174,
+                "true_positives": 172,
+                "wrong_entity_type": 0
+              },
+              "ip_address": {
+                "f1": 0.7466666666666666,
+                "f2": 0.8641975308641976,
+                "false_negatives": 1,
+                "false_positives": 18,
+                "offset_mismatches": 0,
+                "precision": 0.6086956521739131,
+                "prediction_count": 46,
+                "recall": 0.9655172413793104,
+                "support_count": 29,
+                "true_positives": 28,
+                "wrong_entity_type": 0
+              },
+              "location": {
+                "f1": 0.716535433070866,
+                "f2": 0.6957186544342507,
+                "false_negatives": 127,
+                "false_positives": 89,
+                "offset_mismatches": 4,
+                "precision": 0.7541436464088398,
+                "prediction_count": 366,
+                "recall": 0.6825,
+                "support_count": 404,
+                "true_positives": 273,
+                "wrong_entity_type": 0
+              },
+              "person": {
+                "f1": 0.4798807749627422,
+                "f2": 0.4123975409836066,
+                "false_negatives": 266,
+                "false_positives": 83,
+                "offset_mismatches": 232,
+                "precision": 0.6598360655737705,
+                "prediction_count": 476,
+                "recall": 0.3770491803278688,
+                "support_count": 659,
+                "true_positives": 161,
+                "wrong_entity_type": 0
+              },
+              "phone": {
+                "f1": 0.6265060240963856,
+                "f2": 0.8044554455445544,
+                "false_negatives": 1,
+                "false_positives": 154,
+                "offset_mismatches": 0,
+                "precision": 0.45774647887323944,
+                "prediction_count": 284,
+                "recall": 0.9923664122137404,
+                "support_count": 131,
+                "true_positives": 130,
+                "wrong_entity_type": 0
+              },
+              "url": {
+                "f1": 0.3068181818181819,
+                "f2": 0.47535211267605637,
+                "false_negatives": 18,
+                "false_positives": 226,
+                "offset_mismatches": 93,
+                "precision": 0.19285714285714287,
+                "prediction_count": 373,
+                "recall": 0.75,
+                "support_count": 165,
+                "true_positives": 54,
+                "wrong_entity_type": 0
+              },
+              "us_ssn": {
+                "f1": 0.5989304812834224,
+                "f2": 0.7887323943661971,
+                "false_negatives": 0,
+                "false_positives": 75,
+                "offset_mismatches": 0,
+                "precision": 0.42748091603053434,
+                "prediction_count": 131,
+                "recall": 1.0,
+                "support_count": 56,
+                "true_positives": 56,
+                "wrong_entity_type": 0
+              }
+            },
+            "precision": 0.597025016903313,
+            "recall": 0.6565055762081784,
+            "span_iou": {
+              "f1": 0.5402038505096263,
+              "f2": 0.5527871132228531,
+              "false_negatives": 745,
+              "false_positives": 879,
+              "iou_threshold": 0.9,
+              "precision": 0.5204582651391162,
+              "recall": 0.5615067686874632,
+              "total_predicted_spans": 1859,
+              "total_supported_expected_spans": 1725,
+              "true_positives": 954,
+              "wrong_entity_type": 26
+            },
+            "total_predicted_spans": 1859,
+            "total_samples": 500,
+            "total_supported_expected_spans": 1725,
+            "true_positives": 883,
+            "unsupported_expected_spans": 2361,
+            "wrong_entity_type": 51
+          },
+          "obscura_analysis_mean_ms": 0.0,
+          "output_fingerprint_sha256": "86c8af2050f66ac260845b9f9ba2a8b35d4e319ad3439d52fdef004887fba863",
+          "p95_ms_by_repetition": [
+            61.56100000953302,
+            61.03508296655491
+          ],
+          "python_processing_mean_ms": 26.041980081005022,
+          "strict_exact": {
+            "f1": 0.49274553571428575,
+            "f2": 0.5040529740837995,
+            "false_negatives": 842,
+            "false_positives": 976,
+            "precision": 0.47498655190962885,
+            "recall": 0.5118840579710144,
+            "true_positives": 883
+          }
+        }
+      },
+      "controls_match_authoritative_counts": {
+        "fast_reference": true,
+        "presidio": true
+      },
+      "dataset": "nemotron_pii_test_subset",
+      "full_vs_ner_only_changed_documents": 1,
+      "repetition_checks": {
+        "fast": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "fast_reference": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "hybrid_spacy_full": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "hybrid_spacy_ner_only": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        },
+        "presidio": {
+          "identical_accuracy": true,
+          "identical_predictions": true,
+          "repetitions": 2
+        }
+      },
+      "samples": 500,
+      "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd",
+      "structured_prediction_mismatching_documents": {
+        "hybrid_spacy_full": 0,
+        "hybrid_spacy_ner_only": 0
+      }
+    }
+  ],
+  "experiment": {
+    "analyzer_contract": {
+      "fast": "deterministic_plus with normal default conflict resolution",
+      "fast_reference": "deterministic_plus with conflict_strategy none, matching the historical fixture adapter",
+      "hybrid": "deterministic_plus plus imported model outputs with normal default conflict resolution"
+    },
+    "assigned_score": 0.85,
+    "branch": "benchmark-spacy-hybrid",
+    "code_sha256": {
+      "eval/presidio_adapter/real_presidio_benchmark.py": "f2668a47c553ef49039070b451a48171a4d90c0cce4223997de1f9b6a3bc269d",
+      "eval/spacy_hybrid/benchmark.py": "ea3bd0447392013c160598f8c281d85b8bfb68e07f29ee479465146be6d6b289",
+      "eval/spacy_hybrid/score.exs": "2407ad477e7f6845fff05c2296c47d5c4bf2561d7ffe30a29176f227692191c8"
+    },
+    "created_at": "2026-09-04T23:44:34.565076+00:00",
+    "elixir": "1.20.2",
+    "environment": {
+      "array_type": "numpy",
+      "backend": "cpu",
+      "environment_lock_sha256": "0c28ba3ac42c118c1181d31fa9b1ea67126db726d1e5f2a9686ef2e03962b05b",
+      "hardware_model": "Mac16,6",
+      "machine": "arm64",
+      "model_asset_sha256": {
+        "LICENSE": "3933c176979b68bc6d0bcc902c7d6c130f1d127f476f17ba5cdba8d99cfd0012",
+        "LICENSES_SOURCES": "ea21333cecd2593c1fea842e9362bedf7b556abfb97cd08ce0650f2228b2eb58",
+        "README.md": "94c1d6fda01b7184dc68399cf7911624d34bbd5d3414596eaf7245d7ced1b2d0",
+        "accuracy.json": "5249e798eee58b0d5d20ac1022d77ca16149a8e1233ea9ed144771d492c959c3",
+        "attribute_ruler/patterns": "f8b97f7ebef9b8536bba5f0fc1e73af6183563e96e2325bcbb021b8c6dbc6683",
+        "config.cfg": "24b1b17065a74a6a3f999dd9c722f5532dc6bb5994b6a7ba5aa4f2ce09d434cc",
+        "lemmatizer/lookups/lookups.bin": "eb64f40c0f8396d1762730c0ddf4dad2a52d138f5a389f71a1a1d088173b7737",
+        "meta.json": "d9e57747ff70912e91b6dd05268d8880cb5c5c224789a7f996fb4537e4d12ee4",
+        "ner/cfg": "a7172edadafba9f472e9ac0f2660eec04b6405e471be9e20267b79c67288d22d",
+        "ner/model": "e0cb90b0eeb6a08e159d55e5f45103c45ee4f9177735d3cd0c1b9a4f97af6a02",
+        "ner/moves": "d82b13473ebd33e0396004dd22f00c71fe3c1251742bf1f7c4554f23fd3b0af4",
+        "parser/cfg": "e2a240ef01f95e58f5dd4c9d6e90d61f597b8d998966570d3009dd81e8879780",
+        "parser/model": "adbf43164ed1e7e67f882cdf23283cfd768c0c0ba432fff6ef52a8ce1f7b7634",
+        "parser/moves": "ec41318c32eb7f9e4d8f050b2e8466ee67954d2d3455c1aec73abf46c82dd67f",
+        "senter/cfg": "2a4db4a729b6469da1f87d71cc7cd3ed2a73360cc85326821e850836c4671103",
+        "senter/model": "55b7cb0a145ff82082a5036a39c8a8741b3e80f692435725f46019b9a0da01f9",
+        "tagger/cfg": "d484c3d9391f37bf9c727aa2eb4c477a24cb103020f95e52dc37842818b50118",
+        "tagger/model": "0626a4af15ead7b95c82f83109a77ac8abb74ed9027497f727606c25b2a5b0ad",
+        "tok2vec/cfg": "f8a5a26e3056eb6fb06deeb3dbccfd88ae74900200c98c70b5966bbb7ec9d4de",
+        "tok2vec/model": "af68f93539570b27bcf32bdaa881f28b0b4f94ca0e697dd2a912de76897f9f40",
+        "tokenizer": "b014e8bba4958b120af2d0c1c63eabb7c00379f2bacaf10df7c5325efd2ea467",
+        "vocab/key2row": "c8163b927a234a675074bb38ce62c17a57182998dc83fb9275d35500559a582a",
+        "vocab/lookups.bin": "fce9c883c56165f29573cc938c2a1c9d417ac61bd8f56b671dd5f7996de70682",
+        "vocab/strings.json": "efd814b36290d2513b683c924571d9e3b25bf6c60bb89c13cb8c3436d2cb6cfa",
+        "vocab/vectors": "dd82f972c4fca3d440c505cdd94c88efdded56457cc86851d584b751f7dea673",
+        "vocab/vectors.cfg": "ff4359091952c8cd16f1f0482f5770fb82d1707368d5cca3c46aa501f552e3c5"
+      },
+      "model_path": "/Users/humberto/Projects/obscura/.presidio-authoritative-venv/lib/python3.11/site-packages/en_core_web_lg/en_core_web_lg-3.8.0",
+      "ner_parameters": 1593322,
+      "packages": {
+        "en_core_web_lg": "3.8.0",
+        "presidio_analyzer": "2.2.363",
+        "presidio_evaluator": "0.2.5",
+        "spacy": "3.8.13"
+      },
+      "platform": "macOS-26.6.2-arm64-arm-64bit",
+      "presidio_and_model_load_ms": 483.30862500006333,
+      "presidio_ner_configuration": {
+        "aggregation_strategy": "max",
+        "alignment_mode": "expand",
+        "default_score": 0.85,
+        "labels_to_ignore": [
+          "ORGANIZATION",
+          "CARDINAL",
+          "EVENT",
+          "LANGUAGE",
+          "LAW",
+          "MONEY",
+          "ORDINAL",
+          "PERCENT",
+          "PRODUCT",
+          "QUANTITY",
+          "WORK_OF_ART"
+        ],
+        "low_confidence_score_multiplier": 0.4,
+        "low_score_entity_names": [
+          null
+        ],
+        "model_to_presidio_entity_mapping": {
+          "DATE": "DATE_TIME",
+          "FAC": "LOCATION",
+          "GPE": "LOCATION",
+          "LOC": "LOCATION",
+          "LOCATION": "LOCATION",
+          "NORP": "NRP",
+          "ORG": "ORGANIZATION",
+          "ORGANIZATION": "ORGANIZATION",
+          "PER": "PERSON",
+          "PERSON": "PERSON",
+          "TIME": "DATE_TIME"
+        },
+        "stride": 14
+      },
+      "python": "3.11.15",
+      "python_peak_rss_bytes": 862994432,
+      "spacy_pipeline": [
+        "tok2vec",
+        "tagger",
+        "parser",
+        "attribute_ruler",
+        "lemmatizer",
+        "ner"
+      ],
+      "vector_bytes": 411501600
+    },
+    "inference_manifest_sha256": "ca2ed2379ffdc3b32611806479c2079a2aaf6c72665d94c3e4964989381fd808",
+    "label_map": {
+      "FAC": "location",
+      "GPE": "location",
+      "LOC": "location",
+      "PERSON": "person"
+    },
+    "latency_contract": "Single-input serial CPU. Hybrid is Python processing plus actual Obscura analysis; excludes IPC, serialization, startup and disk reads. Presidio timing is analyzer inference only.",
+    "otp_release": "29",
+    "phase": "spacy_hybrid_experiment",
+    "primary_candidate": "hybrid_spacy_full",
+    "raw_text_omitted": true,
+    "repetitions": 2,
+    "schedulers": 16,
+    "schema_version": 1,
+    "scoring_code_sha256": "2407ad477e7f6845fff05c2296c47d5c4bf2561d7ffe30a29176f227692191c8",
+    "source_commit": "3bc74140801b83bc2a66882b2dbdf208796be771",
+    "status": "unpromoted",
+    "warmup_samples_per_mode": 5
+  },
+  "raw_text_omitted": true,
+  "report_code_sha256": "c2d20cfd191b8a985d64c7bd15a5847d3dd35eba60490e3540bcf831a49c4d10",
+  "schema_version": 1,
+  "source_results": "/Users/humberto/Projects/obscura/eval/reports/spacy_hybrid/20260904T234251Z/results.json",
+  "source_results_sha256": "05c2cc6d22160a1a5e7393b5ce5d54b1212d9fdbfddbebb03d48ccfa20a75ebc",
+  "status": "unpromoted_experiment"
+}

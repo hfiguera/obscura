@@ -1,6 +1,6 @@
 # Public API Stability
 
-This document defines the supported caller contract for the Obscura `0.1.x`
+This document defines the supported caller contract for the Obscura `0.2.x`
 release line. The machine-readable baseline is
 `priv/obscura/public_api.exs`. Contract tests verify that its functions,
 struct fields, behaviours, profiles, operators, and error codes remain
@@ -15,13 +15,13 @@ ExDoc filters internal modules from the published reference.
 
 | Class | Compatibility promise |
 | --- | --- |
-| Stable | Protected by the `0.1.x` compatibility policy and contract tests |
+| Stable | Protected by the `0.2.x` compatibility policy and contract tests |
 | Experimental | Documented for evaluation, but signatures, options, structs, and behavior may change |
 | Internal | Not supported for direct caller use and may change without notice |
 | Deprecated | Still supported during the documented transition period |
 
 There are currently no deprecated APIs. The stable product profiles are
-`:fast`, `:balanced`, and `:accurate`.
+`:fast`, `:efficient`, `:balanced`, and `:accurate`.
 
 ## Stable Module Inventory
 
@@ -52,6 +52,7 @@ Default-argument functions are listed at every exported arity.
 Stable Mix commands are:
 
 - `mix obscura.detect`;
+- `mix obscura.efficient.install`;
 - `mix obscura.docs.verify`;
 - `mix obscura.redact`;
 - `mix obscura.profile.check`;
@@ -62,7 +63,7 @@ Mix tasks are project tooling rather than application API.
 
 ## Experimental Module Inventory
 
-The following entry points are intentionally outside the `0.1.x` compatibility
+The following entry points are intentionally outside the `0.2.x` compatibility
 promise:
 
 - `Obscura.Tiktoken` and `Obscura.Tiktoken.Encoding`;
@@ -75,16 +76,20 @@ promise:
 ## Stable Profile Contracts
 
 The `:balanced` and `:accurate` names, requirements, behavior, and preparation
-contracts are stable under the `0.1.x` compatibility promise. Their optional
+contracts are stable under the `0.2.x` compatibility promise. Their optional
 third-party model assets are not bundled or licensed by Obscura; stable API
 classification is not a grant of checkpoint rights. In direct correspondence
 on 2026-07-22, LDC confirmed that commercial use of
 `tner/roberta-large-ontonotes5` requires an LDC for-profit membership. See
 `docs/model-asset-licensing.md`.
 
+The `:efficient` contract and asset upgrade policy are defined in
+[the efficient guide](efficient.md). The legacy `:spacy_cpu` alias keeps its
+original experimental span policy.
+
 ## Experimental Profile Contracts
 
-`:hybrid_gliner_urchade` and `:openmed_pii` remain experimental.
+`:hybrid_gliner_urchade`, `:openmed_pii`, and `:spacy_cpu` remain experimental.
 `:hybrid_gliner_urchade` is the public
 CPU-only alternative with a clearer provenance chain, but lower measured
 accuracy. `:openmed_pii` has specialist evidence but unresolved precision, licensing,
@@ -150,7 +155,7 @@ individual keys are stable only when explicitly documented elsewhere.
 - `metadata`.
 
 Its stable codes are recorded in the baseline. New codes may be added.
-Existing codes will not be removed or repurposed in `0.1.x`.
+Existing codes will not be removed or repurposed in `0.2.x`.
 
 `Obscura.Diagnostic` similarly guarantees its documented fields and the codes
 returned by `Obscura.Diagnostic.codes/0`. Diagnostic `code`, component/profile
@@ -174,6 +179,7 @@ The stable profile names are:
 | Profile | Stable intent | Optional requirements |
 | --- | --- | --- |
 | `:fast` | Dependency-light structured PII detection | Optional phone parser |
+| `:efficient` | Bounded CPU person/location NER | Versioned native executable, spaCy assets, platform math/regex libraries |
 | `:balanced` | Practical deterministic plus general-NER profile | Nx, Bumblebee, backend, pinned TNER assets |
 | `:accurate` | Highest measured general accuracy with conditional location recovery | Nx, Bumblebee, backend, two pinned model/tokenizer pairs |
 
@@ -400,7 +406,7 @@ pre-provisioned caches.
 ## Versioning Policy Below 1.0
 
 Obscura follows SemVer while making a stronger promise than SemVer requires for
-the stable `0.1.x` surface:
+the stable `0.2.x` surface:
 
 - patch releases fix bugs and do not intentionally break stable contracts;
 - minor releases may add stable APIs and fields;

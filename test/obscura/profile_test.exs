@@ -5,11 +5,12 @@ defmodule Obscura.ProfileTest do
   alias Obscura.Profile
 
   test "lists stable profiles separately from experimental aliases" do
-    assert Profile.names() == [:fast, :balanced, :accurate]
+    assert Profile.names() == [:fast, :efficient, :balanced, :accurate]
 
     assert Profile.experimental_names() == [
              :hybrid_gliner_urchade,
-             :openmed_pii
+             :openmed_pii,
+             :spacy_cpu
            ]
 
     assert Profile.resolve(:fast) == {:ok, :deterministic_plus}

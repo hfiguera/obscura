@@ -1,14 +1,16 @@
 # Product Profiles
 
-Obscura exposes three stable user-facing profiles. Two measured profiles remain
+Obscura exposes four stable user-facing profiles. Three measured profiles remain
 experimental and available for controlled evaluation.
 
 | Profile | Stability | Resolved implementation | Intended use | Runtime cost |
 | --- | --- | --- | --- | --- |
 | `:fast` | stable | `:deterministic_plus` | Structured and context-labeled PII with high precision | Dependency-light BEAM execution |
+| `:efficient` | stable | `:deterministic_plus` plus native spaCy | English person/location NER with bounded CPU use | 1–4 native CPU workers |
 | `:balanced` | stable | `:hybrid_ner_tner_conservative` | General text needing person, location, and organization NER | One TNER model |
 | `:accurate` | stable | `:hybrid_ner_tner_jean_location_cascade` | Highest measured general accuracy with conditional location recovery | Two GPU-oriented NER models |
 | `:hybrid_gliner_urchade` | experimental | `:hybrid_gliner_urchade` | CPU-only general PII/NER without the OntoNotes-trained TNER asset | One Ortex CPU model plus deterministic recognizers |
+| `:spacy_cpu` | experimental | `:deterministic_plus` plus native spaCy | CPU person/location NER on Apple Silicon macOS and glibc Linux ARM64/x86-64 | One native spaCy worker by default |
 | `:openmed_pii` | experimental | `:privacy_filter_native` | OpenMed/Nemotron-style PII evaluation | One high-cost native model |
 
 `:accurate` currently has the best exact-span F1 on all three shared
@@ -35,6 +37,13 @@ context-backed entities.
 It requires no model weights, accelerator, network, or runtime preparation.
 Its main weakness is recall for arbitrary prose names, locations,
 organizations, and free-form addresses.
+
+## Efficient
+
+`:efficient` adds native CPU person/location NER to deterministic recognition.
+Its versioned installer needs no evaluation environment, and inference uses
+no Python or GPU. See the [installation, contract, and evidence](efficient.md).
+The legacy `:spacy_cpu` alias retains its original experimental boundary policy.
 
 ## Balanced
 
@@ -95,7 +104,7 @@ evaluate `2` or `4` only against a bounded deployment SLO.
 ## Experimental Profiles
 
 `Obscura.Profile.experimental_names/0` returns
-`[:hybrid_gliner_urchade, :openmed_pii]`.
+`[:hybrid_gliner_urchade, :openmed_pii, :spacy_cpu]`.
 These profiles are callable so their measured implementations can be evaluated
 without rebuilding configuration manually. They are not included in
 `Obscura.Profile.names/0` and may change or be removed before release. The
@@ -131,6 +140,16 @@ concurrency `1` on a 32-sample length-stratified heldout subset. That result is
 candidate characterization, not a promoted full operational matrix. CoreML is
 not recommended for the current dynamic ONNX graph because most operations
 fall back to CPU and measured latency was substantially worse.
+
+### spaCy CPU (Experimental)
+
+`:spacy_cpu` adds the pinned spaCy NER-only model to deterministic recognition,
+using a Python-free Rust executable on Apple Silicon macOS or glibc Linux
+ARM64/x86-64. It contributes person/location spans; `:balanced` remains the
+general accuracy recommendation.
+Prepare the local executable and assets explicitly, then retain the bounded
+worker pool through `Obscura.Profile.prepare/2` or a supervised preparer. See
+[spaCy CPU setup and lifecycle](spacy-cpu.md) for the complete API and measurements.
 
 ### OpenMed PII (Experimental)
 
@@ -282,7 +301,7 @@ observable and avoids hidden network access.
 ## Stability Classes
 
 `Obscura.Profile.classification/1` distinguishes `:stable`, `:advanced`,
-`:experimental`, and `:historical` names. `:fast`, `:balanced`, and `:accurate`
+`:experimental`, and `:historical` names. `:fast`, `:efficient`, `:balanced`, and `:accurate`
 are stable product aliases. Experimental aliases retain benchmark evidence but
 no compatibility or production-readiness promise.
 
@@ -290,7 +309,7 @@ See `docs/benchmark-status.md` for current metrics and
 operational conclusions, `docs/optional-dependencies-and-assets.md` for setup
 details, and `docs/known-limitations.md` for residual deployment risks.
 
-The stable `:fast`, `:balanced`, and `:accurate` aliases are covered by the
+The stable `:fast`, `:efficient`, `:balanced`, and `:accurate` aliases are covered by the
 `0.1.x` compatibility policy.
 Experimental aliases, low-level model adapters, serving structs, tensor
 layouts, and model-specific tuning options may change independently. See

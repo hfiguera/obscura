@@ -116,6 +116,47 @@
       ],
       "network_on_explicit_prepare": true,
       "bundled": false
+    },
+    {
+      "id": "en_core_web_lg_3_8_0",
+      "status": "stable_profile_asset",
+      "profiles": [
+        "efficient",
+        "spacy_cpu"
+      ],
+      "adapter": "native_spacy_cpu",
+      "model_repository": "explosion/en_core_web_lg",
+      "tokenizer_repository": "bundled in the same external spaCy model",
+      "revision": "3.8.0",
+      "revision_policy": "pinned exported model.json and every binary asset verified against Obscura.Spacy.Assets",
+      "required_files": [
+        "model.json",
+        "weights.bin",
+        "vectors.bin",
+        "vector_keys.bin",
+        "unicode.bin"
+      ],
+      "hashes": {
+        "model.json": "216f7db87f64c157181c19eaa7840fc0820198e163c81d47a10cfb0cc6533750",
+        "weights.bin": "f919ba1502890bca0f808532168495f97e4462ae28bf9e955a2415f43ec7dc17",
+        "vectors.bin": "c4a3e215076dc379c6386ef9e15fb1c4d1a58451802a3bae582c70970df0387b",
+        "vector_keys.bin": "76a86673cd8b05fecb50116871bfd8d4dbd0530e844681cbd0a4f54db17d1750",
+        "unicode.bin": "683130936bbd088c9ffdc9054c2396f06d92852e35045cb3fa112a66f7f11c7d"
+      },
+      "license": "MIT in the installed en_core_web_lg 3.8.0 package metadata; training/vector provenance remains deployer-reviewed; weights are not distributed or sublicensed by Obscura",
+      "license_review_status": "conditional_deployer_review",
+      "license_reviewed_at": "2026-09-04",
+      "license_review_revision": "3.8.0",
+      "commercial_use": "deployer_review_required",
+      "commercial_use_reviewed_at": "2026-09-04",
+      "license_sources": [
+        "https://github.com/explosion/spacy-models/releases/tag/en_core_web_lg-3.8.0",
+        "https://spacy.io/models/en#en_core_web_lg"
+      ],
+      "network_on_explicit_prepare": false,
+      "bundled": false,
+      "legacy_model_json_sha256": "ea006cbbe70e3f794a7136acf9c1d85199ee6925526578b3dc920ce2947fc95b",
+      "asset_version": "efficient-v1"
     }
   ]
 }

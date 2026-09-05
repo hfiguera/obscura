@@ -11,7 +11,8 @@ defmodule Obscura.Eval.Profile do
   Returns the supported entities for an evaluation profile.
   """
   @spec supported_entities(atom()) :: [atom()]
-  def supported_entities(profile) when profile in [:fast, :balanced, :accurate, :openmed_pii] do
+  def supported_entities(profile)
+      when profile in [:fast, :efficient, :balanced, :accurate, :openmed_pii, :spacy_cpu] do
     {:ok, descriptor} = ProductProfile.fetch(profile)
     descriptor.supported_entities
   end
@@ -116,6 +117,8 @@ defmodule Obscura.Eval.Profile do
   def from_string("balanced"), do: {:ok, :balanced}
   def from_string("accurate"), do: {:ok, :accurate}
   def from_string("openmed_pii"), do: {:ok, :openmed_pii}
+  def from_string("spacy_cpu"), do: {:ok, :spacy_cpu}
+  def from_string("efficient"), do: {:ok, :efficient}
   def from_string("regex_only"), do: {:ok, :regex_only}
   def from_string("context"), do: {:ok, :context}
   def from_string("llm_safe"), do: {:ok, :llm_safe}

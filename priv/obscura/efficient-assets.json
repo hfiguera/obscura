@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "asset_version": "efficient-v1",
+  "native_protocol": 1,
+  "rust_toolchain": "1.90.0",
+  "native": {
+    "aarch64-apple-darwin": {
+      "sha256": "a4c6202e03416471a23ff28c83b08d32d074fd9f238a68601b5feac1eafb3eda",
+      "url": "https://github.com/hfiguera/obscura/releases/download/v0.2.0/obscura-efficient-v1-aarch64-apple-darwin"
+    },
+    "aarch64-unknown-linux-gnu": {
+      "sha256": "7b4a7a3e819bb72fba4662cfa6165433dd50e3f46998c168399232c885445028",
+      "url": "https://github.com/hfiguera/obscura/releases/download/v0.2.0/obscura-efficient-v1-aarch64-unknown-linux-gnu"
+    },
+    "x86_64-unknown-linux-gnu": {
+      "sha256": "28ae51895679027be746d7339f7e15fde2db432f1399eac4e371a3ac744f4080",
+      "url": "https://github.com/hfiguera/obscura/releases/download/v0.2.0/obscura-efficient-v1-x86_64-unknown-linux-gnu"
+    }
+  },
+  "model": {
+    "name": "en_core_web_lg",
+    "version": "3.8.0",
+    "wheel_filename": "en_core_web_lg-3.8.0-py3-none-any.whl",
+    "wheel_url": "https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.8.0/en_core_web_lg-3.8.0-py3-none-any.whl",
+    "wheel_sha256": "293e9547a655b25499198ab15a525b05b9407a75f10255e405e8c3854329ab63",
+    "distribution": "Downloaded from Explosion and exported locally; model weights are not distributed in the Obscura Hex package or native binary release.",
+    "license": "MIT; retain the upstream LICENSE and LICENSES_SOURCES notices."
+  }
+}

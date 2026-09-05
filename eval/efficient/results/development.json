@@ -1,0 +1,219 @@
+{
+  "documents": 5000,
+  "gold_sha256": "9336092cc424874ead62102b58964ca9584fde1afed642716ee9096d12aa5d8b",
+  "profiles": {
+    "efficient": {
+      "prediction_sha256": "17249077587204fd7766a425163b4ac48ec1967d42ece655608ccaaf4ed32466",
+      "reference_environment": null,
+      "strict_exact": {
+        "all": {
+          "documents_with_false_positives": 2449,
+          "documents_with_missed_pii": 2876,
+          "f1": 0.6644829556274995,
+          "false_negatives": 4392,
+          "false_positives": 4417,
+          "gold_spans_with_any_typed_overlap": 9638,
+          "precision": 0.6638508371385083,
+          "recall": 0.6651162790697674,
+          "true_positives": 8723
+        },
+        "credit_card": {
+          "documents_with_false_positives": 24,
+          "documents_with_missed_pii": 214,
+          "f1": 0.7613636363636364,
+          "false_negatives": 228,
+          "false_positives": 24,
+          "gold_spans_with_any_typed_overlap": 402,
+          "precision": 0.9436619718309859,
+          "recall": 0.638095238095238,
+          "true_positives": 402
+        },
+        "date_time": {
+          "documents_with_false_positives": 476,
+          "documents_with_missed_pii": 649,
+          "f1": 0.8231201498528231,
+          "false_negatives": 747,
+          "false_positives": 575,
+          "gold_spans_with_any_typed_overlap": 3109,
+          "precision": 0.8425089016707751,
+          "recall": 0.8046037143604499,
+          "true_positives": 3076
+        },
+        "email": {
+          "documents_with_false_positives": 7,
+          "documents_with_missed_pii": 0,
+          "f1": 0.9959367945823928,
+          "false_negatives": 0,
+          "false_positives": 9,
+          "gold_spans_with_any_typed_overlap": 1103,
+          "precision": 0.9919064748201439,
+          "recall": 1.0,
+          "true_positives": 1103
+        },
+        "ip_address": {
+          "documents_with_false_positives": 21,
+          "documents_with_missed_pii": 207,
+          "f1": 0.846984126984127,
+          "false_negatives": 210,
+          "false_positives": 31,
+          "gold_spans_with_any_typed_overlap": 667,
+          "precision": 0.9555873925501432,
+          "recall": 0.7605473204104903,
+          "true_positives": 667
+        },
+        "location": {
+          "documents_with_false_positives": 847,
+          "documents_with_missed_pii": 1237,
+          "f1": 0.15892053973013492,
+          "false_negatives": 1556,
+          "false_positives": 1249,
+          "gold_spans_with_any_typed_overlap": 887,
+          "precision": 0.17503302509907528,
+          "recall": 0.1455244371224602,
+          "true_positives": 265
+        },
+        "person": {
+          "documents_with_false_positives": 1561,
+          "documents_with_missed_pii": 351,
+          "f1": 0.5867346938775511,
+          "false_negatives": 404,
+          "false_positives": 2188,
+          "gold_spans_with_any_typed_overlap": 1962,
+          "precision": 0.4568023833167825,
+          "recall": 0.8199643493761141,
+          "true_positives": 1840
+        },
+        "phone": {
+          "documents_with_false_positives": 302,
+          "documents_with_missed_pii": 498,
+          "f1": 0.4249180327868852,
+          "false_negatives": 559,
+          "false_positives": 318,
+          "gold_spans_with_any_typed_overlap": 462,
+          "precision": 0.5046728971962616,
+          "recall": 0.3669309173272933,
+          "true_positives": 324
+        },
+        "us_ssn": {
+          "documents_with_false_positives": 22,
+          "documents_with_missed_pii": 651,
+          "f1": 0.7463432037103104,
+          "false_negatives": 688,
+          "false_positives": 23,
+          "gold_spans_with_any_typed_overlap": 1046,
+          "precision": 0.9784845650140318,
+          "recall": 0.6032295271049596,
+          "true_positives": 1046
+        }
+      }
+    },
+    "native": {
+      "prediction_sha256": "0e84f16dd8df217e1b08215aaab893ce2491e48ae2571b08a0bfc0e8b38a1a2c",
+      "reference_environment": null,
+      "strict_exact": {
+        "all": {
+          "documents_with_false_positives": 2582,
+          "documents_with_missed_pii": 3003,
+          "f1": 0.6348146180410611,
+          "false_negatives": 4751,
+          "false_positives": 4872,
+          "gold_spans_with_any_typed_overlap": 9615,
+          "precision": 0.6319129646418857,
+          "recall": 0.6377430423179565,
+          "true_positives": 8364
+        },
+        "credit_card": {
+          "documents_with_false_positives": 24,
+          "documents_with_missed_pii": 214,
+          "f1": 0.7613636363636364,
+          "false_negatives": 228,
+          "false_positives": 24,
+          "gold_spans_with_any_typed_overlap": 402,
+          "precision": 0.9436619718309859,
+          "recall": 0.638095238095238,
+          "true_positives": 402
+        },
+        "date_time": {
+          "documents_with_false_positives": 476,
+          "documents_with_missed_pii": 649,
+          "f1": 0.8231201498528231,
+          "false_negatives": 747,
+          "false_positives": 575,
+          "gold_spans_with_any_typed_overlap": 3109,
+          "precision": 0.8425089016707751,
+          "recall": 0.8046037143604499,
+          "true_positives": 3076
+        },
+        "email": {
+          "documents_with_false_positives": 7,
+          "documents_with_missed_pii": 0,
+          "f1": 0.9959367945823928,
+          "false_negatives": 0,
+          "false_positives": 9,
+          "gold_spans_with_any_typed_overlap": 1103,
+          "precision": 0.9919064748201439,
+          "recall": 1.0,
+          "true_positives": 1103
+        },
+        "ip_address": {
+          "documents_with_false_positives": 21,
+          "documents_with_missed_pii": 207,
+          "f1": 0.846984126984127,
+          "false_negatives": 210,
+          "false_positives": 31,
+          "gold_spans_with_any_typed_overlap": 667,
+          "precision": 0.9555873925501432,
+          "recall": 0.7605473204104903,
+          "true_positives": 667
+        },
+        "location": {
+          "documents_with_false_positives": 992,
+          "documents_with_missed_pii": 1374,
+          "f1": 0.06972690296339337,
+          "false_negatives": 1701,
+          "false_positives": 1501,
+          "gold_spans_with_any_typed_overlap": 864,
+          "precision": 0.07402837754472548,
+          "recall": 0.06589785831960461,
+          "true_positives": 120
+        },
+        "person": {
+          "documents_with_false_positives": 1676,
+          "documents_with_missed_pii": 552,
+          "f1": 0.5194058457115477,
+          "false_negatives": 618,
+          "false_positives": 2391,
+          "gold_spans_with_any_typed_overlap": 1962,
+          "precision": 0.40477968633308437,
+          "recall": 0.7245989304812834,
+          "true_positives": 1626
+        },
+        "phone": {
+          "documents_with_false_positives": 302,
+          "documents_with_missed_pii": 498,
+          "f1": 0.4249180327868852,
+          "false_negatives": 559,
+          "false_positives": 318,
+          "gold_spans_with_any_typed_overlap": 462,
+          "precision": 0.5046728971962616,
+          "recall": 0.3669309173272933,
+          "true_positives": 324
+        },
+        "us_ssn": {
+          "documents_with_false_positives": 22,
+          "documents_with_missed_pii": 651,
+          "f1": 0.7463432037103104,
+          "false_negatives": 688,
+          "false_positives": 23,
+          "gold_spans_with_any_typed_overlap": 1046,
+          "precision": 0.9784845650140318,
+          "recall": 0.6032295271049596,
+          "true_positives": 1046
+        }
+      }
+    }
+  },
+  "schema_version": 1,
+  "selection_sha256": "ebc08cea4272bdabdc23d451636172e786a109ae0d9e6c49493f5e414587314d",
+  "split": "development"
+}

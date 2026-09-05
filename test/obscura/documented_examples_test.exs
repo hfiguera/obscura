@@ -100,7 +100,8 @@ defmodule Obscura.DocumentedExamplesTest do
 
             source = File.read!(test_file)
 
-            assert source =~ ~r/@(?:module)?tag :(?:real_model|gliner_ortex)/,
+            assert source =~ ~r/@(?:module)?tag :(?:real_model|gliner_ortex)/ or
+                     source =~ ~r/@moduletag skip: is_nil\(@model_dir\)/,
                    "#{test_file} is not an explicitly tagged opt-in test"
         end)
       end)

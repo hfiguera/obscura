@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "profile": "efficient",
+  "purpose": "Compatibility replay of frozen heldout predictions; no policy tuning",
+  "input_sha256": "cebae75a91b6552c988680c7c8b37fd2a9c9863bd228a6738077f816f4e8bd48",
+  "canonicalization": "UTF-8 JSON of predictions array, sorted keys, compact separators, ensure_ascii=False",
+  "platforms": {
+    "macos-arm64": {
+      "documents": 5000,
+      "identical_to_reference": true,
+      "mismatched_documents": 0,
+      "predictions_sha256": "713908b8445a0e0bcb4a1a7a4254eb8ab4d0ef543dde3b91971f87b6421b0bdb",
+      "created_at": "2026-09-05T16:10:37.268020Z"
+    },
+    "linux-arm64": {
+      "documents": 5000,
+      "identical_to_reference": true,
+      "mismatched_documents": 0,
+      "predictions_sha256": "713908b8445a0e0bcb4a1a7a4254eb8ab4d0ef543dde3b91971f87b6421b0bdb",
+      "created_at": "2026-09-05T16:09:24.430433Z"
+    },
+    "physical-linux-x86_64": {
+      "documents": 5000,
+      "identical_to_reference": true,
+      "mismatched_documents": 0,
+      "predictions_sha256": "713908b8445a0e0bcb4a1a7a4254eb8ab4d0ef543dde3b91971f87b6421b0bdb",
+      "created_at": "2026-09-05T16:09:26.332265Z"
+    }
+  }
+}

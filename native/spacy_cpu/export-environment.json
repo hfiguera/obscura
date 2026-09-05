@@ -1,0 +1,33 @@
+{
+  "schema_version": 2,
+  "python": {
+    "implementation": "CPython",
+    "version": "3.11.15"
+  },
+  "installer": {
+    "uv": "0.12.1"
+  },
+  "packages": {
+    "spacy": {
+      "version": "3.8.13",
+      "source": "https://pypi.org/project/spacy/3.8.13/"
+    },
+    "en_core_web_lg": {
+      "version": "3.8.0",
+      "source": "https://github.com/explosion/spacy-models/releases/tag/en_core_web_lg-3.8.0",
+      "wheel_sha256": "293e9547a655b25499198ab15a525b05b9407a75f10255e405e8c3854329ab63"
+    },
+    "numpy": {
+      "version": "2.4.6",
+      "source": "https://pypi.org/project/numpy/2.4.6/"
+    },
+    "thinc": {
+      "version": "8.3.13",
+      "source": "https://pypi.org/project/thinc/8.3.13/"
+    },
+    "blis": {
+      "version": "1.3.3",
+      "source": "https://pypi.org/project/blis/1.3.3/"
+    }
+  }
+}

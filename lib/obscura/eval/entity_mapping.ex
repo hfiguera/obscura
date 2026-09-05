@@ -257,6 +257,8 @@ defmodule Obscura.Eval.EntityMapping do
   """
   @spec supported?(atom(), atom()) :: boolean()
   def supported?(entity, :regex_only), do: entity in phase_0_supported_entities()
+  def supported?(entity, :spacy_cpu), do: entity in deterministic_plus_supported_entities()
+  def supported?(entity, :efficient), do: entity in deterministic_plus_supported_entities()
   def supported?(entity, :context), do: supported?(entity, :regex_only)
   def supported?(entity, :llm_safe), do: supported?(entity, :regex_only)
 

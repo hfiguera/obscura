@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "status": "unpublished_candidate",
+  "native": {
+    "aarch64-apple-darwin": {
+      "sha256": "a4c6202e03416471a23ff28c83b08d32d074fd9f238a68601b5feac1eafb3eda",
+      "independent_rebuild_sha256": "a4c6202e03416471a23ff28c83b08d32d074fd9f238a68601b5feac1eafb3eda"
+    },
+    "aarch64-unknown-linux-gnu": {
+      "sha256": "7b4a7a3e819bb72fba4662cfa6165433dd50e3f46998c168399232c885445028",
+      "independent_rebuild_sha256": "7b4a7a3e819bb72fba4662cfa6165433dd50e3f46998c168399232c885445028"
+    },
+    "x86_64-unknown-linux-gnu": {
+      "sha256": "28ae51895679027be746d7339f7e15fde2db432f1399eac4e371a3ac744f4080",
+      "independent_rebuild_sha256": "28ae51895679027be746d7339f7e15fde2db432f1399eac4e371a3ac744f4080"
+    }
+  },
+  "model_export": {
+    "fresh_macos_model_sha256": "216f7db87f64c157181c19eaa7840fc0820198e163c81d47a10cfb0cc6533750",
+    "fresh_linux_model_sha256": "216f7db87f64c157181c19eaa7840fc0820198e163c81d47a10cfb0cc6533750",
+    "export_environment_sha256": "ca7f15b93cc70e8020ee0d5fa404eba27826c9d61d638e0e92b1b3e125541ccd",
+    "hashed_requirements_sha256": "62083dd2a08b55430c7f1a989ded4779bfba1ed5b98c29af7091db4dea5cd73f",
+    "presidio_required": false,
+    "evaluation_environment_required": false
+  },
+  "macos": {
+    "os": "macOS 26.6.2 (25G83)",
+    "cpu": "Apple M4 Max",
+    "sdk": "26.5",
+    "clang": "Apple clang 21.0.0 (clang-2100.1.1.101)",
+    "rust": "1.90.0",
+    "reproduction": "Two separate target directories plus a repeated build on this recorded environment; content-derived UUID and deterministic ad-hoc signature. Different SDKs/toolchain paths are not claimed byte-identical."
+  },
+  "linux_build": {
+    "recipe": "native/spacy_cpu/release/Dockerfile",
+    "recipe_sha256": "b1e073c8a54e1976b9bac721cd138179decef315904589861b75a24b52e24459",
+    "rust": "1.90.0",
+    "distribution": "Debian 12",
+    "package_snapshot": "20260904T000000Z",
+    "no_python_in_inference_image": true,
+    "native_abis": [
+      "x86_64-unknown-linux-gnu",
+      "aarch64-unknown-linux-gnu"
+    ]
+  },
+  "physical_linux": {
+    "manufacturer": "System76",
+    "product": "Meerkat",
+    "cpu": "11th Gen Intel Core i5-1135G7 @ 2.40GHz",
+    "physical_cores": 4,
+    "logical_cpus": 8,
+    "memory_reported_gib": 62,
+    "os": "Pop!_OS 22.04 LTS",
+    "kernel": "6.9.3-76060903-generic",
+    "virtualization": "none",
+    "measurement": "Native x86-64 container on this physical host; no QEMU, no Docker Desktop."
+  },
+  "package_consumer": {
+    "passed": true,
+    "elixir": "1.17.3",
+    "otp": "27",
+    "architecture": "Linux ARM64",
+    "environment": "prod",
+    "workers": 4,
+    "nx_loaded": false,
+    "bumblebee_loaded": false,
+    "python_installed": false,
+    "artifact_sha256": "9087adec0b592616c87199e8a608f508b10e253b31b10b55c5b2e12aadcae6b0",
+    "package_version": "0.2.0-dev"
+  },
+  "compatibility": {
+    "macos_full_suite_passed": 864,
+    "macos_excluded": 14,
+    "linux_arm64_tests_passed": 183,
+    "physical_linux_x86_64_tests_passed": 183,
+    "hosted_release_ci_run": false,
+    "release_ci_targets": [
+      "x86_64-unknown-linux-gnu",
+      "aarch64-unknown-linux-gnu"
+    ],
+    "macos_validation_scope": "local_development",
+    "final_installer_and_native_tests_passed": 34
+  }
+}

@@ -1,4 +1,24 @@
 %{
+  "docs/efficient.md" => %{
+    "Install once, prepare at startup" => [
+      {:test, "test/mix/tasks/obscura.efficient.install_test.exs"},
+      {:opt_in, "test/obscura/spacy/real_model_test.exs",
+       "Requires the verified native executable and an explicit OBSCURA_SPACY_MODEL_DIR."}
+    ]
+  },
+  "docs/spacy-cpu.md" => %{
+    "Provision local assets" => [{:test, "test/obscura/spacy/profile_test.exs"}],
+    "Readiness and checks" => [{:test, "test/obscura/spacy/profile_test.exs"}],
+    "Prepare and use" => [
+      {:opt_in, "test/obscura/spacy/real_model_test.exs",
+       "Requires the verified native executable and an explicit OBSCURA_SPACY_MODEL_DIR."}
+    ],
+    "Ownership and bounded admission" => [
+      {:test, "test/obscura/spacy/serving_test.exs"},
+      {:opt_in, "test/obscura/spacy/real_model_test.exs",
+       "Requires the verified native executable and an explicit OBSCURA_SPACY_MODEL_DIR."}
+    ]
+  },
   "README.md" => %{
     "Product Profiles" => [
       {:test, "test/obscura/documented_examples_test.exs"},

@@ -38,6 +38,9 @@ accelerator dependencies. See the
 [optional dependencies and assets guide](docs/optional-dependencies-and-assets.md)
 before enabling a model-backed profile.
 
+The upcoming `:efficient` CPU profile (unpublished on this branch) adds English person/location NER with verified
+local assets. See its [installation and public contract](docs/efficient.md).
+
 ## Analyze
 
 ```elixir
@@ -114,11 +117,12 @@ field-policy, and struct behavior.
 
 ## Product Profiles
 
-Obscura exposes three stable user-facing profiles:
+Obscura exposes four stable user-facing profiles:
 
 | Profile | Intended use | Runtime requirements |
 | --- | --- | --- |
 | `:fast` | Common deterministic identifiers and context-labeled PII | Dependency-light BEAM execution |
+| `:efficient` | Native CPU person/location NER | Versioned native assets and platform libraries |
 | `:balanced` | General text needing person, location, and organization recognition | One local TNER model |
 | `:accurate` | Highest measured general accuracy with conditional location recovery | Two local NER models |
 

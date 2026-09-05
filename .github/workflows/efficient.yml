@@ -1,0 +1,98 @@
+name: Efficient Linux release validation
+
+on:
+  pull_request:
+    paths:
+      - 'lib/**'
+      - 'native/spacy_cpu/**'
+      - 'priv/obscura/**'
+      - 'test/obscura/spacy/**'
+      - 'eval/efficient/**'
+      - '.github/workflows/efficient.yml'
+  push:
+    branches: [main, efficient-cpu-profile]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: efficient-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compatibility:
+    name: Linux runtime / ${{ matrix.target }} / Elixir ${{ matrix.elixir }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            target: x86_64-unknown-linux-gnu
+            elixir: 1.18.4
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+            elixir: 1.18.4
+          - os: ubuntu-24.04
+            target: x86_64-unknown-linux-gnu
+            elixir: 1.17.3
+    env:
+      MIX_ENV: test
+      OBSCURA_COMPATIBILITY_RUNTIME: '1'
+      OBSCURA_EFFICIENT_ASSET_DIR: ${{ github.workspace }}/.cache/efficient-ci-v1
+      OBSCURA_SPACY_MODEL_DIR: ${{ github.workspace }}/.cache/efficient-ci-v1/model
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          otp-version: 27.3.4.15
+          elixir-version: ${{ matrix.elixir }}
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: '0.12.1'
+      - name: Install platform libraries
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl build-essential libopenblas-dev libpcre2-dev
+      - name: Install the pinned native toolchain
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          rustup toolchain install 1.90.0 --profile minimal
+          rustup target add "$TARGET" --toolchain 1.90.0
+      - name: Provision without the evaluation environment
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get --only test
+          mix compile --warnings-as-errors
+          mix obscura.efficient.install --allow-download --from-source
+      - name: Verify real runtime and compatibility contract
+        run: |
+          mix test test/obscura/spacy test/obscura/profile_test.exs test/obscura/profile test/obscura/capabilities_test.exs test/obscura/public_api_contract_test.exs test/obscura/analyzer test/mix/tasks/obscura.efficient.install_test.exs test/mix/tasks/obscura.profile.check_test.exs test/mix/tasks/obscura.profile.prepare_test.exs
+          mix obscura.profile.check --profile efficient --prepare --offline --json
+      - name: Verify idempotent installation and native reproducibility
+        run: |
+          mix obscura.efficient.install
+          mix obscura.spacy.build --offline --target-dir "$RUNNER_TEMP/independent-build" --output "$RUNNER_TEMP/rebuilt"
+          cmp "$OBSCURA_EFFICIENT_ASSET_DIR/obscura-spacy-cpu" "$RUNNER_TEMP/rebuilt"
+
+  linux-reproducibility:
+    name: Reproducible Linux / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Build pinned environment and compare independent native builds
+        run: |
+          docker build -f native/spacy_cpu/release/Dockerfile -t efficient-build .
+          docker run --rm --network none efficient-build sh -c 'mix obscura.spacy.build --offline --target-dir /tmp/rebuild --output /tmp/rebuilt && cmp priv/spacy_cpu/obscura-spacy-cpu /tmp/rebuilt'

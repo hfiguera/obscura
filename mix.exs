@@ -1,7 +1,7 @@
 defmodule Obscura.MixProject do
   use Mix.Project
 
-  @version "0.1.3"
+  @version "0.2.0-dev"
   @source_url "https://github.com/hfiguera/obscura"
   @security_url "#{@source_url}/security/advisories/new"
 
@@ -116,6 +116,8 @@ defmodule Obscura.MixProject do
       extras: [
         "README.md",
         "docs/profiles.md",
+        "docs/spacy-cpu.md",
+        "docs/efficient.md",
         "docs/public-api-stability.md",
         "docs/security-threat-model.md",
         "docs/operators.md",
@@ -239,9 +241,14 @@ defmodule Obscura.MixProject do
   defp package do
     [
       description: "Privacy-first PII detection and anonymization toolkit for Elixir.",
-      exclude_patterns: ["eval/datasets"],
+      exclude_patterns: [
+        "eval/datasets",
+        "native/spacy_cpu/target",
+        "native/spacy_cpu/assets",
+        "native/spacy_cpu/__pycache__"
+      ],
       files:
-        ~w(lib priv/tiktoken priv/obscura .formatter.exs mix.exs README.md CHANGELOG.md SECURITY.md LICENSE THIRD_PARTY_NOTICES.md),
+        ~w(lib priv/tiktoken priv/obscura native/spacy_cpu .formatter.exs mix.exs README.md CHANGELOG.md SECURITY.md LICENSE THIRD_PARTY_NOTICES.md),
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url, "Security" => @security_url}
     ]

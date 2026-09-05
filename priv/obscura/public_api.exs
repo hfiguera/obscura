@@ -1,6 +1,6 @@
 %{
   baseline_version: 1,
-  release_line: "0.1.x",
+  release_line: "0.2.x",
   stable: %{
     Obscura => %{
       functions: [
@@ -232,6 +232,8 @@
     Obscura.Vault.Memory => %{functions: [child_spec: 1, start_link: 0, start_link: 1]}
   },
   experimental: %{
+    Obscura.Spacy.Serving => "Experimental macOS/Linux CPU pool and lifecycle API may change.",
+    Obscura.Recognizer.Spacy => "Experimental pinned spaCy NER adapter.",
     Obscura.NLP.Artifacts => "Model artifact representation may evolve with adapters.",
     Obscura.NLP.Engine => "The model-engine callback contract is not frozen.",
     Obscura.NLP.Engine.Bumblebee => "Optional Bumblebee adapter.",
@@ -255,8 +257,8 @@
   },
   deprecated: %{},
   internal_default: true,
-  stable_profiles: [:fast, :balanced, :accurate],
-  experimental_profiles: [:hybrid_gliner_urchade, :openmed_pii],
+  stable_profiles: [:fast, :efficient, :balanced, :accurate],
+  experimental_profiles: [:hybrid_gliner_urchade, :openmed_pii, :spacy_cpu],
   operators: %{
     replace: %{required: [:type], optional: %{value: "[REDACTED]"}},
     redact: %{required: [:type], optional: %{}},
@@ -303,6 +305,7 @@
     :unsupported_model_architecture
   ],
   stable_mix_tasks: [
+    Mix.Tasks.Obscura.Efficient.Install,
     Mix.Tasks.Obscura.Detect,
     Mix.Tasks.Obscura.Docs.Verify,
     Mix.Tasks.Obscura.Profile.Check,
@@ -310,6 +313,7 @@
     Mix.Tasks.Obscura.Redact
   ],
   experimental_mix_tasks: [
+    Mix.Tasks.Obscura.Spacy.Build,
     Mix.Tasks.Obscura.Ner.Smoke,
     Mix.Tasks.Obscura.Operational.Benchmark,
     Mix.Tasks.Obscura.Operational.Promote,

@@ -1,0 +1,1387 @@
+{
+  "asset_bytes": 427641912,
+  "binary_sha256": "debd259120738b3514e955a38a03f4e9357c6f4d92f8416c45fb665ec6fcdc05",
+  "branch": "benchmark-spacy-hybrid",
+  "datasets": [
+    {
+      "authoritative": {
+        "accurate": {
+          "report": "eval/authoritative/reports/accurate__generated_large__template_heldout.json",
+          "sha256": "f5d8d9fd8f1bf18280077f67f863b7a75695c3c80e8fd6bdd60335be4a617740",
+          "shared_f1": 0.8023567220139262,
+          "strict_exact": {
+            "f1": 0.7531422825540472,
+            "precision": 0.7729618163054696,
+            "recall": 0.734313725490196
+          }
+        },
+        "balanced": {
+          "report": "eval/authoritative/reports/balanced__generated_large__template_heldout.json",
+          "sha256": "d3f025fe84b593473d87c87051786c63b294c71684a0c80c4d868d0d4003cc16",
+          "shared_f1": 0.7878128400435256,
+          "strict_exact": {
+            "f1": 0.7387755102040816,
+            "precision": 0.7702127659574468,
+            "recall": 0.7098039215686275
+          }
+        },
+        "presidio": {
+          "report": "eval/authoritative/reports/external__presidio_spacy_en_core_web_lg__presidio_obscura_common_v1__generated_large__template_heldout.json",
+          "sha256": "fefe0b28e322b5f0b5f89b416c23e8732d9d689478ce426bb8521c109c6ad6a7",
+          "shared_f1": 0.6809001731102134,
+          "strict_exact": {
+            "f1": 0.6161879895561357,
+            "precision": 0.659217877094972,
+            "recall": 0.5784313725490197
+          }
+        }
+      },
+      "concurrency": [],
+      "live_speedup_over_python": 4.817710102536665,
+      "modes": {
+        "fast": {
+          "latency": {
+            "mean_ms": 0.10421219135802473,
+            "p50_ms": 0.074,
+            "p95_ms": 0.175
+          },
+          "output_fingerprint_sha256": "46ea5e1c66d8c9d2b31548070d80f1e69ad8daa77795ffddb5816c9e010c1408",
+          "peak_worker_rss_bytes": 0,
+          "per_entity": {
+            "location": {
+              "f1": 0.7263843648208469,
+              "f2": 0.6302996042962126,
+              "false_negatives": 162,
+              "false_positives": 6,
+              "offset_mismatches": 14,
+              "precision": 0.9737991266375546,
+              "prediction_count": 243,
+              "recall": 0.5792207792207792,
+              "support_count": 399,
+              "true_positives": 223,
+              "wrong_entity_type": 0
+            },
+            "person": {
+              "f1": 0.5905848787446506,
+              "f2": 0.48072457036692984,
+              "false_negatives": 277,
+              "false_positives": 10,
+              "offset_mismatches": 15,
+              "precision": 0.9539170506912442,
+              "prediction_count": 232,
+              "recall": 0.42768595041322316,
+              "support_count": 499,
+              "true_positives": 207,
+              "wrong_entity_type": 0
+            },
+            "phone": {
+              "f1": 0.768421052631579,
+              "f2": 0.6746765249537894,
+              "false_negatives": 44,
+              "false_positives": 0,
+              "offset_mismatches": 5,
+              "precision": 1.0,
+              "prediction_count": 78,
+              "recall": 0.6239316239316239,
+              "support_count": 122,
+              "true_positives": 73,
+              "wrong_entity_type": 0
+            }
+          },
+          "repetition_latencies": [
+            {
+              "max_ms": 3.504,
+              "mean_ms": 0.0861990740740743,
+              "p50_ms": 0.075,
+              "p95_ms": 0.145
+            },
+            {
+              "max_ms": 1.304,
+              "mean_ms": 0.12222530864197516,
+              "p50_ms": 0.073,
+              "p95_ms": 0.205
+            }
+          ],
+          "shared_f1": 0.6684385382059801,
+          "strict_exact": {
+            "f1": 0.6395422759059123,
+            "f2": 0.5428448089790633,
+            "false_negatives": 517,
+            "false_positives": 50,
+            "precision": 0.9095840867992767,
+            "recall": 0.4931372549019608,
+            "true_positives": 503
+          }
+        },
+        "native": {
+          "latency": {
+            "mean_ms": 0.3793433641975311,
+            "p50_ms": 0.3215,
+            "p95_ms": 0.8074999999999999
+          },
+          "output_fingerprint_sha256": "e8f86c0df8cc3cbc8c168486abcc2e219e2f94072f9bf6b46cdd8178a2de6e27",
+          "peak_worker_rss_bytes": 84279296,
+          "per_entity": {
+            "location": {
+              "f1": 0.7442455242966751,
+              "f2": 0.7546680497925311,
+              "false_negatives": 91,
+              "false_positives": 109,
+              "offset_mismatches": 17,
+              "precision": 0.7275,
+              "prediction_count": 417,
+              "recall": 0.7617801047120419,
+              "support_count": 399,
+              "true_positives": 291,
+              "wrong_entity_type": 0
+            },
+            "person": {
+              "f1": 0.7893700787401575,
+              "f2": 0.8463486703250316,
+              "false_negatives": 50,
+              "false_positives": 164,
+              "offset_mismatches": 48,
+              "precision": 0.7097345132743362,
+              "prediction_count": 613,
+              "recall": 0.8891352549889135,
+              "support_count": 499,
+              "true_positives": 401,
+              "wrong_entity_type": 0
+            },
+            "phone": {
+              "f1": 0.768421052631579,
+              "f2": 0.6746765249537894,
+              "false_negatives": 44,
+              "false_positives": 0,
+              "offset_mismatches": 5,
+              "precision": 1.0,
+              "prediction_count": 78,
+              "recall": 0.6239316239316239,
+              "support_count": 122,
+              "true_positives": 73,
+              "wrong_entity_type": 0
+            }
+          },
+          "repetition_latencies": [
+            {
+              "max_ms": 1.381,
+              "mean_ms": 0.40899537037037054,
+              "p50_ms": 0.324,
+              "p95_ms": 1.047
+            },
+            {
+              "max_ms": 0.886,
+              "mean_ms": 0.34969135802469165,
+              "p50_ms": 0.319,
+              "p95_ms": 0.568
+            }
+          ],
+          "shared_f1": 0.783811475409836,
+          "strict_exact": {
+            "f1": 0.7189849624060151,
+            "f2": 0.7372783346183501,
+            "false_negatives": 255,
+            "false_positives": 343,
+            "precision": 0.6904332129963899,
+            "recall": 0.75,
+            "true_positives": 765
+          }
+        },
+        "python": {
+          "latency": {
+            "mean_ms": 1.8275663580246913,
+            "p50_ms": 1.6895,
+            "p95_ms": 3.0869999999999997
+          },
+          "output_fingerprint_sha256": "e8f86c0df8cc3cbc8c168486abcc2e219e2f94072f9bf6b46cdd8178a2de6e27",
+          "peak_worker_rss_bytes": 803749888,
+          "per_entity": {
+            "location": {
+              "f1": 0.7442455242966751,
+              "f2": 0.7546680497925311,
+              "false_negatives": 91,
+              "false_positives": 109,
+              "offset_mismatches": 17,
+              "precision": 0.7275,
+              "prediction_count": 417,
+              "recall": 0.7617801047120419,
+              "support_count": 399,
+              "true_positives": 291,
+              "wrong_entity_type": 0
+            },
+            "person": {
+              "f1": 0.7893700787401575,
+              "f2": 0.8463486703250316,
+              "false_negatives": 50,
+              "false_positives": 164,
+              "offset_mismatches": 48,
+              "precision": 0.7097345132743362,
+              "prediction_count": 613,
+              "recall": 0.8891352549889135,
+              "support_count": 499,
+              "true_positives": 401,
+              "wrong_entity_type": 0
+            },
+            "phone": {
+              "f1": 0.768421052631579,
+              "f2": 0.6746765249537894,
+              "false_negatives": 44,
+              "false_positives": 0,
+              "offset_mismatches": 5,
+              "precision": 1.0,
+              "prediction_count": 78,
+              "recall": 0.6239316239316239,
+              "support_count": 122,
+              "true_positives": 73,
+              "wrong_entity_type": 0
+            }
+          },
+          "repetition_latencies": [
+            {
+              "max_ms": 12.178,
+              "mean_ms": 1.8430370370370375,
+              "p50_ms": 1.717,
+              "p95_ms": 3.134
+            },
+            {
+              "max_ms": 4.05,
+              "mean_ms": 1.812095679012345,
+              "p50_ms": 1.662,
+              "p95_ms": 3.04
+            }
+          ],
+          "shared_f1": 0.783811475409836,
+          "strict_exact": {
+            "f1": 0.7189849624060151,
+            "f2": 0.7372783346183501,
+            "false_negatives": 255,
+            "false_positives": 343,
+            "precision": 0.6904332129963899,
+            "recall": 0.75,
+            "true_positives": 765
+          }
+        }
+      },
+      "name": "generated_large",
+      "parity": [
+        {
+          "all_label_mismatches": 0,
+          "documents": 648,
+          "mapped_label_mismatches": 0,
+          "mismatch_sample_ids": [],
+          "repetition": 1,
+          "token_feature_mismatches_among_entity_mismatches": 0
+        },
+        {
+          "all_label_mismatches": 0,
+          "documents": 648,
+          "mapped_label_mismatches": 0,
+          "mismatch_sample_ids": [],
+          "repetition": 2,
+          "token_feature_mismatches_among_entity_mismatches": 0
+        }
+      ],
+      "samples": 648,
+      "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817"
+    },
+    {
+      "authoritative": {
+        "accurate": {
+          "report": "eval/authoritative/reports/accurate__synth_dataset_v2__all.json",
+          "sha256": "e5e9d630c18b042fd1bc3908299e0e290228fd85dc7a147252ca1eea1ca140ff",
+          "shared_f1": 0.8422774869109947,
+          "strict_exact": {
+            "f1": 0.8023690773067331,
+            "precision": 0.7881200244947949,
+            "recall": 0.8171428571428572
+          }
+        },
+        "balanced": {
+          "report": "eval/authoritative/reports/balanced__synth_dataset_v2__all.json",
+          "sha256": "af74fbf1020d27c2f47536980a5fdc278c5a5cf0cc9843c0ec5f50e5f6658edf",
+          "shared_f1": 0.8387734915924827,
+          "strict_exact": {
+            "f1": 0.7992459943449576,
+            "precision": 0.7910447761194029,
+            "recall": 0.8076190476190476
+          }
+        },
+        "presidio": {
+          "report": "eval/authoritative/reports/external__presidio_spacy_en_core_web_lg__presidio_obscura_common_v1__synth_dataset_v2__all.json",
+          "sha256": "1fc34c728e1126e357b560bbef428328663223dc412541bc8ed878062dbc4e6f",
+          "shared_f1": 0.7210561949898443,
+          "strict_exact": {
+            "f1": 0.6570018507094386,
+            "precision": 0.638872225554889,
+            "recall": 0.6761904761904762
+          }
+        }
+      },
+      "concurrency": [],
+      "live_speedup_over_python": 4.6952225379423345,
+      "modes": {
+        "fast": {
+          "latency": {
+            "mean_ms": 0.11283966666666678,
+            "p50_ms": 0.07050000000000001,
+            "p95_ms": 0.16899999999999998
+          },
+          "output_fingerprint_sha256": "0f62a55efb15d15525fb9aeab2e3b0c409632fdc3a632e301dbcf5dcd36cd177",
+          "peak_worker_rss_bytes": 0,
+          "per_entity": {
+            "credit_card": {
+              "f1": 0.9509433962264151,
+              "f2": 0.9361069836552749,
+              "false_negatives": 10,
+              "false_positives": 3,
+              "offset_mismatches": 0,
+              "precision": 0.9767441860465116,
+              "prediction_count": 129,
+              "recall": 0.9264705882352942,
+              "support_count": 136,
+              "true_positives": 126,
+              "wrong_entity_type": 0
+            },
+            "email": {
+              "f1": 1.0,
+              "f2": 1.0,
+              "false_negatives": 0,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 49,
+              "recall": 1.0,
+              "support_count": 49,
+              "true_positives": 49,
+              "wrong_entity_type": 0
+            },
+            "ip_address": {
+              "f1": 1.0,
+              "f2": 1.0,
+              "false_negatives": 0,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 14,
+              "recall": 1.0,
+              "support_count": 14,
+              "true_positives": 14,
+              "wrong_entity_type": 0
+            },
+            "location": {
+              "f1": 0.5551601423487544,
+              "f2": 0.4411764705882353,
+              "false_negatives": 246,
+              "false_positives": 4,
+              "offset_mismatches": 9,
+              "precision": 0.975,
+              "prediction_count": 169,
+              "recall": 0.3880597014925373,
+              "support_count": 411,
+              "true_positives": 156,
+              "wrong_entity_type": 0
+            },
+            "person": {
+              "f1": 0.5861781848459617,
+              "f2": 0.47261009667024706,
+              "false_negatives": 489,
+              "false_positives": 8,
+              "offset_mismatches": 16,
+              "precision": 0.9777777777777777,
+              "prediction_count": 376,
+              "recall": 0.41854934601664684,
+              "support_count": 857,
+              "true_positives": 352,
+              "wrong_entity_type": 0
+            },
+            "phone": {
+              "f1": 0.576271186440678,
+              "f2": 0.45945945945945943,
+              "false_negatives": 50,
+              "false_positives": 0,
+              "offset_mismatches": 8,
+              "precision": 1.0,
+              "prediction_count": 42,
+              "recall": 0.40476190476190477,
+              "support_count": 92,
+              "true_positives": 34,
+              "wrong_entity_type": 0
+            },
+            "url": {
+              "f1": null,
+              "f2": null,
+              "false_negatives": 0,
+              "false_positives": 37,
+              "offset_mismatches": 0,
+              "precision": 0.0,
+              "prediction_count": 37,
+              "recall": null,
+              "support_count": 0,
+              "true_positives": 0,
+              "wrong_entity_type": 0
+            },
+            "us_ssn": {
+              "f1": 1.0,
+              "f2": 1.0,
+              "false_negatives": 0,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 16,
+              "recall": 1.0,
+              "support_count": 16,
+              "true_positives": 16,
+              "wrong_entity_type": 0
+            }
+          },
+          "repetition_latencies": [
+            {
+              "max_ms": 1.251,
+              "mean_ms": 0.07839866666666671,
+              "p50_ms": 0.065,
+              "p95_ms": 0.159
+            },
+            {
+              "max_ms": 2.209,
+              "mean_ms": 0.14728066666666684,
+              "p50_ms": 0.076,
+              "p95_ms": 0.179
+            }
+          ],
+          "shared_f1": 0.6381888082016232,
+          "strict_exact": {
+            "f1": 0.6206896551724138,
+            "f2": 0.5236960179472799,
+            "false_negatives": 828,
+            "false_positives": 85,
+            "precision": 0.8978365384615384,
+            "recall": 0.4742857142857143,
+            "true_positives": 747
+          }
+        },
+        "native": {
+          "latency": {
+            "mean_ms": 0.4221976666666668,
+            "p50_ms": 0.325,
+            "p95_ms": 1.1675
+          },
+          "output_fingerprint_sha256": "f980f6161ed4c89ac82d597903686729090475a501035137a2c41cdee65ce8aa",
+          "peak_worker_rss_bytes": 115359744,
+          "per_entity": {
+            "credit_card": {
+              "f1": 0.9509433962264151,
+              "f2": 0.9361069836552749,
+              "false_negatives": 10,
+              "false_positives": 3,
+              "offset_mismatches": 0,
+              "precision": 0.9767441860465116,
+              "prediction_count": 129,
+              "recall": 0.9264705882352942,
+              "support_count": 136,
+              "true_positives": 126,
+              "wrong_entity_type": 0
+            },
+            "email": {
+              "f1": 1.0,
+              "f2": 1.0,
+              "false_negatives": 0,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 49,
+              "recall": 1.0,
+              "support_count": 49,
+              "true_positives": 49,
+              "wrong_entity_type": 0
+            },
+            "ip_address": {
+              "f1": 1.0,
+              "f2": 1.0,
+              "false_negatives": 0,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 14,
+              "recall": 1.0,
+              "support_count": 14,
+              "true_positives": 14,
+              "wrong_entity_type": 0
+            },
+            "location": {
+              "f1": 0.6386363636363637,
+              "f2": 0.6873776908023483,
+              "false_negatives": 107,
+              "false_positives": 211,
+              "offset_mismatches": 23,
+              "precision": 0.5711382113821138,
+              "prediction_count": 515,
+              "recall": 0.7242268041237113,
+              "support_count": 411,
+              "true_positives": 281,
+              "wrong_entity_type": 0
+            },
+            "person": {
+              "f1": 0.8203350664355863,
+              "f2": 0.8587324625060474,
+              "false_negatives": 91,
+              "false_positives": 220,
+              "offset_mismatches": 56,
+              "precision": 0.7634408602150538,
+              "prediction_count": 986,
+              "recall": 0.8863920099875156,
+              "support_count": 857,
+              "true_positives": 710,
+              "wrong_entity_type": 0
+            },
+            "phone": {
+              "f1": 0.576271186440678,
+              "f2": 0.45945945945945943,
+              "false_negatives": 50,
+              "false_positives": 0,
+              "offset_mismatches": 8,
+              "precision": 1.0,
+              "prediction_count": 42,
+              "recall": 0.40476190476190477,
+              "support_count": 92,
+              "true_positives": 34,
+              "wrong_entity_type": 0
+            },
+            "url": {
+              "f1": null,
+              "f2": null,
+              "false_negatives": 0,
+              "false_positives": 37,
+              "offset_mismatches": 0,
+              "precision": 0.0,
+              "prediction_count": 37,
+              "recall": null,
+              "support_count": 0,
+              "true_positives": 0,
+              "wrong_entity_type": 0
+            },
+            "us_ssn": {
+              "f1": 1.0,
+              "f2": 1.0,
+              "false_negatives": 0,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 16,
+              "recall": 1.0,
+              "support_count": 16,
+              "true_positives": 16,
+              "wrong_entity_type": 0
+            }
+          },
+          "repetition_latencies": [
+            {
+              "max_ms": 2.205,
+              "mean_ms": 0.4263566666666669,
+              "p50_ms": 0.321,
+              "p95_ms": 1.397
+            },
+            {
+              "max_ms": 1.719,
+              "mean_ms": 0.41803866666666667,
+              "p50_ms": 0.329,
+              "p95_ms": 0.938
+            }
+          ],
+          "shared_f1": 0.7907425265188043,
+          "strict_exact": {
+            "f1": 0.7314897413024085,
+            "f2": 0.760385756676558,
+            "false_negatives": 345,
+            "false_positives": 558,
+            "precision": 0.6879194630872483,
+            "recall": 0.780952380952381,
+            "true_positives": 1230
+          }
+        },
+        "python": {
+          "latency": {
+            "mean_ms": 1.9823119999999992,
+            "p50_ms": 1.7445,
+            "p95_ms": 3.6805
+          },
+          "output_fingerprint_sha256": "f980f6161ed4c89ac82d597903686729090475a501035137a2c41cdee65ce8aa",
+          "peak_worker_rss_bytes": 807124992,
+          "per_entity": {
+            "credit_card": {
+              "f1": 0.9509433962264151,
+              "f2": 0.9361069836552749,
+              "false_negatives": 10,
+              "false_positives": 3,
+              "offset_mismatches": 0,
+              "precision": 0.9767441860465116,
+              "prediction_count": 129,
+              "recall": 0.9264705882352942,
+              "support_count": 136,
+              "true_positives": 126,
+              "wrong_entity_type": 0
+            },
+            "email": {
+              "f1": 1.0,
+              "f2": 1.0,
+              "false_negatives": 0,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 49,
+              "recall": 1.0,
+              "support_count": 49,
+              "true_positives": 49,
+              "wrong_entity_type": 0
+            },
+            "ip_address": {
+              "f1": 1.0,
+              "f2": 1.0,
+              "false_negatives": 0,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 14,
+              "recall": 1.0,
+              "support_count": 14,
+              "true_positives": 14,
+              "wrong_entity_type": 0
+            },
+            "location": {
+              "f1": 0.6386363636363637,
+              "f2": 0.6873776908023483,
+              "false_negatives": 107,
+              "false_positives": 211,
+              "offset_mismatches": 23,
+              "precision": 0.5711382113821138,
+              "prediction_count": 515,
+              "recall": 0.7242268041237113,
+              "support_count": 411,
+              "true_positives": 281,
+              "wrong_entity_type": 0
+            },
+            "person": {
+              "f1": 0.8203350664355863,
+              "f2": 0.8587324625060474,
+              "false_negatives": 91,
+              "false_positives": 220,
+              "offset_mismatches": 56,
+              "precision": 0.7634408602150538,
+              "prediction_count": 986,
+              "recall": 0.8863920099875156,
+              "support_count": 857,
+              "true_positives": 710,
+              "wrong_entity_type": 0
+            },
+            "phone": {
+              "f1": 0.576271186440678,
+              "f2": 0.45945945945945943,
+              "false_negatives": 50,
+              "false_positives": 0,
+              "offset_mismatches": 8,
+              "precision": 1.0,
+              "prediction_count": 42,
+              "recall": 0.40476190476190477,
+              "support_count": 92,
+              "true_positives": 34,
+              "wrong_entity_type": 0
+            },
+            "url": {
+              "f1": null,
+              "f2": null,
+              "false_negatives": 0,
+              "false_positives": 37,
+              "offset_mismatches": 0,
+              "precision": 0.0,
+              "prediction_count": 37,
+              "recall": null,
+              "support_count": 0,
+              "true_positives": 0,
+              "wrong_entity_type": 0
+            },
+            "us_ssn": {
+              "f1": 1.0,
+              "f2": 1.0,
+              "false_negatives": 0,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 16,
+              "recall": 1.0,
+              "support_count": 16,
+              "true_positives": 16,
+              "wrong_entity_type": 0
+            }
+          },
+          "repetition_latencies": [
+            {
+              "max_ms": 5.956,
+              "mean_ms": 1.93075333333333,
+              "p50_ms": 1.708,
+              "p95_ms": 3.601
+            },
+            {
+              "max_ms": 7.034,
+              "mean_ms": 2.0338706666666684,
+              "p50_ms": 1.781,
+              "p95_ms": 3.76
+            }
+          ],
+          "shared_f1": 0.7907425265188043,
+          "strict_exact": {
+            "f1": 0.7314897413024085,
+            "f2": 0.760385756676558,
+            "false_negatives": 345,
+            "false_positives": 558,
+            "precision": 0.6879194630872483,
+            "recall": 0.780952380952381,
+            "true_positives": 1230
+          }
+        }
+      },
+      "name": "synth_dataset_v2",
+      "parity": [
+        {
+          "all_label_mismatches": 0,
+          "documents": 1500,
+          "mapped_label_mismatches": 0,
+          "mismatch_sample_ids": [],
+          "repetition": 1,
+          "token_feature_mismatches_among_entity_mismatches": 0
+        },
+        {
+          "all_label_mismatches": 0,
+          "documents": 1500,
+          "mapped_label_mismatches": 0,
+          "mismatch_sample_ids": [],
+          "repetition": 2,
+          "token_feature_mismatches_among_entity_mismatches": 0
+        }
+      ],
+      "samples": 1500,
+      "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc"
+    },
+    {
+      "authoritative": {
+        "accurate": {
+          "report": "eval/authoritative/reports/accurate__nemotron_pii_test_subset__all.json",
+          "sha256": "39a92d978a441a3935851f3c7bd1775694ef9fd6b2bdc9a3fb22dcdb01928e92",
+          "shared_f1": 0.6973084886128365,
+          "strict_exact": {
+            "f1": 0.5675766767778901,
+            "precision": 0.677938808373591,
+            "recall": 0.4881159420289855
+          }
+        },
+        "balanced": {
+          "report": "eval/authoritative/reports/balanced__nemotron_pii_test_subset__all.json",
+          "sha256": "97e413ac330b9a4dd173e619bbd350684036ad57cd9af6d25560de6467cad6c3",
+          "shared_f1": 0.6953999171156237,
+          "strict_exact": {
+            "f1": 0.5659359190556492,
+            "precision": 0.6766129032258065,
+            "recall": 0.4863768115942029
+          }
+        },
+        "presidio": {
+          "report": "eval/authoritative/reports/external__presidio_spacy_en_core_web_lg__presidio_obscura_common_v1__nemotron_pii_test_subset__all.json",
+          "sha256": "652c99b3fd433f65caa0156e1096a735e87bd613799409525f1c8eadf5373d31",
+          "shared_f1": 0.6253541076487251,
+          "strict_exact": {
+            "f1": 0.4927455357142857,
+            "precision": 0.47498655190962885,
+            "recall": 0.5118840579710144
+          }
+        }
+      },
+      "concurrency": [
+        {
+          "documents": 500,
+          "documents_per_second": 615.2755696221224,
+          "latency": {
+            "max_ms": 7.418,
+            "mean_ms": 1.6169840000000006,
+            "p50_ms": 1.358,
+            "p95_ms": 3.595
+          },
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "repetition": 1,
+          "sum_peak_worker_rss_bytes": 154943488,
+          "wall_ms": 812.644,
+          "workers": 1
+        },
+        {
+          "documents": 500,
+          "documents_per_second": 625.1836476965109,
+          "latency": {
+            "max_ms": 7.387,
+            "mean_ms": 1.5912160000000002,
+            "p50_ms": 1.32,
+            "p95_ms": 3.496
+          },
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "repetition": 2,
+          "sum_peak_worker_rss_bytes": 155074560,
+          "wall_ms": 799.765,
+          "workers": 1
+        },
+        {
+          "documents": 500,
+          "documents_per_second": 1020.8560899170044,
+          "latency": {
+            "max_ms": 11.159,
+            "mean_ms": 1.9216239999999993,
+            "p50_ms": 1.591,
+            "p95_ms": 4.236
+          },
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "repetition": 1,
+          "sum_peak_worker_rss_bytes": 259178496,
+          "wall_ms": 489.785,
+          "workers": 2
+        },
+        {
+          "documents": 500,
+          "documents_per_second": 1038.3676859976117,
+          "latency": {
+            "max_ms": 11.459,
+            "mean_ms": 1.9010640000000008,
+            "p50_ms": 1.589,
+            "p95_ms": 4.134
+          },
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "repetition": 2,
+          "sum_peak_worker_rss_bytes": 262176768,
+          "wall_ms": 481.525,
+          "workers": 2
+        },
+        {
+          "documents": 500,
+          "documents_per_second": 1952.1565473378441,
+          "latency": {
+            "max_ms": 10.475,
+            "mean_ms": 1.998859999999999,
+            "p50_ms": 1.689,
+            "p95_ms": 4.453
+          },
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "repetition": 1,
+          "sum_peak_worker_rss_bytes": 447004672,
+          "wall_ms": 256.127,
+          "workers": 4
+        },
+        {
+          "documents": 500,
+          "documents_per_second": 2016.3648168535838,
+          "latency": {
+            "max_ms": 10.782,
+            "mean_ms": 1.9108040000000006,
+            "p50_ms": 1.596,
+            "p95_ms": 4.34
+          },
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "repetition": 2,
+          "sum_peak_worker_rss_bytes": 447758336,
+          "wall_ms": 247.971,
+          "workers": 4
+        }
+      ],
+      "live_speedup_over_python": 6.089483284603746,
+      "modes": {
+        "fast": {
+          "latency": {
+            "mean_ms": 0.3531470000000001,
+            "p50_ms": 0.2425,
+            "p95_ms": 1.1199999999999999
+          },
+          "output_fingerprint_sha256": "2e14b2f13cbc4d47f64cd8705d065733580edf92a15c9d2a485c709c0284d8a3",
+          "peak_worker_rss_bytes": 0,
+          "per_entity": {
+            "credit_card": {
+              "f1": 0.15254237288135594,
+              "f2": 0.10250569476082003,
+              "false_negatives": 98,
+              "false_positives": 2,
+              "offset_mismatches": 0,
+              "precision": 0.8181818181818182,
+              "prediction_count": 11,
+              "recall": 0.08411214953271028,
+              "support_count": 107,
+              "true_positives": 9,
+              "wrong_entity_type": 0
+            },
+            "email": {
+              "f1": 0.9942196531791908,
+              "f2": 0.9907834101382488,
+              "false_negatives": 2,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 172,
+              "recall": 0.9885057471264368,
+              "support_count": 174,
+              "true_positives": 172,
+              "wrong_entity_type": 0
+            },
+            "ip_address": {
+              "f1": 0.6944444444444445,
+              "f2": 0.7861635220125786,
+              "false_negatives": 4,
+              "false_positives": 18,
+              "offset_mismatches": 0,
+              "precision": 0.5813953488372093,
+              "prediction_count": 43,
+              "recall": 0.8620689655172413,
+              "support_count": 29,
+              "true_positives": 25,
+              "wrong_entity_type": 0
+            },
+            "location": {
+              "f1": 0.0049261083743842365,
+              "f2": 0.003090234857849197,
+              "false_negatives": 403,
+              "false_positives": 1,
+              "offset_mismatches": 0,
+              "precision": 0.5,
+              "prediction_count": 2,
+              "recall": 0.0024752475247524753,
+              "support_count": 404,
+              "true_positives": 1,
+              "wrong_entity_type": 0
+            },
+            "person": {
+              "f1": 0.02095808383233533,
+              "f2": 0.013477088948787063,
+              "false_negatives": 636,
+              "false_positives": 18,
+              "offset_mismatches": 16,
+              "precision": 0.28,
+              "prediction_count": 41,
+              "recall": 0.01088646967340591,
+              "support_count": 659,
+              "true_positives": 7,
+              "wrong_entity_type": 0
+            },
+            "phone": {
+              "f1": 0.7514450867052023,
+              "f2": 0.8795669824086604,
+              "false_negatives": 1,
+              "false_positives": 85,
+              "offset_mismatches": 0,
+              "precision": 0.6046511627906976,
+              "prediction_count": 215,
+              "recall": 0.9923664122137404,
+              "support_count": 131,
+              "true_positives": 130,
+              "wrong_entity_type": 0
+            },
+            "url": {
+              "f1": 0.6440677966101694,
+              "f2": 0.5307262569832403,
+              "false_negatives": 42,
+              "false_positives": 0,
+              "offset_mismatches": 85,
+              "precision": 1.0,
+              "prediction_count": 123,
+              "recall": 0.475,
+              "support_count": 165,
+              "true_positives": 38,
+              "wrong_entity_type": 0
+            },
+            "us_ssn": {
+              "f1": 0.9824561403508771,
+              "f2": 0.9929078014184396,
+              "false_negatives": 0,
+              "false_positives": 2,
+              "offset_mismatches": 0,
+              "precision": 0.9655172413793104,
+              "prediction_count": 58,
+              "recall": 1.0,
+              "support_count": 56,
+              "true_positives": 56,
+              "wrong_entity_type": 0
+            }
+          },
+          "repetition_latencies": [
+            {
+              "max_ms": 1.458,
+              "mean_ms": 0.3414300000000001,
+              "p50_ms": 0.256,
+              "p95_ms": 0.83
+            },
+            {
+              "max_ms": 2.067,
+              "mean_ms": 0.36486400000000013,
+              "p50_ms": 0.229,
+              "p95_ms": 1.41
+            }
+          ],
+          "shared_f1": 0.40744186046511627,
+          "strict_exact": {
+            "f1": 0.36652719665271966,
+            "f2": 0.28949107732980833,
+            "false_negatives": 1287,
+            "false_positives": 227,
+            "precision": 0.6586466165413534,
+            "recall": 0.2539130434782609,
+            "true_positives": 438
+          }
+        },
+        "native": {
+          "latency": {
+            "mean_ms": 2.016913000000001,
+            "p50_ms": 1.631,
+            "p95_ms": 4.42
+          },
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "peak_worker_rss_bytes": 177913856,
+          "per_entity": {
+            "credit_card": {
+              "f1": 0.15254237288135594,
+              "f2": 0.10250569476082003,
+              "false_negatives": 98,
+              "false_positives": 2,
+              "offset_mismatches": 0,
+              "precision": 0.8181818181818182,
+              "prediction_count": 11,
+              "recall": 0.08411214953271028,
+              "support_count": 107,
+              "true_positives": 9,
+              "wrong_entity_type": 0
+            },
+            "email": {
+              "f1": 0.9942196531791908,
+              "f2": 0.9907834101382488,
+              "false_negatives": 2,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 172,
+              "recall": 0.9885057471264368,
+              "support_count": 174,
+              "true_positives": 172,
+              "wrong_entity_type": 0
+            },
+            "ip_address": {
+              "f1": 0.6944444444444445,
+              "f2": 0.7861635220125786,
+              "false_negatives": 4,
+              "false_positives": 18,
+              "offset_mismatches": 0,
+              "precision": 0.5813953488372093,
+              "prediction_count": 43,
+              "recall": 0.8620689655172413,
+              "support_count": 29,
+              "true_positives": 25,
+              "wrong_entity_type": 0
+            },
+            "location": {
+              "f1": 0.7258278145695364,
+              "f2": 0.6996935648621041,
+              "false_negatives": 127,
+              "false_positives": 80,
+              "offset_mismatches": 3,
+              "precision": 0.7740112994350282,
+              "prediction_count": 357,
+              "recall": 0.683291770573566,
+              "support_count": 404,
+              "true_positives": 274,
+              "wrong_entity_type": 0
+            },
+            "person": {
+              "f1": 0.46745562130177515,
+              "f2": 0.40554414784394244,
+              "false_negatives": 266,
+              "false_positives": 94,
+              "offset_mismatches": 235,
+              "precision": 0.626984126984127,
+              "prediction_count": 487,
+              "recall": 0.37264150943396224,
+              "support_count": 659,
+              "true_positives": 158,
+              "wrong_entity_type": 0
+            },
+            "phone": {
+              "f1": 0.7514450867052023,
+              "f2": 0.8795669824086604,
+              "false_negatives": 1,
+              "false_positives": 85,
+              "offset_mismatches": 0,
+              "precision": 0.6046511627906976,
+              "prediction_count": 215,
+              "recall": 0.9923664122137404,
+              "support_count": 131,
+              "true_positives": 130,
+              "wrong_entity_type": 0
+            },
+            "url": {
+              "f1": 0.6440677966101694,
+              "f2": 0.5307262569832403,
+              "false_negatives": 42,
+              "false_positives": 0,
+              "offset_mismatches": 85,
+              "precision": 1.0,
+              "prediction_count": 123,
+              "recall": 0.475,
+              "support_count": 165,
+              "true_positives": 38,
+              "wrong_entity_type": 0
+            },
+            "us_ssn": {
+              "f1": 0.9824561403508771,
+              "f2": 0.9929078014184396,
+              "false_negatives": 0,
+              "false_positives": 2,
+              "offset_mismatches": 0,
+              "precision": 0.9655172413793104,
+              "prediction_count": 58,
+              "recall": 1.0,
+              "support_count": 56,
+              "true_positives": 56,
+              "wrong_entity_type": 0
+            }
+          },
+          "repetition_latencies": [
+            {
+              "max_ms": 11.582,
+              "mean_ms": 2.044994,
+              "p50_ms": 1.622,
+              "p95_ms": 4.394
+            },
+            {
+              "max_ms": 10.432,
+              "mean_ms": 1.9888320000000024,
+              "p50_ms": 1.64,
+              "p95_ms": 4.446
+            }
+          ],
+          "shared_f1": 0.6937625754527164,
+          "strict_exact": {
+            "f1": 0.5402695079912253,
+            "f2": 0.5151804924695196,
+            "false_negatives": 863,
+            "false_positives": 604,
+            "precision": 0.5879945429740792,
+            "recall": 0.49971014492753624,
+            "true_positives": 862
+          }
+        },
+        "python": {
+          "latency": {
+            "mean_ms": 12.281958000000003,
+            "p50_ms": 10.2595,
+            "p95_ms": 28.948
+          },
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "peak_worker_rss_bytes": 830799872,
+          "per_entity": {
+            "credit_card": {
+              "f1": 0.15254237288135594,
+              "f2": 0.10250569476082003,
+              "false_negatives": 98,
+              "false_positives": 2,
+              "offset_mismatches": 0,
+              "precision": 0.8181818181818182,
+              "prediction_count": 11,
+              "recall": 0.08411214953271028,
+              "support_count": 107,
+              "true_positives": 9,
+              "wrong_entity_type": 0
+            },
+            "email": {
+              "f1": 0.9942196531791908,
+              "f2": 0.9907834101382488,
+              "false_negatives": 2,
+              "false_positives": 0,
+              "offset_mismatches": 0,
+              "precision": 1.0,
+              "prediction_count": 172,
+              "recall": 0.9885057471264368,
+              "support_count": 174,
+              "true_positives": 172,
+              "wrong_entity_type": 0
+            },
+            "ip_address": {
+              "f1": 0.6944444444444445,
+              "f2": 0.7861635220125786,
+              "false_negatives": 4,
+              "false_positives": 18,
+              "offset_mismatches": 0,
+              "precision": 0.5813953488372093,
+              "prediction_count": 43,
+              "recall": 0.8620689655172413,
+              "support_count": 29,
+              "true_positives": 25,
+              "wrong_entity_type": 0
+            },
+            "location": {
+              "f1": 0.7258278145695364,
+              "f2": 0.6996935648621041,
+              "false_negatives": 127,
+              "false_positives": 80,
+              "offset_mismatches": 3,
+              "precision": 0.7740112994350282,
+              "prediction_count": 357,
+              "recall": 0.683291770573566,
+              "support_count": 404,
+              "true_positives": 274,
+              "wrong_entity_type": 0
+            },
+            "person": {
+              "f1": 0.46745562130177515,
+              "f2": 0.40554414784394244,
+              "false_negatives": 266,
+              "false_positives": 94,
+              "offset_mismatches": 235,
+              "precision": 0.626984126984127,
+              "prediction_count": 487,
+              "recall": 0.37264150943396224,
+              "support_count": 659,
+              "true_positives": 158,
+              "wrong_entity_type": 0
+            },
+            "phone": {
+              "f1": 0.7514450867052023,
+              "f2": 0.8795669824086604,
+              "false_negatives": 1,
+              "false_positives": 85,
+              "offset_mismatches": 0,
+              "precision": 0.6046511627906976,
+              "prediction_count": 215,
+              "recall": 0.9923664122137404,
+              "support_count": 131,
+              "true_positives": 130,
+              "wrong_entity_type": 0
+            },
+            "url": {
+              "f1": 0.6440677966101694,
+              "f2": 0.5307262569832403,
+              "false_negatives": 42,
+              "false_positives": 0,
+              "offset_mismatches": 85,
+              "precision": 1.0,
+              "prediction_count": 123,
+              "recall": 0.475,
+              "support_count": 165,
+              "true_positives": 38,
+              "wrong_entity_type": 0
+            },
+            "us_ssn": {
+              "f1": 0.9824561403508771,
+              "f2": 0.9929078014184396,
+              "false_negatives": 0,
+              "false_positives": 2,
+              "offset_mismatches": 0,
+              "precision": 0.9655172413793104,
+              "prediction_count": 58,
+              "recall": 1.0,
+              "support_count": 56,
+              "true_positives": 56,
+              "wrong_entity_type": 0
+            }
+          },
+          "repetition_latencies": [
+            {
+              "max_ms": 39.63,
+              "mean_ms": 11.943834000000003,
+              "p50_ms": 10.033,
+              "p95_ms": 28.022
+            },
+            {
+              "max_ms": 41.988,
+              "mean_ms": 12.620082000000002,
+              "p50_ms": 10.486,
+              "p95_ms": 29.874
+            }
+          ],
+          "shared_f1": 0.6937625754527164,
+          "strict_exact": {
+            "f1": 0.5402695079912253,
+            "f2": 0.5151804924695196,
+            "false_negatives": 863,
+            "false_positives": 604,
+            "precision": 0.5879945429740792,
+            "recall": 0.49971014492753624,
+            "true_positives": 862
+          }
+        }
+      },
+      "name": "nemotron_pii_test_subset",
+      "parity": [
+        {
+          "all_label_mismatches": 0,
+          "documents": 500,
+          "mapped_label_mismatches": 0,
+          "mismatch_sample_ids": [],
+          "repetition": 1,
+          "token_feature_mismatches_among_entity_mismatches": 0
+        },
+        {
+          "all_label_mismatches": 0,
+          "documents": 500,
+          "mapped_label_mismatches": 0,
+          "mismatch_sample_ids": [],
+          "repetition": 2,
+          "token_feature_mismatches_among_entity_mismatches": 0
+        }
+      ],
+      "samples": 500,
+      "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd"
+    }
+  ],
+  "environment": {
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "cpu": "Apple M4 Max",
+    "environment_lock_sha256": "0c28ba3ac42c118c1181d31fa9b1ea67126db726d1e5f2a9686ef2e03962b05b",
+    "hardware_model": "Mac16,6",
+    "machine": "arm64",
+    "native_ready": {
+      "backend": "rust_accelerate_cpu",
+      "load_ms": 19.312834000000002,
+      "peak_rss_bytes": 54132736,
+      "pid": 96109,
+      "python_runtime": false,
+      "ready": true
+    },
+    "native_startup_ms": 27.018166962079704,
+    "packages": {
+      "en_core_web_lg": "3.8.0",
+      "presidio_analyzer": "2.2.363",
+      "presidio_evaluator": "0.2.5",
+      "spacy": "3.8.13"
+    },
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.15",
+    "python_model_load_ms": 447.0982910133898,
+    "python_pipeline": [
+      "ner"
+    ]
+  },
+  "historical_comparison_sha256": "6e66efdfa0e616543a883790b48738e6177848f5c868b2012df46b5751d9e14c",
+  "live_workers": {
+    "native": {
+      "backend": "rust_accelerate_cpu",
+      "load_ms": 19.94775,
+      "peak_rss_bytes": 53542912,
+      "pid": 96164,
+      "python_runtime": false,
+      "ready": true,
+      "startup_ms": 23.816
+    },
+    "python": {
+      "backend": "python_spacy_cpu",
+      "load_ms": 775.4687090055086,
+      "peak_rss_bytes": 798801920,
+      "pid": 96165,
+      "python_runtime": true,
+      "ready": true,
+      "startup_ms": 791.983
+    }
+  },
+  "measurement": "serial live Obscura.analyze including Port IPC, JSON, normal deterministic recognizers and conflict resolution; startup excluded",
+  "model_sha256": "ea006cbbe70e3f794a7136acf9c1d85199ee6925526578b3dc920ce2947fc95b",
+  "raw_text_omitted": true,
+  "schema_version": 1,
+  "source_results": "/Users/humberto/Projects/obscura/eval/reports/spacy_native/20260905T002321Z/results.json",
+  "source_results_sha256": "a39ba4ddd7e9ac2ecacdcd55db9426c987026e9b053f69f037b22f8b8afeb570",
+  "status": "exploratory_unpromoted"
+}

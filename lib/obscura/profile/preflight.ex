@@ -12,6 +12,8 @@ defmodule Obscura.Profile.Preflight do
   alias Obscura.Profile
   alias Obscura.Profile.Cache
   alias Obscura.Recognizer.NER.Backend
+  alias Obscura.Spacy.Assets, as: SpacyAssets
+  alias Obscura.Spacy.Serving, as: SpacyServing
 
   @type report :: map()
 
@@ -34,13 +36,21 @@ defmodule Obscura.Profile.Preflight do
   end
 
   defp validate_or_prepare(descriptor, opts) do
+    opts = if descriptor.name in [:efficient, :spacy_cpu], do: opts, else: runtime_options(opts)
+
     if Keyword.get(opts, :prepare, false) do
-      case Profile.prepare(descriptor.name, runtime_options(opts)) do
-        {:ok, runtime} -> {:ok, runtime.backend_metadata}
-        {:error, reason} -> {:error, reason}
+      case Profile.prepare(descriptor.name, opts) do
+        {:ok, runtime} ->
+          if runtime.profile in [:efficient, :spacy_cpu],
+            do: SpacyServing.stop(runtime.resources.spacy)
+
+          {:ok, runtime.backend_metadata}
+
+        {:error, reason} ->
+          {:error, reason}
       end
     else
-      case Profile.validate_runtime(descriptor.name, runtime_options(opts)) do
+      case Profile.validate_runtime(descriptor.name, opts) do
         :ok -> {:ok, %{prepared: false}}
         {:error, reason} -> {:error, reason}
       end
@@ -49,6 +59,9 @@ defmodule Obscura.Profile.Preflight do
 
   defp normalize_backend(%Profile{backend_policy: :none}, _opts), do: {:ok, :none}
   defp normalize_backend(%Profile{backend_policy: :ortex_cpu}, _opts), do: {:ok, :ortex_cpu}
+
+  defp normalize_backend(%Profile{backend_policy: :native_cpu}, _opts),
+    do: {:ok, SpacyAssets.backend()}
 
   defp normalize_backend(_descriptor, opts) do
     value =
@@ -64,6 +77,10 @@ defmodule Obscura.Profile.Preflight do
 
   defp validate_backend(%Profile{backend_policy: :none}, :none, _opts), do: :ok
   defp validate_backend(%Profile{backend_policy: :ortex_cpu}, :ortex_cpu, _opts), do: :ok
+
+  defp validate_backend(%Profile{backend_policy: :native_cpu}, _backend, opts),
+    do: SpacyAssets.validate_backend(opts)
+
   defp validate_backend(_descriptor, :default, _opts), do: :ok
   defp validate_backend(_descriptor, :binary, opts), do: require_module(Nx, :nx, :binary, opts)
   defp validate_backend(_descriptor, :exla, opts), do: require_module(EXLA, :exla, :exla, opts)
@@ -227,6 +244,12 @@ defmodule Obscura.Profile.Preflight do
       network_may_be_used: network_may_be_used?(descriptor, opts),
       automatic_download: descriptor.automatic_download
     }
+    |> then(fn config ->
+      if descriptor.name in [:efficient, :spacy_cpu],
+        do:
+          Map.merge(config, %{backend_source: :profile, emily_device: nil, fallback_policy: :none}),
+        else: config
+    end)
   end
 
   defp runtime_options(opts) do
@@ -258,6 +281,20 @@ defmodule Obscura.Profile.Preflight do
 
   defp warnings(%Profile{name: :fast}, _opts) do
     ["Parser-backed phone validity depends on caller-selected regions when enabled."]
+  end
+
+  defp warnings(%Profile{name: :spacy_cpu}, _opts) do
+    [
+      "Experimental macOS/Linux CPU profile; balanced remains the general accuracy recommendation.",
+      "The native binary and pinned spaCy assets must be provisioned locally before preparation."
+    ]
+  end
+
+  defp warnings(%Profile{name: :efficient}, _opts) do
+    [
+      "English CPU person/location NER; the assigned model score is not calibrated confidence.",
+      "Provision the versioned native executable and immutable model assets before preparation."
+    ]
   end
 
   defp warnings(%Profile{name: :balanced}, opts) do

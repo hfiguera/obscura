@@ -17,6 +17,8 @@ defmodule Obscura.Profile.Runtime do
   alias Obscura.Recognizer.NER.Routing
   alias Obscura.Recognizer.NER.Serving, as: NERServing
   alias Obscura.Recognizer.PrivacyFilter.Native, as: PrivacyFilterNative
+  alias Obscura.Recognizer.Spacy
+  alias Obscura.Spacy.Serving, as: SpacyServing
 
   @urchade_thresholds %{
     "person" => 0.5,
@@ -66,8 +68,22 @@ defmodule Obscura.Profile.Runtime do
         configure_runtime(runtime, opts)
 
       profile
-      when profile in [:fast, :balanced, :accurate, :hybrid_gliner_urchade, :openmed_pii] ->
+      when profile in [
+             :fast,
+             :efficient,
+             :balanced,
+             :accurate,
+             :hybrid_gliner_urchade,
+             :openmed_pii,
+             :spacy_cpu
+           ] ->
         configure_product(profile, opts)
+
+      "spacy_cpu" ->
+        configure_product(:spacy_cpu, opts)
+
+      "efficient" ->
+        configure_product(:efficient, opts)
 
       _implementation_profile ->
         {:ok, opts}
@@ -76,6 +92,23 @@ defmodule Obscura.Profile.Runtime do
 
   defp do_prepare(%Profile{name: :fast} = descriptor, _opts) do
     {:ok, runtime(descriptor, %{}, base_options(descriptor), %{})}
+  end
+
+  defp do_prepare(%Profile{name: name} = descriptor, opts)
+       when name in [:efficient, :spacy_cpu] do
+    case SpacyServing.build(opts) do
+      {:ok, serving} ->
+        {:ok,
+         runtime(
+           descriptor,
+           %{spacy: serving},
+           spacy_options(descriptor, serving, opts),
+           SpacyServing.status(serving)
+         )}
+
+      {:error, %Diagnostic{} = diagnostic} ->
+        {:error, %{diagnostic | profile: name}}
+    end
   end
 
   defp do_prepare(%Profile{name: :balanced} = descriptor, opts) do
@@ -179,10 +212,32 @@ defmodule Obscura.Profile.Runtime do
     Keyword.put(opts, :recognizers, Keyword.fetch!(dynamic, :recognizers))
   end
 
+  defp scope_runtime_recognizers(opts, %__MODULE__{profile: name} = runtime)
+       when name in [:efficient, :spacy_cpu] do
+    {:ok, descriptor} = Profile.fetch(name)
+    dynamic = spacy_options(descriptor, runtime.resources.spacy, opts)
+    Keyword.put(opts, :recognizers, Keyword.fetch!(dynamic, :recognizers))
+  end
+
   defp scope_runtime_recognizers(opts, _runtime), do: opts
 
   defp configure_product(:fast, opts) do
     {:ok, Keyword.put(opts, :profile, :fast)}
+  end
+
+  defp configure_product(name, opts) when name in [:efficient, :spacy_cpu] do
+    serving = Keyword.get(opts, :spacy_serving) || Keyword.get(opts, :serving)
+
+    with :ok <- require_reusable_serving(name, :spacy_serving, serving),
+         {:ok, descriptor} <- Profile.fetch(name) do
+      dynamic = spacy_options(descriptor, serving, opts)
+
+      {:ok,
+       dynamic
+       |> Keyword.merge(opts)
+       |> Keyword.put(:profile, name)
+       |> Keyword.put(:recognizers, Keyword.fetch!(dynamic, :recognizers))}
+    end
   end
 
   defp configure_product(:balanced, opts) do
@@ -238,6 +293,25 @@ defmodule Obscura.Profile.Runtime do
        |> Keyword.merge(opts)
        |> Keyword.put(:profile, :hybrid_gliner_urchade)}
     end
+  end
+
+  defp spacy_options(descriptor, serving, opts) do
+    entities = Keyword.get(opts, :entities, descriptor.supported_entities)
+    policy = if descriptor.name == :efficient, do: :efficient_v1, else: :none
+
+    recognizers =
+      if Enum.any?(entities, &(&1 in [:person, :location])),
+        do: [:default, {Spacy, [serving: serving, boundary_policy: policy]}],
+        else: [:default]
+
+    descriptor
+    |> base_options()
+    |> Keyword.put(:entities, entities)
+    |> Keyword.put(:recognizers, recognizers)
+    |> Keyword.put(
+      :recognizer_timeout,
+      Keyword.get(opts, :recognizer_timeout, Keyword.get(opts, :request_timeout, 30_000) + 1_000)
+    )
   end
 
   defp balanced_options(descriptor, serving, opts) do

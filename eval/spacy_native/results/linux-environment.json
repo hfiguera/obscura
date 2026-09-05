@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "validation_date_utc": "2026-09-05",
+  "host": "Apple M4 Max; Apple Silicon macOS",
+  "docker_desktop": "4.89.0",
+  "docker_engine": "29.7.2",
+  "container_os": "Debian GNU/Linux 12 (bookworm)",
+  "rust": "1.90.0",
+  "elixir": "1.18.4",
+  "erlang_otp": "27.3.4.15",
+  "glibc_package": "2.36-9+deb12u14",
+  "openblas_package": "0.3.21+ds-4",
+  "pcre2_package": "10.42-1+deb12u1",
+  "validation_network": "none",
+  "model_and_dataset_mounts": "read_only",
+  "python_installed_in_validation_image": false,
+  "linux_test_results": {
+    "arm64": {
+      "passed": 174,
+      "failed": 0
+    },
+    "amd64": {
+      "passed": 174,
+      "failed": 0
+    }
+  },
+  "macos_regression": {
+    "passed": 174,
+    "failed": 0,
+    "elixir": "1.20.2",
+    "otp": "29.0.3"
+  },
+  "images": {
+    "arm64": {
+      "id": "sha256:e1c0a684b566dc8e4ab790b42d20e90b6b1f993f76e8122ec9fe1834e8de0776",
+      "os": "linux",
+      "emulated": false,
+      "erlang_flags": ""
+    },
+    "amd64": {
+      "id": "sha256:c13bfffc0a11b48717069e8b04112bf5dc50cd7aaacf88e6ad299c745a2764ad",
+      "os": "linux",
+      "emulated": true,
+      "erlang_flags": "+JMsingle true"
+    }
+  },
+  "validation_source_sha256": {
+    "eval/spacy_native/linux/Dockerfile": "e30b6ba0ca4169c1d4dd91ae1be11a4372ab03da4e8551ffea03f93defb48dad",
+    "eval/spacy_native/linux/Dockerfile.dockerignore": "424fc621570898e7ea6abe623ca3c5c80deeb0a0f0a7fd3533227babe275dc0b",
+    "eval/spacy_native/linux/validate.sh": "8ed3cb57600319117c3546978068a892e60e18c7b7d612f7ceb69ab0a1a86969",
+    "test/obscura/spacy/profile_test.exs": "0130f3565bb1a636f9b69c53bebaefbb5383778122f20ecd85454799e3c6e829",
+    "test/obscura/spacy/serving_test.exs": "e926d0a7ba48c5ed8edc154fe37103f91f43e233b145cc9181009d8b00967521",
+    "test/obscura/spacy/real_model_test.exs": "2ee6c42b0273666043c09f65f6e8b0049dac5e5ceb103977f40cacab15cfbbf6"
+  }
+}

@@ -5,7 +5,7 @@ defmodule Obscura.Profile do
   Stable profiles are user-facing aliases over benchmarked implementation
   profiles. Experimental aliases and existing implementation profiles remain
   available for explicit evaluation use. Only stable aliases and public return
-  shapes follow the `0.1.x` policy in `docs/public-api-stability.md`.
+  shapes follow the `0.2.x` policy in `docs/public-api-stability.md`.
   """
 
   alias Obscura.Capabilities
@@ -16,6 +16,8 @@ defmodule Obscura.Profile do
   alias Obscura.Profile.Runtime
   alias Obscura.Recognizer.GLiNER.ModelRegistry, as: GLiNERModelRegistry
   alias Obscura.Recognizer.PrivacyFilter.Native, as: PrivacyFilterNative
+  alias Obscura.Spacy.Assets, as: SpacyAssets
+  alias Obscura.Spacy.Serving, as: SpacyServing
 
   @enforce_keys [
     :name,
@@ -47,8 +49,8 @@ defmodule Obscura.Profile do
     benchmark_ids: []
   ]
 
-  @type stable_name :: :fast | :balanced | :accurate
-  @type experimental_name :: :hybrid_gliner_urchade | :openmed_pii
+  @type stable_name :: :fast | :efficient | :balanced | :accurate
+  @type experimental_name :: :hybrid_gliner_urchade | :openmed_pii | :spacy_cpu
   @type name :: stable_name() | experimental_name()
   @type stability :: :stable | :advanced | :experimental | :historical | :deprecated
   @type t :: %__MODULE__{
@@ -67,8 +69,8 @@ defmodule Obscura.Profile do
           benchmark_ids: [String.t()]
         }
 
-  @stable_names [:fast, :balanced, :accurate]
-  @experimental_names [:hybrid_gliner_urchade, :openmed_pii]
+  @stable_names [:fast, :efficient, :balanced, :accurate]
+  @experimental_names [:hybrid_gliner_urchade, :openmed_pii, :spacy_cpu]
 
   @advanced_profiles [
     :regex_only,
@@ -333,6 +335,20 @@ defmodule Obscura.Profile do
      )}
   end
 
+  defp fetch_product(name) when name in [:efficient, :spacy_cpu] do
+    {:ok,
+     profile(name, :deterministic_plus,
+       stability: if(name == :efficient, do: :stable, else: :experimental),
+       category: :general_pii,
+       recognizer_mode: :deterministic_plus_model,
+       supported_entities: EntityMapping.deterministic_plus_supported_entities(),
+       optional_dependencies: [:ex_phone_number],
+       required_assets: [:spacy_serving, :native_binary, :spacy_model_dir],
+       default_models: [:en_core_web_lg_3_8_0],
+       backend_policy: :native_cpu
+     )}
+  end
+
   defp fetch_product(:hybrid_gliner_urchade) do
     {:ok,
      profile(
@@ -406,6 +422,26 @@ defmodule Obscura.Profile do
   end
 
   defp validate_assets(%__MODULE__{name: :fast}, _opts), do: :ok
+
+  defp validate_assets(%__MODULE__{name: name}, opts) when name in [:efficient, :spacy_cpu] do
+    case Keyword.get(opts, :spacy_serving) || Keyword.get(opts, :serving) do
+      nil ->
+        case SpacyAssets.validate(opts) do
+          {:ok, _} -> :ok
+          {:error, diagnostic} -> {:error, %{diagnostic | profile: name}}
+        end
+
+      serving ->
+        case SpacyServing.status(serving) do
+          %{status: :ready} ->
+            :ok
+
+          _ ->
+            diagnostic = SpacyAssets.diagnostic(:missing_model_asset, :spacy_serving)
+            {:error, %{diagnostic | profile: name}}
+        end
+    end
+  end
 
   defp validate_assets(%__MODULE__{name: :balanced} = descriptor, opts) do
     if present?(Keyword.get(opts, :serving)) or present?(Keyword.get(opts, :primary_serving)) do

@@ -19,3 +19,4 @@ __pycache__/
 .cache/
 /eval/reports/
 /eval/predictions/
+/priv/spacy_cpu/
