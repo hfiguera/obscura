@@ -5,7 +5,7 @@
     {
       "id": "base_deterministic",
       "status": "stable",
-      "profiles": ["fast", "balanced", "accurate", "hybrid_gliner_urchade"],
+      "profiles": ["efficient", "fast", "balanced", "accurate", "hybrid_gliner_urchade", "spacy_cpu"],
       "dependencies": [
         {"name": "jason", "requirement": "~> 1.4", "kind": "required"},
         {"name": "telemetry", "requirement": "~> 1.3", "kind": "required"},
@@ -26,7 +26,7 @@
     {
       "id": "parser_backed_phone",
       "status": "optional",
-      "profiles": ["fast", "balanced", "accurate", "hybrid_gliner_urchade"],
+      "profiles": ["efficient", "fast", "balanced", "accurate", "hybrid_gliner_urchade", "spacy_cpu"],
       "dependencies": [
         {"name": "ex_phone_number", "requirement": "~> 0.4.11", "kind": "optional"}
       ],
@@ -180,6 +180,42 @@
       "cache_location": "ignored project-local virtual environments and model caches",
       "cleanup_command": "remove the ignored reference virtual environment",
       "failure_codes": ["profile_requirements_unsatisfied"]
+    },
+    {
+      "id": "spacy_cpu",
+      "status": "optional_model_runtime",
+      "profiles": [
+        "efficient",
+        "spacy_cpu"
+      ],
+      "dependencies": [],
+      "environment_variables": [
+        "OBSCURA_SPACY_MODEL_DIR",
+        "OBSCURA_SPACY_BINARY",
+        "OBSCURA_EFFICIENT_ASSET_DIR"
+      ],
+      "platforms": [
+        "Apple Silicon macOS 14 or later (release validation required)",
+        "glibc Linux ARM64 (glibc >= 2.36)",
+        "glibc Linux x86-64 (glibc >= 2.36)"
+      ],
+      "backends": [
+        "accelerate_cpu",
+        "openblas_cpu"
+      ],
+      "network_during_setup": true,
+      "network_during_inference": false,
+      "setup_command": "mix obscura.efficient.install --allow-download",
+      "readiness_command": "mix obscura.profile.check --profile efficient --json",
+      "smoke_command": "mix obscura.profile.check --profile efficient --prepare --offline --json",
+      "cache_location": "versioned OS user cache or OBSCURA_EFFICIENT_ASSET_DIR; explicit legacy paths supported",
+      "cleanup_command": null,
+      "failure_codes": [
+        "unsupported_backend",
+        "missing_model_asset",
+        "checkpoint_hash_mismatch",
+        "serving_build_failed"
+      ]
     }
   ]
 }

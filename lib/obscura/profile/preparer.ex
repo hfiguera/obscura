@@ -88,7 +88,9 @@ defmodule Obscura.Profile.Preparer do
     owner = self()
 
     opts =
-      Keyword.put(state.prepare_opts, :progress, fn event ->
+      state.prepare_opts
+      |> Keyword.put(:runtime_owner, owner)
+      |> Keyword.put(:progress, fn event ->
         send(owner, {:preparation_progress, event})
       end)
 

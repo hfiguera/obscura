@@ -26,12 +26,17 @@ defmodule Mix.Tasks.Obscura.Profile.Prepare do
   alias Obscura.Diagnostic
   alias Obscura.Profile
   alias Obscura.Profile.Cache
+  alias Obscura.Spacy.Serving, as: SpacyServing
 
   @shortdoc "Prepares a reusable profile runtime with progress"
 
   @switches [
     profile: :string,
     backend: :string,
+    model_dir: :string,
+    native_binary: :string,
+    workers: :integer,
+    request_timeout: :integer,
     allow_download: :boolean,
     offline: :boolean,
     timeout: :integer,
@@ -58,6 +63,9 @@ defmodule Mix.Tasks.Obscura.Profile.Prepare do
       case Profile.prepare(profile, opts) do
         {:ok, runtime} ->
           render_result(:ok, profile, runtime.backend_metadata, nil, json?)
+
+          if runtime.profile in [:efficient, :spacy_cpu],
+            do: SpacyServing.stop(runtime.resources.spacy)
 
         {:error, %Diagnostic{} = diagnostic} ->
           render_result(:error, profile, %{}, diagnostic, json?)

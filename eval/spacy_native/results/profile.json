@@ -1,0 +1,195 @@
+{
+  "profile": "spacy_cpu",
+  "runtime": {
+    "busy": 0,
+    "status": "ready",
+    "workers": 1,
+    "backend": "accelerate_cpu",
+    "sum_peak_worker_rss_bytes": 182648832,
+    "model": "en_core_web_lg_3_8_0",
+    "request_timeout": 30000,
+    "failures": 0,
+    "capacity": 1,
+    "model_sha256": "ea006cbbe70e3f794a7136acf9c1d85199ee6925526578b3dc920ce2947fc95b",
+    "python_runtime": false,
+    "queued_inputs": 0
+  },
+  "status": "experimental_unpromoted",
+  "otp": "29",
+  "elixir": "1.20.2",
+  "created_at": "2026-09-05T00:56:42.458032Z",
+  "datasets": [
+    {
+      "name": "generated_large",
+      "runs": [
+        {
+          "repetition": 1,
+          "output_fingerprint_sha256": "e8f86c0df8cc3cbc8c168486abcc2e219e2f94072f9bf6b46cdd8178a2de6e27",
+          "shared_f1": 0.783811475409836,
+          "strict_exact": {
+            "precision": 0.6904332129963899,
+            "true_positives": 765,
+            "false_positives": 343,
+            "false_negatives": 255,
+            "f1": 0.7189849624060151,
+            "recall": 0.75,
+            "f2": 0.7372783346183501
+          },
+          "latency": {
+            "mean_ms": 0.420478395061728,
+            "p95_ms": 0.72,
+            "max_ms": 1.139,
+            "p50_ms": 0.376
+          }
+        },
+        {
+          "repetition": 2,
+          "output_fingerprint_sha256": "e8f86c0df8cc3cbc8c168486abcc2e219e2f94072f9bf6b46cdd8178a2de6e27",
+          "shared_f1": 0.783811475409836,
+          "strict_exact": {
+            "precision": 0.6904332129963899,
+            "true_positives": 765,
+            "false_positives": 343,
+            "false_negatives": 255,
+            "f1": 0.7189849624060151,
+            "recall": 0.75,
+            "f2": 0.7372783346183501
+          },
+          "latency": {
+            "mean_ms": 0.41133796296296254,
+            "p95_ms": 0.675,
+            "max_ms": 1.03,
+            "p50_ms": 0.376
+          }
+        }
+      ],
+      "documents": 648,
+      "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+      "identical_to_native_prototype": true
+    },
+    {
+      "name": "synth_dataset_v2",
+      "runs": [
+        {
+          "repetition": 1,
+          "output_fingerprint_sha256": "f980f6161ed4c89ac82d597903686729090475a501035137a2c41cdee65ce8aa",
+          "shared_f1": 0.7907425265188043,
+          "strict_exact": {
+            "precision": 0.6879194630872483,
+            "true_positives": 1230,
+            "false_positives": 558,
+            "false_negatives": 345,
+            "f1": 0.7314897413024085,
+            "recall": 0.780952380952381,
+            "f2": 0.760385756676558
+          },
+          "latency": {
+            "mean_ms": 0.4207946666666663,
+            "p95_ms": 0.78,
+            "max_ms": 1.706,
+            "p50_ms": 0.344
+          }
+        },
+        {
+          "repetition": 2,
+          "output_fingerprint_sha256": "f980f6161ed4c89ac82d597903686729090475a501035137a2c41cdee65ce8aa",
+          "shared_f1": 0.7907425265188043,
+          "strict_exact": {
+            "precision": 0.6879194630872483,
+            "true_positives": 1230,
+            "false_positives": 558,
+            "false_negatives": 345,
+            "f1": 0.7314897413024085,
+            "recall": 0.780952380952381,
+            "f2": 0.760385756676558
+          },
+          "latency": {
+            "mean_ms": 0.4166806666666668,
+            "p95_ms": 0.782,
+            "max_ms": 1.492,
+            "p50_ms": 0.343
+          }
+        }
+      ],
+      "documents": 1500,
+      "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc",
+      "identical_to_native_prototype": true
+    },
+    {
+      "name": "nemotron_pii_test_subset",
+      "runs": [
+        {
+          "repetition": 1,
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "shared_f1": 0.6937625754527164,
+          "strict_exact": {
+            "precision": 0.5879945429740792,
+            "true_positives": 862,
+            "false_positives": 604,
+            "false_negatives": 863,
+            "f1": 0.5402695079912253,
+            "recall": 0.49971014492753624,
+            "f2": 0.5151804924695196
+          },
+          "latency": {
+            "mean_ms": 1.741982,
+            "p95_ms": 4.047,
+            "max_ms": 9.444,
+            "p50_ms": 1.429
+          }
+        },
+        {
+          "repetition": 2,
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "shared_f1": 0.6937625754527164,
+          "strict_exact": {
+            "precision": 0.5879945429740792,
+            "true_positives": 862,
+            "false_positives": 604,
+            "false_negatives": 863,
+            "f1": 0.5402695079912253,
+            "recall": 0.49971014492753624,
+            "f2": 0.5151804924695196
+          },
+          "latency": {
+            "mean_ms": 1.7519780000000011,
+            "p95_ms": 3.892,
+            "max_ms": 9.29,
+            "p50_ms": 1.438
+          }
+        }
+      ],
+      "documents": 500,
+      "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd",
+      "identical_to_native_prototype": true
+    }
+  ],
+  "schema_version": 1,
+  "baseline_sha256": "c4749637f0d8805df5a9d50d6688529a0fde6ddecb2461d17393286438eac38b",
+  "preparation_including_hash_verification_ms": 239.028,
+  "asset_hashes": {
+    "model.json": "ea006cbbe70e3f794a7136acf9c1d85199ee6925526578b3dc920ce2947fc95b",
+    "unicode.bin": "683130936bbd088c9ffdc9054c2396f06d92852e35045cb3fa112a66f7f11c7d",
+    "vector_keys.bin": "76a86673cd8b05fecb50116871bfd8d4dbd0530e844681cbd0a4f54db17d1750",
+    "vectors.bin": "c4a3e215076dc379c6386ef9e15fb1c4d1a58451802a3bae582c70970df0387b",
+    "weights.bin": "f919ba1502890bca0f808532168495f97e4462ae28bf9e955a2415f43ec7dc17"
+  },
+  "binary_sha256": "e71271d9f13b9f63a5d84c4a4c2d17cb0ba5caa96638c1b126ed48007a5029ac",
+  "code_sha256": {
+    "eval/spacy_native/profile_benchmark.exs": "3d935cc16f53a41626c231e91189529ca75255b0a3cabca9ab1b3a3b82d5b335",
+    "lib/obscura/profile.ex": "e13ed04381788041a1d17caad0846af33469c6230fbb3655ec108aa8056b3ed3",
+    "lib/obscura/profile/preparation.ex": "ce3423db1c4a3b27a1c91b49715f0bdd0ba087f5fcd20c729f958a7bee0087ca",
+    "lib/obscura/profile/preparer.ex": "ec28d138b5e6abce29f4e282a2c99c283a0495a06420f4c9d3a834c20a36548c",
+    "lib/obscura/profile/runtime.ex": "ba51d8592eb89431c5aabf4ccd09c616d26ad0aab97d6fcdc54cef1fd07bb5c8",
+    "lib/obscura/recognizer/spacy.ex": "75b82c580b14ba06809718252fac25ad7cfd1e1aad5e6b39ff8f37bacadb374c",
+    "lib/obscura/spacy/assets.ex": "fc6092e92d725bfe6673b56d033d9ffabb2ba0d3d39f3266986284361128240d",
+    "lib/obscura/spacy/serving.ex": "29058d90aa875f135941896508ff9ed1874ab34e8d0e4169a516b88099af0a1b",
+    "native/spacy_cpu/src/hash.rs": "426be07d5fb62a86fe06cc86786a85ee8e0a654ec3de8d36a914a1406e21580e",
+    "native/spacy_cpu/src/main.rs": "4bd1c6fdefb0a62301de8468df62ab2d3e7ba11af22a19052e3f39d0e2903bad",
+    "native/spacy_cpu/src/model.rs": "7ad97223b22a69a980d2b9f1b2617ef9fa7976e2cfa93089114f13ee6ada94e8",
+    "native/spacy_cpu/src/pcre.rs": "a66a5c3ca6342f1e48207b1bfe59a2e3bc9585248dae16b38bccac113695229d",
+    "native/spacy_cpu/src/tokenizer.rs": "703399b3618e36296bceb077d7d536f068ea04b7e48ce67eaa6ee4b27b083102"
+  },
+  "platform": "aarch64-apple-darwin25.5.0",
+  "measurement": "live Obscura.analyze with :spacy_cpu runtime; includes bounded reservation, IPC, JSON, native inference, deterministic recognition and conflict handling; startup excluded"
+}

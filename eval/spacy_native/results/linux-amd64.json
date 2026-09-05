@@ -1,0 +1,202 @@
+{
+  "profile": "spacy_cpu",
+  "runtime": {
+    "busy": 0,
+    "status": "ready",
+    "workers": 1,
+    "backend": "openblas_cpu",
+    "sum_peak_worker_rss_bytes": 307458048,
+    "model": "en_core_web_lg_3_8_0",
+    "request_timeout": 30000,
+    "failures": 0,
+    "capacity": 1,
+    "model_sha256": "ea006cbbe70e3f794a7136acf9c1d85199ee6925526578b3dc920ce2947fc95b",
+    "python_runtime": false,
+    "queued_inputs": 0
+  },
+  "status": "experimental_unpromoted",
+  "otp": "27",
+  "elixir": "1.18.4",
+  "created_at": "2026-09-05T01:21:13.811766Z",
+  "datasets": [
+    {
+      "name": "generated_large",
+      "runs": [
+        {
+          "repetition": 1,
+          "output_fingerprint_sha256": "e8f86c0df8cc3cbc8c168486abcc2e219e2f94072f9bf6b46cdd8178a2de6e27",
+          "shared_f1": 0.783811475409836,
+          "strict_exact": {
+            "precision": 0.6904332129963899,
+            "true_positives": 765,
+            "false_positives": 343,
+            "false_negatives": 255,
+            "f1": 0.7189849624060151,
+            "recall": 0.75,
+            "f2": 0.7372783346183501
+          },
+          "latency": {
+            "mean_ms": 1.2068425925925927,
+            "p95_ms": 2.128,
+            "max_ms": 4.215,
+            "p50_ms": 1.118
+          }
+        },
+        {
+          "repetition": 2,
+          "output_fingerprint_sha256": "e8f86c0df8cc3cbc8c168486abcc2e219e2f94072f9bf6b46cdd8178a2de6e27",
+          "shared_f1": 0.783811475409836,
+          "strict_exact": {
+            "precision": 0.6904332129963899,
+            "true_positives": 765,
+            "false_positives": 343,
+            "false_negatives": 255,
+            "f1": 0.7189849624060151,
+            "recall": 0.75,
+            "f2": 0.7372783346183501
+          },
+          "latency": {
+            "mean_ms": 1.0939089506172837,
+            "p95_ms": 1.876,
+            "max_ms": 2.264,
+            "p50_ms": 1.025
+          }
+        }
+      ],
+      "documents": 648,
+      "selection_sha256": "591a4eef654689b47e512ca8bb7b6c95553faad55535deb5c2a3ec021c825817",
+      "identical_to_native_prototype": true
+    },
+    {
+      "name": "synth_dataset_v2",
+      "runs": [
+        {
+          "repetition": 1,
+          "output_fingerprint_sha256": "f980f6161ed4c89ac82d597903686729090475a501035137a2c41cdee65ce8aa",
+          "shared_f1": 0.7907425265188043,
+          "strict_exact": {
+            "precision": 0.6879194630872483,
+            "true_positives": 1230,
+            "false_positives": 558,
+            "false_negatives": 345,
+            "f1": 0.7314897413024085,
+            "recall": 0.780952380952381,
+            "f2": 0.760385756676558
+          },
+          "latency": {
+            "mean_ms": 1.1899046666666655,
+            "p95_ms": 2.261,
+            "max_ms": 4.279,
+            "p50_ms": 1.057
+          }
+        },
+        {
+          "repetition": 2,
+          "output_fingerprint_sha256": "f980f6161ed4c89ac82d597903686729090475a501035137a2c41cdee65ce8aa",
+          "shared_f1": 0.7907425265188043,
+          "strict_exact": {
+            "precision": 0.6879194630872483,
+            "true_positives": 1230,
+            "false_positives": 558,
+            "false_negatives": 345,
+            "f1": 0.7314897413024085,
+            "recall": 0.780952380952381,
+            "f2": 0.760385756676558
+          },
+          "latency": {
+            "mean_ms": 1.168467333333334,
+            "p95_ms": 2.208,
+            "max_ms": 3.82,
+            "p50_ms": 1.045
+          }
+        }
+      ],
+      "documents": 1500,
+      "selection_sha256": "aa765814466a01f05eae4fdce67d35d874dccb0c22b52561e12a1880bfb566cc",
+      "identical_to_native_prototype": true
+    },
+    {
+      "name": "nemotron_pii_test_subset",
+      "runs": [
+        {
+          "repetition": 1,
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "shared_f1": 0.6937625754527164,
+          "strict_exact": {
+            "precision": 0.5879945429740792,
+            "true_positives": 862,
+            "false_positives": 604,
+            "false_negatives": 863,
+            "f1": 0.5402695079912253,
+            "recall": 0.49971014492753624,
+            "f2": 0.5151804924695196
+          },
+          "latency": {
+            "mean_ms": 7.2674419999999955,
+            "p95_ms": 18.051,
+            "max_ms": 27.592,
+            "p50_ms": 6.006
+          }
+        },
+        {
+          "repetition": 2,
+          "output_fingerprint_sha256": "fee279ff9f130e89e0bafab1f8085f0dd07feaf959991467e45af5cc51263cab",
+          "shared_f1": 0.6937625754527164,
+          "strict_exact": {
+            "precision": 0.5879945429740792,
+            "true_positives": 862,
+            "false_positives": 604,
+            "false_negatives": 863,
+            "f1": 0.5402695079912253,
+            "recall": 0.49971014492753624,
+            "f2": 0.5151804924695196
+          },
+          "latency": {
+            "mean_ms": 7.179540000000003,
+            "p95_ms": 17.594,
+            "max_ms": 28.479,
+            "p50_ms": 5.941
+          }
+        }
+      ],
+      "documents": 500,
+      "selection_sha256": "a38604f5ce5e556d0bc23aa0ac1f58a95948c1748f2f752e21f126e22d3468cd",
+      "identical_to_native_prototype": true
+    }
+  ],
+  "schema_version": 1,
+  "baseline_sha256": "c4749637f0d8805df5a9d50d6688529a0fde6ddecb2461d17393286438eac38b",
+  "preparation_including_hash_verification_ms": 1054.431,
+  "asset_hashes": {
+    "model.json": "ea006cbbe70e3f794a7136acf9c1d85199ee6925526578b3dc920ce2947fc95b",
+    "unicode.bin": "683130936bbd088c9ffdc9054c2396f06d92852e35045cb3fa112a66f7f11c7d",
+    "vector_keys.bin": "76a86673cd8b05fecb50116871bfd8d4dbd0530e844681cbd0a4f54db17d1750",
+    "vectors.bin": "c4a3e215076dc379c6386ef9e15fb1c4d1a58451802a3bae582c70970df0387b",
+    "weights.bin": "f919ba1502890bca0f808532168495f97e4462ae28bf9e955a2415f43ec7dc17"
+  },
+  "binary_sha256": "d18f3b1dbc4b594941ed27baaad328ea69f3cf1294acf29507fea6aa2b4818ce",
+  "code_sha256": {
+    "eval/spacy_native/profile_benchmark.exs": "1948e011e131cef2cb81a7a2d79e38797addb9d15da140942a57204fa9f242a4",
+    "lib/mix/tasks/obscura.spacy.build.ex": "f7ebf88f454761a8b410649d2eddd4b6197f54930fcae086b744f060abaa888a",
+    "lib/obscura/profile.ex": "55f719ea04a022cc2077a466199d1914d5f7ed178b271fa30f813e3e4d7b1c64",
+    "lib/obscura/profile/preflight.ex": "ce8f211f74729880ffcb75561697eb6eb99dcd3e1f9c7467e7326d41937de6e0",
+    "lib/obscura/profile/preparation.ex": "ce3423db1c4a3b27a1c91b49715f0bdd0ba087f5fcd20c729f958a7bee0087ca",
+    "lib/obscura/profile/preparer.ex": "ec28d138b5e6abce29f4e282a2c99c283a0495a06420f4c9d3a834c20a36548c",
+    "lib/obscura/profile/runtime.ex": "ba51d8592eb89431c5aabf4ccd09c616d26ad0aab97d6fcdc54cef1fd07bb5c8",
+    "lib/obscura/recognizer/spacy.ex": "75b82c580b14ba06809718252fac25ad7cfd1e1aad5e6b39ff8f37bacadb374c",
+    "lib/obscura/spacy/assets.ex": "08800028a18de02008363f54b2403cb9b658c6646dc0ae5f52546f61b0570dd5",
+    "lib/obscura/spacy/serving.ex": "19b09ec1dfbb99be74e47ddb7de25c9f49d8f33efe29da52475423d191711978",
+    "mix.exs": "9663d1aafe02eb61a619b0a78d1307fd9473a3bec4bde31883903f0510ede57f",
+    "mix.lock": "0dea8d871971438e1ab2c92e1088cbc47fad93b8f5b66d306753ad8ffbca8274",
+    "native/spacy_cpu/Cargo.lock": "380cca6ce4131d7949fbf840a3fa16b4a7baf9b87291a3776572b3231efdce1e",
+    "native/spacy_cpu/Cargo.toml": "78f974f77f18407b3a9886306fd89033c6e45d7690c483f2b8d68d1329ebc4ff",
+    "native/spacy_cpu/build.rs": "f703d0c9761f88c56bd2468343d42450e19fc332877fd0e04002a198e735677d",
+    "native/spacy_cpu/src/hash.rs": "426be07d5fb62a86fe06cc86786a85ee8e0a654ec3de8d36a914a1406e21580e",
+    "native/spacy_cpu/src/main.rs": "2351d764cb856d2efe156d7642756a064b759fc04f4ea13fee821080076c3fe2",
+    "native/spacy_cpu/src/model.rs": "e48809060734a924d957446a9909636aa7288e6957126c7f58edb947a764754c",
+    "native/spacy_cpu/src/pcre.rs": "a66a5c3ca6342f1e48207b1bfe59a2e3bc9585248dae16b38bccac113695229d",
+    "native/spacy_cpu/src/tokenizer.rs": "703399b3618e36296bceb077d7d536f068ea04b7e48ce67eaa6ee4b27b083102"
+  },
+  "platform": "x86_64-pc-linux-gnu",
+  "measurement": "live Obscura.analyze with :spacy_cpu runtime; includes bounded reservation, IPC, JSON, native inference, deterministic recognition and conflict handling; startup excluded"
+}

@@ -69,6 +69,7 @@ defmodule Obscura.Profile.Preparation do
 
     worker_opts =
       opts
+      |> Keyword.put_new(:runtime_owner, caller)
       |> Keyword.put(:offline, config.effective_offline)
       |> Keyword.put(:stage_observer, fn stage_event ->
         send(caller, {reference, :stage, stage_event})

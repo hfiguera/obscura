@@ -8,7 +8,7 @@ defmodule Obscura.ReleaseMetadataTest do
     project = Mix.Project.config()
     package = Keyword.fetch!(project, :package)
 
-    assert project[:version] == "0.1.3"
+    assert project[:version] == "0.2.0-dev"
     assert project[:source_url] == @source_url
     assert project[:homepage_url] == @source_url
     assert package[:links]["GitHub"] == @source_url

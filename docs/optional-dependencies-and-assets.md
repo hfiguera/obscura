@@ -1,5 +1,8 @@
 # Optional Dependencies and Assets
 
+For the versioned CPU installer and platform libraries, see the
+[`:efficient` setup guide](efficient.md).
+
 Obscura's base deterministic path does not require model weights, accelerator
 libraries, external services, or network access during inference. Model-backed,
 parser-backed, and ONNX capabilities are explicit additions.
@@ -519,3 +522,10 @@ Before deploying an optional capability:
 8. Benchmark the deployment hardware and representative data.
 9. Define memory, concurrency, timeout, and failure behavior.
 10. Ensure reports, telemetry, and logs omit raw PII and credentials.
+
+## Experimental spaCy CPU
+
+`:spacy_cpu` uses a local Rust executable and a hash-verified spaCy export on
+Apple Silicon macOS or glibc Linux ARM64/x86-64. Linux requires OpenBLAS and PCRE2
+shared libraries. It does not require Nx, Bumblebee, or Python at inference.
+See [spaCy CPU](spacy-cpu.md) for build, provisioning, ownership, and limits.

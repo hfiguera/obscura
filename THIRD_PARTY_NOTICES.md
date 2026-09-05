@@ -43,3 +43,9 @@ LDC for-profit membership under the applicable OntoNotes terms. Obscura does
 not grant or verify that authorization. LDC did not conclusively answer the
 separate checkpoint-redistribution question. See
 `docs/model-asset-licensing.md` before preparing this external asset.
+
+## Native spaCy CPU source
+
+The optional native CPU implementation ports spaCy/Thinc inference algorithms.
+Their MIT notices and MurmurHash provenance are included in
+`native/spacy_cpu/THIRD_PARTY_NOTICES.md`. Model weights are not bundled.

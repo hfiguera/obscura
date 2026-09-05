@@ -1,0 +1,14 @@
+{
+  "policy": "efficient_v1",
+  "frozen_at": "2026-09-05T14:00:37.056411+00:00",
+  "source_sha256": "f2a3d41f002e73901e8b4e086214a5d6df548148708bc335741081e3b659b039",
+  "development_results_sha256": "a021db8cb9aafcfc7dc1b8b30496081ca8ab8e19b9f1f69d21b8865630f31aeb",
+  "heldout_predictions_observed": false,
+  "rules": [
+    "stop at next form field",
+    "trim outer ASCII formatting punctuation",
+    "include adjacent person honorific",
+    "expand an existing location within a bounded labeled address field"
+  ],
+  "gate": "Development exact F1 increased; person and location recall both increased. No heldout outputs used."
+}

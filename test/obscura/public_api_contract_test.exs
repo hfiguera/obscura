@@ -18,7 +18,7 @@ defmodule Obscura.PublicAPIContractTest do
 
   test "the baseline is deterministic and has disjoint classifications" do
     assert @manifest.baseline_version == 1
-    assert @manifest.release_line == "0.1.x"
+    assert @manifest.release_line == "0.2.x"
     assert @manifest.internal_default
     assert @manifest.deprecated == %{}
 
