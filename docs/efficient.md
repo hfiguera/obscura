@@ -125,12 +125,12 @@ not a new grant covering upstream training corpora. Obscura distributes its
 MIT native implementation and release executables; model weights are fetched
 from Explosion and exported locally, outside the Hex package and native release.
 See [asset licensing](model-asset-licensing.md) and
-[native third-party notices](../native/spacy_cpu/THIRD_PARTY_NOTICES.md).
+[native third-party notices](https://github.com/hfiguera/obscura/blob/main/native/spacy_cpu/THIRD_PARTY_NOTICES.md).
 
 The versioned asset manifest is `priv/obscura/efficient-assets.json`.
 `native/spacy_cpu/export-requirements.txt` freezes the independent export
 dependencies with hashes. Rust 1.90.0, Cargo.lock, and the digest/snapshot-pinned
-[Linux recipe](../native/spacy_cpu/release/Dockerfile) make native builds
+[Linux recipe](https://github.com/hfiguera/obscura/blob/main/native/spacy_cpu/release/Dockerfile) make native builds
 repeatable. macOS additionally depends on its recorded Apple SDK and PCRE2
 installation; the build normalizes the content-derived Mach-O UUID and ad-hoc
 signature. Reproducibility means identical bytes for the recorded build
@@ -138,7 +138,7 @@ environment, not identical output across different SDKs or library toolchains.
 
 ## Evidence and limits
 
-The [release evaluation](../eval/efficient/README.md) uses separate development
+The [release evaluation](https://github.com/hfiguera/obscura/blob/main/eval/efficient/README.md) uses separate development
 and untouched test sets. On 5,000 synthetic application-like test documents,
 exact-span F1 is 0.6654 for `:efficient`, 0.6406 for the original native profile,
 0.6351 for `:fast`, and 0.6102 for pinned Presidio. Efficient has fewer false
