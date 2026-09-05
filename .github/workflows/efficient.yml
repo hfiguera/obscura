@@ -3,14 +3,19 @@ name: Efficient Linux release validation
 on:
   pull_request:
     paths:
+      - 'mix.exs'
+      - 'mix.lock'
       - 'lib/**'
       - 'native/spacy_cpu/**'
       - 'priv/obscura/**'
       - 'test/obscura/spacy/**'
+      - 'test/obscura/release_metadata_test.exs'
+      - 'test/mix/tasks/obscura.efficient.install_test.exs'
       - 'eval/efficient/**'
+      - 'scripts/efficient/**'
       - '.github/workflows/efficient.yml'
   push:
-    branches: [main, efficient-cpu-profile]
+    branches: [main]
   workflow_dispatch:
 
 permissions:

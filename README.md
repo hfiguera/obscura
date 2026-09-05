@@ -23,23 +23,27 @@ recognition. Obscura does not require a hosted recognition service.
 Obscura supports Elixir 1.17 and later. CI validates every supported Elixir
 minor from 1.17 through 1.20 against a representative Erlang/OTP generation.
 
-Add Obscura to an Elixir project:
+Install the 0.2.0 GitHub release in an Elixir project:
 
 ```elixir
 def deps do
   [
-    {:obscura, "~> 0.1.0"}
+    {:obscura, github: "hfiguera/obscura", tag: "v0.2.0"}
   ]
 end
 ```
+
+This release is available through GitHub. Hex publication is separate; the
+existing `{:obscura, "~> 0.1.0"}` Hex dependency does not include `:efficient`.
 
 The base installation supports the `:fast` profile without model assets or
 accelerator dependencies. See the
 [optional dependencies and assets guide](docs/optional-dependencies-and-assets.md)
 before enabling a model-backed profile.
 
-The upcoming `:efficient` CPU profile (unpublished on this branch) adds English person/location NER with verified
-local assets. See its [installation and public contract](docs/efficient.md).
+The stable `:efficient` CPU profile adds English person/location NER with
+verified local assets on Apple Silicon macOS and glibc Linux x86-64/ARM64.
+See its [installation and public contract](docs/efficient.md).
 
 ## Analyze
 
@@ -431,7 +435,7 @@ historical evidence unless promoted by the authoritative manifest.
 
 ## Maturity
 
-Obscura `0.1.x` is an early release suitable for integration and controlled
+Obscura `0.2.x` is an early release suitable for integration and controlled
 deployment when its measured scope and residual risks fit the application. It
 is not a compliance guarantee, a complete Presidio replacement, or evidence of
 universal production readiness.
@@ -479,15 +483,16 @@ datasets in a report.
 
 ## Compatibility
 
-Obscura defines compatibility guarantees for its stable `0.1.x` surface. See
+Obscura defines compatibility guarantees for its stable `0.2.x` surface. See
 the [public API stability policy](docs/public-api-stability.md) for the complete
 classification of stable, experimental, and internal modules, along with option
 schemas, struct guarantees, and the deprecation policy.
 
-| Surface | `0.1.x` status |
+| Surface | `0.2.x` status |
 | --- | --- |
 | Core text, structured, vault, LLM, Logger, Plug, and operator APIs | Stable |
 | `:fast` alias | Stable name and dependency-light contract |
+| `:efficient` alias | Stable native CPU contract for English person/location NER on Apple Silicon macOS and glibc Linux x86-64/ARM64 |
 | `:balanced` and `:accurate` aliases | Stable implementation contracts; commercial use of their OntoNotes-trained TNER checkpoint requires LDC for-profit membership |
 | Experimental profiles and low-level model adapters | Controlled evaluation without compatibility guarantees |
 | Evaluation, fixture, engine, registry, and model-math modules | Internal |

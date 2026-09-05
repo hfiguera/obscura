@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify local evidence for the unpublished efficient candidate. Never publishes."""
+"""Verify recorded efficient release evidence against local sources. Never publishes."""
 import hashlib
 import json
 from pathlib import Path
@@ -61,7 +61,14 @@ def main():
     assert builds["physical_linux"]["virtualization"] == "none"
     assert builds["package_consumer"]["passed"]
     assert builds["package_consumer"]["elixir"] == "1.17.3"
-    print("Local efficient candidate gates passed. Unpublished; hosted Linux release CI remains required before publication.")
+    assert builds["release_package_consumer"]["passed"]
+    assert builds["release_package_consumer"]["package_version"] == "0.2.0"
+    assert builds["compatibility"]["hosted_release_ci_run"]
+    for run in builds["compatibility"]["hosted_ci_evidence"]:
+        assert run["conclusion"] == "success"
+        assert len(run["head_sha"]) == 40
+        assert run["url"].startswith("https://github.com/hfiguera/obscura/actions/runs/")
+    print("Efficient release evidence verified. Hosted CI results are recorded evidence; run release PR checks before publication.")
 
 
 if __name__ == "__main__":

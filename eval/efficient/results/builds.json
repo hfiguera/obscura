@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "unpublished_candidate",
+  "status": "validated_for_release",
   "native": {
     "aarch64-apple-darwin": {
       "sha256": "a4c6202e03416471a23ff28c83b08d32d074fd9f238a68601b5feac1eafb3eda",
@@ -73,12 +73,47 @@
     "macos_excluded": 14,
     "linux_arm64_tests_passed": 183,
     "physical_linux_x86_64_tests_passed": 183,
-    "hosted_release_ci_run": false,
+    "hosted_release_ci_run": true,
     "release_ci_targets": [
       "x86_64-unknown-linux-gnu",
       "aarch64-unknown-linux-gnu"
     ],
     "macos_validation_scope": "local_development",
-    "final_installer_and_native_tests_passed": 34
+    "final_installer_and_native_tests_passed": 34,
+    "hosted_ci_evidence": [
+      {
+        "workflow": "Efficient Linux release validation",
+        "conclusion": "success",
+        "head_sha": "7ac965dbb50380ed3fa4b0e51e1e1c843f5612e6",
+        "url": "https://github.com/hfiguera/obscura/actions/runs/33981834669"
+      },
+      {
+        "workflow": "Dependency-light CI",
+        "conclusion": "success",
+        "head_sha": "7ac965dbb50380ed3fa4b0e51e1e1c843f5612e6",
+        "url": "https://github.com/hfiguera/obscura/actions/runs/33981834653"
+      }
+    ]
+  },
+  "release_package_consumer": {
+    "passed": true,
+    "elixir": "1.17.3",
+    "otp": "27",
+    "architecture": "Linux ARM64",
+    "environment": "prod",
+    "workers": 4,
+    "nx_loaded": false,
+    "bumblebee_loaded": false,
+    "python_installed": false,
+    "artifact_sha256": "3fd3f5f9ec6522c8738a1d6a4fa2d2b3590df78d4bb2963f976858e51c4db01e",
+    "package_version": "0.2.0",
+    "network": "disabled",
+    "verification": [
+      "supervised preparation with four workers",
+      "Unicode person, location, and email recognition",
+      "redaction",
+      "batch analysis",
+      "controlled error after shutdown"
+    ]
   }
 }

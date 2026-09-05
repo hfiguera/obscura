@@ -52,7 +52,7 @@ ordinary processes cannot read those tables directly; access goes through the
 vault process. This is process isolation, not encryption. A process with VM
 administration capabilities can still inspect process state or memory.
 
-The legacy `table:` startup option remains accepted as an atom for `0.1.x`
+The legacy `table:` startup option remains accepted as an atom for `0.2.x`
 configuration compatibility, but it no longer creates or names an ETS table.
 Code which accessed those tables directly must migrate to the
 `Obscura.Vault` API. This intentional behavior change closes an unauthorized

@@ -310,7 +310,7 @@ operational conclusions, `docs/optional-dependencies-and-assets.md` for setup
 details, and `docs/known-limitations.md` for residual deployment risks.
 
 The stable `:fast`, `:efficient`, `:balanced`, and `:accurate` aliases are covered by the
-`0.1.x` compatibility policy.
+`0.2.x` compatibility policy.
 Experimental aliases, low-level model adapters, serving structs, tensor
 layouts, and model-specific tuning options may change independently. See
 `docs/public-api-stability.md`.

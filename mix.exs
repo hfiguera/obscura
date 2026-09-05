@@ -1,7 +1,7 @@
 defmodule Obscura.MixProject do
   use Mix.Project
 
-  @version "0.2.0-dev"
+  @version "0.2.0"
   @source_url "https://github.com/hfiguera/obscura"
   @security_url "#{@source_url}/security/advisories/new"
 

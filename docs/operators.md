@@ -162,7 +162,7 @@ collections are errors, including configurations for entities which do not
 appear in the current input.
 
 Operator types, keys, defaults, preflight behavior, and stable error codes are
-part of the `0.1.x` contract. Human-readable messages and additive metadata are
+part of the `0.2.x` contract. Human-readable messages and additive metadata are
 not. See `docs/public-api-stability.md`.
 
 Default `Inspect` implementations for anonymizer result and item structs hide

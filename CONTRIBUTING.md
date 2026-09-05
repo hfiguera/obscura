@@ -70,7 +70,7 @@ open-class entities.
 
 ### Public API Changes
 
-The stable `0.1.x` surface is defined by
+The stable `0.2.x` surface is defined by
 `priv/obscura/public_api.exs` and documented in
 `docs/public-api-stability.md`. A change to stable return shapes, error codes,
 defaults, callbacks, profile semantics, or accepted options requires contract
