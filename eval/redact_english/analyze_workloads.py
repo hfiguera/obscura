@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import statistics
+from source_evidence import source_matches
 
 ROOT = Path(__file__).resolve().parent
 PROFILES = ['fast','efficient','balanced','redact_cpu']
@@ -100,7 +101,7 @@ def main():
                 assert d['protocol_sha256'] == sha(ROOT/'WORKLOAD.md')
                 assert d['driver_sha256'] == sha(ROOT/'workload.py')
                 for name, expected in d['execution_sources'].items():
-                    assert sha(ROOT/name) == expected, f'Source drift: {path}: {name}'
+                    assert source_matches(ROOT/name, expected), f'Source drift: {path}: {name}'
                 counts = d['counts_by_input']
                 assert set(counts) == set(d['workload_ids']) and len(counts) == 7
                 assert len(set(counts.values())) == 1

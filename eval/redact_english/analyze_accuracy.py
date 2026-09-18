@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import random
 from score import score
+from source_evidence import source_matches
 
 ROOT = Path(__file__).resolve().parent
 
@@ -42,7 +43,7 @@ def main():
                 assert result['input_sha256'] == manifest['files'][split]['sha256']
                 assert result['mapping_sha256'] == sha(ROOT/'MAPPING.md')
                 worker = 'redact_worker.mjs' if profile.startswith('redact') else 'worker.exs'
-                assert result['worker_source_sha256'] == sha(ROOT/worker)
+                assert source_matches(ROOT/worker, result['worker_source_sha256'])
                 assert score(datasets[split], result['rows']) == result['metrics']
                 assert result['metrics']['error_rows'] == 0
                 for row in result['rows']:

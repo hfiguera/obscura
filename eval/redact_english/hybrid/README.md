@@ -45,8 +45,13 @@ workload mixtures, errors and recovery. Results contain offsets and measurements
 not input text or detected values. Raw worker logs are ignored. Synthetic input
 text is intentionally included in development.json and test.json.
 
-The original evaluation's final-validation.json is its historical inventory;
-this follow-up has its own results/analysis.json and source hashes.
+The parent evaluator's final-validation.json inventories the evidence bundle;
+this follow-up also has its own results/analysis.json and source hashes.
+
+The parent evaluator's `source-formatting.json` documents a later formatting-only
+change to the shared worker. Its measured snapshot and original report hashes
+are preserved. The auditor checks formatter equivalence with Elixir before
+accepting the archived hash; new inference runs record the current source hash.
 
 After each host finishes, `python3 hybrid/check_host.py` (from the parent
 evaluator) checks the 36 worker logs for known fatal signatures and remaining

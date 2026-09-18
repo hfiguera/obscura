@@ -62,15 +62,7 @@ defmodule RedactEvaluation.ObscuraWorker do
       |> Enum.each(fn line ->
         request = Jason.decode!(line)
         started = System.monotonic_time(:microsecond)
-
-        entities =
-          if is_list(request["entities"]),
-            do:
-              Enum.filter(
-                descriptor.supported_entities,
-                &(Atom.to_string(&1) in request["entities"])
-              ),
-            else: descriptor.supported_entities
+        entities = if is_list(request["entities"]), do: Enum.filter(descriptor.supported_entities, &(Atom.to_string(&1) in request["entities"])), else: descriptor.supported_entities
 
         result =
           case Obscura.analyze(request["text"],

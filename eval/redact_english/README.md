@@ -15,6 +15,13 @@ values; diagnostic inputs and documented examples are synthetic.
 
 ## Current state
 
+After measurement, `worker.exs` received a formatting-only CI fix. Its exact
+measured bytes remain in `recorded_sources/worker.exs.txt`; `source-formatting.json`
+records both hashes. Auditors preserve the original report hashes and verify
+that Elixir formats the archived and current worker identically. These offline
+checks now require Elixir as well as Python and Node. New runs record the current
+worker hash normally.
+
 Completed: branch isolation, official SDK probes on Mac and physical Linux,
 supported Mac CPU configuration, observed model tensors without changing the
 pipeline, canonical tokenizer parity, immutable model/configuration hashes,

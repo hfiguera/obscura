@@ -5,6 +5,11 @@ recommended. Unresolved model/runtime and vendor questions are findings, not
 unperformed benchmark steps. The objective did not authorize a production adapter,
 vendor contact, publication, training, push or PR.
 
+Subsequent maintenance: the user authorized committing and publishing this
+research PR. A CI formatting fix archives the measured worker bytes and records
+the formatted copy in `source-formatting.json`. The auditors check both hashes
+and identical Elixir formatter output, without rewriting measured results.
+
 | Requirement | Current evidence and conclusion |
 | --- | --- |
 | Separate branch from main; preserve existing work | Git branch reflog records `eval/redact-english` created from main; HEAD and main are `46428566f99e9db2445ffce8a4c4c7d4b07ba70d`. Tracked source diff is empty. New work is confined to this evaluator; the pre-existing untracked virtual environments, `eval/lfm25_pii/` and `eval/training/` remain. No commits or remote mutations were made. |

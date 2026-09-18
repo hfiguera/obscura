@@ -4,6 +4,7 @@ from pathlib import Path
 from adapter import combine
 from run import hashes
 from score import score
+from source_evidence import sources_match
 ROOT=Path(__file__).resolve().parent
 
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -31,7 +32,7 @@ def main():
    reports={}
    for profile in ['fast','efficient','redact_cpu','hybrid']:
     path=ROOT/f'results/{host}/{split}-{profile}.json';d=json.loads(path.read_text());inventory[str(path.relative_to(ROOT))]=sha(path)
-    assert d['sources']==source
+    assert sources_match(d['sources'],source)
     assert score(rows,d['rows'])==d['metrics'] and not d['metrics']['error_rows']
     clean(d);reports[profile]=d
    for b,r,h in zip(reports['efficient']['rows'],reports['redact_cpu']['rows'],reports['hybrid']['rows']):
@@ -43,7 +44,7 @@ def main():
   for count in [1,4]:
    for profile in ['efficient','redact_cpu','hybrid']:
     path=ROOT/f'results/{host}/workload-{profile}-{count}.json';d=json.loads(path.read_text());inventory[str(path.relative_to(ROOT))]=sha(path)
-    clean(d);assert d['sources']==source
+    clean(d);assert sources_match(d['sources'],source)
     assert d['workers']==count and d['elapsed_seconds']>=60 and d['seconds_requested']==60
     assert len(d['counts_by_input'])==6 and len(set(d['counts_by_input'].values()))==1
     assert sum(d['counts_by_input'].values())==d['requests']==d['latency']['count']
