@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "provenance": "Fresh assistant-authored synthetic English; no candidate predictions used. Not production or human-annotated data.",
+  "files": {
+    "development": {
+      "sha256": "dd3fe62ee119b0c57318164290a94ae4d3063b97b0dd6dd64c7891a93ee15c3e",
+      "rows": 12,
+      "gold": 16,
+      "negative_rows": 3
+    },
+    "test": {
+      "sha256": "29a8a78fbcdaa1032815df57c4666acbd556e5ea9ce73cea5ded166185559629",
+      "rows": 48,
+      "gold": 59,
+      "negative_rows": 14
+    }
+  },
+  "policy_sha256": "ee719210c0bab3cba8aa981385a2669a82f54fbb47f65ec7c5743c4bc968de27"
+}

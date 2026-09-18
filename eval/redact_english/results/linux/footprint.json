@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "created_unix": 1789353129.8368602,
+  "platform": "Linux-7.1.5-76070105-generic-x86_64-with-glibc2.39",
+  "purpose": "Observed installed files, not compressed downloads, minimal releases or runtime memory",
+  "measurement": "Logical size and allocated file blocks; hardlinks counted once within each group. Groups overlap and must not all be added.",
+  "limits": [
+    "System shared libraries and OS frameworks are excluded; language runtime prefixes include developer tooling.",
+    "The Obscura consumer contains all baseline optional dependencies; this is not a minimal fast/efficient installation.",
+    "Current-platform native libraries are already included in the npm tree.",
+    "A future Swift-only adapter or pruned npm bundle has not been built or measured.",
+    "Model sizes are stat-checked against previously verified assets; this script does not rehash large weights."
+  ],
+  "groups": {
+    "redact_platform_inference_assets": {
+      "files": 3,
+      "apparent_bytes": 24924730,
+      "allocated_bytes": 24928256
+    },
+    "redact_all_downloaded_assets": {
+      "files": 4,
+      "apparent_bytes": 24925056,
+      "allocated_bytes": 24932352
+    },
+    "redact_installed_npm_dependency_tree": {
+      "files": 216,
+      "apparent_bytes": 203123945,
+      "allocated_bytes": 203624448
+    },
+    "redact_current_platform_native_directory": {
+      "files": 3,
+      "apparent_bytes": 65113576,
+      "allocated_bytes": 65118208
+    },
+    "node_installed_prefix": {
+      "files": 4743,
+      "apparent_bytes": 224343874,
+      "allocated_bytes": 235806720
+    },
+    "efficient_five_model_files": {
+      "files": 5,
+      "apparent_bytes": 427641909,
+      "allocated_bytes": 427655168
+    },
+    "efficient_complete_install_directory": {
+      "files": 9,
+      "apparent_bytes": 428368394,
+      "allocated_bytes": 428392448
+    },
+    "balanced_selected_revision_assets": {
+      "files": 5,
+      "apparent_bytes": 1418985092,
+      "allocated_bytes": 1419005952
+    },
+    "obscura_consumer_compiled_libraries": {
+      "files": 953,
+      "apparent_bytes": 490306066,
+      "allocated_bytes": 492199936
+    },
+    "erlang_installed_prefix": {
+      "files": 797,
+      "apparent_bytes": 30061538,
+      "allocated_bytes": 31784960
+    },
+    "elixir_installed_prefix": {
+      "files": 722,
+      "apparent_bytes": 13393761,
+      "allocated_bytes": 14831616
+    }
+  },
+  "redact_node_pipeline_observed_total": {
+    "files": 4963,
+    "apparent_bytes": 452392875,
+    "allocated_bytes": 464363520
+  },
+  "redact_node_platform_subset_total": {
+    "files": 4962,
+    "apparent_bytes": 452392549,
+    "allocated_bytes": 464359424
+  },
+  "homebrew_node_dependencies": [],
+  "efficient_installation_receipt": {
+    "asset_version": "efficient-v1",
+    "model_hashes": {
+      "model.json": "216f7db87f64c157181c19eaa7840fc0820198e163c81d47a10cfb0cc6533750",
+      "unicode.bin": "683130936bbd088c9ffdc9054c2396f06d92852e35045cb3fa112a66f7f11c7d",
+      "vector_keys.bin": "76a86673cd8b05fecb50116871bfd8d4dbd0530e844681cbd0a4f54db17d1750",
+      "vectors.bin": "c4a3e215076dc379c6386ef9e15fb1c4d1a58451802a3bae582c70970df0387b",
+      "weights.bin": "f919ba1502890bca0f808532168495f97e4462ae28bf9e955a2415f43ec7dc17"
+    },
+    "native_sha256": "28ae51895679027be746d7339f7e15fde2db432f1399eac4e371a3ac744f4080",
+    "platform": "x86_64-unknown-linux-gnu",
+    "source_build": false
+  },
+  "balanced_assets": [
+    {
+      "file": "pytorch_model.bin",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/pytorch_model.bin",
+      "publisher_etag": "\"086ca77eeb470435ab2cf9b496f72edde4195d02d559d5c2fb2096c417a07297\"",
+      "bytes": 1417562865
+    },
+    {
+      "file": "tokenizer.json",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/tokenizer.json",
+      "publisher_etag": "\"75801df688e89a96f642b98cbdd97288f5207518\"",
+      "bytes": 1355881
+    },
+    {
+      "file": "tokenizer_config.json",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/tokenizer_config.json",
+      "publisher_etag": "\"9c98e8ed6cff9bbf1aedeb071a09ec137e1ed491\"",
+      "bytes": 361
+    },
+    {
+      "file": "config.json",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/config.json",
+      "publisher_etag": "\"db5e8edfd3517f3b340f71b2bb6f0d28ba7b5929\"",
+      "bytes": 65746
+    },
+    {
+      "file": "special_tokens_map.json",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/special_tokens_map.json",
+      "publisher_etag": "\"2ea7ad0e45a9d1d1591782ba7e29a703d0758831\"",
+      "bytes": 239
+    }
+  ],
+  "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+  "source_sha256": "51f9e35d8661a3e7f4b224e8983c789b1ded37329a628a74f9ea78b36a9943ef"
+}

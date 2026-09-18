@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "npm_package": "@desert-ant-labs/redact",
+  "npm_version": "3.1.0",
+  "npm_git_head": "9e11fdf9566df2e34b9516ac76403b1ff0f839d8",
+  "npm_integrity": "sha512-P5VfyGjwdexqd3SS3jSWgpR1fBbx+kC8X6Kz7O4CbOOvIj901IOT8MH3GLyARgH2pZa0ZsRshoHIyLh4Qzn7jg==",
+  "repository_release_tag": "v3.1.0",
+  "release_tag_commit": "9e11fdf9566df2e34b9516ac76403b1ff0f839d8",
+  "initial_diagnostic_source": "c015d5d95028caba783e802442e30ddd66c9247e",
+  "release_source_archive_sha256": "49eb2e0ed4242d3451d513298825861c1414301f766b773d4fe89707f35fb2a2",
+  "comparison_api_sha256": "5b74f3f2d34f2e5cec2569889ffb9e316bf7be11473a9fa0551effd1dcf5d390",
+  "selected_source_parity": {
+    "Sources/Redact/Label.swift": {
+      "release_sha256": "e340baa0415522ddf083175d4b5f802690828b7b9ef20f36715860556235ca01",
+      "diagnostic_sha256": "e340baa0415522ddf083175d4b5f802690828b7b9ef20f36715860556235ca01",
+      "identical": true
+    },
+    "Sources/Redact/Binding.swift": {
+      "release_sha256": "acfbbec25ac98cfc9ddc0c096dcb6074fade6d81ec58ea907402702df8cb7db9",
+      "diagnostic_sha256": "acfbbec25ac98cfc9ddc0c096dcb6074fade6d81ec58ea907402702df8cb7db9",
+      "identical": true
+    },
+    "Sources/Redact/Model.swift": {
+      "release_sha256": "a4eec0561baf69bfefedd240d095781d9c6cf9f129fff009a42dc78aa6b97728",
+      "diagnostic_sha256": "a4eec0561baf69bfefedd240d095781d9c6cf9f129fff009a42dc78aa6b97728",
+      "identical": true
+    },
+    "Sources/Redact/Native.swift": {
+      "release_sha256": "a9f6b77eaeb14560b7ec12beb634fc71551a17aa7d7ddd475d851f1f4c9af7df",
+      "diagnostic_sha256": "a9f6b77eaeb14560b7ec12beb634fc71551a17aa7d7ddd475d851f1f4c9af7df",
+      "identical": true
+    },
+    "Sources/Redact/Span.swift": {
+      "release_sha256": "53ee7c93d2cbc58c22c485f701307c7611169c5dc1844b59469ccd04b9ecb1c8",
+      "diagnostic_sha256": "53ee7c93d2cbc58c22c485f701307c7611169c5dc1844b59469ccd04b9ecb1c8",
+      "identical": true
+    },
+    "Sources/Redact/Redact.swift": {
+      "release_sha256": "dd21d14221e364999e0bbc12fb63924baa02be46c8821767b3190e13915dc9c5",
+      "diagnostic_sha256": "dd21d14221e364999e0bbc12fb63924baa02be46c8821767b3190e13915dc9c5",
+      "identical": true
+    },
+    "Sources/Redact/Pipeline.swift": {
+      "release_sha256": "1d1ba781f870f1082679ada157d209fa6ed52398d435c576a05c185ee5651a17",
+      "diagnostic_sha256": "1d1ba781f870f1082679ada157d209fa6ed52398d435c576a05c185ee5651a17",
+      "identical": true
+    },
+    "Sources/Redact/ModelLoading.swift": {
+      "release_sha256": "da10fdc558b78d58d387210fa194c52ee0eff70ef97d0b93c3496cab43963595",
+      "diagnostic_sha256": "da10fdc558b78d58d387210fa194c52ee0eff70ef97d0b93c3496cab43963595",
+      "identical": true
+    },
+    "Sources/Redact/Tokenizer.swift": {
+      "release_sha256": "4face9957fbda1a322dc216a67d40c31d2722721600e7080eb051dd9901df724",
+      "diagnostic_sha256": "4face9957fbda1a322dc216a67d40c31d2722721600e7080eb051dd9901df724",
+      "identical": true
+    },
+    "Sources/Redact/Catalog.swift": {
+      "release_sha256": "cf0745cd8cd928a9118c74a826a8359b407a88a1e981f1f86fdd9d815967bdd3",
+      "diagnostic_sha256": "cf0745cd8cd928a9118c74a826a8359b407a88a1e981f1f86fdd9d815967bdd3",
+      "identical": true
+    },
+    "Sources/Redact/Deterministic.swift": {
+      "release_sha256": "311b525a18087f3645c195cd115cee3bc04838033373d2844ba0d6330d77f39e",
+      "diagnostic_sha256": "311b525a18087f3645c195cd115cee3bc04838033373d2844ba0d6330d77f39e",
+      "identical": true
+    },
+    "Sources/Redact/RegexOffsets.swift": {
+      "release_sha256": "561f3aaf7f61322ca967ba6e110f6329ade083e36a20b2ca908b0e36bcd43791",
+      "diagnostic_sha256": "561f3aaf7f61322ca967ba6e110f6329ade083e36a20b2ca908b0e36bcd43791",
+      "identical": true
+    },
+    "Sources/Redact/Web/main.swift": {
+      "release_sha256": "a5f783abf526346b6de3b58cb754b12861d281ae009e0966d386772815497a50",
+      "diagnostic_sha256": "a5f783abf526346b6de3b58cb754b12861d281ae009e0966d386772815497a50",
+      "identical": true
+    },
+    "Sources/Inference/CoreMLSession.swift": {
+      "release_sha256": "7d6637ac06202e8549b2c0fe0ad9366ea5031721f94f80e30b2a50a3e9e78001",
+      "diagnostic_sha256": "7d6637ac06202e8549b2c0fe0ad9366ea5031721f94f80e30b2a50a3e9e78001",
+      "identical": true
+    },
+    "Sources/Inference/Tensor.swift": {
+      "release_sha256": "5ed79e1dbe984b83c0f3a94f53fb41e5ed522001b952e2304171a2a06512f5c5",
+      "diagnostic_sha256": "5ed79e1dbe984b83c0f3a94f53fb41e5ed522001b952e2304171a2a06512f5c5",
+      "identical": true
+    }
+  },
+  "notes": [
+    "Accuracy and workload results use published npm 3.1.0 binaries, never the locally compiled diagnostic SDK.",
+    "The original model-manifest sdk_source field names the inspected diagnostic snapshot, not the npm package gitHead. This provenance record supplies the release identity without changing frozen measurement inputs.",
+    "The diagnostic snapshot is 43 commits after v3.1.0. Relevant source differences are reviewed separately; source-built diagnostics should be replayed at the published release commit."
+  ],
+  "core_npm_git_head": "9e11fdf9566df2e34b9516ac76403b1ff0f839d8",
+  "core_npm_integrity": "sha512-H+/Vi246HKRJ3w9y2vn38FiArHkPeUofr1Qip5l/dbJre0YaqXnQfcA7TZmvHcrYQgAC9GdG4bZy0ifBCXCAYQ==",
+  "reviewed_relevant_differences": {
+    "Sources/Inference/LiteRTSession.swift": "Replaces direct pthread mutex with platform mutex; tensor preparation/run/read unchanged.",
+    "Sources/Inference/SessionFactory.swift": "Adds .aimodel/CoreAI support, not selected for the pinned .mlmodelc or .tflite assets.",
+    "Sources/Inference/UsageTracking.swift": "Newer snapshot skips wrapper when usageDisabled; this evaluator never sets that flag.",
+    "Sources/Redact and CoreMLSession/Tensor": "All 15 selected Swift files are byte-identical across the release and original diagnostic snapshots."
+  }
+}

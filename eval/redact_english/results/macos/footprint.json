@@ -1,0 +1,303 @@
+{
+  "schema": 1,
+  "created_unix": 1789353078.496119,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "purpose": "Observed installed files, not compressed downloads, minimal releases or runtime memory",
+  "measurement": "Logical size and allocated file blocks; hardlinks counted once within each group. Groups overlap and must not all be added.",
+  "limits": [
+    "System shared libraries and OS frameworks are excluded; language runtime prefixes include developer tooling.",
+    "The Obscura consumer contains all baseline optional dependencies; this is not a minimal fast/efficient installation.",
+    "Current-platform native libraries are already included in the npm tree.",
+    "A future Swift-only adapter or pruned npm bundle has not been built or measured.",
+    "Model sizes are stat-checked against previously verified assets; this script does not rehash large weights."
+  ],
+  "groups": {
+    "redact_platform_inference_assets": {
+      "files": 7,
+      "apparent_bytes": 12026816,
+      "allocated_bytes": 12042240
+    },
+    "redact_all_downloaded_assets": {
+      "files": 13,
+      "apparent_bytes": 38871195,
+      "allocated_bytes": 38903808
+    },
+    "redact_installed_npm_dependency_tree": {
+      "files": 216,
+      "apparent_bytes": 203123970,
+      "allocated_bytes": 203624448
+    },
+    "redact_current_platform_native_directory": {
+      "files": 1,
+      "apparent_bytes": 758816,
+      "allocated_bytes": 761856
+    },
+    "node_installed_prefix": {
+      "files": 2066,
+      "apparent_bytes": 70307793,
+      "allocated_bytes": 75489280
+    },
+    "efficient_five_model_files": {
+      "files": 5,
+      "apparent_bytes": 427641909,
+      "allocated_bytes": 427651072
+    },
+    "efficient_complete_install_directory": {
+      "files": 9,
+      "apparent_bytes": 428286238,
+      "allocated_bytes": 428306432
+    },
+    "balanced_selected_revision_assets": {
+      "files": 5,
+      "apparent_bytes": 1418985092,
+      "allocated_bytes": 1419001856
+    },
+    "obscura_consumer_compiled_libraries": {
+      "files": 933,
+      "apparent_bytes": 343354048,
+      "allocated_bytes": 345305088
+    },
+    "erlang_installed_prefix": {
+      "files": 3438,
+      "apparent_bytes": 119069670,
+      "allocated_bytes": 126136320
+    },
+    "elixir_installed_prefix": {
+      "files": 875,
+      "apparent_bytes": 25765319,
+      "allocated_bytes": 27557888
+    },
+    "node_homebrew_dependency_prefixes": {
+      "files": 2979,
+      "apparent_bytes": 160294544,
+      "allocated_bytes": 166608896
+    }
+  },
+  "redact_node_pipeline_observed_total": {
+    "files": 5274,
+    "apparent_bytes": 472597502,
+    "allocated_bytes": 484626432
+  },
+  "redact_node_platform_subset_total": {
+    "files": 5268,
+    "apparent_bytes": 445753123,
+    "allocated_bytes": 457764864
+  },
+  "homebrew_node_dependencies": [
+    {
+      "formula": "ada-url",
+      "installed_version": "4.0.0",
+      "files": 54,
+      "apparent_bytes": 1094707,
+      "allocated_bytes": 1224704
+    },
+    {
+      "formula": "brotli",
+      "installed_version": "1.2.0",
+      "files": 27,
+      "apparent_bytes": 1909642,
+      "allocated_bytes": 1974272
+    },
+    {
+      "formula": "c-ares",
+      "installed_version": "1.34.8",
+      "files": 174,
+      "apparent_bytes": 1051689,
+      "allocated_bytes": 1609728
+    },
+    {
+      "formula": "ca-certificates",
+      "installed_version": "2026-08-13",
+      "files": 5,
+      "apparent_bytes": 203709,
+      "allocated_bytes": 217088
+    },
+    {
+      "formula": "fmt",
+      "installed_version": "12.2.0",
+      "files": 29,
+      "apparent_bytes": 1107474,
+      "allocated_bytes": 1175552
+    },
+    {
+      "formula": "hdrhistogram_c",
+      "installed_version": "0.11.10",
+      "files": 20,
+      "apparent_bytes": 170179,
+      "allocated_bytes": 225280
+    },
+    {
+      "formula": "icu4c@78",
+      "installed_version": "78.3",
+      "files": 265,
+      "apparent_bytes": 87899594,
+      "allocated_bytes": 88440832
+    },
+    {
+      "formula": "libffi",
+      "installed_version": "3.8.0",
+      "files": 17,
+      "apparent_bytes": 950425,
+      "allocated_bytes": 987136
+    },
+    {
+      "formula": "libnghttp2",
+      "installed_version": "1.70.0",
+      "files": 13,
+      "apparent_bytes": 856604,
+      "allocated_bytes": 892928
+    },
+    {
+      "formula": "libnghttp3",
+      "installed_version": "1.18.0",
+      "files": 18,
+      "apparent_bytes": 598664,
+      "allocated_bytes": 647168
+    },
+    {
+      "formula": "libngtcp2",
+      "installed_version": "1.25.0",
+      "files": 19,
+      "apparent_bytes": 1402871,
+      "allocated_bytes": 1454080
+    },
+    {
+      "formula": "libuv",
+      "installed_version": "1.52.1",
+      "files": 33,
+      "apparent_bytes": 1280427,
+      "allocated_bytes": 1351680
+    },
+    {
+      "formula": "llhttp",
+      "installed_version": "9.4.3",
+      "files": 13,
+      "apparent_bytes": 146631,
+      "allocated_bytes": 180224
+    },
+    {
+      "formula": "lz4",
+      "installed_version": "1.10.0",
+      "files": 16,
+      "apparent_bytes": 728980,
+      "allocated_bytes": 761856
+    },
+    {
+      "formula": "merve",
+      "installed_version": "1.2.2_2",
+      "files": 17,
+      "apparent_bytes": 133467,
+      "allocated_bytes": 176128
+    },
+    {
+      "formula": "nbytes",
+      "installed_version": "0.1.4",
+      "files": 9,
+      "apparent_bytes": 89670,
+      "allocated_bytes": 114688
+    },
+    {
+      "formula": "openssl@3",
+      "installed_version": "3.6.4",
+      "files": 1986,
+      "apparent_bytes": 37386121,
+      "allocated_bytes": 41332736
+    },
+    {
+      "formula": "readline",
+      "installed_version": "8.3.3",
+      "files": 52,
+      "apparent_bytes": 2674200,
+      "allocated_bytes": 2768896
+    },
+    {
+      "formula": "simdjson",
+      "installed_version": "4.6.11",
+      "files": 17,
+      "apparent_bytes": 7970256,
+      "allocated_bytes": 8015872
+    },
+    {
+      "formula": "simdutf",
+      "installed_version": "9.1.2",
+      "files": 62,
+      "apparent_bytes": 2054690,
+      "allocated_bytes": 2195456
+    },
+    {
+      "formula": "sqlite",
+      "installed_version": "3.53.4",
+      "files": 11,
+      "apparent_bytes": 5331090,
+      "allocated_bytes": 5353472
+    },
+    {
+      "formula": "uvwasi",
+      "installed_version": "0.0.23",
+      "files": 15,
+      "apparent_bytes": 288312,
+      "allocated_bytes": 327680
+    },
+    {
+      "formula": "xz",
+      "installed_version": "5.8.4",
+      "files": 80,
+      "apparent_bytes": 2657337,
+      "allocated_bytes": 2809856
+    },
+    {
+      "formula": "zstd",
+      "installed_version": "1.5.7_1",
+      "files": 27,
+      "apparent_bytes": 2307805,
+      "allocated_bytes": 2371584
+    }
+  ],
+  "efficient_installation_receipt": {
+    "asset_version": "efficient-v1",
+    "model_hashes": {
+      "model.json": "216f7db87f64c157181c19eaa7840fc0820198e163c81d47a10cfb0cc6533750",
+      "unicode.bin": "683130936bbd088c9ffdc9054c2396f06d92852e35045cb3fa112a66f7f11c7d",
+      "vector_keys.bin": "76a86673cd8b05fecb50116871bfd8d4dbd0530e844681cbd0a4f54db17d1750",
+      "vectors.bin": "c4a3e215076dc379c6386ef9e15fb1c4d1a58451802a3bae582c70970df0387b",
+      "weights.bin": "f919ba1502890bca0f808532168495f97e4462ae28bf9e955a2415f43ec7dc17"
+    },
+    "native_sha256": "a4c6202e03416471a23ff28c83b08d32d074fd9f238a68601b5feac1eafb3eda",
+    "platform": "aarch64-apple-darwin",
+    "source_build": false
+  },
+  "balanced_assets": [
+    {
+      "file": "pytorch_model.bin",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/pytorch_model.bin",
+      "publisher_etag": "\"086ca77eeb470435ab2cf9b496f72edde4195d02d559d5c2fb2096c417a07297\"",
+      "bytes": 1417562865
+    },
+    {
+      "file": "special_tokens_map.json",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/special_tokens_map.json",
+      "publisher_etag": "\"2ea7ad0e45a9d1d1591782ba7e29a703d0758831\"",
+      "bytes": 239
+    },
+    {
+      "file": "tokenizer_config.json",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/tokenizer_config.json",
+      "publisher_etag": "\"9c98e8ed6cff9bbf1aedeb071a09ec137e1ed491\"",
+      "bytes": 361
+    },
+    {
+      "file": "config.json",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/config.json",
+      "publisher_etag": "\"db5e8edfd3517f3b340f71b2bb6f0d28ba7b5929\"",
+      "bytes": 65746
+    },
+    {
+      "file": "tokenizer.json",
+      "url": "https://huggingface.co/tner/roberta-large-ontonotes5/resolve/0bce50f7884d5bb040469c907c897d4b061ccbb4/tokenizer.json",
+      "publisher_etag": "\"75801df688e89a96f642b98cbdd97288f5207518\"",
+      "bytes": 1355881
+    }
+  ],
+  "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+  "source_sha256": "51f9e35d8661a3e7f4b224e8983c789b1ded37329a628a74f9ea78b36a9943ef"
+}

@@ -1,0 +1,2117 @@
+{
+  "schema": 1,
+  "accuracy_reports": 16,
+  "workload_reports": 12,
+  "sources": {
+    "hybrid/POLICY.md": "ee719210c0bab3cba8aa981385a2669a82f54fbb47f65ec7c5743c4bc968de27",
+    "hybrid/adapter.py": "d245f08ffa498128a4ead3f760d4a7c9a71a75a04be8764e11bbbb1c86ae81e8",
+    "hybrid/run.py": "07272710c21599b1c8d7befc75c7a385d95f8457da47ddafeb7233e75a95bcc4",
+    "hybrid/development.json": "dd3fe62ee119b0c57318164290a94ae4d3063b97b0dd6dd64c7891a93ee15c3e",
+    "hybrid/test.json": "29a8a78fbcdaa1032815df57c4666acbd556e5ea9ce73cea5ded166185559629",
+    "hybrid/manifest.json": "bdcd0240bbe7b58dc0bc1d06b61809f246b57ec56cdd118cc64c1c387f6e9ed3",
+    "harness.py": "ec4ebf764d9cfdcfd23442d99e023acb69d4e5d66f8f876c31ba8869d8a3508b",
+    "worker.exs": "8faca43cc64c2539e6c36d4c2b2ebc7593fdb52c2d154a4b662dd28739611acc",
+    "redact_worker.mjs": "b29a56d56301e486c0c20d093dc3529af577500b59fa49fef91be52897ee5204",
+    "spans.mjs": "856318cc2a6e8e25f29fd3db0374e7bfbec7c45920b08e7d4222c406bb44213d",
+    "score.py": "1e3996055c62bd416332b255e9b629cd89899fb3a25c536cac18a87ec85d76cc",
+    "workload.py": "8ffd1eb9996c53e830ebcc6a007388b76a8c2a253d63a9e677c79f3baf49f475",
+    "model-manifest.json": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+    "consumer/mix.lock": "5453df860ab248f1c153dabb72a0ee5648eb7c7a1f23505a16c4a0868e76af3b"
+  },
+  "accuracy": {
+    "macos/development": {
+      "fast": {
+        "exact": {
+          "tp": 5,
+          "fp": 4,
+          "fn": 11,
+          "precision": 0.5555555555555556,
+          "recall": 0.3125,
+          "f1": 0.39999999999999997
+        },
+        "per_entity": {
+          "person": {
+            "tp": 1,
+            "fp": 1,
+            "fn": 4,
+            "precision": 0.5,
+            "recall": 0.2,
+            "f1": 0.28571428571428575
+          },
+          "location": {
+            "tp": 0,
+            "fp": 3,
+            "fn": 7,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "email": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_exposed": 10,
+          "alnum_characters": 275,
+          "covered_alnum_characters": 101,
+          "strict_nonspace_characters": 292,
+          "covered_strict_nonspace_characters": 110,
+          "fully_covered": 6
+        },
+        "negative_text": {
+          "rows": 3,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "efficient": {
+        "exact": {
+          "tp": 10,
+          "fp": 12,
+          "fn": 6,
+          "precision": 0.45454545454545453,
+          "recall": 0.625,
+          "f1": 0.5263157894736842
+        },
+        "per_entity": {
+          "person": {
+            "tp": 5,
+            "fp": 4,
+            "fn": 0,
+            "precision": 0.5555555555555556,
+            "recall": 1.0,
+            "f1": 0.7142857142857143
+          },
+          "location": {
+            "tp": 1,
+            "fp": 8,
+            "fn": 6,
+            "precision": 0.1111111111111111,
+            "recall": 0.14285714285714285,
+            "f1": 0.125
+          },
+          "email": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 11,
+          "alnum_characters": 275,
+          "covered_alnum_characters": 213,
+          "strict_nonspace_characters": 292,
+          "covered_strict_nonspace_characters": 222,
+          "partially_exposed": 5
+        },
+        "negative_text": {
+          "rows": 3,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "redact_cpu": {
+        "exact": {
+          "tp": 3,
+          "fp": 11,
+          "fn": 13,
+          "precision": 0.21428571428571427,
+          "recall": 0.1875,
+          "f1": 0.19999999999999998
+        },
+        "per_entity": {
+          "person": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 5,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "location": {
+            "tp": 0,
+            "fp": 10,
+            "fn": 7,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "email": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_exposed": 6,
+          "alnum_characters": 275,
+          "covered_alnum_characters": 160,
+          "strict_nonspace_characters": 292,
+          "covered_strict_nonspace_characters": 168,
+          "partially_exposed": 6,
+          "fully_covered": 4
+        },
+        "negative_text": {
+          "rows": 3,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "hybrid": {
+        "exact": {
+          "tp": 10,
+          "fp": 13,
+          "fn": 6,
+          "precision": 0.43478260869565216,
+          "recall": 0.625,
+          "f1": 0.5128205128205128
+        },
+        "per_entity": {
+          "person": {
+            "tp": 5,
+            "fp": 4,
+            "fn": 0,
+            "precision": 0.5555555555555556,
+            "recall": 1.0,
+            "f1": 0.7142857142857143
+          },
+          "location": {
+            "tp": 1,
+            "fp": 9,
+            "fn": 6,
+            "precision": 0.1,
+            "recall": 0.14285714285714285,
+            "f1": 0.11764705882352941
+          },
+          "email": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 11,
+          "alnum_characters": 275,
+          "covered_alnum_characters": 225,
+          "strict_nonspace_characters": 292,
+          "covered_strict_nonspace_characters": 234,
+          "partially_exposed": 5
+        },
+        "negative_text": {
+          "rows": 3,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      }
+    },
+    "macos/test": {
+      "fast": {
+        "exact": {
+          "tp": 12,
+          "fp": 1,
+          "fn": 47,
+          "precision": 0.9230769230769231,
+          "recall": 0.2033898305084746,
+          "f1": 0.3333333333333333
+        },
+        "per_entity": {
+          "person": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 21,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "location": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 26,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "email": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 4,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_exposed": 46,
+          "alnum_characters": 1123,
+          "covered_alnum_characters": 186,
+          "strict_nonspace_characters": 1197,
+          "covered_strict_nonspace_characters": 217,
+          "fully_covered": 13
+        },
+        "negative_text": {
+          "rows": 14,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "efficient": {
+        "exact": {
+          "tp": 33,
+          "fp": 39,
+          "fn": 26,
+          "precision": 0.4583333333333333,
+          "recall": 0.559322033898305,
+          "f1": 0.5038167938931297
+        },
+        "per_entity": {
+          "person": {
+            "tp": 18,
+            "fp": 2,
+            "fn": 3,
+            "precision": 0.9,
+            "recall": 0.8571428571428571,
+            "f1": 0.8780487804878048
+          },
+          "location": {
+            "tp": 3,
+            "fp": 37,
+            "fn": 23,
+            "precision": 0.075,
+            "recall": 0.11538461538461539,
+            "f1": 0.09090909090909093
+          },
+          "email": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 4,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 36,
+          "alnum_characters": 1123,
+          "covered_alnum_characters": 704,
+          "strict_nonspace_characters": 1197,
+          "covered_strict_nonspace_characters": 735,
+          "partially_exposed": 19,
+          "fully_exposed": 4
+        },
+        "negative_text": {
+          "rows": 14,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "redact_cpu": {
+        "exact": {
+          "tp": 6,
+          "fp": 49,
+          "fn": 53,
+          "precision": 0.10909090909090909,
+          "recall": 0.1016949152542373,
+          "f1": 0.10526315789473685
+        },
+        "per_entity": {
+          "person": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 21,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "location": {
+            "tp": 0,
+            "fp": 45,
+            "fn": 26,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "email": {
+            "tp": 4,
+            "fp": 2,
+            "fn": 2,
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "f1": 0.6666666666666666
+          },
+          "phone": {
+            "tp": 0,
+            "fp": 2,
+            "fn": 4,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_exposed": 27,
+          "alnum_characters": 1123,
+          "covered_alnum_characters": 558,
+          "strict_nonspace_characters": 1197,
+          "covered_strict_nonspace_characters": 581,
+          "partially_exposed": 22,
+          "fully_covered": 10
+        },
+        "negative_text": {
+          "rows": 14,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "hybrid": {
+        "exact": {
+          "tp": 33,
+          "fp": 54,
+          "fn": 26,
+          "precision": 0.3793103448275862,
+          "recall": 0.559322033898305,
+          "f1": 0.45205479452054786
+        },
+        "per_entity": {
+          "person": {
+            "tp": 18,
+            "fp": 2,
+            "fn": 3,
+            "precision": 0.9,
+            "recall": 0.8571428571428571,
+            "f1": 0.8780487804878048
+          },
+          "location": {
+            "tp": 3,
+            "fp": 52,
+            "fn": 23,
+            "precision": 0.05454545454545454,
+            "recall": 0.11538461538461539,
+            "f1": 0.07407407407407408
+          },
+          "email": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 4,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 39,
+          "alnum_characters": 1123,
+          "covered_alnum_characters": 922,
+          "strict_nonspace_characters": 1197,
+          "covered_strict_nonspace_characters": 953,
+          "partially_exposed": 19,
+          "fully_exposed": 1
+        },
+        "negative_text": {
+          "rows": 14,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      }
+    },
+    "linux/development": {
+      "fast": {
+        "exact": {
+          "tp": 5,
+          "fp": 4,
+          "fn": 11,
+          "precision": 0.5555555555555556,
+          "recall": 0.3125,
+          "f1": 0.39999999999999997
+        },
+        "per_entity": {
+          "person": {
+            "tp": 1,
+            "fp": 1,
+            "fn": 4,
+            "precision": 0.5,
+            "recall": 0.2,
+            "f1": 0.28571428571428575
+          },
+          "location": {
+            "tp": 0,
+            "fp": 3,
+            "fn": 7,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "email": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_exposed": 10,
+          "alnum_characters": 275,
+          "covered_alnum_characters": 101,
+          "strict_nonspace_characters": 292,
+          "covered_strict_nonspace_characters": 110,
+          "fully_covered": 6
+        },
+        "negative_text": {
+          "rows": 3,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "efficient": {
+        "exact": {
+          "tp": 10,
+          "fp": 12,
+          "fn": 6,
+          "precision": 0.45454545454545453,
+          "recall": 0.625,
+          "f1": 0.5263157894736842
+        },
+        "per_entity": {
+          "person": {
+            "tp": 5,
+            "fp": 4,
+            "fn": 0,
+            "precision": 0.5555555555555556,
+            "recall": 1.0,
+            "f1": 0.7142857142857143
+          },
+          "location": {
+            "tp": 1,
+            "fp": 8,
+            "fn": 6,
+            "precision": 0.1111111111111111,
+            "recall": 0.14285714285714285,
+            "f1": 0.125
+          },
+          "email": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 11,
+          "alnum_characters": 275,
+          "covered_alnum_characters": 213,
+          "strict_nonspace_characters": 292,
+          "covered_strict_nonspace_characters": 222,
+          "partially_exposed": 5
+        },
+        "negative_text": {
+          "rows": 3,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "redact_cpu": {
+        "exact": {
+          "tp": 15,
+          "fp": 1,
+          "fn": 1,
+          "precision": 0.9375,
+          "recall": 0.9375,
+          "f1": 0.9375
+        },
+        "per_entity": {
+          "person": {
+            "tp": 5,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "location": {
+            "tp": 7,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "email": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 16,
+          "alnum_characters": 275,
+          "covered_alnum_characters": 275,
+          "strict_nonspace_characters": 292,
+          "covered_strict_nonspace_characters": 283
+        },
+        "negative_text": {
+          "rows": 3,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "hybrid": {
+        "exact": {
+          "tp": 16,
+          "fp": 5,
+          "fn": 0,
+          "precision": 0.7619047619047619,
+          "recall": 1.0,
+          "f1": 0.8648648648648648
+        },
+        "per_entity": {
+          "person": {
+            "tp": 5,
+            "fp": 4,
+            "fn": 0,
+            "precision": 0.5555555555555556,
+            "recall": 1.0,
+            "f1": 0.7142857142857143
+          },
+          "location": {
+            "tp": 7,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.875,
+            "recall": 1.0,
+            "f1": 0.9333333333333333
+          },
+          "email": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 16,
+          "alnum_characters": 275,
+          "covered_alnum_characters": 275,
+          "strict_nonspace_characters": 292,
+          "covered_strict_nonspace_characters": 284
+        },
+        "negative_text": {
+          "rows": 3,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      }
+    },
+    "linux/test": {
+      "fast": {
+        "exact": {
+          "tp": 12,
+          "fp": 1,
+          "fn": 47,
+          "precision": 0.9230769230769231,
+          "recall": 0.2033898305084746,
+          "f1": 0.3333333333333333
+        },
+        "per_entity": {
+          "person": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 21,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "location": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 26,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "email": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 4,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_exposed": 46,
+          "alnum_characters": 1123,
+          "covered_alnum_characters": 186,
+          "strict_nonspace_characters": 1197,
+          "covered_strict_nonspace_characters": 217,
+          "fully_covered": 13
+        },
+        "negative_text": {
+          "rows": 14,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "efficient": {
+        "exact": {
+          "tp": 33,
+          "fp": 39,
+          "fn": 26,
+          "precision": 0.4583333333333333,
+          "recall": 0.559322033898305,
+          "f1": 0.5038167938931297
+        },
+        "per_entity": {
+          "person": {
+            "tp": 18,
+            "fp": 2,
+            "fn": 3,
+            "precision": 0.9,
+            "recall": 0.8571428571428571,
+            "f1": 0.8780487804878048
+          },
+          "location": {
+            "tp": 3,
+            "fp": 37,
+            "fn": 23,
+            "precision": 0.075,
+            "recall": 0.11538461538461539,
+            "f1": 0.09090909090909093
+          },
+          "email": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 4,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 36,
+          "alnum_characters": 1123,
+          "covered_alnum_characters": 704,
+          "strict_nonspace_characters": 1197,
+          "covered_strict_nonspace_characters": 735,
+          "partially_exposed": 19,
+          "fully_exposed": 4
+        },
+        "negative_text": {
+          "rows": 14,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "redact_cpu": {
+        "exact": {
+          "tp": 41,
+          "fp": 24,
+          "fn": 18,
+          "precision": 0.6307692307692307,
+          "recall": 0.6949152542372882,
+          "f1": 0.6612903225806452
+        },
+        "per_entity": {
+          "person": {
+            "tp": 17,
+            "fp": 0,
+            "fn": 4,
+            "precision": 1.0,
+            "recall": 0.8095238095238095,
+            "f1": 0.8947368421052632
+          },
+          "location": {
+            "tp": 18,
+            "fp": 18,
+            "fn": 8,
+            "precision": 0.5,
+            "recall": 0.6923076923076923,
+            "f1": 0.5806451612903226
+          },
+          "email": {
+            "tp": 4,
+            "fp": 2,
+            "fn": 2,
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "f1": 0.6666666666666666
+          },
+          "phone": {
+            "tp": 0,
+            "fp": 4,
+            "fn": 4,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 47,
+          "alnum_characters": 1123,
+          "covered_alnum_characters": 1021,
+          "strict_nonspace_characters": 1197,
+          "covered_strict_nonspace_characters": 1048,
+          "partially_exposed": 8,
+          "fully_exposed": 4
+        },
+        "negative_text": {
+          "rows": 14,
+          "changed_rows": 1,
+          "detections": 1
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      },
+      "hybrid": {
+        "exact": {
+          "tp": 48,
+          "fp": 19,
+          "fn": 11,
+          "precision": 0.7164179104477612,
+          "recall": 0.8135593220338984,
+          "f1": 0.761904761904762
+        },
+        "per_entity": {
+          "person": {
+            "tp": 18,
+            "fp": 2,
+            "fn": 3,
+            "precision": 0.9,
+            "recall": 0.8571428571428571,
+            "f1": 0.8780487804878048
+          },
+          "location": {
+            "tp": 18,
+            "fp": 17,
+            "fn": 8,
+            "precision": 0.5142857142857142,
+            "recall": 0.6923076923076923,
+            "f1": 0.5901639344262295
+          },
+          "email": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "phone": {
+            "tp": 4,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "us_ssn": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "credit_card": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "ip_address": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "url": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "iban": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        },
+        "coverage": {
+          "fully_covered": 51,
+          "alnum_characters": 1123,
+          "covered_alnum_characters": 1045,
+          "strict_nonspace_characters": 1197,
+          "covered_strict_nonspace_characters": 1076,
+          "partially_exposed": 7,
+          "fully_exposed": 1
+        },
+        "negative_text": {
+          "rows": 14,
+          "changed_rows": 0,
+          "detections": 0
+        },
+        "error_rows": 0,
+        "additional_raw_labels": {},
+        "supplemental": []
+      }
+    }
+  },
+  "live_merge_parity": [
+    {
+      "host": "macos",
+      "split": "development",
+      "live_hybrid_matches_saved_component_merge": true,
+      "rows": 12
+    },
+    {
+      "host": "macos",
+      "split": "test",
+      "live_hybrid_matches_saved_component_merge": true,
+      "rows": 48
+    },
+    {
+      "host": "linux",
+      "split": "development",
+      "live_hybrid_matches_saved_component_merge": true,
+      "rows": 12
+    },
+    {
+      "host": "linux",
+      "split": "test",
+      "live_hybrid_matches_saved_component_merge": true,
+      "rows": 48
+    }
+  ],
+  "workloads": [
+    {
+      "host": "macos",
+      "profile": "efficient",
+      "workers": 1,
+      "requests_per_second": 1992.7857584871874,
+      "latency": {
+        "count": 119568,
+        "p50_ms": 0.49062492325901985,
+        "p95_ms": 0.6364169530570507,
+        "p99_ms": 0.7100410293787718,
+        "mean_ms": 0.5006320851507245
+      },
+      "peak_rss_mib": 175.46875,
+      "rss_growth_mib": -28.953125,
+      "peak_pss_mib": null,
+      "cpu_quality_valid": true,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 667.0214580371976,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 8,
+        "errors": 0,
+        "completion": {
+          "count": 8,
+          "p50_ms": 3.151749959215522,
+          "p95_ms": 5.916499998420477,
+          "p99_ms": 5.916499998420477,
+          "mean_ms": 3.483385138679296
+        }
+      },
+      "startup_mean_ms": 613.4336250834167
+    },
+    {
+      "host": "macos",
+      "profile": "redact_cpu",
+      "workers": 1,
+      "requests_per_second": 238.6743123467788,
+      "latency": {
+        "count": 14322,
+        "p50_ms": 4.149541957303882,
+        "p95_ms": 4.577083047479391,
+        "p99_ms": 4.872959107160568,
+        "mean_ms": 4.1870836680716
+      },
+      "peak_rss_mib": 97.53125,
+      "rss_growth_mib": 0.90625,
+      "peak_pss_mib": null,
+      "cpu_quality_valid": false,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 80.52079216577113,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 8,
+        "errors": 0,
+        "completion": {
+          "count": 8,
+          "p50_ms": 17.042582854628563,
+          "p95_ms": 33.9882499538362,
+          "p99_ms": 33.9882499538362,
+          "mean_ms": 19.24746867734939
+        }
+      },
+      "startup_mean_ms": 53.51470783352852
+    },
+    {
+      "host": "macos",
+      "profile": "hybrid",
+      "workers": 1,
+      "requests_per_second": 205.78066647729023,
+      "latency": {
+        "count": 12348,
+        "p50_ms": 4.818999907001853,
+        "p95_ms": 5.34999999217689,
+        "p99_ms": 5.776542006060481,
+        "mean_ms": 4.856318222217179
+      },
+      "peak_rss_mib": 274.0,
+      "rss_growth_mib": -28.9375,
+      "peak_pss_mib": null,
+      "cpu_quality_valid": false,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 84.16754193603992,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 8,
+        "errors": 0,
+        "completion": {
+          "count": 8,
+          "p50_ms": 20.880167139694095,
+          "p95_ms": 41.08750005252659,
+          "p99_ms": 41.08750005252659,
+          "mean_ms": 23.406776221236214
+        }
+      },
+      "startup_mean_ms": 671.7659998685122
+    },
+    {
+      "host": "macos",
+      "profile": "efficient",
+      "workers": 4,
+      "requests_per_second": 6272.941958460537,
+      "latency": {
+        "count": 376422,
+        "p50_ms": 0.6238748319447041,
+        "p95_ms": 0.7923750672489405,
+        "p99_ms": 0.8687088266015053,
+        "mean_ms": 0.6361853430315502
+      },
+      "peak_rss_mib": 693.578125,
+      "rss_growth_mib": -104.78125,
+      "peak_pss_mib": null,
+      "cpu_quality_valid": true,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 734.9708341062069,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 32,
+        "errors": 0,
+        "completion": {
+          "count": 32,
+          "p50_ms": 3.9412500336766243,
+          "p95_ms": 6.8960420321673155,
+          "p99_ms": 6.917417049407959,
+          "mean_ms": 4.1575600116630085
+        }
+      },
+      "startup_mean_ms": 652.7872502920218
+    },
+    {
+      "host": "macos",
+      "profile": "redact_cpu",
+      "workers": 4,
+      "requests_per_second": 658.4760366496645,
+      "latency": {
+        "count": 39528,
+        "p50_ms": 6.048500072211027,
+        "p95_ms": 6.774083944037557,
+        "p99_ms": 7.195041980594397,
+        "mean_ms": 6.07067896883841
+      },
+      "peak_rss_mib": 386.1875,
+      "rss_growth_mib": 0.09375,
+      "peak_pss_mib": null,
+      "cpu_quality_valid": false,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 94.20966706238687,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 32,
+        "errors": 0,
+        "completion": {
+          "count": 32,
+          "p50_ms": 24.331290973350406,
+          "p95_ms": 49.035375006496906,
+          "p99_ms": 49.19724981300533,
+          "mean_ms": 27.317874504660722
+        }
+      },
+      "startup_mean_ms": 53.09460428543389
+    },
+    {
+      "host": "macos",
+      "profile": "hybrid",
+      "workers": 4,
+      "requests_per_second": 529.1927947645806,
+      "latency": {
+        "count": 31770,
+        "p50_ms": 7.512124953791499,
+        "p95_ms": 8.72033298946917,
+        "p99_ms": 9.477958083152771,
+        "mean_ms": 7.553161435951395
+      },
+      "peak_rss_mib": 1078.65625,
+      "rss_growth_mib": -117.859375,
+      "peak_pss_mib": null,
+      "cpu_quality_valid": false,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 105.587458005175,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 32,
+        "errors": 0,
+        "completion": {
+          "count": 32,
+          "p50_ms": 28.76787493005395,
+          "p95_ms": 59.90904103964567,
+          "p99_ms": 60.08854112587869,
+          "mean_ms": 33.32923929701792
+        }
+      },
+      "startup_mean_ms": 743.3793122763745
+    },
+    {
+      "host": "linux",
+      "profile": "efficient",
+      "workers": 1,
+      "requests_per_second": 518.8307311940072,
+      "latency": {
+        "count": 31134,
+        "p50_ms": 1.887099992018193,
+        "p95_ms": 2.6153100188821554,
+        "p99_ms": 2.8906550141982734,
+        "mean_ms": 1.9213922681265274
+      },
+      "peak_rss_mib": 144.40234375,
+      "rss_growth_mib": -27.05078125,
+      "peak_pss_mib": 120.8173828125,
+      "cpu_quality_valid": true,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 1853.8439439726062,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 8,
+        "errors": 0,
+        "completion": {
+          "count": 8,
+          "p50_ms": 8.152602997142822,
+          "p95_ms": 15.82943496759981,
+          "p99_ms": 15.82943496759981,
+          "mean_ms": 9.096900357690174
+        }
+      },
+      "startup_mean_ms": 1839.7831549518742
+    },
+    {
+      "host": "linux",
+      "profile": "redact_cpu",
+      "workers": 1,
+      "requests_per_second": 22.92026755748614,
+      "latency": {
+        "count": 1380,
+        "p50_ms": 44.42713799653575,
+        "p95_ms": 49.55078597413376,
+        "p99_ms": 68.85810400126502,
+        "mean_ms": 43.61792220476765
+      },
+      "peak_rss_mib": 185.6328125,
+      "rss_growth_mib": 10.5390625,
+      "peak_pss_mib": 177.7197265625,
+      "cpu_quality_valid": true,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 814.158339984715,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 8,
+        "errors": 0,
+        "completion": {
+          "count": 8,
+          "p50_ms": 183.47569700563326,
+          "p95_ms": 370.88125600712374,
+          "p99_ms": 370.88125600712374,
+          "mean_ms": 207.88336688565323
+        }
+      },
+      "startup_mean_ms": 352.72440197877586
+    },
+    {
+      "host": "linux",
+      "profile": "hybrid",
+      "workers": 1,
+      "requests_per_second": 21.673980858116312,
+      "latency": {
+        "count": 1302,
+        "p50_ms": 45.68200500216335,
+        "p95_ms": 52.344235009513795,
+        "p99_ms": 59.64235897408798,
+        "mean_ms": 46.12603592322446
+      },
+      "peak_rss_mib": 312.49609375,
+      "rss_growth_mib": -11.76953125,
+      "peak_pss_mib": 280.990234375,
+      "cpu_quality_valid": true,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 786.5331179928035,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 8,
+        "errors": 0,
+        "completion": {
+          "count": 8,
+          "p50_ms": 169.8935779859312,
+          "p95_ms": 340.80623101908714,
+          "p99_ms": 340.80623101908714,
+          "mean_ms": 191.38381000811933
+        }
+      },
+      "startup_mean_ms": 3078.6323769716546
+    },
+    {
+      "host": "linux",
+      "profile": "efficient",
+      "workers": 4,
+      "requests_per_second": 1053.8973458007513,
+      "latency": {
+        "count": 63252,
+        "p50_ms": 3.66490101441741,
+        "p95_ms": 5.550991976633668,
+        "p99_ms": 6.615336984395981,
+        "mean_ms": 3.784277544653814
+      },
+      "peak_rss_mib": 543.33984375,
+      "rss_growth_mib": -69.90625,
+      "peak_pss_mib": 418.724609375,
+      "cpu_quality_valid": true,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 2488.4039250318892,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 32,
+        "errors": 0,
+        "completion": {
+          "count": 32,
+          "p50_ms": 22.485595021862537,
+          "p95_ms": 41.19979101233184,
+          "p99_ms": 41.348122991621494,
+          "mean_ms": 23.393561197735835
+        }
+      },
+      "startup_mean_ms": 1884.1523779847194
+    },
+    {
+      "host": "linux",
+      "profile": "redact_cpu",
+      "workers": 4,
+      "requests_per_second": 43.87713884561407,
+      "latency": {
+        "count": 2652,
+        "p50_ms": 82.91311102220789,
+        "p95_ms": 141.37082995148376,
+        "p99_ms": 209.03600397286937,
+        "mean_ms": 90.95785037626608
+      },
+      "peak_rss_mib": 743.70703125,
+      "rss_growth_mib": 38.6015625,
+      "peak_pss_mib": 476.2529296875,
+      "cpu_quality_valid": true,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 1107.2702020173892,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 32,
+        "errors": 0,
+        "completion": {
+          "count": 32,
+          "p50_ms": 426.4577520079911,
+          "p95_ms": 770.9432779811323,
+          "p99_ms": 784.286368987523,
+          "mean_ms": 439.6521802627831
+        }
+      },
+      "startup_mean_ms": 524.9157037615078
+    },
+    {
+      "host": "linux",
+      "profile": "hybrid",
+      "workers": 4,
+      "requests_per_second": 33.60696944651388,
+      "latency": {
+        "count": 2046,
+        "p50_ms": 110.69339700043201,
+        "p95_ms": 202.4695900036022,
+        "p99_ms": 302.7772009954788,
+        "mean_ms": 118.47431408063298
+      },
+      "peak_rss_mib": 1224.91015625,
+      "rss_growth_mib": -24.3515625,
+      "peak_pss_mib": 840.1875,
+      "cpu_quality_valid": true,
+      "recovery": {
+        "failure_observed": true,
+        "restart_and_request_ms": 1226.3436539797112,
+        "output_restored": true,
+        "survivors_unchanged": true
+      },
+      "burst": {
+        "requests": 32,
+        "errors": 0,
+        "completion": {
+          "count": 32,
+          "p50_ms": 797.236567013897,
+          "p95_ms": 1306.855976989027,
+          "p99_ms": 1341.978561016731,
+          "mean_ms": 802.2336738158629
+        }
+      },
+      "startup_mean_ms": 2788.036131489207
+    }
+  ],
+  "report_sha256": {
+    "results/macos/development-fast.json": "e170dfe2595ef369ba9e145e03276255383d0135f5fd3cb19e638b6411a17789",
+    "results/macos/development-efficient.json": "fde0c81bce85d456ca4011322f64e453c7caf4e4ac11af606b7ef0fbc3f25c3f",
+    "results/macos/development-redact_cpu.json": "36023673ef21335d980cb184ce42f1c73a462f8d4518dd745c87fefa751aa747",
+    "results/macos/development-hybrid.json": "ad6d691a0b2485a38f53fb6ba942d8d9cb3e3449730c846d7a5fdcaff798b0f6",
+    "results/macos/test-fast.json": "3ea838dc01ff9f95271ee09479c58c8baa3ae744aadb691e5cbb484294181c49",
+    "results/macos/test-efficient.json": "29320b47ef37820ad9cd2baaa4ee436dbca55e46c5fa0777515759e2885ac4eb",
+    "results/macos/test-redact_cpu.json": "4290741638562107db328e48ef5b5166770cdf30443c552f37ab0c0061a5a013",
+    "results/macos/test-hybrid.json": "82ff39b21e1157fdda6b621d4b1b5fa4a3eb0cd6ef60a6e7cef73b51b615e66b",
+    "results/macos/workload-efficient-1.json": "414a18c9c3ed7a62bc0e252eb1a1f3fac8ae51d25608123d4003bf05b5ecce53",
+    "results/macos/workload-redact_cpu-1.json": "17ca01d444e0720cb4c3d816c352f12ebf6ec8ee2e07ec8246a02c2c47cbd1a6",
+    "results/macos/workload-hybrid-1.json": "6aee2d17999db2ca8285384bd33e0b032eb75c573c327e07d1cdbc9ec7ef8e55",
+    "results/macos/workload-efficient-4.json": "210a3e96cc546c3b2ce824d5f2936c43c3c4d81febb23a350f497506281f4a97",
+    "results/macos/workload-redact_cpu-4.json": "a2034e95ef503b505a011c75f6e5320713e2232e6c5f0758093c183fe138c2eb",
+    "results/macos/workload-hybrid-4.json": "296369aa395d051be87cf99eb653ac449ef6c756c1c1c115210387f92b1a74cc",
+    "results/linux/development-fast.json": "174f043507cf242cae8b8099c4e97e6a3db2d3af6f07ad3bdcf6558370e799f2",
+    "results/linux/development-efficient.json": "7957d09a228cb3cdae144123887155cca3fe4ca12bf47fd5f246e1fa9ef9842b",
+    "results/linux/development-redact_cpu.json": "7e108d15175db524ad0ea984855d36f1b7ab861df7c8ac2f6c2bb9fcb2cd4c15",
+    "results/linux/development-hybrid.json": "3c59fb5dc9e2b61e2b4b82756614af16d6059efb66a7da17059bb432419f2e6b",
+    "results/linux/test-fast.json": "768715244d1d9da9f1729a67983495e290502be0d98bdffabfe26ce626854d43",
+    "results/linux/test-efficient.json": "ec227eeed33019c8ec786757f4009f96c585b65fb9a81d7785e080fdae442957",
+    "results/linux/test-redact_cpu.json": "b9063829471d2e1d50031028a89cefab197bb5b5a69fd49f3b2864faf2f5a5da",
+    "results/linux/test-hybrid.json": "2c654bc159c8daa169edd195ad169b3491db5e21874ea2a94965edbf2da8dc60",
+    "results/linux/workload-efficient-1.json": "5854bb1e31d78e60325528e74c43585e827b5ed745556c21d644da403997b71e",
+    "results/linux/workload-redact_cpu-1.json": "64019cf2b335dee9345653628bda67ab8704c72d4bf40d2968d9a172e3b7d8df",
+    "results/linux/workload-hybrid-1.json": "80cd8725cb899b0f964e4a285307d7e0adb101f130b55ff3f5fdc59ddccd5569",
+    "results/linux/workload-efficient-4.json": "1e18fb09a194fa74db47f2535573a7cbfce50be2268f5f7c89f1947894a7b3cc",
+    "results/linux/workload-redact_cpu-4.json": "1437fbf1b5e7ee0ff8fde6935a2fff6a100d71e06deb2bab4c1563dd0cfd6708",
+    "results/linux/workload-hybrid-4.json": "0a8d84c18fa569a82a01ac82910c8795ba5f7af690967af44d0723b0d36eec26",
+    "results/macos/postrun.json": "657db48cb73570e457755baf55840007efd88c14efa7579bbf7cd217fdd52eae",
+    "results/linux/postrun.json": "23be5bed83cda4b14158cb06126f2c3dfd7561d13851d8580abe4d5e9fcec3aa"
+  },
+  "analyzer_sha256": "ba234d93b7b42513c870491e59ca2d2311f1b9be6eb3d04257f38a7691685ca7"
+}

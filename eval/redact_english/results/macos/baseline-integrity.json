@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "created_unix": 1789357443.784117,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "purpose": "Post-inference byte verification against efficient receipt and immutable publisher TNER metadata",
+  "efficient_asset_version": "efficient-v1",
+  "efficient_files": {
+    "model.json": {
+      "sha256": "216f7db87f64c157181c19eaa7840fc0820198e163c81d47a10cfb0cc6533750",
+      "bytes": 434949,
+      "mtime_unix": 1788619642.0
+    },
+    "unicode.bin": {
+      "sha256": "683130936bbd088c9ffdc9054c2396f06d92852e35045cb3fa112a66f7f11c7d",
+      "bytes": 1114112,
+      "mtime_unix": 1788619642.0
+    },
+    "vector_keys.bin": {
+      "sha256": "76a86673cd8b05fecb50116871bfd8d4dbd0530e844681cbd0a4f54db17d1750",
+      "bytes": 8217960,
+      "mtime_unix": 1788619642.0
+    },
+    "vectors.bin": {
+      "sha256": "c4a3e215076dc379c6386ef9e15fb1c4d1a58451802a3bae582c70970df0387b",
+      "bytes": 411501600,
+      "mtime_unix": 1788619642.0
+    },
+    "weights.bin": {
+      "sha256": "f919ba1502890bca0f808532168495f97e4462ae28bf9e955a2415f43ec7dc17",
+      "bytes": 6373288,
+      "mtime_unix": 1788619642.0
+    }
+  },
+  "efficient_native_sha256": "a4c6202e03416471a23ff28c83b08d32d074fd9f238a68601b5feac1eafb3eda",
+  "tner_revision": "0bce50f7884d5bb040469c907c897d4b061ccbb4",
+  "tner_files": {
+    "pytorch_model.bin": {
+      "sha256": "086ca77eeb470435ab2cf9b496f72edde4195d02d559d5c2fb2096c417a07297",
+      "bytes": 1417562865,
+      "mtime_unix": 1784673002.8983316,
+      "publisher_verification": {
+        "algorithm": "sha256",
+        "expected": "086ca77eeb470435ab2cf9b496f72edde4195d02d559d5c2fb2096c417a07297"
+      }
+    },
+    "special_tokens_map.json": {
+      "sha256": "378eb3bf733eb16e65792d7e3fda5b8a4631387ca04d2015199c4d4f22ae554d",
+      "bytes": 239,
+      "mtime_unix": 1784673007.0390565,
+      "publisher_verification": {
+        "algorithm": "git-blob-sha1",
+        "expected": "2ea7ad0e45a9d1d1591782ba7e29a703d0758831"
+      }
+    },
+    "tokenizer_config.json": {
+      "sha256": "ca821be3be25ea4216507b50004460c4e83764163032341ebd08be63aa5503f9",
+      "bytes": 361,
+      "mtime_unix": 1784673006.8030927,
+      "publisher_verification": {
+        "algorithm": "git-blob-sha1",
+        "expected": "9c98e8ed6cff9bbf1aedeb071a09ec137e1ed491"
+      }
+    },
+    "config.json": {
+      "sha256": "beec098b8c2718d2f1661e5d1ee5c5e7a3188ac46e39ddff55a71d79eb033bee",
+      "bytes": 65746,
+      "mtime_unix": 1784672853.0364456,
+      "publisher_verification": {
+        "algorithm": "git-blob-sha1",
+        "expected": "db5e8edfd3517f3b340f71b2bb6f0d28ba7b5929"
+      }
+    },
+    "tokenizer.json": {
+      "sha256": "33465117406b9007673e8ba283f7f1383d9b5094df947481af60eec94ed7d7bd",
+      "bytes": 1355881,
+      "mtime_unix": 1784673006.5629928,
+      "publisher_verification": {
+        "algorithm": "git-blob-sha1",
+        "expected": "75801df688e89a96f642b98cbdd97288f5207518"
+      }
+    }
+  },
+  "tner_publisher_metadata_sha256": "706bb8044f4d5d91e3c8c357c71230f4f8079e1c96ab9e8dccf542dedf1ed64b",
+  "source_sha256": "0dca8bae162fc71ebc555e3d7e64611e2e74a2999f394c4a66c595d50b9547a0"
+}

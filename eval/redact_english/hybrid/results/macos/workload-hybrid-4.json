@@ -1,0 +1,437 @@
+{
+  "profile": "hybrid",
+  "workers": 4,
+  "seconds_requested": 60,
+  "elapsed_seconds": 60.034830999793485,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "sources": {
+    "hybrid/POLICY.md": "ee719210c0bab3cba8aa981385a2669a82f54fbb47f65ec7c5743c4bc968de27",
+    "hybrid/adapter.py": "d245f08ffa498128a4ead3f760d4a7c9a71a75a04be8764e11bbbb1c86ae81e8",
+    "hybrid/run.py": "07272710c21599b1c8d7befc75c7a385d95f8457da47ddafeb7233e75a95bcc4",
+    "hybrid/development.json": "dd3fe62ee119b0c57318164290a94ae4d3063b97b0dd6dd64c7891a93ee15c3e",
+    "hybrid/test.json": "29a8a78fbcdaa1032815df57c4666acbd556e5ea9ce73cea5ded166185559629",
+    "hybrid/manifest.json": "bdcd0240bbe7b58dc0bc1d06b61809f246b57ec56cdd118cc64c1c387f6e9ed3",
+    "harness.py": "ec4ebf764d9cfdcfd23442d99e023acb69d4e5d66f8f876c31ba8869d8a3508b",
+    "worker.exs": "c55f9f8f320115fd08124044fcc8b8642b8cd6476ee5df764d22bbac0d4a5757",
+    "redact_worker.mjs": "b29a56d56301e486c0c20d093dc3529af577500b59fa49fef91be52897ee5204",
+    "spans.mjs": "856318cc2a6e8e25f29fd3db0374e7bfbec7c45920b08e7d4222c406bb44213d",
+    "score.py": "1e3996055c62bd416332b255e9b629cd89899fb3a25c536cac18a87ec85d76cc",
+    "workload.py": "8ffd1eb9996c53e830ebcc6a007388b76a8c2a253d63a9e677c79f3baf49f475",
+    "model-manifest.json": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+    "consumer/mix.lock": "5453df860ab248f1c153dabb72a0ee5648eb7c7a1f23505a16c4a0868e76af3b"
+  },
+  "cpu_quality_valid": false,
+  "requests": 31770,
+  "requests_per_second": 529.1927947645806,
+  "counts_by_input": {
+    "development-00": 5295,
+    "development-01": 5295,
+    "development-03": 5295,
+    "development-04": 5295,
+    "development-05": 5295,
+    "development-10": 5295
+  },
+  "errors": {},
+  "latency": {
+    "count": 31770,
+    "p50_ms": 7.512124953791499,
+    "p95_ms": 8.72033298946917,
+    "p99_ms": 9.477958083152771,
+    "mean_ms": 7.553161435951395
+  },
+  "cold": [
+    {
+      "startup_ms": 814.8828749544919,
+      "first_ms": 51.20104202069342,
+      "fingerprint": "300b53b687179cc60cca426a5b6fa2464f18b0d781b51794e4a8681b3a1fd369",
+      "metadata": [
+        {
+          "pid": "92884",
+          "profile": "efficient",
+          "otp": "29",
+          "schedulers": 16,
+          "elixir": "1.20.2",
+          "obscura": "0.2.0",
+          "engine": {
+            "device": "cpu",
+            "backend": "native_spacy"
+          },
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ],
+          "event": "ready",
+          "preparation_ms": 259.819
+        },
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "darwin",
+          "arch": "arm64",
+          "pid": 92908,
+          "binaries": {
+            "libRedactNode.dylib": "47e804535272c483cd325b0205700814813843d3d0d48e713418fb5f86f52d68"
+          },
+          "preparation_ms": 13.245875000000002,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "CoreML",
+            "requested": "cpu",
+            "device": "cpu",
+            "numerical_validity": "failed diagnostic gate"
+          }
+        }
+      ]
+    },
+    {
+      "startup_ms": 749.0856251679361,
+      "first_ms": 52.86662490107119,
+      "fingerprint": "300b53b687179cc60cca426a5b6fa2464f18b0d781b51794e4a8681b3a1fd369",
+      "metadata": [
+        {
+          "pid": "92909",
+          "profile": "efficient",
+          "otp": "29",
+          "schedulers": 16,
+          "elixir": "1.20.2",
+          "obscura": "0.2.0",
+          "engine": {
+            "device": "cpu",
+            "backend": "native_spacy"
+          },
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ],
+          "event": "ready",
+          "preparation_ms": 259.812
+        },
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "darwin",
+          "arch": "arm64",
+          "pid": 92936,
+          "binaries": {
+            "libRedactNode.dylib": "47e804535272c483cd325b0205700814813843d3d0d48e713418fb5f86f52d68"
+          },
+          "preparation_ms": 13.935208999999997,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "CoreML",
+            "requested": "cpu",
+            "device": "cpu",
+            "numerical_validity": "failed diagnostic gate"
+          }
+        }
+      ]
+    },
+    {
+      "startup_ms": 743.06216603145,
+      "first_ms": 51.037375116720796,
+      "fingerprint": "300b53b687179cc60cca426a5b6fa2464f18b0d781b51794e4a8681b3a1fd369",
+      "metadata": [
+        {
+          "pid": "92937",
+          "profile": "efficient",
+          "otp": "29",
+          "schedulers": 16,
+          "elixir": "1.20.2",
+          "obscura": "0.2.0",
+          "engine": {
+            "device": "cpu",
+            "backend": "native_spacy"
+          },
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ],
+          "event": "ready",
+          "preparation_ms": 258.209
+        },
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "darwin",
+          "arch": "arm64",
+          "pid": 92968,
+          "binaries": {
+            "libRedactNode.dylib": "47e804535272c483cd325b0205700814813843d3d0d48e713418fb5f86f52d68"
+          },
+          "preparation_ms": 13.343792,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "CoreML",
+            "requested": "cpu",
+            "device": "cpu",
+            "numerical_validity": "failed diagnostic gate"
+          }
+        }
+      ]
+    },
+    {
+      "startup_ms": 666.4865829516202,
+      "first_ms": 50.52462499588728,
+      "fingerprint": "300b53b687179cc60cca426a5b6fa2464f18b0d781b51794e4a8681b3a1fd369",
+      "metadata": [
+        {
+          "pid": "92969",
+          "profile": "efficient",
+          "otp": "29",
+          "schedulers": 16,
+          "elixir": "1.20.2",
+          "obscura": "0.2.0",
+          "engine": {
+            "device": "cpu",
+            "backend": "native_spacy"
+          },
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ],
+          "event": "ready",
+          "preparation_ms": 253.408
+        },
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "darwin",
+          "arch": "arm64",
+          "pid": 92994,
+          "binaries": {
+            "libRedactNode.dylib": "47e804535272c483cd325b0205700814813843d3d0d48e713418fb5f86f52d68"
+          },
+          "preparation_ms": 13.231041999999999,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "CoreML",
+            "requested": "cpu",
+            "device": "cpu",
+            "numerical_validity": "failed diagnostic gate"
+          }
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "elapsed": 0.00010099983774125576,
+      "rss_kib": 1104544,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        24.4775390625,
+        38.19677734375,
+        43.06884765625
+      ]
+    },
+    {
+      "elapsed": 5.199505541939288,
+      "rss_kib": 1004960,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        23.71826171875,
+        37.8115234375,
+        42.904296875
+      ]
+    },
+    {
+      "elapsed": 10.396039166953415,
+      "rss_kib": 975888,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        22.53955078125,
+        37.3330078125,
+        42.70556640625
+      ]
+    },
+    {
+      "elapsed": 15.605888542020693,
+      "rss_kib": 978160,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        21.6953125,
+        36.912109375,
+        42.525390625
+      ]
+    },
+    {
+      "elapsed": 20.82105074985884,
+      "rss_kib": 978816,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        20.83837890625,
+        36.4814453125,
+        42.34033203125
+      ]
+    },
+    {
+      "elapsed": 26.059516708832234,
+      "rss_kib": 979360,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        25.81591796875,
+        37.25341796875,
+        42.578125
+      ]
+    },
+    {
+      "elapsed": 31.293207624927163,
+      "rss_kib": 979552,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        26.79150390625,
+        37.265625,
+        42.55126953125
+      ]
+    },
+    {
+      "elapsed": 36.49702433380298,
+      "rss_kib": 979696,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        25.36669921875,
+        36.7958984375,
+        42.3544921875
+      ]
+    },
+    {
+      "elapsed": 41.70520266680978,
+      "rss_kib": 980448,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        23.169921875,
+        35.9462890625,
+        41.98779296875
+      ]
+    },
+    {
+      "elapsed": 46.9052441669628,
+      "rss_kib": 983488,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        21.875,
+        35.46533203125,
+        41.78271484375
+      ]
+    },
+    {
+      "elapsed": 52.119656583992764,
+      "rss_kib": 983648,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        21.404296875,
+        35.14208984375,
+        41.63134765625
+      ]
+    },
+    {
+      "elapsed": 57.32905679196119,
+      "rss_kib": 983792,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        20.49072265625,
+        34.724609375,
+        41.44580078125
+      ]
+    },
+    {
+      "elapsed": 60.034830999793485,
+      "rss_kib": 983856,
+      "pss_kib": null,
+      "process_count": 16,
+      "load_average": [
+        20.49072265625,
+        34.724609375,
+        41.44580078125
+      ]
+    }
+  ],
+  "peak_rss_mib": 1078.65625,
+  "rss_growth_mib": -117.859375,
+  "peak_pss_mib": null,
+  "burst": {
+    "requests": 32,
+    "errors": 0,
+    "completion": {
+      "count": 32,
+      "p50_ms": 28.76787493005395,
+      "p95_ms": 59.90904103964567,
+      "p99_ms": 60.08854112587869,
+      "mean_ms": 33.32923929701792
+    }
+  },
+  "recovery": {
+    "failure_observed": true,
+    "restart_and_request_ms": 105.587458005175,
+    "output_restored": true,
+    "survivors_unchanged": true
+  }
+}

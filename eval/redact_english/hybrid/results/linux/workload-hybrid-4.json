@@ -1,0 +1,441 @@
+{
+  "profile": "hybrid",
+  "workers": 4,
+  "seconds_requested": 60,
+  "elapsed_seconds": 60.8802291220054,
+  "platform": "Linux-7.1.5-76070105-generic-x86_64-with-glibc2.39",
+  "sources": {
+    "hybrid/POLICY.md": "ee719210c0bab3cba8aa981385a2669a82f54fbb47f65ec7c5743c4bc968de27",
+    "hybrid/adapter.py": "d245f08ffa498128a4ead3f760d4a7c9a71a75a04be8764e11bbbb1c86ae81e8",
+    "hybrid/run.py": "07272710c21599b1c8d7befc75c7a385d95f8457da47ddafeb7233e75a95bcc4",
+    "hybrid/development.json": "dd3fe62ee119b0c57318164290a94ae4d3063b97b0dd6dd64c7891a93ee15c3e",
+    "hybrid/test.json": "29a8a78fbcdaa1032815df57c4666acbd556e5ea9ce73cea5ded166185559629",
+    "hybrid/manifest.json": "bdcd0240bbe7b58dc0bc1d06b61809f246b57ec56cdd118cc64c1c387f6e9ed3",
+    "harness.py": "ec4ebf764d9cfdcfd23442d99e023acb69d4e5d66f8f876c31ba8869d8a3508b",
+    "worker.exs": "c55f9f8f320115fd08124044fcc8b8642b8cd6476ee5df764d22bbac0d4a5757",
+    "redact_worker.mjs": "b29a56d56301e486c0c20d093dc3529af577500b59fa49fef91be52897ee5204",
+    "spans.mjs": "856318cc2a6e8e25f29fd3db0374e7bfbec7c45920b08e7d4222c406bb44213d",
+    "score.py": "1e3996055c62bd416332b255e9b629cd89899fb3a25c536cac18a87ec85d76cc",
+    "workload.py": "8ffd1eb9996c53e830ebcc6a007388b76a8c2a253d63a9e677c79f3baf49f475",
+    "model-manifest.json": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+    "consumer/mix.lock": "5453df860ab248f1c153dabb72a0ee5648eb7c7a1f23505a16c4a0868e76af3b"
+  },
+  "cpu_quality_valid": true,
+  "requests": 2046,
+  "requests_per_second": 33.60696944651388,
+  "counts_by_input": {
+    "development-00": 341,
+    "development-01": 341,
+    "development-03": 341,
+    "development-04": 341,
+    "development-05": 341,
+    "development-10": 341
+  },
+  "errors": {},
+  "latency": {
+    "count": 2046,
+    "p50_ms": 110.69339700043201,
+    "p95_ms": 202.4695900036022,
+    "p99_ms": 302.7772009954788,
+    "mean_ms": 118.47431408063298
+  },
+  "cold": [
+    {
+      "startup_ms": 2719.5402779616416,
+      "first_ms": 430.9153800131753,
+      "fingerprint": "bb9472c4764be91c3187e6abb07bcbb1c8a6a6b17f06de2570774132d3e6f7dd",
+      "metadata": [
+        {
+          "elixir": "1.18.4",
+          "engine": {
+            "backend": "native_spacy",
+            "device": "cpu"
+          },
+          "event": "ready",
+          "obscura": "0.2.0",
+          "otp": "25",
+          "pid": "525599",
+          "preparation_ms": 1202.444,
+          "profile": "efficient",
+          "schedulers": 8,
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ]
+        },
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "linux",
+          "arch": "x64",
+          "pid": 525646,
+          "binaries": {
+            "libLiteRt.so": "d46eca60880d6e28c1992d136459f06ab642e30eb423bdc14d56e928f398ce19",
+            "libRedactNode.so": "890321ef9216302fe93b61394d913370623cb09a13a4a7ff9af11ce4b4db3f97",
+            "libdalcpushim.so": "d86892fb16510716c706e25f6d66e1e47deb701c1b60af41e05bdd53b26bc103"
+          },
+          "preparation_ms": 426.295146,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "LiteRT/XNNPACK",
+            "device": "cpu",
+            "evidence": "Same native binary/runtime as CPU-only diagnostic run"
+          }
+        }
+      ]
+    },
+    {
+      "startup_ms": 2813.0147889605723,
+      "first_ms": 376.2419470003806,
+      "fingerprint": "bb9472c4764be91c3187e6abb07bcbb1c8a6a6b17f06de2570774132d3e6f7dd",
+      "metadata": [
+        {
+          "elixir": "1.18.4",
+          "engine": {
+            "backend": "native_spacy",
+            "device": "cpu"
+          },
+          "event": "ready",
+          "obscura": "0.2.0",
+          "otp": "25",
+          "pid": "525663",
+          "preparation_ms": 1149.377,
+          "profile": "efficient",
+          "schedulers": 8,
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ]
+        },
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "linux",
+          "arch": "x64",
+          "pid": 525710,
+          "binaries": {
+            "libLiteRt.so": "d46eca60880d6e28c1992d136459f06ab642e30eb423bdc14d56e928f398ce19",
+            "libRedactNode.so": "890321ef9216302fe93b61394d913370623cb09a13a4a7ff9af11ce4b4db3f97",
+            "libdalcpushim.so": "d86892fb16510716c706e25f6d66e1e47deb701c1b60af41e05bdd53b26bc103"
+          },
+          "preparation_ms": 460.935581,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "LiteRT/XNNPACK",
+            "device": "cpu",
+            "evidence": "Same native binary/runtime as CPU-only diagnostic run"
+          }
+        }
+      ]
+    },
+    {
+      "startup_ms": 2903.2509060343727,
+      "first_ms": 461.4085619687103,
+      "fingerprint": "bb9472c4764be91c3187e6abb07bcbb1c8a6a6b17f06de2570774132d3e6f7dd",
+      "metadata": [
+        {
+          "elixir": "1.18.4",
+          "engine": {
+            "backend": "native_spacy",
+            "device": "cpu"
+          },
+          "event": "ready",
+          "obscura": "0.2.0",
+          "otp": "25",
+          "pid": "525730",
+          "preparation_ms": 1140.9,
+          "profile": "efficient",
+          "schedulers": 8,
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ]
+        },
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "linux",
+          "arch": "x64",
+          "pid": 525777,
+          "binaries": {
+            "libLiteRt.so": "d46eca60880d6e28c1992d136459f06ab642e30eb423bdc14d56e928f398ce19",
+            "libRedactNode.so": "890321ef9216302fe93b61394d913370623cb09a13a4a7ff9af11ce4b4db3f97",
+            "libdalcpushim.so": "d86892fb16510716c706e25f6d66e1e47deb701c1b60af41e05bdd53b26bc103"
+          },
+          "preparation_ms": 414.31954,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "LiteRT/XNNPACK",
+            "device": "cpu",
+            "evidence": "Same native binary/runtime as CPU-only diagnostic run"
+          }
+        }
+      ]
+    },
+    {
+      "startup_ms": 2716.3385530002415,
+      "first_ms": 375.68548700073734,
+      "fingerprint": "bb9472c4764be91c3187e6abb07bcbb1c8a6a6b17f06de2570774132d3e6f7dd",
+      "metadata": [
+        {
+          "elixir": "1.18.4",
+          "engine": {
+            "backend": "native_spacy",
+            "device": "cpu"
+          },
+          "event": "ready",
+          "obscura": "0.2.0",
+          "otp": "25",
+          "pid": "525798",
+          "preparation_ms": 1158.639,
+          "profile": "efficient",
+          "schedulers": 8,
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ]
+        },
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "linux",
+          "arch": "x64",
+          "pid": 525876,
+          "binaries": {
+            "libLiteRt.so": "d46eca60880d6e28c1992d136459f06ab642e30eb423bdc14d56e928f398ce19",
+            "libRedactNode.so": "890321ef9216302fe93b61394d913370623cb09a13a4a7ff9af11ce4b4db3f97",
+            "libdalcpushim.so": "d86892fb16510716c706e25f6d66e1e47deb701c1b60af41e05bdd53b26bc103"
+          },
+          "preparation_ms": 434.348275,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "LiteRT/XNNPACK",
+            "device": "cpu",
+            "evidence": "Same native binary/runtime as CPU-only diagnostic run"
+          }
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "elapsed": 0.0002312589786015451,
+      "rss_kib": 1254308,
+      "pss_kib": 860352,
+      "process_count": 16,
+      "load_average": [
+        4.9541015625,
+        3.50244140625,
+        2.76611328125
+      ]
+    },
+    {
+      "elapsed": 5.083203235000838,
+      "rss_kib": 1230712,
+      "pss_kib": 835444,
+      "process_count": 16,
+      "load_average": [
+        4.9580078125,
+        3.52734375,
+        2.7783203125
+      ]
+    },
+    {
+      "elapsed": 10.2189436799963,
+      "rss_kib": 1221120,
+      "pss_kib": 825628,
+      "process_count": 16,
+      "load_average": [
+        5.12158203125,
+        3.58544921875,
+        2.80126953125
+      ]
+    },
+    {
+      "elapsed": 15.294402375991922,
+      "rss_kib": 1222296,
+      "pss_kib": 826804,
+      "process_count": 16,
+      "load_average": [
+        5.1923828125,
+        3.6259765625,
+        2.81884765625
+      ]
+    },
+    {
+      "elapsed": 20.38407220703084,
+      "rss_kib": 1222492,
+      "pss_kib": 827000,
+      "process_count": 16,
+      "load_average": [
+        5.1767578125,
+        3.64892578125,
+        2.83056640625
+      ]
+    },
+    {
+      "elapsed": 25.57518554199487,
+      "rss_kib": 1222556,
+      "pss_kib": 827064,
+      "process_count": 16,
+      "load_average": [
+        5.16259765625,
+        3.67138671875,
+        2.84228515625
+      ]
+    },
+    {
+      "elapsed": 30.704794289020356,
+      "rss_kib": 1222900,
+      "pss_kib": 827282,
+      "process_count": 16,
+      "load_average": [
+        5.39013671875,
+        3.74365234375,
+        2.8701171875
+      ]
+    },
+    {
+      "elapsed": 35.7832399699837,
+      "rss_kib": 1223248,
+      "pss_kib": 827756,
+      "process_count": 16,
+      "load_average": [
+        5.439453125,
+        3.78125,
+        2.88720703125
+      ]
+    },
+    {
+      "elapsed": 40.87479313003132,
+      "rss_kib": 1223288,
+      "pss_kib": 827800,
+      "process_count": 16,
+      "load_average": [
+        5.40380859375,
+        3.8017578125,
+        2.89892578125
+      ]
+    },
+    {
+      "elapsed": 46.003887101018336,
+      "rss_kib": 1223084,
+      "pss_kib": 827404,
+      "process_count": 16,
+      "load_average": [
+        5.69189453125,
+        3.88818359375,
+        2.93212890625
+      ]
+    },
+    {
+      "elapsed": 51.09389868902508,
+      "rss_kib": 1223160,
+      "pss_kib": 827668,
+      "process_count": 16,
+      "load_average": [
+        5.796875,
+        3.93994140625,
+        2.9541015625
+      ]
+    },
+    {
+      "elapsed": 56.190336625033524,
+      "rss_kib": 1223224,
+      "pss_kib": 827732,
+      "process_count": 16,
+      "load_average": [
+        5.73291015625,
+        3.9580078125,
+        2.96533203125
+      ]
+    },
+    {
+      "elapsed": 60.8802291220054,
+      "rss_kib": 1229372,
+      "pss_kib": 833884,
+      "process_count": 16,
+      "load_average": [
+        5.75439453125,
+        3.9921875,
+        2.98193359375
+      ]
+    }
+  ],
+  "peak_rss_mib": 1224.91015625,
+  "rss_growth_mib": -24.3515625,
+  "peak_pss_mib": 840.1875,
+  "burst": {
+    "requests": 32,
+    "errors": 0,
+    "completion": {
+      "count": 32,
+      "p50_ms": 797.236567013897,
+      "p95_ms": 1306.855976989027,
+      "p99_ms": 1341.978561016731,
+      "mean_ms": 802.2336738158629
+    }
+  },
+  "recovery": {
+    "failure_observed": true,
+    "restart_and_request_ms": 1226.3436539797112,
+    "output_restored": true,
+    "survivors_unchanged": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "linux_npm_lock_sha256": "9c60c7bbe38801d873e6364069dba26c3a04cdbb8d03df21e37905b25795016a",
+  "macos_npm_lock_sha256": "e215e483624186fea6480b77e6235ef8b3be3ae736500bbbafe1efd1b2b24626",
+  "npm_comparison": "All dependency package records identical. Linux root omits evaluation project name/version only. Mac lock reproduces the same resolved dependency graph.",
+  "linux_downloaded_debs_sha256": {
+    "erlang-asn1_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "750cd89b580844cb2b0a37b0103f9118e4e0201b87114a185ad7c2a9ade21be2",
+    "erlang-base_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "eaab11964cc2e5ee49f706d4c08cccfb9762be33f85f8c29eecc354baf803d16",
+    "erlang-crypto_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "d14c40604c6720a12cccb3cb3203e81d48a81de68e66db38be48b4f43a9f9249",
+    "erlang-dev_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "e8cc002db441d336a10385a36a2e95d8e0027a52f51e3146e226da74cbde736c",
+    "erlang-inets_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "e2ed0c14c505de0ac8b6a26c71ddf535b5f042a4f7d474e1c3ba54784d0e759f",
+    "erlang-mnesia_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "3a9d38e7b852193af7379da5545b20234851c98f1d1ecf8b5e3762319c1400d0",
+    "erlang-parsetools_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "95a159a1c2c3211ec5207a3f2b0019398de10f3ecb83649bb38f2dfcc56ab2a7",
+    "erlang-public-key_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "1e51b7db0f19efa21d4103c2782595828249a515199f00800f29345b895d6e01",
+    "erlang-runtime-tools_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "831d39302722ccced7e9321b01f2607cb4222707574ece462c9a92a514610b8e",
+    "erlang-ssl_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "fd32d4ed20adc3aceb63566dea52a83141d86a14fd555866d19a3956dee4849d",
+    "erlang-syntax-tools_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "65677c5695af7b8bd3419986ae1319fce77516c953d780c99bd81b4215698188",
+    "erlang-tools_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "3d39dae0c123a206d9628d277668efa735ceae8688e5ff1533c402e0024a4fcc",
+    "erlang-xmerl_1%3a25.3.2.8+dfsg-1ubuntu4.6_amd64.deb": "5fd3fecc62bb52cecc8b38c8c834bdf13fce01ba26d4cf96c0ace47cce92d562",
+    "libgfortran5_14.2.0-4ubuntu2~24.04.1_amd64.deb": "2b05896c477275ad3473bb63a5ac5a5b8a7e4a6ad6ed7cb23c442ccd1abc28f5",
+    "libopenblas0-pthread_0.3.26+ds-1ubuntu0.1_amd64.deb": "7dc3b4384c02aecb87eb8b70fa26c5843a08af242f4638aa4b36922bdc4f5b04"
+  },
+  "linux_beam_setup_source_sha256": "bef16ce2d3eabb5ee5eb6aad5de5c2e3688b6e6160519077dfe7146fb3f54ff3",
+  "linux_run_source_sha256": "41598607f471d9d403c727c778f4dcb364b82b5b2e40407316bd9b724ba21ff5",
+  "remote_worker_source_parity": "redact_worker.mjs, spans.mjs and model-manifest.json were SHA256-identical in the Mac evaluator, Linux source mirror and Linux actual SDK execution directory."
+}

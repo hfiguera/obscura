@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "created_unix": 1789352563.862113,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "logical_cpus": 16,
+  "load_average": [
+    19.94677734375,
+    25.6474609375,
+    32.3857421875
+  ],
+  "purpose": "Host context snapshot during measurements; not a full-run utilization trace",
+  "largest_ps_cpu": [
+    {
+      "ps_cpu_percent": 124.6,
+      "executable": "beam.smp"
+    },
+    {
+      "ps_cpu_percent": 122.8,
+      "executable": "beam.smp"
+    },
+    {
+      "ps_cpu_percent": 109.7,
+      "executable": "corespotlightd"
+    },
+    {
+      "ps_cpu_percent": 104.6,
+      "executable": "PerfPowerServices"
+    },
+    {
+      "ps_cpu_percent": 60.7,
+      "executable": "Activity Monitor"
+    },
+    {
+      "ps_cpu_percent": 57.5,
+      "executable": "beam.smp"
+    },
+    {
+      "ps_cpu_percent": 42.2,
+      "executable": "com.apple.Virtualization.VirtualMachine"
+    },
+    {
+      "ps_cpu_percent": 37.3,
+      "executable": "beam.smp"
+    },
+    {
+      "ps_cpu_percent": 20.9,
+      "executable": "Python"
+    },
+    {
+      "ps_cpu_percent": 10.7,
+      "executable": "Python"
+    },
+    {
+      "ps_cpu_percent": 9.6,
+      "executable": "com.docker.backend"
+    },
+    {
+      "ps_cpu_percent": 9.0,
+      "executable": "Codex (Service)"
+    }
+  ],
+  "ps_cpu_note": "ps CPU semantics differ by OS and can reflect historical utilization; this snapshot cannot quantify concurrent CPU time over an entire benchmark.",
+  "cpu_model": "Apple M4 Max",
+  "memory_bytes": 137438953472,
+  "os_version": "26.6.2",
+  "os_build": "25G83",
+  "cpu_utilization_samples": [
+    "CPU usage: 45.8% user, 26.96% sys, 27.94% idle",
+    "CPU usage: 39.3% user, 20.41% sys, 40.54% idle"
+  ]
+}

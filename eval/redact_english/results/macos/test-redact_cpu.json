@@ -1,0 +1,3041 @@
+{
+  "schema": 1,
+  "purpose": "Fresh synthetic English evaluation; not population accuracy",
+  "profile": "redact_cpu",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "split": "test",
+  "input_sha256": "408bcd829fcf5a779f06ceb265e01c04299df4561b597b237678ec3455cbb148",
+  "mapping_sha256": "32f8e3c337ad417869e913689343766e5a21c40653a374b499074749c7a37867",
+  "worker_source_sha256": "b29a56d56301e486c0c20d093dc3529af577500b59fa49fef91be52897ee5204",
+  "created_unix": 1789350991.318977,
+  "startup_ms": 52.714915946125984,
+  "metadata": {
+    "event": "ready",
+    "profile": "redact",
+    "sdk": "3.1.0",
+    "node": "v26.8.2",
+    "platform": "darwin",
+    "arch": "arm64",
+    "pid": 43086,
+    "binaries": {
+      "libRedactNode.dylib": "47e804535272c483cd325b0205700814813843d3d0d48e713418fb5f86f52d68"
+    },
+    "preparation_ms": 15.536916999999999,
+    "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+    "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+    "engine": {
+      "backend": "CoreML",
+      "requested": "cpu",
+      "device": "cpu",
+      "numerical_validity": "failed diagnostic gate"
+    }
+  },
+  "metrics": {
+    "exact": {
+      "tp": 48,
+      "fp": 50,
+      "fn": 147,
+      "precision": 0.4897959183673469,
+      "recall": 0.24615384615384617,
+      "f1": 0.3276450511945393
+    },
+    "per_entity": {
+      "person": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 78,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "location": {
+        "tp": 0,
+        "fp": 44,
+        "fn": 42,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "email": {
+        "tp": 24,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.8888888888888888,
+        "f1": 0.9411764705882353
+      },
+      "phone": {
+        "tp": 0,
+        "fp": 6,
+        "fn": 15,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "us_ssn": {
+        "tp": 6,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "credit_card": {
+        "tp": 6,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8
+      },
+      "ip_address": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 6,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "url": {
+        "tp": 6,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "iban": {
+        "tp": 6,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    },
+    "coverage": {
+      "fully_exposed": 123,
+      "alnum_characters": 2685,
+      "covered_alnum_characters": 1355,
+      "strict_nonspace_characters": 2901,
+      "covered_strict_nonspace_characters": 1469,
+      "fully_covered": 54,
+      "partially_exposed": 18
+    },
+    "negative_text": {
+      "rows": 27,
+      "changed_rows": 0,
+      "detections": 0
+    },
+    "error_rows": 0,
+    "additional_raw_labels": {},
+    "supplemental": [
+      {
+        "id": "test-44-0",
+        "entity": "date_time",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-44-1",
+        "entity": "date_time",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-44-2",
+        "entity": "date_time",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-45-0",
+        "entity": "organization",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-45-1",
+        "entity": "organization",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-45-2",
+        "entity": "organization",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-46-0",
+        "entity": "domain",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-46-1",
+        "entity": "domain",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-46-2",
+        "entity": "domain",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-47-0",
+        "entity": "government_id",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-47-1",
+        "entity": "government_id",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-47-2",
+        "entity": "government_id",
+        "coverage": "fully_exposed"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "id": "test-00-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 34.054916,
+      "changed": false,
+      "roundtrip_ms": 34.432957880198956
+    },
+    {
+      "id": "test-00-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.594082999999998,
+      "changed": false,
+      "roundtrip_ms": 4.777583060786128
+    },
+    {
+      "id": "test-00-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.682749999999999,
+      "changed": false,
+      "roundtrip_ms": 4.871957935392857
+    },
+    {
+      "id": "test-01-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.379916999999992,
+      "changed": false,
+      "roundtrip_ms": 4.511415958404541
+    },
+    {
+      "id": "test-01-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.4532919999999905,
+      "changed": false,
+      "roundtrip_ms": 4.617166006937623
+    },
+    {
+      "id": "test-01-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.4299159999999915,
+      "changed": false,
+      "roundtrip_ms": 4.582124995067716
+    },
+    {
+      "id": "test-02-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.706707999999992,
+      "changed": false,
+      "roundtrip_ms": 4.882582928985357
+    },
+    {
+      "id": "test-02-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.390958000000012,
+      "changed": false,
+      "roundtrip_ms": 4.55858395434916
+    },
+    {
+      "id": "test-02-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.434334000000007,
+      "changed": false,
+      "roundtrip_ms": 4.575125174596906
+    },
+    {
+      "id": "test-03-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.483916999999991,
+      "changed": false,
+      "roundtrip_ms": 4.632333060726523
+    },
+    {
+      "id": "test-03-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.2379999999999995,
+      "changed": false,
+      "roundtrip_ms": 4.363042069599032
+    },
+    {
+      "id": "test-03-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.253,
+      "changed": false,
+      "roundtrip_ms": 4.34937491081655
+    },
+    {
+      "id": "test-04-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.540042,
+      "changed": false,
+      "roundtrip_ms": 4.709041910246015
+    },
+    {
+      "id": "test-04-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.351833999999997,
+      "changed": false,
+      "roundtrip_ms": 4.468583036214113
+    },
+    {
+      "id": "test-04-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.339665999999994,
+      "changed": false,
+      "roundtrip_ms": 4.4464170932769775
+    },
+    {
+      "id": "test-05-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.352458000000013,
+      "changed": false,
+      "roundtrip_ms": 4.502583062276244
+    },
+    {
+      "id": "test-05-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.412124999999975,
+      "changed": false,
+      "roundtrip_ms": 4.532332997769117
+    },
+    {
+      "id": "test-05-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.433667000000014,
+      "changed": false,
+      "roundtrip_ms": 4.550707992166281
+    },
+    {
+      "id": "test-06-0",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 54,
+          "byte_end": 76
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 54,
+          "byte_end": 76
+        }
+      ],
+      "inference_ms": 4.474209000000002,
+      "changed": true,
+      "roundtrip_ms": 4.587082890793681
+    },
+    {
+      "id": "test-06-1",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 53,
+          "byte_end": 75
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 53,
+          "byte_end": 75
+        }
+      ],
+      "inference_ms": 4.422499999999985,
+      "changed": true,
+      "roundtrip_ms": 4.551541991531849
+    },
+    {
+      "id": "test-06-2",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 57,
+          "byte_end": 79
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 57,
+          "byte_end": 79
+        }
+      ],
+      "inference_ms": 4.469583,
+      "changed": true,
+      "roundtrip_ms": 4.620708059519529
+    },
+    {
+      "id": "test-07-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.463375000000013,
+      "changed": false,
+      "roundtrip_ms": 4.621582804247737
+    },
+    {
+      "id": "test-07-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.323958000000005,
+      "changed": false,
+      "roundtrip_ms": 4.47975005954504
+    },
+    {
+      "id": "test-07-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.585791999999998,
+      "changed": false,
+      "roundtrip_ms": 4.720625001937151
+    },
+    {
+      "id": "test-08-0",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 10,
+          "byte_end": 32
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 10,
+          "byte_end": 32
+        }
+      ],
+      "inference_ms": 4.6626660000000015,
+      "changed": true,
+      "roundtrip_ms": 4.803417017683387
+    },
+    {
+      "id": "test-08-1",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 10,
+          "byte_end": 32
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 10,
+          "byte_end": 32
+        }
+      ],
+      "inference_ms": 4.5125830000000065,
+      "changed": true,
+      "roundtrip_ms": 4.658666905015707
+    },
+    {
+      "id": "test-08-2",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 10,
+          "byte_end": 32
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 10,
+          "byte_end": 32
+        }
+      ],
+      "inference_ms": 4.492416999999989,
+      "changed": true,
+      "roundtrip_ms": 4.641582956537604
+    },
+    {
+      "id": "test-09-0",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 33,
+          "byte_end": 55
+        },
+        {
+          "entity": "phone",
+          "byte_start": 67,
+          "byte_end": 80
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 33,
+          "byte_end": 55
+        },
+        {
+          "entity": "phone",
+          "source_entity": "PHONE",
+          "byte_start": 67,
+          "byte_end": 80
+        }
+      ],
+      "inference_ms": 4.610666000000009,
+      "changed": true,
+      "roundtrip_ms": 4.738082876428962
+    },
+    {
+      "id": "test-09-1",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 33,
+          "byte_end": 55
+        },
+        {
+          "entity": "phone",
+          "byte_start": 67,
+          "byte_end": 80
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 33,
+          "byte_end": 55
+        },
+        {
+          "entity": "phone",
+          "source_entity": "PHONE",
+          "byte_start": 67,
+          "byte_end": 80
+        }
+      ],
+      "inference_ms": 4.363374999999991,
+      "changed": true,
+      "roundtrip_ms": 4.478916991502047
+    },
+    {
+      "id": "test-09-2",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 34,
+          "byte_end": 56
+        },
+        {
+          "entity": "phone",
+          "byte_start": 68,
+          "byte_end": 81
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 34,
+          "byte_end": 56
+        },
+        {
+          "entity": "phone",
+          "source_entity": "PHONE",
+          "byte_start": 68,
+          "byte_end": 81
+        }
+      ],
+      "inference_ms": 4.4128749999999854,
+      "changed": true,
+      "roundtrip_ms": 4.546582931652665
+    },
+    {
+      "id": "test-10-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.211500000000001,
+      "changed": false,
+      "roundtrip_ms": 4.350833129137754
+    },
+    {
+      "id": "test-10-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 3.953666999999996,
+      "changed": false,
+      "roundtrip_ms": 4.04895911924541
+    },
+    {
+      "id": "test-10-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.083666999999991,
+      "changed": false,
+      "roundtrip_ms": 4.186457954347134
+    },
+    {
+      "id": "test-11-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.593625000000003,
+      "changed": false,
+      "roundtrip_ms": 4.7137499786913395
+    },
+    {
+      "id": "test-11-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.40629100000001,
+      "changed": false,
+      "roundtrip_ms": 4.546375013887882
+    },
+    {
+      "id": "test-11-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.6255840000000035,
+      "changed": false,
+      "roundtrip_ms": 4.727875115349889
+    },
+    {
+      "id": "test-12-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.2934999999999945,
+      "changed": false,
+      "roundtrip_ms": 4.432667046785355
+    },
+    {
+      "id": "test-12-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.457166000000001,
+      "changed": false,
+      "roundtrip_ms": 4.577541025355458
+    },
+    {
+      "id": "test-12-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.195082999999983,
+      "changed": false,
+      "roundtrip_ms": 4.3056251015514135
+    },
+    {
+      "id": "test-13-0",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 59,
+          "byte_end": 72
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 59,
+          "byte_end": 60
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 61,
+          "byte_end": 72
+        }
+      ],
+      "inference_ms": 4.334583000000009,
+      "changed": true,
+      "roundtrip_ms": 4.46904101409018
+    },
+    {
+      "id": "test-13-1",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 58,
+          "byte_end": 74
+        },
+        {
+          "entity": "location",
+          "byte_start": 89,
+          "byte_end": 91
+        },
+        {
+          "entity": "location",
+          "byte_start": 92,
+          "byte_end": 97
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 58,
+          "byte_end": 61
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 62,
+          "byte_end": 74
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 89,
+          "byte_end": 91
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 92,
+          "byte_end": 97
+        }
+      ],
+      "inference_ms": 4.796915999999982,
+      "changed": true,
+      "roundtrip_ms": 4.941499792039394
+    },
+    {
+      "id": "test-13-2",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 59,
+          "byte_end": 80
+        },
+        {
+          "entity": "location",
+          "byte_start": 90,
+          "byte_end": 92
+        },
+        {
+          "entity": "location",
+          "byte_start": 93,
+          "byte_end": 98
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 59,
+          "byte_end": 61
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 62,
+          "byte_end": 73
+        },
+        {
+          "entity": "location",
+          "source_entity": "SECONDARY_ADDRESS",
+          "byte_start": 75,
+          "byte_end": 80
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 90,
+          "byte_end": 92
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 93,
+          "byte_end": 98
+        }
+      ],
+      "inference_ms": 4.67879099999999,
+      "changed": true,
+      "roundtrip_ms": 4.8255829606205225
+    },
+    {
+      "id": "test-14-0",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 34,
+          "byte_end": 50
+        },
+        {
+          "entity": "location",
+          "byte_start": 61,
+          "byte_end": 63
+        },
+        {
+          "entity": "location",
+          "byte_start": 64,
+          "byte_end": 69
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 34,
+          "byte_end": 37
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 38,
+          "byte_end": 50
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 61,
+          "byte_end": 63
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 64,
+          "byte_end": 69
+        }
+      ],
+      "inference_ms": 4.205750000000023,
+      "changed": true,
+      "roundtrip_ms": 4.337624879553914
+    },
+    {
+      "id": "test-14-1",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 36,
+          "byte_end": 49
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 36,
+          "byte_end": 37
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 38,
+          "byte_end": 49
+        }
+      ],
+      "inference_ms": 4.105874999999969,
+      "changed": true,
+      "roundtrip_ms": 4.196041962131858
+    },
+    {
+      "id": "test-14-2",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 39,
+          "byte_end": 55
+        },
+        {
+          "entity": "location",
+          "byte_start": 70,
+          "byte_end": 72
+        },
+        {
+          "entity": "location",
+          "byte_start": 73,
+          "byte_end": 78
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 39,
+          "byte_end": 42
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 43,
+          "byte_end": 55
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 70,
+          "byte_end": 72
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 73,
+          "byte_end": 78
+        }
+      ],
+      "inference_ms": 4.272958000000017,
+      "changed": true,
+      "roundtrip_ms": 4.508875077590346
+    },
+    {
+      "id": "test-15-0",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 18,
+          "byte_end": 39
+        },
+        {
+          "entity": "location",
+          "byte_start": 49,
+          "byte_end": 51
+        },
+        {
+          "entity": "location",
+          "byte_start": 52,
+          "byte_end": 57
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 18,
+          "byte_end": 20
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 21,
+          "byte_end": 32
+        },
+        {
+          "entity": "location",
+          "source_entity": "SECONDARY_ADDRESS",
+          "byte_start": 34,
+          "byte_end": 39
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 49,
+          "byte_end": 51
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 52,
+          "byte_end": 57
+        }
+      ],
+      "inference_ms": 4.2045420000000036,
+      "changed": true,
+      "roundtrip_ms": 4.320666892454028
+    },
+    {
+      "id": "test-15-1",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 18,
+          "byte_end": 34
+        },
+        {
+          "entity": "location",
+          "byte_start": 45,
+          "byte_end": 47
+        },
+        {
+          "entity": "location",
+          "byte_start": 48,
+          "byte_end": 53
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 18,
+          "byte_end": 21
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 22,
+          "byte_end": 34
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 45,
+          "byte_end": 47
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 48,
+          "byte_end": 53
+        }
+      ],
+      "inference_ms": 4.104416999999955,
+      "changed": true,
+      "roundtrip_ms": 4.212041152641177
+    },
+    {
+      "id": "test-15-2",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 18,
+          "byte_end": 31
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 18,
+          "byte_end": 19
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 20,
+          "byte_end": 31
+        }
+      ],
+      "inference_ms": 4.262166000000036,
+      "changed": true,
+      "roundtrip_ms": 4.38533304259181
+    },
+    {
+      "id": "test-16-0",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 33,
+          "byte_end": 49
+        },
+        {
+          "entity": "location",
+          "byte_start": 64,
+          "byte_end": 66
+        },
+        {
+          "entity": "location",
+          "byte_start": 67,
+          "byte_end": 72
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 33,
+          "byte_end": 36
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 37,
+          "byte_end": 49
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 64,
+          "byte_end": 66
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 67,
+          "byte_end": 72
+        }
+      ],
+      "inference_ms": 4.3548339999999826,
+      "changed": true,
+      "roundtrip_ms": 4.471958847716451
+    },
+    {
+      "id": "test-16-1",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 30,
+          "byte_end": 51
+        },
+        {
+          "entity": "location",
+          "byte_start": 61,
+          "byte_end": 63
+        },
+        {
+          "entity": "location",
+          "byte_start": 64,
+          "byte_end": 69
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 30,
+          "byte_end": 32
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 33,
+          "byte_end": 44
+        },
+        {
+          "entity": "location",
+          "source_entity": "SECONDARY_ADDRESS",
+          "byte_start": 46,
+          "byte_end": 51
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 61,
+          "byte_end": 63
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 64,
+          "byte_end": 69
+        }
+      ],
+      "inference_ms": 4.276417000000038,
+      "changed": true,
+      "roundtrip_ms": 4.3775830417871475
+    },
+    {
+      "id": "test-16-2",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 29,
+          "byte_end": 45
+        },
+        {
+          "entity": "location",
+          "byte_start": 56,
+          "byte_end": 58
+        },
+        {
+          "entity": "location",
+          "byte_start": 59,
+          "byte_end": 64
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 29,
+          "byte_end": 32
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 33,
+          "byte_end": 45
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 56,
+          "byte_end": 58
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 59,
+          "byte_end": 64
+        }
+      ],
+      "inference_ms": 4.117083999999977,
+      "changed": true,
+      "roundtrip_ms": 4.2055409867316484
+    },
+    {
+      "id": "test-17-0",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 38,
+          "byte_end": 51
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 38,
+          "byte_end": 39
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 40,
+          "byte_end": 51
+        }
+      ],
+      "inference_ms": 4.388374999999996,
+      "changed": true,
+      "roundtrip_ms": 4.496083129197359
+    },
+    {
+      "id": "test-17-1",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 38,
+          "byte_end": 54
+        },
+        {
+          "entity": "location",
+          "byte_start": 69,
+          "byte_end": 71
+        },
+        {
+          "entity": "location",
+          "byte_start": 72,
+          "byte_end": 77
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 38,
+          "byte_end": 41
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 42,
+          "byte_end": 54
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 69,
+          "byte_end": 71
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 72,
+          "byte_end": 77
+        }
+      ],
+      "inference_ms": 4.495999999999981,
+      "changed": true,
+      "roundtrip_ms": 4.635791061446071
+    },
+    {
+      "id": "test-17-2",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 38,
+          "byte_end": 59
+        },
+        {
+          "entity": "location",
+          "byte_start": 69,
+          "byte_end": 71
+        },
+        {
+          "entity": "location",
+          "byte_start": 72,
+          "byte_end": 77
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 38,
+          "byte_end": 40
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 41,
+          "byte_end": 52
+        },
+        {
+          "entity": "location",
+          "source_entity": "SECONDARY_ADDRESS",
+          "byte_start": 54,
+          "byte_end": 59
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 69,
+          "byte_end": 71
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 72,
+          "byte_end": 77
+        }
+      ],
+      "inference_ms": 4.568709000000013,
+      "changed": true,
+      "roundtrip_ms": 4.7053329180926085
+    },
+    {
+      "id": "test-18-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.334167000000036,
+      "changed": false,
+      "roundtrip_ms": 4.494416993111372
+    },
+    {
+      "id": "test-18-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.538792000000001,
+      "changed": false,
+      "roundtrip_ms": 4.742291988804936
+    },
+    {
+      "id": "test-18-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.244249999999965,
+      "changed": false,
+      "roundtrip_ms": 4.396416945382953
+    },
+    {
+      "id": "test-19-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.1917080000000055,
+      "changed": false,
+      "roundtrip_ms": 4.320292035117745
+    },
+    {
+      "id": "test-19-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.462292000000048,
+      "changed": false,
+      "roundtrip_ms": 4.582625115290284
+    },
+    {
+      "id": "test-19-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.493750000000034,
+      "changed": false,
+      "roundtrip_ms": 4.635249963030219
+    },
+    {
+      "id": "test-20-0",
+      "predictions": [
+        {
+          "entity": "url",
+          "byte_start": 25,
+          "byte_end": 63
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "url",
+          "source_entity": "URL",
+          "byte_start": 25,
+          "byte_end": 63
+        }
+      ],
+      "inference_ms": 4.193874999999991,
+      "changed": true,
+      "roundtrip_ms": 4.308084025979042
+    },
+    {
+      "id": "test-20-1",
+      "predictions": [
+        {
+          "entity": "url",
+          "byte_start": 25,
+          "byte_end": 63
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "url",
+          "source_entity": "URL",
+          "byte_start": 25,
+          "byte_end": 63
+        }
+      ],
+      "inference_ms": 4.237541999999962,
+      "changed": true,
+      "roundtrip_ms": 4.355833865702152
+    },
+    {
+      "id": "test-20-2",
+      "predictions": [
+        {
+          "entity": "url",
+          "byte_start": 25,
+          "byte_end": 63
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "url",
+          "source_entity": "URL",
+          "byte_start": 25,
+          "byte_end": 63
+        }
+      ],
+      "inference_ms": 4.350999999999999,
+      "changed": true,
+      "roundtrip_ms": 4.474374931305647
+    },
+    {
+      "id": "test-21-0",
+      "predictions": [
+        {
+          "entity": "url",
+          "byte_start": 36,
+          "byte_end": 74
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "url",
+          "source_entity": "URL",
+          "byte_start": 36,
+          "byte_end": 74
+        }
+      ],
+      "inference_ms": 4.509042000000022,
+      "changed": true,
+      "roundtrip_ms": 4.659125115722418
+    },
+    {
+      "id": "test-21-1",
+      "predictions": [
+        {
+          "entity": "url",
+          "byte_start": 36,
+          "byte_end": 74
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "url",
+          "source_entity": "URL",
+          "byte_start": 36,
+          "byte_end": 74
+        }
+      ],
+      "inference_ms": 4.535958000000051,
+      "changed": true,
+      "roundtrip_ms": 4.6598338522017
+    },
+    {
+      "id": "test-21-2",
+      "predictions": [
+        {
+          "entity": "url",
+          "byte_start": 36,
+          "byte_end": 74
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "url",
+          "source_entity": "URL",
+          "byte_start": 36,
+          "byte_end": 74
+        }
+      ],
+      "inference_ms": 4.437250000000006,
+      "changed": true,
+      "roundtrip_ms": 4.57433401606977
+    },
+    {
+      "id": "test-22-0",
+      "predictions": [
+        {
+          "entity": "credit_card",
+          "byte_start": 39,
+          "byte_end": 58
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "credit_card",
+          "source_entity": "CREDIT_CARD",
+          "byte_start": 39,
+          "byte_end": 58
+        }
+      ],
+      "inference_ms": 4.546792000000039,
+      "changed": true,
+      "roundtrip_ms": 4.683499922975898
+    },
+    {
+      "id": "test-22-1",
+      "predictions": [
+        {
+          "entity": "credit_card",
+          "byte_start": 39,
+          "byte_end": 58
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "credit_card",
+          "source_entity": "CREDIT_CARD",
+          "byte_start": 39,
+          "byte_end": 58
+        }
+      ],
+      "inference_ms": 4.479333999999994,
+      "changed": true,
+      "roundtrip_ms": 4.620290827006102
+    },
+    {
+      "id": "test-22-2",
+      "predictions": [
+        {
+          "entity": "credit_card",
+          "byte_start": 39,
+          "byte_end": 58
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "credit_card",
+          "source_entity": "CREDIT_CARD",
+          "byte_start": 39,
+          "byte_end": 58
+        }
+      ],
+      "inference_ms": 4.472624999999994,
+      "changed": true,
+      "roundtrip_ms": 4.6163329388946295
+    },
+    {
+      "id": "test-23-0",
+      "predictions": [
+        {
+          "entity": "iban",
+          "byte_start": 49,
+          "byte_end": 76
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "iban",
+          "source_entity": "BANK_ACCOUNT",
+          "byte_start": 49,
+          "byte_end": 76
+        }
+      ],
+      "inference_ms": 5.118749999999977,
+      "changed": true,
+      "roundtrip_ms": 5.280625075101852
+    },
+    {
+      "id": "test-23-1",
+      "predictions": [
+        {
+          "entity": "iban",
+          "byte_start": 49,
+          "byte_end": 76
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "iban",
+          "source_entity": "BANK_ACCOUNT",
+          "byte_start": 49,
+          "byte_end": 76
+        }
+      ],
+      "inference_ms": 4.727582999999981,
+      "changed": true,
+      "roundtrip_ms": 4.879041109234095
+    },
+    {
+      "id": "test-23-2",
+      "predictions": [
+        {
+          "entity": "iban",
+          "byte_start": 49,
+          "byte_end": 76
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "iban",
+          "source_entity": "BANK_ACCOUNT",
+          "byte_start": 49,
+          "byte_end": 76
+        }
+      ],
+      "inference_ms": 4.3136670000000095,
+      "changed": true,
+      "roundtrip_ms": 4.433125024661422
+    },
+    {
+      "id": "test-24-0",
+      "predictions": [
+        {
+          "entity": "us_ssn",
+          "byte_start": 33,
+          "byte_end": 44
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "us_ssn",
+          "source_entity": "SSN",
+          "byte_start": 33,
+          "byte_end": 44
+        }
+      ],
+      "inference_ms": 5.104332999999997,
+      "changed": true,
+      "roundtrip_ms": 5.211333045735955
+    },
+    {
+      "id": "test-24-1",
+      "predictions": [
+        {
+          "entity": "us_ssn",
+          "byte_start": 33,
+          "byte_end": 44
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "us_ssn",
+          "source_entity": "SSN",
+          "byte_start": 33,
+          "byte_end": 44
+        }
+      ],
+      "inference_ms": 4.435916999999961,
+      "changed": true,
+      "roundtrip_ms": 4.573083948343992
+    },
+    {
+      "id": "test-24-2",
+      "predictions": [
+        {
+          "entity": "us_ssn",
+          "byte_start": 33,
+          "byte_end": 44
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "us_ssn",
+          "source_entity": "SSN",
+          "byte_start": 33,
+          "byte_end": 44
+        }
+      ],
+      "inference_ms": 4.453790999999967,
+      "changed": true,
+      "roundtrip_ms": 4.567625001072884
+    },
+    {
+      "id": "test-25-0",
+      "predictions": [
+        {
+          "entity": "credit_card",
+          "byte_start": 23,
+          "byte_end": 42
+        },
+        {
+          "entity": "us_ssn",
+          "byte_start": 51,
+          "byte_end": 62
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "credit_card",
+          "source_entity": "CREDIT_CARD",
+          "byte_start": 23,
+          "byte_end": 42
+        },
+        {
+          "entity": "us_ssn",
+          "source_entity": "SSN",
+          "byte_start": 51,
+          "byte_end": 62
+        }
+      ],
+      "inference_ms": 4.281582999999955,
+      "changed": true,
+      "roundtrip_ms": 4.384874831885099
+    },
+    {
+      "id": "test-25-1",
+      "predictions": [
+        {
+          "entity": "credit_card",
+          "byte_start": 23,
+          "byte_end": 42
+        },
+        {
+          "entity": "us_ssn",
+          "byte_start": 51,
+          "byte_end": 62
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "credit_card",
+          "source_entity": "CREDIT_CARD",
+          "byte_start": 23,
+          "byte_end": 42
+        },
+        {
+          "entity": "us_ssn",
+          "source_entity": "SSN",
+          "byte_start": 51,
+          "byte_end": 62
+        }
+      ],
+      "inference_ms": 4.196374999999989,
+      "changed": true,
+      "roundtrip_ms": 4.301208071410656
+    },
+    {
+      "id": "test-25-2",
+      "predictions": [
+        {
+          "entity": "credit_card",
+          "byte_start": 23,
+          "byte_end": 42
+        },
+        {
+          "entity": "us_ssn",
+          "byte_start": 51,
+          "byte_end": 62
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "credit_card",
+          "source_entity": "CREDIT_CARD",
+          "byte_start": 23,
+          "byte_end": 42
+        },
+        {
+          "entity": "us_ssn",
+          "source_entity": "SSN",
+          "byte_start": 51,
+          "byte_end": 62
+        }
+      ],
+      "inference_ms": 4.220666000000051,
+      "changed": true,
+      "roundtrip_ms": 4.339125007390976
+    },
+    {
+      "id": "test-26-0",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 27,
+          "byte_end": 49
+        },
+        {
+          "entity": "email",
+          "byte_start": 75,
+          "byte_end": 97
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 27,
+          "byte_end": 49
+        },
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 75,
+          "byte_end": 97
+        }
+      ],
+      "inference_ms": 4.0388340000000085,
+      "changed": true,
+      "roundtrip_ms": 4.1417088359594345
+    },
+    {
+      "id": "test-26-1",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 27,
+          "byte_end": 49
+        },
+        {
+          "entity": "email",
+          "byte_start": 75,
+          "byte_end": 97
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 27,
+          "byte_end": 49
+        },
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 75,
+          "byte_end": 97
+        }
+      ],
+      "inference_ms": 4.2527090000000385,
+      "changed": true,
+      "roundtrip_ms": 4.412209149450064
+    },
+    {
+      "id": "test-26-2",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 27,
+          "byte_end": 49
+        },
+        {
+          "entity": "email",
+          "byte_start": 75,
+          "byte_end": 97
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 27,
+          "byte_end": 49
+        },
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 75,
+          "byte_end": 97
+        }
+      ],
+      "inference_ms": 4.579625000000021,
+      "changed": true,
+      "roundtrip_ms": 4.767291015014052
+    },
+    {
+      "id": "test-27-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.401624999999967,
+      "changed": false,
+      "roundtrip_ms": 4.537540953606367
+    },
+    {
+      "id": "test-27-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.003541999999982,
+      "changed": false,
+      "roundtrip_ms": 4.094041883945465
+    },
+    {
+      "id": "test-27-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.227374999999995,
+      "changed": false,
+      "roundtrip_ms": 4.341874970123172
+    },
+    {
+      "id": "test-28-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.391500000000008,
+      "changed": false,
+      "roundtrip_ms": 4.549707984551787
+    },
+    {
+      "id": "test-28-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.346124999999972,
+      "changed": false,
+      "roundtrip_ms": 4.452374996617436
+    },
+    {
+      "id": "test-28-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.181165999999962,
+      "changed": false,
+      "roundtrip_ms": 4.2660420294851065
+    },
+    {
+      "id": "test-29-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.195457999999974,
+      "changed": false,
+      "roundtrip_ms": 4.2810828890651464
+    },
+    {
+      "id": "test-29-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.146625000000029,
+      "changed": false,
+      "roundtrip_ms": 4.2525408789515495
+    },
+    {
+      "id": "test-29-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.12783300000001,
+      "changed": false,
+      "roundtrip_ms": 4.2541250586509705
+    },
+    {
+      "id": "test-30-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 3.9119170000000167,
+      "changed": false,
+      "roundtrip_ms": 3.9989580400288105
+    },
+    {
+      "id": "test-30-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.180542000000003,
+      "changed": false,
+      "roundtrip_ms": 4.270040895789862
+    },
+    {
+      "id": "test-30-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.381416999999999,
+      "changed": false,
+      "roundtrip_ms": 4.481625044718385
+    },
+    {
+      "id": "test-31-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.263833999999974,
+      "changed": false,
+      "roundtrip_ms": 4.381624981760979
+    },
+    {
+      "id": "test-31-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.243167000000028,
+      "changed": false,
+      "roundtrip_ms": 4.3402910232543945
+    },
+    {
+      "id": "test-31-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.351374999999962,
+      "changed": false,
+      "roundtrip_ms": 4.461084026843309
+    },
+    {
+      "id": "test-32-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.252499999999998,
+      "changed": false,
+      "roundtrip_ms": 4.347500158473849
+    },
+    {
+      "id": "test-32-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 3.961125000000038,
+      "changed": false,
+      "roundtrip_ms": 4.048875067383051
+    },
+    {
+      "id": "test-32-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 3.949374999999975,
+      "changed": false,
+      "roundtrip_ms": 4.079542122781277
+    },
+    {
+      "id": "test-33-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.264249999999947,
+      "changed": false,
+      "roundtrip_ms": 4.363917047157884
+    },
+    {
+      "id": "test-33-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.327583000000004,
+      "changed": false,
+      "roundtrip_ms": 4.424375016242266
+    },
+    {
+      "id": "test-33-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.165457999999944,
+      "changed": false,
+      "roundtrip_ms": 4.253250081092119
+    },
+    {
+      "id": "test-34-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.1297499999999445,
+      "changed": false,
+      "roundtrip_ms": 4.2149999644607306
+    },
+    {
+      "id": "test-34-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.334375000000023,
+      "changed": false,
+      "roundtrip_ms": 4.43429104052484
+    },
+    {
+      "id": "test-34-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.188583999999992,
+      "changed": false,
+      "roundtrip_ms": 4.2991251684725285
+    },
+    {
+      "id": "test-35-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.084833000000003,
+      "changed": false,
+      "roundtrip_ms": 4.201417090371251
+    },
+    {
+      "id": "test-35-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.126957999999945,
+      "changed": false,
+      "roundtrip_ms": 4.259958863258362
+    },
+    {
+      "id": "test-35-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.392999999999915,
+      "changed": false,
+      "roundtrip_ms": 4.488749895244837
+    },
+    {
+      "id": "test-36-0",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 613,
+          "byte_end": 636
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 613,
+          "byte_end": 636
+        }
+      ],
+      "inference_ms": 5.280582999999979,
+      "changed": true,
+      "roundtrip_ms": 5.4050839971750975
+    },
+    {
+      "id": "test-36-1",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 613,
+          "byte_end": 636
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 613,
+          "byte_end": 636
+        }
+      ],
+      "inference_ms": 4.980167000000051,
+      "changed": true,
+      "roundtrip_ms": 5.067874910309911
+    },
+    {
+      "id": "test-36-2",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 616,
+          "byte_end": 639
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 616,
+          "byte_end": 639
+        }
+      ],
+      "inference_ms": 5.456207999999947,
+      "changed": true,
+      "roundtrip_ms": 5.6015001609921455
+    },
+    {
+      "id": "test-37-0",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 47,
+          "byte_end": 70
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 47,
+          "byte_end": 70
+        }
+      ],
+      "inference_ms": 5.1475829999999405,
+      "changed": true,
+      "roundtrip_ms": 5.299708107486367
+    },
+    {
+      "id": "test-37-1",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 47,
+          "byte_end": 70
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 47,
+          "byte_end": 70
+        }
+      ],
+      "inference_ms": 5.047625000000039,
+      "changed": true,
+      "roundtrip_ms": 5.163082852959633
+    },
+    {
+      "id": "test-37-2",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 45,
+          "byte_end": 68
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 45,
+          "byte_end": 68
+        }
+      ],
+      "inference_ms": 4.92999999999995,
+      "changed": true,
+      "roundtrip_ms": 5.040165968239307
+    },
+    {
+      "id": "test-38-0",
+      "predictions": [
+        {
+          "entity": "phone",
+          "byte_start": 570,
+          "byte_end": 583
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "phone",
+          "source_entity": "PHONE",
+          "byte_start": 570,
+          "byte_end": 583
+        }
+      ],
+      "inference_ms": 5.860625000000027,
+      "changed": true,
+      "roundtrip_ms": 5.990541074424982
+    },
+    {
+      "id": "test-38-1",
+      "predictions": [
+        {
+          "entity": "phone",
+          "byte_start": 572,
+          "byte_end": 585
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "phone",
+          "source_entity": "PHONE",
+          "byte_start": 572,
+          "byte_end": 585
+        }
+      ],
+      "inference_ms": 5.789750000000026,
+      "changed": true,
+      "roundtrip_ms": 5.9276248794049025
+    },
+    {
+      "id": "test-38-2",
+      "predictions": [
+        {
+          "entity": "phone",
+          "byte_start": 575,
+          "byte_end": 588
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "phone",
+          "source_entity": "PHONE",
+          "byte_start": 575,
+          "byte_end": 588
+        }
+      ],
+      "inference_ms": 5.942332999999962,
+      "changed": true,
+      "roundtrip_ms": 6.051291013136506
+    },
+    {
+      "id": "test-39-0",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 1681,
+          "byte_end": 1702
+        },
+        {
+          "entity": "location",
+          "byte_start": 1712,
+          "byte_end": 1714
+        },
+        {
+          "entity": "location",
+          "byte_start": 1715,
+          "byte_end": 1720
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 1681,
+          "byte_end": 1683
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 1684,
+          "byte_end": 1695
+        },
+        {
+          "entity": "location",
+          "source_entity": "SECONDARY_ADDRESS",
+          "byte_start": 1697,
+          "byte_end": 1702
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 1712,
+          "byte_end": 1714
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 1715,
+          "byte_end": 1720
+        }
+      ],
+      "inference_ms": 10.677625000000035,
+      "changed": true,
+      "roundtrip_ms": 10.836374945938587
+    },
+    {
+      "id": "test-39-1",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 1681,
+          "byte_end": 1697
+        },
+        {
+          "entity": "location",
+          "byte_start": 1708,
+          "byte_end": 1710
+        },
+        {
+          "entity": "location",
+          "byte_start": 1711,
+          "byte_end": 1716
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 1681,
+          "byte_end": 1684
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 1685,
+          "byte_end": 1697
+        },
+        {
+          "entity": "location",
+          "source_entity": "STATE",
+          "byte_start": 1708,
+          "byte_end": 1710
+        },
+        {
+          "entity": "location",
+          "source_entity": "ZIP_CODE",
+          "byte_start": 1711,
+          "byte_end": 1716
+        }
+      ],
+      "inference_ms": 10.88412500000004,
+      "changed": true,
+      "roundtrip_ms": 11.067499872297049
+    },
+    {
+      "id": "test-39-2",
+      "predictions": [
+        {
+          "entity": "location",
+          "byte_start": 1682,
+          "byte_end": 1695
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "location",
+          "source_entity": "BUILDING_NUMBER",
+          "byte_start": 1682,
+          "byte_end": 1683
+        },
+        {
+          "entity": "location",
+          "source_entity": "STREET_NAME",
+          "byte_start": 1684,
+          "byte_end": 1695
+        }
+      ],
+      "inference_ms": 11.109207999999967,
+      "changed": true,
+      "roundtrip_ms": 11.291458969935775
+    },
+    {
+      "id": "test-40-0",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 1999,
+          "byte_end": 2022
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 1999,
+          "byte_end": 2022
+        }
+      ],
+      "inference_ms": 11.389916999999969,
+      "changed": true,
+      "roundtrip_ms": 11.62370783276856
+    },
+    {
+      "id": "test-40-1",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 1996,
+          "byte_end": 2019
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 1996,
+          "byte_end": 2019
+        }
+      ],
+      "inference_ms": 11.369749999999954,
+      "changed": true,
+      "roundtrip_ms": 11.533541139215231
+    },
+    {
+      "id": "test-40-2",
+      "predictions": [
+        {
+          "entity": "email",
+          "byte_start": 1995,
+          "byte_end": 2018
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "email",
+          "source_entity": "EMAIL",
+          "byte_start": 1995,
+          "byte_end": 2018
+        }
+      ],
+      "inference_ms": 11.141166999999996,
+      "changed": true,
+      "roundtrip_ms": 11.316833086311817
+    },
+    {
+      "id": "test-41-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 15.253208000000086,
+      "changed": false,
+      "roundtrip_ms": 15.421207994222641
+    },
+    {
+      "id": "test-41-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 15.53816699999993,
+      "changed": false,
+      "roundtrip_ms": 15.721374889835715
+    },
+    {
+      "id": "test-41-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 15.509458999999993,
+      "changed": false,
+      "roundtrip_ms": 15.680624870583415
+    },
+    {
+      "id": "test-42-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 21.796750000000088,
+      "changed": false,
+      "roundtrip_ms": 22.011457942426205
+    },
+    {
+      "id": "test-42-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 21.67770799999994,
+      "changed": false,
+      "roundtrip_ms": 21.83879096992314
+    },
+    {
+      "id": "test-42-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 21.23275000000001,
+      "changed": false,
+      "roundtrip_ms": 21.42600016668439
+    },
+    {
+      "id": "test-43-0",
+      "predictions": [
+        {
+          "entity": "iban",
+          "byte_start": 544,
+          "byte_end": 571
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "iban",
+          "source_entity": "BANK_ACCOUNT",
+          "byte_start": 544,
+          "byte_end": 571
+        }
+      ],
+      "inference_ms": 6.1394579999999905,
+      "changed": true,
+      "roundtrip_ms": 6.310916040092707
+    },
+    {
+      "id": "test-43-1",
+      "predictions": [
+        {
+          "entity": "iban",
+          "byte_start": 544,
+          "byte_end": 571
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "iban",
+          "source_entity": "BANK_ACCOUNT",
+          "byte_start": 544,
+          "byte_end": 571
+        }
+      ],
+      "inference_ms": 6.143374999999992,
+      "changed": true,
+      "roundtrip_ms": 6.297999992966652
+    },
+    {
+      "id": "test-43-2",
+      "predictions": [
+        {
+          "entity": "iban",
+          "byte_start": 544,
+          "byte_end": 571
+        }
+      ],
+      "raw_predictions": [
+        {
+          "entity": "iban",
+          "source_entity": "BANK_ACCOUNT",
+          "byte_start": 544,
+          "byte_end": 571
+        }
+      ],
+      "inference_ms": 6.1987080000000105,
+      "changed": true,
+      "roundtrip_ms": 6.3579578418284655
+    },
+    {
+      "id": "test-44-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.286624999999958,
+      "changed": false,
+      "roundtrip_ms": 4.3978330213576555
+    },
+    {
+      "id": "test-44-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.140875000000051,
+      "changed": false,
+      "roundtrip_ms": 4.226958844810724
+    },
+    {
+      "id": "test-44-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.1294169999999895,
+      "changed": false,
+      "roundtrip_ms": 4.236165899783373
+    },
+    {
+      "id": "test-45-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.062250000000063,
+      "changed": false,
+      "roundtrip_ms": 4.150582943111658
+    },
+    {
+      "id": "test-45-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 3.988542000000052,
+      "changed": false,
+      "roundtrip_ms": 4.074541851878166
+    },
+    {
+      "id": "test-45-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.228375000000028,
+      "changed": false,
+      "roundtrip_ms": 4.326417110860348
+    },
+    {
+      "id": "test-46-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.1195829999999205,
+      "changed": false,
+      "roundtrip_ms": 4.240666050463915
+    },
+    {
+      "id": "test-46-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.323709000000008,
+      "changed": false,
+      "roundtrip_ms": 4.4418328907340765
+    },
+    {
+      "id": "test-46-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.377124999999978,
+      "changed": false,
+      "roundtrip_ms": 4.477124894037843
+    },
+    {
+      "id": "test-47-0",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.169500000000085,
+      "changed": false,
+      "roundtrip_ms": 4.2522079311311245
+    },
+    {
+      "id": "test-47-1",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.1084580000000415,
+      "changed": false,
+      "roundtrip_ms": 4.198666894808412
+    },
+    {
+      "id": "test-47-2",
+      "predictions": [],
+      "raw_predictions": [],
+      "inference_ms": 4.261999999999944,
+      "changed": false,
+      "roundtrip_ms": 4.347500158473849
+    }
+  ],
+  "by_kind": {
+    "long": {
+      "exact": {
+        "tp": 12,
+        "fp": 10,
+        "fn": 36,
+        "precision": 0.5454545454545454,
+        "recall": 0.25,
+        "f1": 0.34285714285714286
+      },
+      "per_entity": {
+        "person": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 18,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "location": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 12,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "email": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 0,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "us_ssn": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "credit_card": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "ip_address": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "url": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "iban": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "coverage": {
+        "fully_exposed": 30,
+        "alnum_characters": 651,
+        "covered_alnum_characters": 340,
+        "strict_nonspace_characters": 686,
+        "covered_strict_nonspace_characters": 364,
+        "fully_covered": 15,
+        "partially_exposed": 3
+      },
+      "negative_text": {},
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": []
+    },
+    "negative": {
+      "exact": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "per_entity": {
+        "person": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "location": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "email": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "phone": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "us_ssn": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "credit_card": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "ip_address": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "url": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "iban": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      },
+      "coverage": {},
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": []
+    },
+    "positive": {
+      "exact": {
+        "tp": 36,
+        "fp": 40,
+        "fn": 111,
+        "precision": 0.47368421052631576,
+        "recall": 0.24489795918367346,
+        "f1": 0.32286995515695066
+      },
+      "per_entity": {
+        "person": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 60,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "location": {
+          "tp": 0,
+          "fp": 37,
+          "fn": 30,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "email": {
+          "tp": 15,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        "phone": {
+          "tp": 0,
+          "fp": 3,
+          "fn": 12,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 6,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "url": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "iban": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "coverage": {
+        "fully_exposed": 93,
+        "alnum_characters": 2034,
+        "covered_alnum_characters": 1015,
+        "strict_nonspace_characters": 2215,
+        "covered_strict_nonspace_characters": 1105,
+        "fully_covered": 39,
+        "partially_exposed": 15
+      },
+      "negative_text": {},
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "purpose": "Formatting-only maintenance after measurement. Original report hashes are preserved and resolve to the exact recorded source snapshot.",
+  "files": {
+    "worker.exs": {
+      "recorded_sha256": "c55f9f8f320115fd08124044fcc8b8642b8cd6476ee5df764d22bbac0d4a5757",
+      "current_sha256": "8faca43cc64c2539e6c36d4c2b2ebc7593fdb52c2d154a4b662dd28739611acc",
+      "snapshot": "recorded_sources/worker.exs.txt",
+      "equivalence": "Code.format_string! produces identical output for both files"
+    }
+  }
+}

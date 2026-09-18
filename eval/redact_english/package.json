@@ -1,0 +1,10 @@
+{
+  "name": "obscura-redact-english-evaluation",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@desert-ant-labs/core": "3.1.0",
+    "@desert-ant-labs/redact": "3.1.0"
+  }
+}

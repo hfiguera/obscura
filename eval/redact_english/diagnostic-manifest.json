@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "obscura_base_commit": "46428566f99e9db2445ffce8a4c4c7d4b07ba70d",
+  "sha256": {
+    ".cache/redact-evaluation/sdk-source.tar.gz": "7cb63abed960e0718b11337b5a1d486bf14bcbc82cbeebc6509c9c368afc9b73",
+    "eval/redact_english/swift_probe/Package.resolved": "9cb2eeabf1069617a43a782ad4319eb98333e15dedcbc7979f2d4fe892bf0544",
+    "eval/redact_english/package-lock.json": "e215e483624186fea6480b77e6235ef8b3be3ae736500bbbafe1efd1b2b24626",
+    "eval/redact_english/model-manifest.json": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f"
+  },
+  "node": "26.8.2",
+  "sdk": "3.1.0",
+  "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+  "sdk_source": "c015d5d95028caba783e802442e30ddd66c9247e",
+  "swift_numerics": "0c0290ff6b24942dadb83a929ffaaa1481df04a2"
+}

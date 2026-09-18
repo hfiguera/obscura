@@ -1,0 +1,843 @@
+{
+  "schema": 1,
+  "purpose": "Synthetic functional diagnosis; not a performance or accuracy ranking",
+  "sdk": "3.1.0",
+  "node": "v26.8.2",
+  "platform": "darwin",
+  "arch": "arm64",
+  "osRelease": "25.6.0",
+  "cpu": "Apple M4 Max",
+  "requestedCoreMLComputeUnits": "cpu",
+  "actualDeviceInstrumentation": "not yet collected",
+  "readyMs": 44.517083,
+  "results": [
+    {
+      "id": "repeated_start_0",
+      "position": "start",
+      "repeats": 0,
+      "minimumConfidence": 0.6,
+      "inputSha256": "002134819df9ea8ef7b20fe9e2ae49efd2b537485ffcf6817b43935e4a64ea1b",
+      "inputUtf8Bytes": 59,
+      "latencyMs": 141.23820899999998,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_1",
+      "position": "start",
+      "repeats": 1,
+      "minimumConfidence": 0.6,
+      "inputSha256": "77d981ab5ba54fb1f2b9b73d1f438fa41b68f7922fd010193fdc146ce58a71b8",
+      "inputUtf8Bytes": 109,
+      "latencyMs": 4.52766699999998,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_3",
+      "position": "start",
+      "repeats": 3,
+      "minimumConfidence": 0.6,
+      "inputSha256": "4d6faa303aebc0b5a3a5bfd539532b9f1619b42baa0be750bb97dadc19f7460b",
+      "inputUtf8Bytes": 209,
+      "latencyMs": 4.634749999999997,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_5",
+      "position": "start",
+      "repeats": 5,
+      "minimumConfidence": 0.6,
+      "inputSha256": "27b9de63ba812ba6f7be18aec02ca09a21b35ecf49733575ea1b8b949265781d",
+      "inputUtf8Bytes": 309,
+      "latencyMs": 4.946499999999986,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_8",
+      "position": "start",
+      "repeats": 8,
+      "minimumConfidence": 0.6,
+      "inputSha256": "66b7472e5e55d97608b59345d4ded49a8b2e74d39561be3a24fcbc5b1ae40205",
+      "inputUtf8Bytes": 459,
+      "latencyMs": 4.883165999999989,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_10",
+      "position": "start",
+      "repeats": 10,
+      "minimumConfidence": 0.6,
+      "inputSha256": "938fb0b0fc316a46813f2ae78e41c1d8d2f99e2a29d57c73fd0195dbaf484927",
+      "inputUtf8Bytes": 559,
+      "latencyMs": 4.546041000000002,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_20",
+      "position": "start",
+      "repeats": 20,
+      "minimumConfidence": 0.6,
+      "inputSha256": "f4b17e58f0739438c00eb9775608958fc62f14f1e2fa1bfe3b8acc266d69d81a",
+      "inputUtf8Bytes": 1059,
+      "latencyMs": 5.668125000000003,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_50",
+      "position": "start",
+      "repeats": 50,
+      "minimumConfidence": 0.6,
+      "inputSha256": "36061680708fa734887477cfe59b3a16c01ba13301a0833dc12951b78154f5e1",
+      "inputUtf8Bytes": 2559,
+      "latencyMs": 15.677208000000007,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_150",
+      "position": "start",
+      "repeats": 150,
+      "minimumConfidence": 0.6,
+      "inputSha256": "b809dd1c9f3b11b661971473e3b9e647ad26e02bc366c2bb8738a8b5475aee15",
+      "inputUtf8Bytes": 7559,
+      "latencyMs": 45.036666999999994,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_0",
+      "position": "end",
+      "repeats": 0,
+      "minimumConfidence": 0.6,
+      "inputSha256": "5d4c5a5a50f2e8a18e5e3fbf28a425000476dd674f98f75a056033d3b5f4c597",
+      "inputUtf8Bytes": 58,
+      "latencyMs": 4.283040999999969,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_1",
+      "position": "end",
+      "repeats": 1,
+      "minimumConfidence": 0.6,
+      "inputSha256": "6f7450415d35829f8a0e1f1fedf8cf26264cc5bcdad5fbfb0f2b3bbeaebeac2c",
+      "inputUtf8Bytes": 108,
+      "latencyMs": 4.293417000000034,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 83,
+          "endUtf16": 107
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_3",
+      "position": "end",
+      "repeats": 3,
+      "minimumConfidence": 0.6,
+      "inputSha256": "178d51070c7387b20b3ca31172b577ced3ffa1b8c8fff47682a2384a97786c54",
+      "inputUtf8Bytes": 208,
+      "latencyMs": 4.4412079999999605,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 183,
+          "endUtf16": 207
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_5",
+      "position": "end",
+      "repeats": 5,
+      "minimumConfidence": 0.6,
+      "inputSha256": "4138c7dd1436d2d4aef3028074611fea646f12bb348e950432f5ce379be96be8",
+      "inputUtf8Bytes": 308,
+      "latencyMs": 4.7160840000000235,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 283,
+          "endUtf16": 307
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_8",
+      "position": "end",
+      "repeats": 8,
+      "minimumConfidence": 0.6,
+      "inputSha256": "b9148d4f60c27685974fe9bdb9bfcbb622fa72a8bfec7c54a8bafb8feda50d52",
+      "inputUtf8Bytes": 458,
+      "latencyMs": 4.435500000000047,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 433,
+          "endUtf16": 457
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_10",
+      "position": "end",
+      "repeats": 10,
+      "minimumConfidence": 0.6,
+      "inputSha256": "38c730a2821b22e62f925fd59fba031ccefa0faa4e20b85c3f0d820493becb43",
+      "inputUtf8Bytes": 558,
+      "latencyMs": 4.763000000000034,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 533,
+          "endUtf16": 557
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_20",
+      "position": "end",
+      "repeats": 20,
+      "minimumConfidence": 0.6,
+      "inputSha256": "0840af74b66520bcd935b27ea534b49eaf49816a16bee3e827120b2f3ab476df",
+      "inputUtf8Bytes": 1058,
+      "latencyMs": 5.110584000000017,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 1033,
+          "endUtf16": 1057
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_50",
+      "position": "end",
+      "repeats": 50,
+      "minimumConfidence": 0.6,
+      "inputSha256": "64005b5c15c1e467a2fb6efb4c9e0b8590763bad53b9d28f638c0beb3f221aec",
+      "inputUtf8Bytes": 2558,
+      "latencyMs": 14.708124999999995,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 2533,
+          "endUtf16": 2557
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_150",
+      "position": "end",
+      "repeats": 150,
+      "minimumConfidence": 0.6,
+      "inputSha256": "4d82a4efffbdd5f8b252b762335f6c0692bb7079d4b7b4ebd4db34ab6719d460",
+      "inputUtf8Bytes": 7558,
+      "latencyMs": 45.630291,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 7533,
+          "endUtf16": 7557
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "paragraph_before",
+      "minimumConfidence": 0.6,
+      "inputSha256": "ec1059a5288e70a214ae7750c3a6383e618a2d23a680b96b6630450968f1a0fa",
+      "inputUtf8Bytes": 379,
+      "latencyMs": 5.014332999999965,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 354,
+          "endUtf16": 378
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "paragraph_after",
+      "minimumConfidence": 0.6,
+      "inputSha256": "6dba2af54741ce05b4040ef2399fd613e19620dfecc4b3ceb0aa4f10b7ae911e",
+      "inputUtf8Bytes": 380,
+      "latencyMs": 4.920458999999994,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "long_mixed",
+      "minimumConfidence": 0.6,
+      "inputSha256": "dd84cf9da560bdea43a0f31b4490235f5538d7340090c68d9774802b85d48255",
+      "inputUtf8Bytes": 1985,
+      "latencyMs": 10.837917000000004,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 354,
+          "endUtf16": 378
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_0",
+      "position": "start",
+      "repeats": 0,
+      "minimumConfidence": 0,
+      "inputSha256": "002134819df9ea8ef7b20fe9e2ae49efd2b537485ffcf6817b43935e4a64ea1b",
+      "inputUtf8Bytes": 59,
+      "latencyMs": 4.141332999999975,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_1",
+      "position": "start",
+      "repeats": 1,
+      "minimumConfidence": 0,
+      "inputSha256": "77d981ab5ba54fb1f2b9b73d1f438fa41b68f7922fd010193fdc146ce58a71b8",
+      "inputUtf8Bytes": 109,
+      "latencyMs": 4.302166,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_3",
+      "position": "start",
+      "repeats": 3,
+      "minimumConfidence": 0,
+      "inputSha256": "4d6faa303aebc0b5a3a5bfd539532b9f1619b42baa0be750bb97dadc19f7460b",
+      "inputUtf8Bytes": 209,
+      "latencyMs": 4.244250000000022,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_5",
+      "position": "start",
+      "repeats": 5,
+      "minimumConfidence": 0,
+      "inputSha256": "27b9de63ba812ba6f7be18aec02ca09a21b35ecf49733575ea1b8b949265781d",
+      "inputUtf8Bytes": 309,
+      "latencyMs": 4.681166000000019,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_8",
+      "position": "start",
+      "repeats": 8,
+      "minimumConfidence": 0,
+      "inputSha256": "66b7472e5e55d97608b59345d4ded49a8b2e74d39561be3a24fcbc5b1ae40205",
+      "inputUtf8Bytes": 459,
+      "latencyMs": 4.806167000000016,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_10",
+      "position": "start",
+      "repeats": 10,
+      "minimumConfidence": 0,
+      "inputSha256": "938fb0b0fc316a46813f2ae78e41c1d8d2f99e2a29d57c73fd0195dbaf484927",
+      "inputUtf8Bytes": 559,
+      "latencyMs": 4.633624999999995,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_20",
+      "position": "start",
+      "repeats": 20,
+      "minimumConfidence": 0,
+      "inputSha256": "f4b17e58f0739438c00eb9775608958fc62f14f1e2fa1bfe3b8acc266d69d81a",
+      "inputUtf8Bytes": 1059,
+      "latencyMs": 5.37095800000003,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_50",
+      "position": "start",
+      "repeats": 50,
+      "minimumConfidence": 0,
+      "inputSha256": "36061680708fa734887477cfe59b3a16c01ba13301a0833dc12951b78154f5e1",
+      "inputUtf8Bytes": 2559,
+      "latencyMs": 15.173958999999968,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_start_150",
+      "position": "start",
+      "repeats": 150,
+      "minimumConfidence": 0,
+      "inputSha256": "b809dd1c9f3b11b661971473e3b9e647ad26e02bc366c2bb8738a8b5475aee15",
+      "inputUtf8Bytes": 7559,
+      "latencyMs": 45.05591700000002,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_0",
+      "position": "end",
+      "repeats": 0,
+      "minimumConfidence": 0,
+      "inputSha256": "5d4c5a5a50f2e8a18e5e3fbf28a425000476dd674f98f75a056033d3b5f4c597",
+      "inputUtf8Bytes": 58,
+      "latencyMs": 4.258583999999985,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_1",
+      "position": "end",
+      "repeats": 1,
+      "minimumConfidence": 0,
+      "inputSha256": "6f7450415d35829f8a0e1f1fedf8cf26264cc5bcdad5fbfb0f2b3bbeaebeac2c",
+      "inputUtf8Bytes": 108,
+      "latencyMs": 4.039916000000005,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 83,
+          "endUtf16": 107
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_3",
+      "position": "end",
+      "repeats": 3,
+      "minimumConfidence": 0,
+      "inputSha256": "178d51070c7387b20b3ca31172b577ced3ffa1b8c8fff47682a2384a97786c54",
+      "inputUtf8Bytes": 208,
+      "latencyMs": 4.02862499999992,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 183,
+          "endUtf16": 207
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_5",
+      "position": "end",
+      "repeats": 5,
+      "minimumConfidence": 0,
+      "inputSha256": "4138c7dd1436d2d4aef3028074611fea646f12bb348e950432f5ce379be96be8",
+      "inputUtf8Bytes": 308,
+      "latencyMs": 4.331457999999998,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 283,
+          "endUtf16": 307
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_8",
+      "position": "end",
+      "repeats": 8,
+      "minimumConfidence": 0,
+      "inputSha256": "b9148d4f60c27685974fe9bdb9bfcbb622fa72a8bfec7c54a8bafb8feda50d52",
+      "inputUtf8Bytes": 458,
+      "latencyMs": 4.867124999999987,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 433,
+          "endUtf16": 457
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_10",
+      "position": "end",
+      "repeats": 10,
+      "minimumConfidence": 0,
+      "inputSha256": "38c730a2821b22e62f925fd59fba031ccefa0faa4e20b85c3f0d820493becb43",
+      "inputUtf8Bytes": 558,
+      "latencyMs": 4.707583999999997,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 533,
+          "endUtf16": 557
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_20",
+      "position": "end",
+      "repeats": 20,
+      "minimumConfidence": 0,
+      "inputSha256": "0840af74b66520bcd935b27ea534b49eaf49816a16bee3e827120b2f3ab476df",
+      "inputUtf8Bytes": 1058,
+      "latencyMs": 5.510582999999997,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 1033,
+          "endUtf16": 1057
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_50",
+      "position": "end",
+      "repeats": 50,
+      "minimumConfidence": 0,
+      "inputSha256": "64005b5c15c1e467a2fb6efb4c9e0b8590763bad53b9d28f638c0beb3f221aec",
+      "inputUtf8Bytes": 2558,
+      "latencyMs": 15.02387500000009,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 2533,
+          "endUtf16": 2557
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "repeated_end_150",
+      "position": "end",
+      "repeats": 150,
+      "minimumConfidence": 0,
+      "inputSha256": "4d82a4efffbdd5f8b252b762335f6c0692bb7079d4b7b4ebd4db34ab6719d460",
+      "inputUtf8Bytes": 7558,
+      "latencyMs": 45.10800000000006,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 7533,
+          "endUtf16": 7557
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "paragraph_before",
+      "minimumConfidence": 0,
+      "inputSha256": "ec1059a5288e70a214ae7750c3a6383e618a2d23a680b96b6630450968f1a0fa",
+      "inputUtf8Bytes": 379,
+      "latencyMs": 4.867166999999995,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 354,
+          "endUtf16": 378
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "paragraph_after",
+      "minimumConfidence": 0,
+      "inputSha256": "6dba2af54741ce05b4040ef2399fd613e19620dfecc4b3ceb0aa4f10b7ae911e",
+      "inputUtf8Bytes": 380,
+      "latencyMs": 4.701750000000061,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 33,
+          "endUtf16": 57
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    },
+    {
+      "id": "long_mixed",
+      "minimumConfidence": 0,
+      "inputSha256": "dd84cf9da560bdea43a0f31b4490235f5538d7340090c68d9774802b85d48255",
+      "inputUtf8Bytes": 1985,
+      "latencyMs": 10.430042000000071,
+      "items": [
+        {
+          "label": "EMAIL",
+          "startUtf16": 354,
+          "endUtf16": 378
+        }
+      ],
+      "detectedNameComponents": 0,
+      "detectedCities": 0,
+      "utf16SpansMatch": true,
+      "restorationExact": true
+    }
+  ]
+}

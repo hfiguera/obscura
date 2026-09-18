@@ -1,0 +1,1315 @@
+{
+  "schema": 1,
+  "purpose": "Fresh synthetic English evaluation; not population accuracy",
+  "profile": "efficient",
+  "platform": "Linux-7.1.5-76070105-generic-x86_64-with-glibc2.39",
+  "split": "development",
+  "input_sha256": "758d212cfa23d6426ac6d35b5cc7b962449f3369ff73ea1e61215fa2ac802dcd",
+  "mapping_sha256": "32f8e3c337ad417869e913689343766e5a21c40653a374b499074749c7a37867",
+  "worker_source_sha256": "c55f9f8f320115fd08124044fcc8b8642b8cd6476ee5df764d22bbac0d4a5757",
+  "created_unix": 1789351398.5272937,
+  "startup_ms": 1624.9838980147615,
+  "metadata": {
+    "elixir": "1.18.4",
+    "engine": {
+      "backend": "native_spacy",
+      "device": "cpu"
+    },
+    "event": "ready",
+    "obscura": "0.2.0",
+    "otp": "25",
+    "pid": "495553",
+    "preparation_ms": 845.477,
+    "profile": "efficient",
+    "schedulers": 8,
+    "supported_entities": [
+      "credit_card",
+      "date_time",
+      "domain",
+      "email",
+      "iban",
+      "ip_address",
+      "location",
+      "person",
+      "phone",
+      "street_address",
+      "title",
+      "url",
+      "us_ssn"
+    ]
+  },
+  "metrics": {
+    "exact": {
+      "tp": 48,
+      "fp": 6,
+      "fn": 12,
+      "precision": 0.8888888888888888,
+      "recall": 0.8,
+      "f1": 0.8421052631578948
+    },
+    "per_entity": {
+      "person": {
+        "tp": 18,
+        "fp": 0,
+        "fn": 8,
+        "precision": 1.0,
+        "recall": 0.6923076923076923,
+        "f1": 0.8181818181818181
+      },
+      "location": {
+        "tp": 6,
+        "fp": 4,
+        "fn": 2,
+        "precision": 0.6,
+        "recall": 0.75,
+        "f1": 0.6666666666666665
+      },
+      "email": {
+        "tp": 8,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "phone": {
+        "tp": 8,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "us_ssn": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "credit_card": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ip_address": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "url": {
+        "tp": 0,
+        "fp": 2,
+        "fn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "iban": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    },
+    "coverage": {
+      "fully_covered": 52,
+      "alnum_characters": 740,
+      "covered_alnum_characters": 643,
+      "strict_nonspace_characters": 807,
+      "covered_strict_nonspace_characters": 707,
+      "fully_exposed": 7,
+      "partially_exposed": 1
+    },
+    "negative_text": {
+      "rows": 8,
+      "changed_rows": 0,
+      "detections": 0
+    },
+    "error_rows": 0,
+    "additional_raw_labels": {},
+    "supplemental": []
+  },
+  "rows": [
+    {
+      "id": "development-00-0",
+      "inference_ms": 46.762,
+      "predictions": [
+        {
+          "byte_end": 23,
+          "byte_start": 11,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 48.975807963870466,
+      "raw_predictions": [
+        {
+          "byte_end": 23,
+          "byte_start": 11,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "development-00-1",
+      "inference_ms": 1.629,
+      "predictions": [
+        {
+          "byte_end": 20,
+          "byte_start": 11,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.9367579952813685,
+      "raw_predictions": [
+        {
+          "byte_end": 20,
+          "byte_start": 11,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "development-01-0",
+      "inference_ms": 1.448,
+      "predictions": [
+        {
+          "byte_end": 67,
+          "byte_start": 46,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 1.58126896712929,
+      "raw_predictions": [
+        {
+          "byte_end": 67,
+          "byte_start": 46,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "development-01-1",
+      "inference_ms": 1.563,
+      "predictions": [
+        {
+          "byte_end": 24,
+          "byte_start": 14,
+          "entity": "person"
+        },
+        {
+          "byte_end": 65,
+          "byte_start": 44,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 1.806723012123257,
+      "raw_predictions": [
+        {
+          "byte_end": 24,
+          "byte_start": 14,
+          "entity": "person"
+        },
+        {
+          "byte_end": 65,
+          "byte_start": 44,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "development-02-0",
+      "inference_ms": 1.43,
+      "predictions": [
+        {
+          "byte_end": 37,
+          "byte_start": 25,
+          "entity": "person"
+        },
+        {
+          "byte_end": 47,
+          "byte_start": 41,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 1.5741990064270794,
+      "raw_predictions": [
+        {
+          "byte_end": 37,
+          "byte_start": 25,
+          "entity": "person"
+        },
+        {
+          "byte_end": 47,
+          "byte_start": 41,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "development-02-1",
+      "inference_ms": 1.321,
+      "predictions": [
+        {
+          "byte_end": 45,
+          "byte_start": 38,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 1.5167059609666467,
+      "raw_predictions": [
+        {
+          "byte_end": 45,
+          "byte_start": 38,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "development-03-0",
+      "inference_ms": 3.101,
+      "predictions": [
+        {
+          "byte_end": 19,
+          "byte_start": 10,
+          "entity": "person"
+        },
+        {
+          "byte_end": 41,
+          "byte_start": 27,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 3.3181370235979557,
+      "raw_predictions": [
+        {
+          "byte_end": 19,
+          "byte_start": 10,
+          "entity": "person"
+        },
+        {
+          "byte_end": 41,
+          "byte_start": 27,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "development-03-1",
+      "inference_ms": 1.888,
+      "predictions": [
+        {
+          "byte_end": 19,
+          "byte_start": 10,
+          "entity": "person"
+        },
+        {
+          "byte_end": 41,
+          "byte_start": 27,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 2.1397669916041195,
+      "raw_predictions": [
+        {
+          "byte_end": 19,
+          "byte_start": 10,
+          "entity": "person"
+        },
+        {
+          "byte_end": 41,
+          "byte_start": 27,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "development-04-0",
+      "inference_ms": 1.7,
+      "predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 23,
+          "entity": "email"
+        },
+        {
+          "byte_end": 68,
+          "byte_start": 54,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 1.8443639855831861,
+      "raw_predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 23,
+          "entity": "email"
+        },
+        {
+          "byte_end": 68,
+          "byte_start": 54,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "development-04-1",
+      "inference_ms": 1.628,
+      "predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 23,
+          "entity": "email"
+        },
+        {
+          "byte_end": 68,
+          "byte_start": 54,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 1.8052950035780668,
+      "raw_predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 23,
+          "entity": "email"
+        },
+        {
+          "byte_end": 68,
+          "byte_start": 54,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "development-05-0",
+      "inference_ms": 1.896,
+      "predictions": [
+        {
+          "byte_end": 38,
+          "byte_start": 26,
+          "entity": "location"
+        },
+        {
+          "byte_end": 47,
+          "byte_start": 40,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.064366010017693,
+      "raw_predictions": [
+        {
+          "byte_end": 38,
+          "byte_start": 26,
+          "entity": "location"
+        },
+        {
+          "byte_end": 47,
+          "byte_start": 40,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "development-05-1",
+      "inference_ms": 1.721,
+      "predictions": [
+        {
+          "byte_end": 75,
+          "byte_start": 65,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.9258109969086945,
+      "raw_predictions": [
+        {
+          "byte_end": 75,
+          "byte_start": 65,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "development-06-0",
+      "inference_ms": 1.531,
+      "predictions": [
+        {
+          "byte_end": 36,
+          "byte_start": 26,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 91,
+          "byte_start": 52,
+          "entity": "url"
+        }
+      ],
+      "roundtrip_ms": 1.7835070029832423,
+      "raw_predictions": [
+        {
+          "byte_end": 36,
+          "byte_start": 26,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 91,
+          "byte_start": 52,
+          "entity": "url"
+        }
+      ]
+    },
+    {
+      "id": "development-06-1",
+      "inference_ms": 1.66,
+      "predictions": [
+        {
+          "byte_end": 37,
+          "byte_start": 26,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 92,
+          "byte_start": 53,
+          "entity": "url"
+        }
+      ],
+      "roundtrip_ms": 1.9739589770324528,
+      "raw_predictions": [
+        {
+          "byte_end": 37,
+          "byte_start": 26,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 92,
+          "byte_start": 53,
+          "entity": "url"
+        }
+      ]
+    },
+    {
+      "id": "development-07-0",
+      "inference_ms": 3.852,
+      "predictions": [
+        {
+          "byte_end": 71,
+          "byte_start": 44,
+          "entity": "iban"
+        }
+      ],
+      "roundtrip_ms": 4.103282000869513,
+      "raw_predictions": [
+        {
+          "byte_end": 71,
+          "byte_start": 44,
+          "entity": "iban"
+        }
+      ]
+    },
+    {
+      "id": "development-07-1",
+      "inference_ms": 1.983,
+      "predictions": [
+        {
+          "byte_end": 71,
+          "byte_start": 44,
+          "entity": "iban"
+        }
+      ],
+      "roundtrip_ms": 2.165701997000724,
+      "raw_predictions": [
+        {
+          "byte_end": 71,
+          "byte_start": 44,
+          "entity": "iban"
+        }
+      ]
+    },
+    {
+      "id": "development-08-0",
+      "inference_ms": 1.933,
+      "predictions": [
+        {
+          "byte_end": 31,
+          "byte_start": 12,
+          "entity": "credit_card"
+        }
+      ],
+      "roundtrip_ms": 2.13210703805089,
+      "raw_predictions": [
+        {
+          "byte_end": 31,
+          "byte_start": 12,
+          "entity": "credit_card"
+        }
+      ]
+    },
+    {
+      "id": "development-08-1",
+      "inference_ms": 1.52,
+      "predictions": [
+        {
+          "byte_end": 31,
+          "byte_start": 12,
+          "entity": "credit_card"
+        }
+      ],
+      "roundtrip_ms": 1.6771359951235354,
+      "raw_predictions": [
+        {
+          "byte_end": 31,
+          "byte_start": 12,
+          "entity": "credit_card"
+        }
+      ]
+    },
+    {
+      "id": "development-09-0",
+      "inference_ms": 3.766,
+      "predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 31,
+          "entity": "us_ssn"
+        }
+      ],
+      "roundtrip_ms": 3.9445330039598048,
+      "raw_predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 31,
+          "entity": "us_ssn"
+        }
+      ]
+    },
+    {
+      "id": "development-09-1",
+      "inference_ms": 1.692,
+      "predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 31,
+          "entity": "us_ssn"
+        },
+        {
+          "byte_end": 57,
+          "byte_start": 47,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.024409011937678,
+      "raw_predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 31,
+          "entity": "us_ssn"
+        },
+        {
+          "byte_end": 57,
+          "byte_start": 47,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "development-10-0",
+      "inference_ms": 1.566,
+      "predictions": [
+        {
+          "byte_end": 38,
+          "byte_start": 26,
+          "entity": "person"
+        },
+        {
+          "byte_end": 51,
+          "byte_start": 42,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 1.8198349862359464,
+      "raw_predictions": [
+        {
+          "byte_end": 38,
+          "byte_start": 26,
+          "entity": "person"
+        },
+        {
+          "byte_end": 51,
+          "byte_start": 42,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "development-10-1",
+      "inference_ms": 1.427,
+      "predictions": [
+        {
+          "byte_end": 35,
+          "byte_start": 26,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.6999620129354298,
+      "raw_predictions": [
+        {
+          "byte_end": 35,
+          "byte_start": 26,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "development-11-0",
+      "inference_ms": 1.538,
+      "predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 20,
+          "entity": "person"
+        },
+        {
+          "byte_end": 45,
+          "byte_start": 39,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 1.8585199723020196,
+      "raw_predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 20,
+          "entity": "person"
+        },
+        {
+          "byte_end": 45,
+          "byte_start": 39,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "development-11-1",
+      "inference_ms": 1.462,
+      "predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 20,
+          "entity": "person"
+        },
+        {
+          "byte_end": 46,
+          "byte_start": 39,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 1.7638939898461103,
+      "raw_predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 20,
+          "entity": "person"
+        },
+        {
+          "byte_end": 46,
+          "byte_start": 39,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "development-12-0",
+      "inference_ms": 1.4,
+      "predictions": [
+        {
+          "byte_end": 24,
+          "byte_start": 12,
+          "entity": "person"
+        },
+        {
+          "byte_end": 57,
+          "byte_start": 35,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 1.6688129981048405,
+      "raw_predictions": [
+        {
+          "byte_end": 24,
+          "byte_start": 12,
+          "entity": "person"
+        },
+        {
+          "byte_end": 57,
+          "byte_start": 35,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "development-12-1",
+      "inference_ms": 1.299,
+      "predictions": [
+        {
+          "byte_end": 21,
+          "byte_start": 12,
+          "entity": "location"
+        },
+        {
+          "byte_end": 54,
+          "byte_start": 32,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 1.5211300342343748,
+      "raw_predictions": [
+        {
+          "byte_end": 21,
+          "byte_start": 12,
+          "entity": "location"
+        },
+        {
+          "byte_end": 54,
+          "byte_start": 32,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "development-13-0",
+      "inference_ms": 1.748,
+      "predictions": [
+        {
+          "byte_end": 46,
+          "byte_start": 32,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 2.080873993691057,
+      "raw_predictions": [
+        {
+          "byte_end": 46,
+          "byte_start": 32,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "development-13-1",
+      "inference_ms": 1.805,
+      "predictions": [
+        {
+          "byte_end": 26,
+          "byte_start": 16,
+          "entity": "person"
+        },
+        {
+          "byte_end": 44,
+          "byte_start": 30,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 2.1603190107271075,
+      "raw_predictions": [
+        {
+          "byte_end": 26,
+          "byte_start": 16,
+          "entity": "person"
+        },
+        {
+          "byte_end": 44,
+          "byte_start": 30,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "development-14-0",
+      "inference_ms": 1.222,
+      "predictions": [],
+      "roundtrip_ms": 1.5237769694067538,
+      "raw_predictions": []
+    },
+    {
+      "id": "development-14-1",
+      "inference_ms": 1.213,
+      "predictions": [],
+      "roundtrip_ms": 1.5477670240215957,
+      "raw_predictions": []
+    },
+    {
+      "id": "development-15-0",
+      "inference_ms": 1.232,
+      "predictions": [],
+      "roundtrip_ms": 1.5016670222394168,
+      "raw_predictions": []
+    },
+    {
+      "id": "development-15-1",
+      "inference_ms": 1.25,
+      "predictions": [],
+      "roundtrip_ms": 1.6211140318773687,
+      "raw_predictions": []
+    },
+    {
+      "id": "development-16-0",
+      "inference_ms": 1.193,
+      "predictions": [],
+      "roundtrip_ms": 1.4641809975728393,
+      "raw_predictions": []
+    },
+    {
+      "id": "development-16-1",
+      "inference_ms": 1.238,
+      "predictions": [],
+      "roundtrip_ms": 1.5929689980112016,
+      "raw_predictions": []
+    },
+    {
+      "id": "development-17-0",
+      "inference_ms": 1.291,
+      "predictions": [],
+      "roundtrip_ms": 1.6603749827481806,
+      "raw_predictions": []
+    },
+    {
+      "id": "development-17-1",
+      "inference_ms": 1.211,
+      "predictions": [],
+      "roundtrip_ms": 1.5174029977060854,
+      "raw_predictions": []
+    },
+    {
+      "id": "development-18-0",
+      "inference_ms": 12.819,
+      "predictions": [
+        {
+          "byte_end": 1467,
+          "byte_start": 1455,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1477,
+          "byte_start": 1471,
+          "entity": "location"
+        },
+        {
+          "byte_end": 1504,
+          "byte_start": 1482,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 13.221369008533657,
+      "raw_predictions": [
+        {
+          "byte_end": 1467,
+          "byte_start": 1455,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1477,
+          "byte_start": 1471,
+          "entity": "location"
+        },
+        {
+          "byte_end": 1504,
+          "byte_start": 1482,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "development-18-1",
+      "inference_ms": 12.772,
+      "predictions": [
+        {
+          "byte_end": 1464,
+          "byte_start": 1455,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1475,
+          "byte_start": 1468,
+          "entity": "location"
+        },
+        {
+          "byte_end": 1502,
+          "byte_start": 1480,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 13.056272000540048,
+      "raw_predictions": [
+        {
+          "byte_end": 1464,
+          "byte_start": 1455,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1475,
+          "byte_start": 1468,
+          "entity": "location"
+        },
+        {
+          "byte_end": 1502,
+          "byte_start": 1480,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "development-19-0",
+      "inference_ms": 10.818,
+      "predictions": [
+        {
+          "byte_end": 9,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 48,
+          "byte_start": 34,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 11.141295952256769,
+      "raw_predictions": [
+        {
+          "byte_end": 9,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 48,
+          "byte_start": 34,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "development-19-1",
+      "inference_ms": 10.66,
+      "predictions": [
+        {
+          "byte_end": 9,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 48,
+          "byte_start": 34,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 10.89714898262173,
+      "raw_predictions": [
+        {
+          "byte_end": 9,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 48,
+          "byte_start": 34,
+          "entity": "phone"
+        }
+      ]
+    }
+  ],
+  "by_kind": {
+    "long": {
+      "exact": {
+        "tp": 10,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "per_entity": {
+        "person": {
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "location": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "email": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "credit_card": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "ip_address": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "url": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "iban": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      },
+      "coverage": {
+        "fully_covered": 10,
+        "alnum_characters": 108,
+        "covered_alnum_characters": 108,
+        "strict_nonspace_characters": 118,
+        "covered_strict_nonspace_characters": 118
+      },
+      "negative_text": {},
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": []
+    },
+    "negative": {
+      "exact": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "per_entity": {
+        "person": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "location": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "email": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "phone": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "us_ssn": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "credit_card": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "ip_address": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "url": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "iban": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      },
+      "coverage": {},
+      "negative_text": {
+        "rows": 8,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": []
+    },
+    "positive": {
+      "exact": {
+        "tp": 38,
+        "fp": 6,
+        "fn": 12,
+        "precision": 0.8636363636363636,
+        "recall": 0.76,
+        "f1": 0.8085106382978724
+      },
+      "per_entity": {
+        "person": {
+          "tp": 14,
+          "fp": 0,
+          "fn": 8,
+          "precision": 1.0,
+          "recall": 0.6363636363636364,
+          "f1": 0.7777777777777778
+        },
+        "location": {
+          "tp": 4,
+          "fp": 4,
+          "fn": 2,
+          "precision": 0.5,
+          "recall": 0.6666666666666666,
+          "f1": 0.5714285714285715
+        },
+        "email": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "url": {
+          "tp": 0,
+          "fp": 2,
+          "fn": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "iban": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "coverage": {
+        "fully_covered": 42,
+        "alnum_characters": 632,
+        "covered_alnum_characters": 535,
+        "strict_nonspace_characters": 689,
+        "covered_strict_nonspace_characters": 589,
+        "fully_exposed": 7,
+        "partially_exposed": 1
+      },
+      "negative_text": {},
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": []
+    }
+  }
+}

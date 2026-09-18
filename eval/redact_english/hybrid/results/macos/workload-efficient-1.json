@@ -1,0 +1,245 @@
+{
+  "profile": "efficient",
+  "workers": 1,
+  "seconds_requested": 60,
+  "elapsed_seconds": 60.000428792089224,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "sources": {
+    "hybrid/POLICY.md": "ee719210c0bab3cba8aa981385a2669a82f54fbb47f65ec7c5743c4bc968de27",
+    "hybrid/adapter.py": "d245f08ffa498128a4ead3f760d4a7c9a71a75a04be8764e11bbbb1c86ae81e8",
+    "hybrid/run.py": "07272710c21599b1c8d7befc75c7a385d95f8457da47ddafeb7233e75a95bcc4",
+    "hybrid/development.json": "dd3fe62ee119b0c57318164290a94ae4d3063b97b0dd6dd64c7891a93ee15c3e",
+    "hybrid/test.json": "29a8a78fbcdaa1032815df57c4666acbd556e5ea9ce73cea5ded166185559629",
+    "hybrid/manifest.json": "bdcd0240bbe7b58dc0bc1d06b61809f246b57ec56cdd118cc64c1c387f6e9ed3",
+    "harness.py": "ec4ebf764d9cfdcfd23442d99e023acb69d4e5d66f8f876c31ba8869d8a3508b",
+    "worker.exs": "c55f9f8f320115fd08124044fcc8b8642b8cd6476ee5df764d22bbac0d4a5757",
+    "redact_worker.mjs": "b29a56d56301e486c0c20d093dc3529af577500b59fa49fef91be52897ee5204",
+    "spans.mjs": "856318cc2a6e8e25f29fd3db0374e7bfbec7c45920b08e7d4222c406bb44213d",
+    "score.py": "1e3996055c62bd416332b255e9b629cd89899fb3a25c536cac18a87ec85d76cc",
+    "workload.py": "8ffd1eb9996c53e830ebcc6a007388b76a8c2a253d63a9e677c79f3baf49f475",
+    "model-manifest.json": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+    "consumer/mix.lock": "5453df860ab248f1c153dabb72a0ee5648eb7c7a1f23505a16c4a0868e76af3b"
+  },
+  "cpu_quality_valid": true,
+  "requests": 119568,
+  "requests_per_second": 1992.7857584871874,
+  "counts_by_input": {
+    "development-00": 19928,
+    "development-01": 19928,
+    "development-03": 19928,
+    "development-04": 19928,
+    "development-05": 19928,
+    "development-10": 19928
+  },
+  "errors": {},
+  "latency": {
+    "count": 119568,
+    "p50_ms": 0.49062492325901985,
+    "p95_ms": 0.6364169530570507,
+    "p99_ms": 0.7100410293787718,
+    "mean_ms": 0.5006320851507245
+  },
+  "cold": [
+    {
+      "startup_ms": 613.4336250834167,
+      "first_ms": 20.543042104691267,
+      "fingerprint": "65f1b90155aad3bf4d3b9d6603bfd14a2e7ff2cc20f66c080da6590820e8ec97",
+      "metadata": [
+        {
+          "pid": "89860",
+          "profile": "efficient",
+          "otp": "29",
+          "schedulers": 16,
+          "elixir": "1.20.2",
+          "obscura": "0.2.0",
+          "engine": {
+            "device": "cpu",
+            "backend": "native_spacy"
+          },
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ],
+          "event": "ready",
+          "preparation_ms": 262.708
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "elapsed": 7.579196244478226e-05,
+      "rss_kib": 179680,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        54.93408203125,
+        48.7900390625,
+        47.37744140625
+      ]
+    },
+    {
+      "elapsed": 5.1825028751045465,
+      "rss_kib": 162192,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        51.17529296875,
+        48.11279296875,
+        47.146484375
+      ]
+    },
+    {
+      "elapsed": 10.359754791948944,
+      "rss_kib": 155680,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        53.0830078125,
+        48.55908203125,
+        47.3095703125
+      ]
+    },
+    {
+      "elapsed": 15.535807708045468,
+      "rss_kib": 153600,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        49.15234375,
+        47.81884765625,
+        47.0556640625
+      ]
+    },
+    {
+      "elapsed": 20.717306208098307,
+      "rss_kib": 152560,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        45.53662109375,
+        47.09130859375,
+        46.80322265625
+      ]
+    },
+    {
+      "elapsed": 25.898139416938648,
+      "rss_kib": 152560,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        42.5302734375,
+        46.44189453125,
+        46.57568359375
+      ]
+    },
+    {
+      "elapsed": 31.081719957990572,
+      "rss_kib": 151520,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        39.60498046875,
+        45.77001953125,
+        46.337890625
+      ]
+    },
+    {
+      "elapsed": 36.26277766702697,
+      "rss_kib": 151520,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        37.31396484375,
+        45.1923828125,
+        46.13037109375
+      ]
+    },
+    {
+      "elapsed": 41.43516487511806,
+      "rss_kib": 150032,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        40.49169921875,
+        45.72021484375,
+        46.31103515625
+      ]
+    },
+    {
+      "elapsed": 46.621283625019714,
+      "rss_kib": 150032,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        40.3720703125,
+        45.6083984375,
+        46.26806640625
+      ]
+    },
+    {
+      "elapsed": 51.79516900004819,
+      "rss_kib": 150032,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        37.939453125,
+        45.01708984375,
+        46.05517578125
+      ]
+    },
+    {
+      "elapsed": 56.97288495791145,
+      "rss_kib": 150032,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        35.7060546875,
+        44.32080078125,
+        45.79638671875
+      ]
+    },
+    {
+      "elapsed": 60.000428792089224,
+      "rss_kib": 150032,
+      "pss_kib": null,
+      "process_count": 3,
+      "load_average": [
+        35.7060546875,
+        44.32080078125,
+        45.79638671875
+      ]
+    }
+  ],
+  "peak_rss_mib": 175.46875,
+  "rss_growth_mib": -28.953125,
+  "peak_pss_mib": null,
+  "burst": {
+    "requests": 8,
+    "errors": 0,
+    "completion": {
+      "count": 8,
+      "p50_ms": 3.151749959215522,
+      "p95_ms": 5.916499998420477,
+      "p99_ms": 5.916499998420477,
+      "mean_ms": 3.483385138679296
+    }
+  },
+  "recovery": {
+    "failure_observed": true,
+    "restart_and_request_ms": 667.0214580371976,
+    "output_restored": true,
+    "survivors_unchanged": true
+  }
+}

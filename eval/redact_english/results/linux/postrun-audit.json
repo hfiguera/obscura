@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "created_unix": 1789357576.4725268,
+  "platform": "Linux-7.1.5-76070105-generic-x86_64-with-glibc2.39",
+  "logs_checked": 56,
+  "logs": {
+    "workload-Linux-balanced-1-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-balanced-2-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-balanced-2-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-balanced-3-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-balanced-3-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-balanced-3-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-balanced-4-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-balanced-4-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-balanced-4-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-balanced-4-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-1-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-2-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-2-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-3-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-3-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-3-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-4-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-4-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-4-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-efficient-4-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-1-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-2-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-2-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-3-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-3-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-3-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-4-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-4-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-4-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-fast-4-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-1-0.log": {
+      "sha256": "b3623d04474bff1ea9878bc54b11230ac447643f9286f0d0f81d50ca4154c4fd",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-2-0.log": {
+      "sha256": "1269e652d7b7e757bbd802883bd60000e381b838d1f2314ae799d20f1ade9d66",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-2-1.log": {
+      "sha256": "12d97352a7289cb6a78002aa03b6bd4c528f2fd7d0c9fae2451b9a2d4c9f1003",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-3-0.log": {
+      "sha256": "cead183270edacc5e2a631c23f2cc63fe38475c098a25428660a87f26e099096",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-3-1.log": {
+      "sha256": "6f51cd679a8fff5d9e3b84018b35b9d8c641e29ca2999522c369f4fcb4f6c060",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-3-2.log": {
+      "sha256": "b9571c277e7d3d382098edec6f5c3e42fcc14b6a7a47c7721cee6e30c4fe9223",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-4-0.log": {
+      "sha256": "c598afa67ca623e6097ee92077c5952ac777f14d10b8c4372c1d73ca2756d75b",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-4-1.log": {
+      "sha256": "c1cd5e1f6adc6a73c3abebb2b255c22f114e028b72c12ee552991a4c84cea177",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-4-2.log": {
+      "sha256": "bc5f04f19b21d77076501e8e770d51175c723d07aeebcae102d194e726faaa32",
+      "fatal_signature_count": 0
+    },
+    "workload-Linux-redact_cpu-4-3.log": {
+      "sha256": "073e61ad430378a741483f0402ad59012dbb280e7fdb9135e32cc47dd10cc879",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-balanced-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-balanced-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-balanced-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-balanced-4.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-efficient-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-efficient-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-efficient-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-efficient-4.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-fast-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-fast-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-fast-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-fast-4.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-redact_cpu-1.log": {
+      "sha256": "3610c6cbc9e2162eacdcb1907566ffa9dd83a917e1dd417e728962e56c9aa985",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-redact_cpu-2.log": {
+      "sha256": "b330c98c2a17eccb65a6404567c276852f33dd71e30ef924016c3d5b394b5b1c",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-redact_cpu-3.log": {
+      "sha256": "3cfa1b39757a29bd3f889094b1feda9cbd4b67707cabf86a988e10e08edf680b",
+      "fatal_signature_count": 0
+    },
+    "recovery-Linux-redact_cpu-4.log": {
+      "sha256": "6508904790739ef133bd08932a49748ee58da0834ebe44e668e116c20003dc8e",
+      "fatal_signature_count": 0
+    }
+  },
+  "remaining_candidate_workers": [],
+  "source_sha256": "39b20f59cf0dde962694a40c7185966affc95438ecdf5b5e9dc31dc9a8469f00",
+  "limits": "Checks known fatal log signatures and current process names. Graceful shutdown return codes were not retained; this is not proof that every exit was zero."
+}

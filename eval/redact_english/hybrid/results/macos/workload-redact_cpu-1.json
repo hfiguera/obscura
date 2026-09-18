@@ -1,0 +1,237 @@
+{
+  "profile": "redact_cpu",
+  "workers": 1,
+  "seconds_requested": 60,
+  "elapsed_seconds": 60.00645758304745,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "sources": {
+    "hybrid/POLICY.md": "ee719210c0bab3cba8aa981385a2669a82f54fbb47f65ec7c5743c4bc968de27",
+    "hybrid/adapter.py": "d245f08ffa498128a4ead3f760d4a7c9a71a75a04be8764e11bbbb1c86ae81e8",
+    "hybrid/run.py": "07272710c21599b1c8d7befc75c7a385d95f8457da47ddafeb7233e75a95bcc4",
+    "hybrid/development.json": "dd3fe62ee119b0c57318164290a94ae4d3063b97b0dd6dd64c7891a93ee15c3e",
+    "hybrid/test.json": "29a8a78fbcdaa1032815df57c4666acbd556e5ea9ce73cea5ded166185559629",
+    "hybrid/manifest.json": "bdcd0240bbe7b58dc0bc1d06b61809f246b57ec56cdd118cc64c1c387f6e9ed3",
+    "harness.py": "ec4ebf764d9cfdcfd23442d99e023acb69d4e5d66f8f876c31ba8869d8a3508b",
+    "worker.exs": "c55f9f8f320115fd08124044fcc8b8642b8cd6476ee5df764d22bbac0d4a5757",
+    "redact_worker.mjs": "b29a56d56301e486c0c20d093dc3529af577500b59fa49fef91be52897ee5204",
+    "spans.mjs": "856318cc2a6e8e25f29fd3db0374e7bfbec7c45920b08e7d4222c406bb44213d",
+    "score.py": "1e3996055c62bd416332b255e9b629cd89899fb3a25c536cac18a87ec85d76cc",
+    "workload.py": "8ffd1eb9996c53e830ebcc6a007388b76a8c2a253d63a9e677c79f3baf49f475",
+    "model-manifest.json": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+    "consumer/mix.lock": "5453df860ab248f1c153dabb72a0ee5648eb7c7a1f23505a16c4a0868e76af3b"
+  },
+  "cpu_quality_valid": false,
+  "requests": 14322,
+  "requests_per_second": 238.6743123467788,
+  "counts_by_input": {
+    "development-00": 2387,
+    "development-01": 2387,
+    "development-03": 2387,
+    "development-04": 2387,
+    "development-05": 2387,
+    "development-10": 2387
+  },
+  "errors": {},
+  "latency": {
+    "count": 14322,
+    "p50_ms": 4.149541957303882,
+    "p95_ms": 4.577083047479391,
+    "p99_ms": 4.872959107160568,
+    "mean_ms": 4.1870836680716
+  },
+  "cold": [
+    {
+      "startup_ms": 53.51470783352852,
+      "first_ms": 36.97487502358854,
+      "fingerprint": "4bb0856ec4e091d26c03a9dbbc73e82c778dd4ff5ad42b9c6a2c9b7b6773f504",
+      "metadata": [
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "darwin",
+          "arch": "arm64",
+          "pid": 90695,
+          "binaries": {
+            "libRedactNode.dylib": "47e804535272c483cd325b0205700814813843d3d0d48e713418fb5f86f52d68"
+          },
+          "preparation_ms": 15.835374999999999,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "CoreML",
+            "requested": "cpu",
+            "device": "cpu",
+            "numerical_validity": "failed diagnostic gate"
+          }
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "elapsed": 7.3583098128438e-05,
+      "rss_kib": 98944,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        35.7060546875,
+        44.32080078125,
+        45.79638671875
+      ]
+    },
+    {
+      "elapsed": 5.181703750044107,
+      "rss_kib": 97888,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        35.0087890625,
+        44.033203125,
+        45.68603515625
+      ]
+    },
+    {
+      "elapsed": 10.359554333146662,
+      "rss_kib": 98288,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        34.3671875,
+        43.75,
+        45.576171875
+      ]
+    },
+    {
+      "elapsed": 15.538813333027065,
+      "rss_kib": 98672,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        43.94677734375,
+        45.580078125,
+        46.21142578125
+      ]
+    },
+    {
+      "elapsed": 20.718560458160937,
+      "rss_kib": 98752,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        41.86865234375,
+        45.1220703125,
+        46.0458984375
+      ]
+    },
+    {
+      "elapsed": 25.898400833131745,
+      "rss_kib": 98976,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        38.916015625,
+        44.45556640625,
+        45.80517578125
+      ]
+    },
+    {
+      "elapsed": 31.074316791957244,
+      "rss_kib": 99040,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        44.8408203125,
+        45.60888671875,
+        46.2021484375
+      ]
+    },
+    {
+      "elapsed": 36.25169475004077,
+      "rss_kib": 99424,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        42.931640625,
+        45.2001953125,
+        46.05419921875
+      ]
+    },
+    {
+      "elapsed": 41.4336522500962,
+      "rss_kib": 99520,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        40.05419921875,
+        44.56591796875,
+        45.8251953125
+      ]
+    },
+    {
+      "elapsed": 46.61229000007734,
+      "rss_kib": 99680,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        37.8876953125,
+        44.04150390625,
+        45.6328125
+      ]
+    },
+    {
+      "elapsed": 51.78681595809758,
+      "rss_kib": 99760,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        35.57421875,
+        43.45947265625,
+        45.41796875
+      ]
+    },
+    {
+      "elapsed": 56.97078862506896,
+      "rss_kib": 99824,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        33.68603515625,
+        42.93701171875,
+        45.2216796875
+      ]
+    },
+    {
+      "elapsed": 60.00645758304745,
+      "rss_kib": 99872,
+      "pss_kib": null,
+      "process_count": 1,
+      "load_average": [
+        33.68603515625,
+        42.93701171875,
+        45.2216796875
+      ]
+    }
+  ],
+  "peak_rss_mib": 97.53125,
+  "rss_growth_mib": 0.90625,
+  "peak_pss_mib": null,
+  "burst": {
+    "requests": 8,
+    "errors": 0,
+    "completion": {
+      "count": 8,
+      "p50_ms": 17.042582854628563,
+      "p95_ms": 33.9882499538362,
+      "p99_ms": 33.9882499538362,
+      "mean_ms": 19.24746867734939
+    }
+  },
+  "recovery": {
+    "failure_observed": true,
+    "restart_and_request_ms": 80.52079216577113,
+    "output_restored": true,
+    "survivors_unchanged": true
+  }
+}

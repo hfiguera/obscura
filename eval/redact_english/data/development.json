@@ -1,0 +1,654 @@
+[
+  {
+    "id": "development-00-0",
+    "family": "development-00",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Please ask Ethan Brooks to review the refund request.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 11,
+        "byte_end": 23
+      }
+    ]
+  },
+  {
+    "id": "development-00-1",
+    "family": "development-00",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Please ask June Park to review the refund request.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 11,
+        "byte_end": 20
+      }
+    ]
+  },
+  {
+    "id": "development-01-0",
+    "family": "development-01",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The caller is Isabel Costa. A reply can go to contact2@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 14,
+        "byte_end": 26
+      },
+      {
+        "entity": "email",
+        "byte_start": 46,
+        "byte_end": 67
+      }
+    ]
+  },
+  {
+    "id": "development-01-1",
+    "family": "development-01",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The caller is Noah Patel. A reply can go to contact3@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 14,
+        "byte_end": 24
+      },
+      {
+        "entity": "email",
+        "byte_start": 44,
+        "byte_end": 65
+      }
+    ]
+  },
+  {
+    "id": "development-02-0",
+    "family": "development-02",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Our technician will meet Lena Fischer in Austin.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 25,
+        "byte_end": 37
+      },
+      {
+        "entity": "location",
+        "byte_start": 41,
+        "byte_end": 47
+      }
+    ]
+  },
+  {
+    "id": "development-02-1",
+    "family": "development-02",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Our technician will meet Owen Reed in Chicago.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 25,
+        "byte_end": 34
+      },
+      {
+        "entity": "location",
+        "byte_start": 38,
+        "byte_end": 45
+      }
+    ]
+  },
+  {
+    "id": "development-03-0",
+    "family": "development-03",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Customer: Maya Bell\nPhone: (202) 555-0106\nPreferred contact: email.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 10,
+        "byte_end": 19
+      },
+      {
+        "entity": "phone",
+        "byte_start": 27,
+        "byte_end": 41
+      }
+    ]
+  },
+  {
+    "id": "development-03-1",
+    "family": "development-03",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Customer: Arun Shah\nPhone: (202) 555-0107\nPreferred contact: email.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 10,
+        "byte_end": 19
+      },
+      {
+        "entity": "phone",
+        "byte_start": 27,
+        "byte_end": 41
+      }
+    ]
+  },
+  {
+    "id": "development-04-0",
+    "family": "development-04",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Forward the receipt to contact8@example.test and call (202) 555-0108 if it bounces.",
+    "gold": [
+      {
+        "entity": "email",
+        "byte_start": 23,
+        "byte_end": 44
+      },
+      {
+        "entity": "phone",
+        "byte_start": 54,
+        "byte_end": 68
+      }
+    ]
+  },
+  {
+    "id": "development-04-1",
+    "family": "development-04",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Forward the receipt to contact9@example.test and call (202) 555-0109 if it bounces.",
+    "gold": [
+      {
+        "entity": "email",
+        "byte_start": 23,
+        "byte_end": 44
+      },
+      {
+        "entity": "phone",
+        "byte_start": 54,
+        "byte_end": 68
+      }
+    ]
+  },
+  {
+    "id": "development-05-0",
+    "family": "development-05",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Delivery destination: 720 Cedar Avenue, Seattle, WA 98104. Recipient: Isabel Costa.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 22,
+        "byte_end": 57
+      },
+      {
+        "entity": "person",
+        "byte_start": 70,
+        "byte_end": 82
+      }
+    ]
+  },
+  {
+    "id": "development-05-1",
+    "family": "development-05",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Delivery destination: 9 Meadow Lane, Bristol BS1 4ST. Recipient: Noah Patel.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 22,
+        "byte_end": 52
+      },
+      {
+        "entity": "person",
+        "byte_start": 65,
+        "byte_end": 75
+      }
+    ]
+  },
+  {
+    "id": "development-06-0",
+    "family": "development-06",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The client connected from 192.0.2.13 while visiting https://support.example.test/cases/112.",
+    "gold": [
+      {
+        "entity": "ip_address",
+        "byte_start": 26,
+        "byte_end": 36
+      },
+      {
+        "entity": "url",
+        "byte_start": 52,
+        "byte_end": 90
+      }
+    ]
+  },
+  {
+    "id": "development-06-1",
+    "family": "development-06",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The client connected from 2001:db8::e while visiting https://support.example.test/cases/113.",
+    "gold": [
+      {
+        "entity": "ip_address",
+        "byte_start": 26,
+        "byte_end": 37
+      },
+      {
+        "entity": "url",
+        "byte_start": 53,
+        "byte_end": 91
+      }
+    ]
+  },
+  {
+    "id": "development-07-0",
+    "family": "development-07",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The bank transfer instructions specify IBAN GB82 WEST 1234 5698 7654 32.",
+    "gold": [
+      {
+        "entity": "iban",
+        "byte_start": 44,
+        "byte_end": 71
+      }
+    ]
+  },
+  {
+    "id": "development-07-1",
+    "family": "development-07",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The bank transfer instructions specify IBAN DE89 3704 0044 0532 0130 00.",
+    "gold": [
+      {
+        "entity": "iban",
+        "byte_start": 44,
+        "byte_end": 71
+      }
+    ]
+  },
+  {
+    "id": "development-08-0",
+    "family": "development-08",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Card number 4111 1111 1111 1111 was entered in the payment form.",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 12,
+        "byte_end": 31
+      }
+    ]
+  },
+  {
+    "id": "development-08-1",
+    "family": "development-08",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Card number 5555 5555 5555 4444 was entered in the payment form.",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 12,
+        "byte_end": 31
+      }
+    ]
+  },
+  {
+    "id": "development-09-0",
+    "family": "development-09",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The identity form contains SSN 123-45-6789 for Isabel Costa.",
+    "gold": [
+      {
+        "entity": "us_ssn",
+        "byte_start": 31,
+        "byte_end": 42
+      },
+      {
+        "entity": "person",
+        "byte_start": 47,
+        "byte_end": 59
+      }
+    ]
+  },
+  {
+    "id": "development-09-1",
+    "family": "development-09",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The identity form contains SSN 078-05-1120 for Noah Patel.",
+    "gold": [
+      {
+        "entity": "us_ssn",
+        "byte_start": 31,
+        "byte_end": 42
+      },
+      {
+        "entity": "person",
+        "byte_start": 47,
+        "byte_end": 57
+      }
+    ]
+  },
+  {
+    "id": "development-10-0",
+    "family": "development-10",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Do you have an update for Lena Fischer or June Park?",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 26,
+        "byte_end": 38
+      },
+      {
+        "entity": "person",
+        "byte_start": 42,
+        "byte_end": 51
+      }
+    ]
+  },
+  {
+    "id": "development-10-1",
+    "family": "development-10",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Do you have an update for Owen Reed or Isabel Costa?",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 26,
+        "byte_end": 35
+      },
+      {
+        "entity": "person",
+        "byte_start": 39,
+        "byte_end": 51
+      }
+    ]
+  },
+  {
+    "id": "development-11-0",
+    "family": "development-11",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The message says “Maya Bell moved to London.”",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 20,
+        "byte_end": 29
+      },
+      {
+        "entity": "location",
+        "byte_start": 39,
+        "byte_end": 45
+      }
+    ]
+  },
+  {
+    "id": "development-11-1",
+    "family": "development-11",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The message says “Arun Shah moved to Bristol.”",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 20,
+        "byte_end": 29
+      },
+      {
+        "entity": "location",
+        "byte_start": 39,
+        "byte_end": 46
+      }
+    ]
+  },
+  {
+    "id": "development-12-0",
+    "family": "development-12",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "😀 Owner: Ethan Brooks; contact: contact24@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 12,
+        "byte_end": 24
+      },
+      {
+        "entity": "email",
+        "byte_start": 35,
+        "byte_end": 57
+      }
+    ]
+  },
+  {
+    "id": "development-12-1",
+    "family": "development-12",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "😀 Owner: June Park; contact: contact25@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 12,
+        "byte_end": 21
+      },
+      {
+        "entity": "email",
+        "byte_start": 32,
+        "byte_end": 54
+      }
+    ]
+  },
+  {
+    "id": "development-13-0",
+    "family": "development-13",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "We cannot reach Isabel Costa on (202) 555-0126. Leave the ticket open.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 16,
+        "byte_end": 28
+      },
+      {
+        "entity": "phone",
+        "byte_start": 32,
+        "byte_end": 46
+      }
+    ]
+  },
+  {
+    "id": "development-13-1",
+    "family": "development-13",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "We cannot reach Noah Patel on (202) 555-0127. Leave the ticket open.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 16,
+        "byte_end": 26
+      },
+      {
+        "entity": "phone",
+        "byte_start": 30,
+        "byte_end": 44
+      }
+    ]
+  },
+  {
+    "id": "development-14-0",
+    "family": "development-14",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "No personal details are present in the retry log.",
+    "gold": []
+  },
+  {
+    "id": "development-14-1",
+    "family": "development-14",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "No personal details are present in the retry log.",
+    "gold": []
+  },
+  {
+    "id": "development-15-0",
+    "family": "development-15",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The job completed in three steps and the queue is empty.",
+    "gold": []
+  },
+  {
+    "id": "development-15-1",
+    "family": "development-15",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The job completed in three steps and the queue is empty.",
+    "gold": []
+  },
+  {
+    "id": "development-16-0",
+    "family": "development-16",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "May the next build finish before the scheduled maintenance?",
+    "gold": []
+  },
+  {
+    "id": "development-16-1",
+    "family": "development-16",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "May the next build finish before the scheduled maintenance?",
+    "gold": []
+  },
+  {
+    "id": "development-17-0",
+    "family": "development-17",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The release notes discuss memory, threads, and error handling.",
+    "gold": []
+  },
+  {
+    "id": "development-17-1",
+    "family": "development-17",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The release notes discuss memory, threads, and error handling.",
+    "gold": []
+  },
+  {
+    "id": "development-18-0",
+    "family": "development-18",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The contact is Lena Fischer in Austin, at contact36@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1455,
+        "byte_end": 1467
+      },
+      {
+        "entity": "location",
+        "byte_start": 1471,
+        "byte_end": 1477
+      },
+      {
+        "entity": "email",
+        "byte_start": 1482,
+        "byte_end": 1504
+      }
+    ]
+  },
+  {
+    "id": "development-18-1",
+    "family": "development-18",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The client asked for a slower retry interval. The team reviewed the request and agreed that the queue should stay open. The contact is Owen Reed in Chicago, at contact37@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1455,
+        "byte_end": 1464
+      },
+      {
+        "entity": "location",
+        "byte_start": 1468,
+        "byte_end": 1475
+      },
+      {
+        "entity": "email",
+        "byte_start": 1480,
+        "byte_end": 1502
+      }
+    ]
+  },
+  {
+    "id": "development-19-0",
+    "family": "development-19",
+    "supplemental": false,
+    "kind": "long",
+    "text": "Maya Bell requested a callback on (202) 555-0138. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 0,
+        "byte_end": 9
+      },
+      {
+        "entity": "phone",
+        "byte_start": 34,
+        "byte_end": 48
+      }
+    ]
+  },
+  {
+    "id": "development-19-1",
+    "family": "development-19",
+    "supplemental": false,
+    "kind": "long",
+    "text": "Arun Shah requested a callback on (202) 555-0139. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. The remaining notes describe the storage queue and the proposed retry sequence. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 0,
+        "byte_end": 9
+      },
+      {
+        "entity": "phone",
+        "byte_start": 34,
+        "byte_end": 48
+      }
+    ]
+  }
+]

@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "default_calls_missing_complete_name": {
+    "probe-macos-default.json": 13,
+    "probe-macos-cpu.json": 21,
+    "probe-linux-default.json": 12
+  },
+  "release_source_parity": [
+    {
+      "original_report": "tensors-linux-default.json",
+      "release_report": "release/tensors-linux-release-cpu.json",
+      "rows_identical": true,
+      "windows": 8
+    },
+    {
+      "original_report": "tensors-macos-default.json",
+      "release_report": "release/tensors-darwin-release-all.json",
+      "rows_identical": true,
+      "windows": 8
+    },
+    {
+      "original_report": "tensors-macos-cpu.json",
+      "release_report": "release/tensors-darwin-release-cpu.json",
+      "rows_identical": true,
+      "windows": 8
+    }
+  ],
+  "canonical_tokenizer_windows_equal": 8,
+  "native_cpu_arrays_all_nonfinite": 8,
+  "segmentation": {
+    "linux/segmentation-linux-cpu.json": {
+      "whole_detects_name_city": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "segmented_detects_name_city": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "segmentation-macos-default.json": {
+      "whole_detects_name_city": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "segmented_detects_name_city": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "segmentation-macos-cpu.json": {
+      "whole_detects_name_city": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "segmented_detects_name_city": [
+        false,
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  "source_reports_sha256": {
+    "probe-macos-default.json": "6a75e6c4e49ad9a258e722cc96f74ab7d57fbbca1f7059c01bfb9cd9b174d470",
+    "probe-macos-cpu.json": "e63d51b17d12d125e74b9e40dc58cae16bc7ce7f2c65723caf456559bf4f8f3f",
+    "probe-linux-default.json": "6dde90bc8a2d8a9afdeb26c0f6afd1be503be40eae4e7707087a294ca75054e0",
+    "tensors-linux-default.json": "4f0942c36697ea8b1f03f03521f41f3d22521e15ce989d4a178f5e35facd7307",
+    "release/tensors-linux-release-cpu.json": "6f09ca0a045b5925346f59b24b79ca9c9a614b2a94037d81bddaf434ebf3b9bb",
+    "tensors-macos-default.json": "ebf6b32d66425345edbe88a5038223056fe0e1dfbc63623a09a5e8aa154c59f8",
+    "release/tensors-darwin-release-all.json": "f9bc94f43c94e8558dbbb514ed7b5f98bbe4b188822752bbbe4f474a0f016fd2",
+    "tensors-macos-cpu.json": "1b3b2117dfb58f732965a527e48e4543b9d405b029d52ce0a07ad81a0d94db0e",
+    "release/tensors-darwin-release-cpu.json": "7ea936049903c03a6729a4b39b271100486c4c2b7724a33f6387b153250b45f5",
+    "release/release-replay-darwin.json": "dc68d09ab83cf68cd7771317be94c0fb0ad12e308516fb6cb8fc0a4be5330053",
+    "release/release-replay-linux.json": "9c958926e90cd76b2c08c6253e0bb30bdc97924fbca3544b400d4d0417dd0f35",
+    "tokenizer-parity.json": "7e89aab5f7c84575a2fc8b7dce4fda9d0356bccd6fbe95ab5924cdddade572a5",
+    "coreml-array-observation.json": "b33683ed642d2aa1aec64b854779692efaa89b96657514448f390e9f7c38450a",
+    "linux/segmentation-linux-cpu.json": "cc178af4505d821da81fcfac1798d4c7c75ad090a2c083d3783a986994eecf26",
+    "segmentation-macos-default.json": "9c6e58c806b2fbdb19036976b275be76a8f84442f8f6c134678b2cc0bd92c8a9",
+    "segmentation-macos-cpu.json": "74cb638db8cc340bb0206280c3192203cfb885a5f4a3e5134002558df9906ea1"
+  },
+  "analysis_source_sha256": "483776723e8a9f8c0913345c68ff72463fab0b0c1b2fc0153a466da681cad31f"
+}
