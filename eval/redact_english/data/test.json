@@ -1,0 +1,2306 @@
+[
+  {
+    "id": "test-00-0",
+    "family": "test-00",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "I spoke with Amelia Hart about the duplicate charge. Please attach the transcript to the case.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 13,
+        "byte_end": 24
+      }
+    ]
+  },
+  {
+    "id": "test-00-1",
+    "family": "test-00",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "I spoke with May Jordan about the duplicate charge. Please attach the transcript to the case.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 13,
+        "byte_end": 23
+      }
+    ]
+  },
+  {
+    "id": "test-00-2",
+    "family": "test-00",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "I spoke with Zoë O’Neill about the duplicate charge. Please attach the transcript to the case.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 13,
+        "byte_end": 27
+      }
+    ]
+  },
+  {
+    "id": "test-01-0",
+    "family": "test-01",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Has Marcus Wells approved the replacement? The warehouse is waiting for a reply.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 4,
+        "byte_end": 16
+      }
+    ]
+  },
+  {
+    "id": "test-01-1",
+    "family": "test-01",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Has José Alvarez approved the replacement? The warehouse is waiting for a reply.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 4,
+        "byte_end": 17
+      }
+    ]
+  },
+  {
+    "id": "test-01-2",
+    "family": "test-01",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Has Robin West approved the replacement? The warehouse is waiting for a reply.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 4,
+        "byte_end": 14
+      }
+    ]
+  },
+  {
+    "id": "test-02-0",
+    "family": "test-02",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Grace Li asked whether their account could be restored without losing saved preferences.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 0,
+        "byte_end": 8
+      }
+    ]
+  },
+  {
+    "id": "test-02-1",
+    "family": "test-02",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Sam Carter asked whether their account could be restored without losing saved preferences.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 0,
+        "byte_end": 10
+      }
+    ]
+  },
+  {
+    "id": "test-02-2",
+    "family": "test-02",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Nora van Dijk asked whether their account could be restored without losing saved preferences.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 0,
+        "byte_end": 13
+      }
+    ]
+  },
+  {
+    "id": "test-03-0",
+    "family": "test-03",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The previous owner was Lee Morgan; the new owner is Priya Rao. Keep both names in the handover record.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 23,
+        "byte_end": 33
+      },
+      {
+        "entity": "person",
+        "byte_start": 52,
+        "byte_end": 61
+      }
+    ]
+  },
+  {
+    "id": "test-03-1",
+    "family": "test-03",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The previous owner was Aisha Khan; the new owner is Louis Bernard. Keep both names in the handover record.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 23,
+        "byte_end": 33
+      },
+      {
+        "entity": "person",
+        "byte_start": 52,
+        "byte_end": 65
+      }
+    ]
+  },
+  {
+    "id": "test-03-2",
+    "family": "test-03",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The previous owner was Dylan Price; the new owner is Jean-Luc Moreau. Keep both names in the handover record.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 23,
+        "byte_end": 34
+      },
+      {
+        "entity": "person",
+        "byte_start": 53,
+        "byte_end": 68
+      }
+    ]
+  },
+  {
+    "id": "test-04-0",
+    "family": "test-04",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "According to Chloë Martin, the parcel never reached Austin.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 13,
+        "byte_end": 26
+      },
+      {
+        "entity": "location",
+        "byte_start": 53,
+        "byte_end": 59
+      }
+    ]
+  },
+  {
+    "id": "test-04-1",
+    "family": "test-04",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "According to Alex Stone, the parcel never reached Chicago.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 13,
+        "byte_end": 23
+      },
+      {
+        "entity": "location",
+        "byte_start": 50,
+        "byte_end": 57
+      }
+    ]
+  },
+  {
+    "id": "test-04-2",
+    "family": "test-04",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "According to Priya Rao, the parcel never reached London.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 13,
+        "byte_end": 22
+      },
+      {
+        "entity": "location",
+        "byte_start": 49,
+        "byte_end": 55
+      }
+    ]
+  },
+  {
+    "id": "test-05-0",
+    "family": "test-05",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "We found an earlier conversation with Louis Bernard in the archive.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 38,
+        "byte_end": 51
+      }
+    ]
+  },
+  {
+    "id": "test-05-1",
+    "family": "test-05",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "We found an earlier conversation with Jean-Luc Moreau in the archive.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 38,
+        "byte_end": 53
+      }
+    ]
+  },
+  {
+    "id": "test-05-2",
+    "family": "test-05",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "We found an earlier conversation with Rose Winter in the archive.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 38,
+        "byte_end": 49
+      }
+    ]
+  },
+  {
+    "id": "test-06-0",
+    "family": "test-06",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "For the attention of Amelia Hart: please confirm that contact18@example.test is still your preferred address.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 21,
+        "byte_end": 32
+      },
+      {
+        "entity": "email",
+        "byte_start": 54,
+        "byte_end": 76
+      }
+    ]
+  },
+  {
+    "id": "test-06-1",
+    "family": "test-06",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "For the attention of May Jordan: please confirm that contact19@example.test is still your preferred address.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 21,
+        "byte_end": 31
+      },
+      {
+        "entity": "email",
+        "byte_start": 53,
+        "byte_end": 75
+      }
+    ]
+  },
+  {
+    "id": "test-06-2",
+    "family": "test-06",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "For the attention of Zoë O’Neill: please confirm that contact20@example.test is still your preferred address.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 21,
+        "byte_end": 35
+      },
+      {
+        "entity": "email",
+        "byte_start": 57,
+        "byte_end": 79
+      }
+    ]
+  },
+  {
+    "id": "test-07-0",
+    "family": "test-07",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "A callback to (202) 555-0121 was requested by Marcus Wells after the chat ended.",
+    "gold": [
+      {
+        "entity": "phone",
+        "byte_start": 14,
+        "byte_end": 28
+      },
+      {
+        "entity": "person",
+        "byte_start": 46,
+        "byte_end": 58
+      }
+    ]
+  },
+  {
+    "id": "test-07-1",
+    "family": "test-07",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "A callback to (202) 555-0122 was requested by José Alvarez after the chat ended.",
+    "gold": [
+      {
+        "entity": "phone",
+        "byte_start": 14,
+        "byte_end": 28
+      },
+      {
+        "entity": "person",
+        "byte_start": 46,
+        "byte_end": 59
+      }
+    ]
+  },
+  {
+    "id": "test-07-2",
+    "family": "test-07",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "A callback to (202) 555-0123 was requested by Robin West after the chat ended.",
+    "gold": [
+      {
+        "entity": "phone",
+        "byte_start": 14,
+        "byte_end": 28
+      },
+      {
+        "entity": "person",
+        "byte_start": 46,
+        "byte_end": 56
+      }
+    ]
+  },
+  {
+    "id": "test-08-0",
+    "family": "test-08",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Reply-To: contact24@example.test\nMessage: I have not received a confirmation.\nSignature: Grace Li",
+    "gold": [
+      {
+        "entity": "email",
+        "byte_start": 10,
+        "byte_end": 32
+      },
+      {
+        "entity": "person",
+        "byte_start": 89,
+        "byte_end": 97
+      }
+    ]
+  },
+  {
+    "id": "test-08-1",
+    "family": "test-08",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Reply-To: contact25@example.test\nMessage: I have not received a confirmation.\nSignature: Sam Carter",
+    "gold": [
+      {
+        "entity": "email",
+        "byte_start": 10,
+        "byte_end": 32
+      },
+      {
+        "entity": "person",
+        "byte_start": 89,
+        "byte_end": 99
+      }
+    ]
+  },
+  {
+    "id": "test-08-2",
+    "family": "test-08",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Reply-To: contact26@example.test\nMessage: I have not received a confirmation.\nSignature: Nora van Dijk",
+    "gold": [
+      {
+        "entity": "email",
+        "byte_start": 10,
+        "byte_end": 32
+      },
+      {
+        "entity": "person",
+        "byte_start": 89,
+        "byte_end": 102
+      }
+    ]
+  },
+  {
+    "id": "test-09-0",
+    "family": "test-09",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "{\"contact\":\"Lee Morgan\",\"email\":\"contact27@example.test\",\"phone\":\"(202) 555-0127\"}",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 12,
+        "byte_end": 22
+      },
+      {
+        "entity": "email",
+        "byte_start": 33,
+        "byte_end": 55
+      },
+      {
+        "entity": "phone",
+        "byte_start": 66,
+        "byte_end": 80
+      }
+    ]
+  },
+  {
+    "id": "test-09-1",
+    "family": "test-09",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "{\"contact\":\"Aisha Khan\",\"email\":\"contact28@example.test\",\"phone\":\"(202) 555-0128\"}",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 12,
+        "byte_end": 22
+      },
+      {
+        "entity": "email",
+        "byte_start": 33,
+        "byte_end": 55
+      },
+      {
+        "entity": "phone",
+        "byte_start": 66,
+        "byte_end": 80
+      }
+    ]
+  },
+  {
+    "id": "test-09-2",
+    "family": "test-09",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "{\"contact\":\"Dylan Price\",\"email\":\"contact29@example.test\",\"phone\":\"(202) 555-0129\"}",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 12,
+        "byte_end": 23
+      },
+      {
+        "entity": "email",
+        "byte_start": 34,
+        "byte_end": 56
+      },
+      {
+        "entity": "phone",
+        "byte_start": 67,
+        "byte_end": 81
+      }
+    ]
+  },
+  {
+    "id": "test-10-0",
+    "family": "test-10",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "😀 The person assigned to this case is Chloë Martin. Their office is in London.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 41,
+        "byte_end": 54
+      },
+      {
+        "entity": "location",
+        "byte_start": 75,
+        "byte_end": 81
+      }
+    ]
+  },
+  {
+    "id": "test-10-1",
+    "family": "test-10",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "😀 The person assigned to this case is Alex Stone. Their office is in Bristol.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 41,
+        "byte_end": 51
+      },
+      {
+        "entity": "location",
+        "byte_start": 72,
+        "byte_end": 79
+      }
+    ]
+  },
+  {
+    "id": "test-10-2",
+    "family": "test-10",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "😀 The person assigned to this case is Priya Rao. Their office is in Boston.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 41,
+        "byte_end": 50
+      },
+      {
+        "entity": "location",
+        "byte_start": 71,
+        "byte_end": 77
+      }
+    ]
+  },
+  {
+    "id": "test-11-0",
+    "family": "test-11",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "“Louis Bernard” appears in the scanned signature. The form also lists (202) 555-0133.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 3,
+        "byte_end": 16
+      },
+      {
+        "entity": "phone",
+        "byte_start": 74,
+        "byte_end": 88
+      }
+    ]
+  },
+  {
+    "id": "test-11-1",
+    "family": "test-11",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "“Jean-Luc Moreau” appears in the scanned signature. The form also lists (202) 555-0134.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 3,
+        "byte_end": 18
+      },
+      {
+        "entity": "phone",
+        "byte_start": 76,
+        "byte_end": 90
+      }
+    ]
+  },
+  {
+    "id": "test-11-2",
+    "family": "test-11",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "“Rose Winter” appears in the scanned signature. The form also lists (202) 555-0135.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 3,
+        "byte_end": 14
+      },
+      {
+        "entity": "phone",
+        "byte_start": 72,
+        "byte_end": 86
+      }
+    ]
+  },
+  {
+    "id": "test-12-0",
+    "family": "test-12",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Dr. Amelia Hart will collect the package from Austin.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 4,
+        "byte_end": 15
+      },
+      {
+        "entity": "location",
+        "byte_start": 46,
+        "byte_end": 52
+      }
+    ]
+  },
+  {
+    "id": "test-12-1",
+    "family": "test-12",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Dr. May Jordan will collect the package from Chicago.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 4,
+        "byte_end": 14
+      },
+      {
+        "entity": "location",
+        "byte_start": 45,
+        "byte_end": 52
+      }
+    ]
+  },
+  {
+    "id": "test-12-2",
+    "family": "test-12",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Dr. Zoë O’Neill will collect the package from London.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 4,
+        "byte_end": 18
+      },
+      {
+        "entity": "location",
+        "byte_start": 49,
+        "byte_end": 55
+      }
+    ]
+  },
+  {
+    "id": "test-13-0",
+    "family": "test-13",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The request came from Bristol, but the delivery address is 9 Meadow Lane, Bristol BS1 4ST.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 22,
+        "byte_end": 29
+      },
+      {
+        "entity": "location",
+        "byte_start": 59,
+        "byte_end": 89
+      }
+    ]
+  },
+  {
+    "id": "test-13-1",
+    "family": "test-13",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The request came from Boston, but the delivery address is 123 Maple Street, Springfield, IL 62704.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 22,
+        "byte_end": 28
+      },
+      {
+        "entity": "location",
+        "byte_start": 58,
+        "byte_end": 97
+      }
+    ]
+  },
+  {
+    "id": "test-13-2",
+    "family": "test-13",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The request came from Seattle, but the delivery address is 48 Willow Road, Apt 7, Boston, MA 02110.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 22,
+        "byte_end": 29
+      },
+      {
+        "entity": "location",
+        "byte_start": 59,
+        "byte_end": 98
+      }
+    ]
+  },
+  {
+    "id": "test-14-0",
+    "family": "test-14",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Send the replacement to Grace Li, 720 Cedar Avenue, Seattle, WA 98104. Please use the side entrance.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 24,
+        "byte_end": 32
+      },
+      {
+        "entity": "location",
+        "byte_start": 34,
+        "byte_end": 69
+      }
+    ]
+  },
+  {
+    "id": "test-14-1",
+    "family": "test-14",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Send the replacement to Sam Carter, 9 Meadow Lane, Bristol BS1 4ST. Please use the side entrance.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 24,
+        "byte_end": 34
+      },
+      {
+        "entity": "location",
+        "byte_start": 36,
+        "byte_end": 66
+      }
+    ]
+  },
+  {
+    "id": "test-14-2",
+    "family": "test-14",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Send the replacement to Nora van Dijk, 123 Maple Street, Springfield, IL 62704. Please use the side entrance.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 24,
+        "byte_end": 37
+      },
+      {
+        "entity": "location",
+        "byte_start": 39,
+        "byte_end": 78
+      }
+    ]
+  },
+  {
+    "id": "test-15-0",
+    "family": "test-15",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "My new address is 48 Willow Road, Apt 7, Boston, MA 02110. The account holder is Lee Morgan.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 18,
+        "byte_end": 57
+      },
+      {
+        "entity": "person",
+        "byte_start": 81,
+        "byte_end": 91
+      }
+    ]
+  },
+  {
+    "id": "test-15-1",
+    "family": "test-15",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "My new address is 720 Cedar Avenue, Seattle, WA 98104. The account holder is Aisha Khan.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 18,
+        "byte_end": 53
+      },
+      {
+        "entity": "person",
+        "byte_start": 77,
+        "byte_end": 87
+      }
+    ]
+  },
+  {
+    "id": "test-15-2",
+    "family": "test-15",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "My new address is 9 Meadow Lane, Bristol BS1 4ST. The account holder is Dylan Price.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 18,
+        "byte_end": 48
+      },
+      {
+        "entity": "person",
+        "byte_start": 72,
+        "byte_end": 83
+      }
+    ]
+  },
+  {
+    "id": "test-16-0",
+    "family": "test-16",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Shipment recipient\nChloë Martin\n123 Maple Street, Springfield, IL 62704\nContact (202) 555-0148 if access is blocked.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 19,
+        "byte_end": 32
+      },
+      {
+        "entity": "location",
+        "byte_start": 33,
+        "byte_end": 72
+      },
+      {
+        "entity": "phone",
+        "byte_start": 81,
+        "byte_end": 95
+      }
+    ]
+  },
+  {
+    "id": "test-16-1",
+    "family": "test-16",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Shipment recipient\nAlex Stone\n48 Willow Road, Apt 7, Boston, MA 02110\nContact (202) 555-0149 if access is blocked.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 19,
+        "byte_end": 29
+      },
+      {
+        "entity": "location",
+        "byte_start": 30,
+        "byte_end": 69
+      },
+      {
+        "entity": "phone",
+        "byte_start": 78,
+        "byte_end": 92
+      }
+    ]
+  },
+  {
+    "id": "test-16-2",
+    "family": "test-16",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Shipment recipient\nPriya Rao\n720 Cedar Avenue, Seattle, WA 98104\nContact (202) 555-0150 if access is blocked.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 19,
+        "byte_end": 28
+      },
+      {
+        "entity": "location",
+        "byte_start": 29,
+        "byte_end": 64
+      },
+      {
+        "entity": "phone",
+        "byte_start": 73,
+        "byte_end": 87
+      }
+    ]
+  },
+  {
+    "id": "test-17-0",
+    "family": "test-17",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The billing address on the form reads 9 Meadow Lane, Bristol BS1 4ST; it has not been verified.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 38,
+        "byte_end": 68
+      }
+    ]
+  },
+  {
+    "id": "test-17-1",
+    "family": "test-17",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The billing address on the form reads 123 Maple Street, Springfield, IL 62704; it has not been verified.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 38,
+        "byte_end": 77
+      }
+    ]
+  },
+  {
+    "id": "test-17-2",
+    "family": "test-17",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The billing address on the form reads 48 Willow Road, Apt 7, Boston, MA 02110; it has not been verified.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 38,
+        "byte_end": 77
+      }
+    ]
+  },
+  {
+    "id": "test-18-0",
+    "family": "test-18",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "We can schedule an appointment in London or contact Amelia Hart remotely.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 34,
+        "byte_end": 40
+      },
+      {
+        "entity": "person",
+        "byte_start": 52,
+        "byte_end": 63
+      }
+    ]
+  },
+  {
+    "id": "test-18-1",
+    "family": "test-18",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "We can schedule an appointment in Bristol or contact May Jordan remotely.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 34,
+        "byte_end": 41
+      },
+      {
+        "entity": "person",
+        "byte_start": 53,
+        "byte_end": 63
+      }
+    ]
+  },
+  {
+    "id": "test-18-2",
+    "family": "test-18",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "We can schedule an appointment in Boston or contact Zoë O’Neill remotely.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 34,
+        "byte_end": 40
+      },
+      {
+        "entity": "person",
+        "byte_start": 52,
+        "byte_end": 66
+      }
+    ]
+  },
+  {
+    "id": "test-19-0",
+    "family": "test-19",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The audit entry records client_ip=2001:db8::3a and user_email=contact57@example.test.",
+    "gold": [
+      {
+        "entity": "ip_address",
+        "byte_start": 34,
+        "byte_end": 46
+      },
+      {
+        "entity": "email",
+        "byte_start": 62,
+        "byte_end": 84
+      }
+    ]
+  },
+  {
+    "id": "test-19-1",
+    "family": "test-19",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The audit entry records client_ip=192.0.2.59 and user_email=contact58@example.test.",
+    "gold": [
+      {
+        "entity": "ip_address",
+        "byte_start": 34,
+        "byte_end": 44
+      },
+      {
+        "entity": "email",
+        "byte_start": 60,
+        "byte_end": 82
+      }
+    ]
+  },
+  {
+    "id": "test-19-2",
+    "family": "test-19",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The audit entry records client_ip=2001:db8::3c and user_email=contact59@example.test.",
+    "gold": [
+      {
+        "entity": "ip_address",
+        "byte_start": 34,
+        "byte_end": 46
+      },
+      {
+        "entity": "email",
+        "byte_start": 62,
+        "byte_end": 84
+      }
+    ]
+  },
+  {
+    "id": "test-20-0",
+    "family": "test-20",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Browser history included https://support.example.test/cases/160. The support agent copied it into the case notes.",
+    "gold": [
+      {
+        "entity": "url",
+        "byte_start": 25,
+        "byte_end": 63
+      }
+    ]
+  },
+  {
+    "id": "test-20-1",
+    "family": "test-20",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Browser history included https://support.example.test/cases/161. The support agent copied it into the case notes.",
+    "gold": [
+      {
+        "entity": "url",
+        "byte_start": 25,
+        "byte_end": 63
+      }
+    ]
+  },
+  {
+    "id": "test-20-2",
+    "family": "test-20",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Browser history included https://support.example.test/cases/162. The support agent copied it into the case notes.",
+    "gold": [
+      {
+        "entity": "url",
+        "byte_start": 25,
+        "byte_end": 63
+      }
+    ]
+  },
+  {
+    "id": "test-21-0",
+    "family": "test-21",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The application posted the reply to https://support.example.test/cases/163 from 2001:db8::40.",
+    "gold": [
+      {
+        "entity": "url",
+        "byte_start": 36,
+        "byte_end": 74
+      },
+      {
+        "entity": "ip_address",
+        "byte_start": 80,
+        "byte_end": 92
+      }
+    ]
+  },
+  {
+    "id": "test-21-1",
+    "family": "test-21",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The application posted the reply to https://support.example.test/cases/164 from 192.0.2.65.",
+    "gold": [
+      {
+        "entity": "url",
+        "byte_start": 36,
+        "byte_end": 74
+      },
+      {
+        "entity": "ip_address",
+        "byte_start": 80,
+        "byte_end": 90
+      }
+    ]
+  },
+  {
+    "id": "test-21-2",
+    "family": "test-21",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The application posted the reply to https://support.example.test/cases/165 from 2001:db8::42.",
+    "gold": [
+      {
+        "entity": "url",
+        "byte_start": 36,
+        "byte_end": 74
+      },
+      {
+        "entity": "ip_address",
+        "byte_start": 80,
+        "byte_end": 92
+      }
+    ]
+  },
+  {
+    "id": "test-22-0",
+    "family": "test-22",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Payment details copied into chat: card 4111 1111 1111 1111, name Chloë Martin.",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 39,
+        "byte_end": 58
+      },
+      {
+        "entity": "person",
+        "byte_start": 65,
+        "byte_end": 78
+      }
+    ]
+  },
+  {
+    "id": "test-22-1",
+    "family": "test-22",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Payment details copied into chat: card 5555 5555 5555 4444, name Alex Stone.",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 39,
+        "byte_end": 58
+      },
+      {
+        "entity": "person",
+        "byte_start": 65,
+        "byte_end": 75
+      }
+    ]
+  },
+  {
+    "id": "test-22-2",
+    "family": "test-22",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Payment details copied into chat: card 4111 1111 1111 1111, name Priya Rao.",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 39,
+        "byte_end": 58
+      },
+      {
+        "entity": "person",
+        "byte_start": 65,
+        "byte_end": 74
+      }
+    ]
+  },
+  {
+    "id": "test-23-0",
+    "family": "test-23",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The transfer was rejected. Please check the IBAN DE89 3704 0044 0532 0130 00 against the original instruction.",
+    "gold": [
+      {
+        "entity": "iban",
+        "byte_start": 49,
+        "byte_end": 76
+      }
+    ]
+  },
+  {
+    "id": "test-23-1",
+    "family": "test-23",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The transfer was rejected. Please check the IBAN GB82 WEST 1234 5698 7654 32 against the original instruction.",
+    "gold": [
+      {
+        "entity": "iban",
+        "byte_start": 49,
+        "byte_end": 76
+      }
+    ]
+  },
+  {
+    "id": "test-23-2",
+    "family": "test-23",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The transfer was rejected. Please check the IBAN DE89 3704 0044 0532 0130 00 against the original instruction.",
+    "gold": [
+      {
+        "entity": "iban",
+        "byte_start": 49,
+        "byte_end": 76
+      }
+    ]
+  },
+  {
+    "id": "test-24-0",
+    "family": "test-24",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The customer accidentally pasted 123-45-6789 into the SSN field of the support form.",
+    "gold": [
+      {
+        "entity": "us_ssn",
+        "byte_start": 33,
+        "byte_end": 44
+      }
+    ]
+  },
+  {
+    "id": "test-24-1",
+    "family": "test-24",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The customer accidentally pasted 078-05-1120 into the SSN field of the support form.",
+    "gold": [
+      {
+        "entity": "us_ssn",
+        "byte_start": 33,
+        "byte_end": 44
+      }
+    ]
+  },
+  {
+    "id": "test-24-2",
+    "family": "test-24",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The customer accidentally pasted 123-45-6789 into the SSN field of the support form.",
+    "gold": [
+      {
+        "entity": "us_ssn",
+        "byte_start": 33,
+        "byte_end": 44
+      }
+    ]
+  },
+  {
+    "id": "test-25-0",
+    "family": "test-25",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Please remove the card 5555 5555 5555 4444 and SSN 078-05-1120 from the exported notes.",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 23,
+        "byte_end": 42
+      },
+      {
+        "entity": "us_ssn",
+        "byte_start": 51,
+        "byte_end": 62
+      }
+    ]
+  },
+  {
+    "id": "test-25-1",
+    "family": "test-25",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Please remove the card 4111 1111 1111 1111 and SSN 123-45-6789 from the exported notes.",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 23,
+        "byte_end": 42
+      },
+      {
+        "entity": "us_ssn",
+        "byte_start": 51,
+        "byte_end": 62
+      }
+    ]
+  },
+  {
+    "id": "test-25-2",
+    "family": "test-25",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "Please remove the card 5555 5555 5555 4444 and SSN 078-05-1120 from the exported notes.",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 23,
+        "byte_end": 42
+      },
+      {
+        "entity": "us_ssn",
+        "byte_start": 51,
+        "byte_end": 62
+      }
+    ]
+  },
+  {
+    "id": "test-26-0",
+    "family": "test-26",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The first message mentions contact78@example.test. A later message repeats contact78@example.test with the same spelling.",
+    "gold": [
+      {
+        "entity": "email",
+        "byte_start": 27,
+        "byte_end": 49
+      },
+      {
+        "entity": "email",
+        "byte_start": 75,
+        "byte_end": 97
+      }
+    ]
+  },
+  {
+    "id": "test-26-1",
+    "family": "test-26",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The first message mentions contact79@example.test. A later message repeats contact79@example.test with the same spelling.",
+    "gold": [
+      {
+        "entity": "email",
+        "byte_start": 27,
+        "byte_end": 49
+      },
+      {
+        "entity": "email",
+        "byte_start": 75,
+        "byte_end": 97
+      }
+    ]
+  },
+  {
+    "id": "test-26-2",
+    "family": "test-26",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "The first message mentions contact80@example.test. A later message repeats contact80@example.test with the same spelling.",
+    "gold": [
+      {
+        "entity": "email",
+        "byte_start": 27,
+        "byte_end": 49
+      },
+      {
+        "entity": "email",
+        "byte_start": 75,
+        "byte_end": 97
+      }
+    ]
+  },
+  {
+    "id": "test-27-0",
+    "family": "test-27",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "I cannot remember the case number, but Lee Morgan was the person who helped me.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 39,
+        "byte_end": 49
+      }
+    ]
+  },
+  {
+    "id": "test-27-1",
+    "family": "test-27",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "I cannot remember the case number, but Aisha Khan was the person who helped me.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 39,
+        "byte_end": 49
+      }
+    ]
+  },
+  {
+    "id": "test-27-2",
+    "family": "test-27",
+    "supplemental": false,
+    "kind": "positive",
+    "text": "I cannot remember the case number, but Dylan Price was the person who helped me.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 39,
+        "byte_end": 50
+      }
+    ]
+  },
+  {
+    "id": "test-28-0",
+    "family": "test-28",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "May I retry the failed upload after the queue drains?",
+    "gold": []
+  },
+  {
+    "id": "test-28-1",
+    "family": "test-28",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "May I retry the failed upload after the queue drains?",
+    "gold": []
+  },
+  {
+    "id": "test-28-2",
+    "family": "test-28",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "May I retry the failed upload after the queue drains?",
+    "gold": []
+  },
+  {
+    "id": "test-29-0",
+    "family": "test-29",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The orange button opens a preview. The green button submits the form.",
+    "gold": []
+  },
+  {
+    "id": "test-29-1",
+    "family": "test-29",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The orange button opens a preview. The green button submits the form.",
+    "gold": []
+  },
+  {
+    "id": "test-29-2",
+    "family": "test-29",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The orange button opens a preview. The green button submits the form.",
+    "gold": []
+  },
+  {
+    "id": "test-30-0",
+    "family": "test-30",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "Spring and winter themes share the same layout and validation rules.",
+    "gold": []
+  },
+  {
+    "id": "test-30-1",
+    "family": "test-30",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "Spring and winter themes share the same layout and validation rules.",
+    "gold": []
+  },
+  {
+    "id": "test-30-2",
+    "family": "test-30",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "Spring and winter themes share the same layout and validation rules.",
+    "gold": []
+  },
+  {
+    "id": "test-31-0",
+    "family": "test-31",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "A worker crashed during the request. Restarting it restored normal service.",
+    "gold": []
+  },
+  {
+    "id": "test-31-1",
+    "family": "test-31",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "A worker crashed during the request. Restarting it restored normal service.",
+    "gold": []
+  },
+  {
+    "id": "test-31-2",
+    "family": "test-31",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "A worker crashed during the request. Restarting it restored normal service.",
+    "gold": []
+  },
+  {
+    "id": "test-32-0",
+    "family": "test-32",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "Please read the manual before changing the storage policy or timeout.",
+    "gold": []
+  },
+  {
+    "id": "test-32-1",
+    "family": "test-32",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "Please read the manual before changing the storage policy or timeout.",
+    "gold": []
+  },
+  {
+    "id": "test-32-2",
+    "family": "test-32",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "Please read the manual before changing the storage policy or timeout.",
+    "gold": []
+  },
+  {
+    "id": "test-33-0",
+    "family": "test-33",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "There are four pending tasks and two idle workers. No action is required.",
+    "gold": []
+  },
+  {
+    "id": "test-33-1",
+    "family": "test-33",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "There are four pending tasks and two idle workers. No action is required.",
+    "gold": []
+  },
+  {
+    "id": "test-33-2",
+    "family": "test-33",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "There are four pending tasks and two idle workers. No action is required.",
+    "gold": []
+  },
+  {
+    "id": "test-34-0",
+    "family": "test-34",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The next step is to compare the old result with the new result.",
+    "gold": []
+  },
+  {
+    "id": "test-34-1",
+    "family": "test-34",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The next step is to compare the old result with the new result.",
+    "gold": []
+  },
+  {
+    "id": "test-34-2",
+    "family": "test-34",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The next step is to compare the old result with the new result.",
+    "gold": []
+  },
+  {
+    "id": "test-35-0",
+    "family": "test-35",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "Contact names and addresses were omitted from this export by the operator.",
+    "gold": []
+  },
+  {
+    "id": "test-35-1",
+    "family": "test-35",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "Contact names and addresses were omitted from this export by the operator.",
+    "gold": []
+  },
+  {
+    "id": "test-35-2",
+    "family": "test-35",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "Contact names and addresses were omitted from this export by the operator.",
+    "gold": []
+  },
+  {
+    "id": "test-36-0",
+    "family": "test-36",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The customer is Amelia Hart, based in Austin; their email is contact108@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 568,
+        "byte_end": 579
+      },
+      {
+        "entity": "location",
+        "byte_start": 590,
+        "byte_end": 596
+      },
+      {
+        "entity": "email",
+        "byte_start": 613,
+        "byte_end": 636
+      }
+    ]
+  },
+  {
+    "id": "test-36-1",
+    "family": "test-36",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The customer is May Jordan, based in Chicago; their email is contact109@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 568,
+        "byte_end": 578
+      },
+      {
+        "entity": "location",
+        "byte_start": 589,
+        "byte_end": 596
+      },
+      {
+        "entity": "email",
+        "byte_start": 613,
+        "byte_end": 636
+      }
+    ]
+  },
+  {
+    "id": "test-36-2",
+    "family": "test-36",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The customer is Zoë O’Neill, based in London; their email is contact110@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 568,
+        "byte_end": 582
+      },
+      {
+        "entity": "location",
+        "byte_start": 593,
+        "byte_end": 599
+      },
+      {
+        "entity": "email",
+        "byte_start": 616,
+        "byte_end": 639
+      }
+    ]
+  },
+  {
+    "id": "test-37-0",
+    "family": "test-37",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The customer is Marcus Wells in Bristol, using contact111@example.test. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 16,
+        "byte_end": 28
+      },
+      {
+        "entity": "location",
+        "byte_start": 32,
+        "byte_end": 39
+      },
+      {
+        "entity": "email",
+        "byte_start": 47,
+        "byte_end": 70
+      }
+    ]
+  },
+  {
+    "id": "test-37-1",
+    "family": "test-37",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The customer is José Alvarez in Boston, using contact112@example.test. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 16,
+        "byte_end": 29
+      },
+      {
+        "entity": "location",
+        "byte_start": 33,
+        "byte_end": 39
+      },
+      {
+        "entity": "email",
+        "byte_start": 47,
+        "byte_end": 70
+      }
+    ]
+  },
+  {
+    "id": "test-37-2",
+    "family": "test-37",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The customer is Robin West in Seattle, using contact113@example.test. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 16,
+        "byte_end": 26
+      },
+      {
+        "entity": "location",
+        "byte_start": 30,
+        "byte_end": 37
+      },
+      {
+        "entity": "email",
+        "byte_start": 45,
+        "byte_end": 68
+      }
+    ]
+  },
+  {
+    "id": "test-38-0",
+    "family": "test-38",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. Call Grace Li on (202) 555-0114. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 557,
+        "byte_end": 565
+      },
+      {
+        "entity": "phone",
+        "byte_start": 569,
+        "byte_end": 583
+      }
+    ]
+  },
+  {
+    "id": "test-38-1",
+    "family": "test-38",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. Call Sam Carter on (202) 555-0115. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 557,
+        "byte_end": 567
+      },
+      {
+        "entity": "phone",
+        "byte_start": 571,
+        "byte_end": 585
+      }
+    ]
+  },
+  {
+    "id": "test-38-2",
+    "family": "test-38",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. Call Nora van Dijk on (202) 555-0116. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 557,
+        "byte_end": 570
+      },
+      {
+        "entity": "phone",
+        "byte_start": 574,
+        "byte_end": 588
+      }
+    ]
+  },
+  {
+    "id": "test-39-0",
+    "family": "test-39",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. Deliver to Lee Morgan at 48 Willow Road, Apt 7, Boston, MA 02110.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1667,
+        "byte_end": 1677
+      },
+      {
+        "entity": "location",
+        "byte_start": 1681,
+        "byte_end": 1720
+      }
+    ]
+  },
+  {
+    "id": "test-39-1",
+    "family": "test-39",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. Deliver to Aisha Khan at 720 Cedar Avenue, Seattle, WA 98104.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1667,
+        "byte_end": 1677
+      },
+      {
+        "entity": "location",
+        "byte_start": 1681,
+        "byte_end": 1716
+      }
+    ]
+  },
+  {
+    "id": "test-39-2",
+    "family": "test-39",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. Deliver to Dylan Price at 9 Meadow Lane, Bristol BS1 4ST.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1667,
+        "byte_end": 1678
+      },
+      {
+        "entity": "location",
+        "byte_start": 1682,
+        "byte_end": 1712
+      }
+    ]
+  },
+  {
+    "id": "test-40-0",
+    "family": "test-40",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The account belongs to Chloë Martin. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. Reply to contact120@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 23,
+        "byte_end": 36
+      },
+      {
+        "entity": "email",
+        "byte_start": 1999,
+        "byte_end": 2022
+      }
+    ]
+  },
+  {
+    "id": "test-40-1",
+    "family": "test-40",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The account belongs to Alex Stone. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. Reply to contact121@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 23,
+        "byte_end": 33
+      },
+      {
+        "entity": "email",
+        "byte_start": 1996,
+        "byte_end": 2019
+      }
+    ]
+  },
+  {
+    "id": "test-40-2",
+    "family": "test-40",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The account belongs to Priya Rao. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. Reply to contact122@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 23,
+        "byte_end": 32
+      },
+      {
+        "entity": "email",
+        "byte_start": 1995,
+        "byte_end": 2018
+      }
+    ]
+  },
+  {
+    "id": "test-41-0",
+    "family": "test-41",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The requester is Louis Bernard in Portland. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1121,
+        "byte_end": 1134
+      },
+      {
+        "entity": "location",
+        "byte_start": 1138,
+        "byte_end": 1146
+      }
+    ]
+  },
+  {
+    "id": "test-41-1",
+    "family": "test-41",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The requester is Jean-Luc Moreau in Austin. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1121,
+        "byte_end": 1136
+      },
+      {
+        "entity": "location",
+        "byte_start": 1140,
+        "byte_end": 1146
+      }
+    ]
+  },
+  {
+    "id": "test-41-2",
+    "family": "test-41",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The requester is Rose Winter in Chicago. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1121,
+        "byte_end": 1132
+      },
+      {
+        "entity": "location",
+        "byte_start": 1136,
+        "byte_end": 1143
+      }
+    ]
+  },
+  {
+    "id": "test-42-0",
+    "family": "test-42",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. ",
+    "gold": []
+  },
+  {
+    "id": "test-42-1",
+    "family": "test-42",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. ",
+    "gold": []
+  },
+  {
+    "id": "test-42-2",
+    "family": "test-42",
+    "supplemental": false,
+    "kind": "negative",
+    "text": "The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. ",
+    "gold": []
+  },
+  {
+    "id": "test-43-0",
+    "family": "test-43",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The copied payment details were 5555 5555 5555 4444 and DE89 3704 0044 0532 0130 00. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. ",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 520,
+        "byte_end": 539
+      },
+      {
+        "entity": "iban",
+        "byte_start": 544,
+        "byte_end": 571
+      }
+    ]
+  },
+  {
+    "id": "test-43-1",
+    "family": "test-43",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The copied payment details were 4111 1111 1111 1111 and GB82 WEST 1234 5698 7654 32. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. ",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 520,
+        "byte_end": 539
+      },
+      {
+        "entity": "iban",
+        "byte_start": 544,
+        "byte_end": 571
+      }
+    ]
+  },
+  {
+    "id": "test-43-2",
+    "family": "test-43",
+    "supplemental": false,
+    "kind": "long",
+    "text": "The incident review began with a comparison of the browser trace and the application log. A reconnect occurred while the response was still being assembled. The first attempt was cancelled, but the second attempt completed normally. The operator documented the sequence and asked the team to retain the diagnostic record. No data repair was needed and the existing retry policy was left in place. The follow-up check will exercise a delayed response and a temporary loss of connectivity. The copied payment details were 5555 5555 5555 4444 and DE89 3704 0044 0532 0130 00. The support team reviewed the upload sequence after the customer reported an incomplete preview. The original file was accepted and the processing queue returned a successful acknowledgement. A stale cache entry caused the dashboard to display the previous result. The operator checked the retry policy, compared the event order, and confirmed that no messages were lost. The proposed fix refreshes the preview after the background task completes. The team will verify the change with a small upload and then repeat the check with a larger attachment. ",
+    "gold": [
+      {
+        "entity": "credit_card",
+        "byte_start": 520,
+        "byte_end": 539
+      },
+      {
+        "entity": "iban",
+        "byte_start": 544,
+        "byte_end": 571
+      }
+    ]
+  },
+  {
+    "id": "test-44-0",
+    "family": "test-44",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "The appointment date is 2031-04-17. Please retain it in the calendar export.",
+    "gold": [
+      {
+        "entity": "date_time",
+        "byte_start": 24,
+        "byte_end": 34
+      }
+    ]
+  },
+  {
+    "id": "test-44-1",
+    "family": "test-44",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "The appointment date is 2031-04-17. Please retain it in the calendar export.",
+    "gold": [
+      {
+        "entity": "date_time",
+        "byte_start": 24,
+        "byte_end": 34
+      }
+    ]
+  },
+  {
+    "id": "test-44-2",
+    "family": "test-44",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "The appointment date is 2031-04-17. Please retain it in the calendar export.",
+    "gold": [
+      {
+        "entity": "date_time",
+        "byte_start": 24,
+        "byte_end": 34
+      }
+    ]
+  },
+  {
+    "id": "test-45-0",
+    "family": "test-45",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "Employer: Cedarfield Research. The department approved the request.",
+    "gold": [
+      {
+        "entity": "organization",
+        "byte_start": 10,
+        "byte_end": 29
+      }
+    ]
+  },
+  {
+    "id": "test-45-1",
+    "family": "test-45",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "Employer: Cedarfield Research. The department approved the request.",
+    "gold": [
+      {
+        "entity": "organization",
+        "byte_start": 10,
+        "byte_end": 29
+      }
+    ]
+  },
+  {
+    "id": "test-45-2",
+    "family": "test-45",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "Employer: Cedarfield Research. The department approved the request.",
+    "gold": [
+      {
+        "entity": "organization",
+        "byte_start": 10,
+        "byte_end": 29
+      }
+    ]
+  },
+  {
+    "id": "test-46-0",
+    "family": "test-46",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "The account domain is customer.example.test. It has no URL scheme.",
+    "gold": [
+      {
+        "entity": "domain",
+        "byte_start": 22,
+        "byte_end": 43
+      }
+    ]
+  },
+  {
+    "id": "test-46-1",
+    "family": "test-46",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "The account domain is customer.example.test. It has no URL scheme.",
+    "gold": [
+      {
+        "entity": "domain",
+        "byte_start": 22,
+        "byte_end": 43
+      }
+    ]
+  },
+  {
+    "id": "test-46-2",
+    "family": "test-46",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "The account domain is customer.example.test. It has no URL scheme.",
+    "gold": [
+      {
+        "entity": "domain",
+        "byte_start": 22,
+        "byte_end": 43
+      }
+    ]
+  },
+  {
+    "id": "test-47-0",
+    "family": "test-47",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "Government document number: AB1234567. The support team should not retain it.",
+    "gold": [
+      {
+        "entity": "government_id",
+        "byte_start": 28,
+        "byte_end": 37
+      }
+    ]
+  },
+  {
+    "id": "test-47-1",
+    "family": "test-47",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "Government document number: AB1234567. The support team should not retain it.",
+    "gold": [
+      {
+        "entity": "government_id",
+        "byte_start": 28,
+        "byte_end": 37
+      }
+    ]
+  },
+  {
+    "id": "test-47-2",
+    "family": "test-47",
+    "supplemental": true,
+    "kind": "positive",
+    "text": "Government document number: AB1234567. The support team should not retain it.",
+    "gold": [
+      {
+        "entity": "government_id",
+        "byte_start": 28,
+        "byte_end": 37
+      }
+    ]
+  }
+]

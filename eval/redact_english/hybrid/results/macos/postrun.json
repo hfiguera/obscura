@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "created_unix": 1789359173.098526,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "cpu_model": "Apple M4 Max",
+  "logs": [
+    {
+      "log": "Darwin-development-efficient-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "Darwin-development-fast-fast.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "Darwin-development-hybrid-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "Darwin-development-hybrid-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "Darwin-development-redact_cpu-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "Darwin-test-efficient-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "Darwin-test-fast-fast.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "Darwin-test-hybrid-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "Darwin-test-hybrid-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "Darwin-test-redact_cpu-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "recovery-Darwin-efficient-1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "recovery-Darwin-efficient-4.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "recovery-Darwin-hybrid-1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "recovery-Darwin-hybrid-4.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "recovery-Darwin-redact_cpu-1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "recovery-Darwin-redact_cpu-4.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-efficient-1-0-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-efficient-4-0-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-efficient-4-1-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-efficient-4-2-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-efficient-4-3-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-1-0-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-1-0-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-4-0-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-4-0-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-4-1-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-4-1-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-4-2-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-4-2-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-4-3-efficient.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-hybrid-4-3-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-redact_cpu-1-0-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-redact_cpu-4-0-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-redact_cpu-4-1-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-redact_cpu-4-2-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    },
+    {
+      "log": "workload-Darwin-redact_cpu-4-3-redact_cpu.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signatures": 0
+    }
+  ],
+  "linux_cpu_workers_verified": 0,
+  "remaining_candidate_workers": [],
+  "limits": "Known fatal-signature and process-name checks, not proof of graceful zero exit for every child.",
+  "source_sha256": "d180d373c1b751e6acd7fb1f6cb83085790624a7ea26a9048a532b871ad46c06"
+}

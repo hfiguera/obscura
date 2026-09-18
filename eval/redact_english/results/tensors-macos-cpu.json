@@ -1,0 +1,172 @@
+{
+  "computeUnits" : "cpu",
+  "rows" : [
+    {
+      "id" : "prefix_0",
+      "inputUtf8Bytes" : 58,
+      "labels" : [
+        "EMAIL"
+      ],
+      "windows" : [
+        {
+          "argmaxHistogram" : {
+            "nonfinite_row" : 10
+          },
+          "finiteAbsoluteMax" : 0,
+          "finiteValues" : 0,
+          "nonfiniteValues" : 22784,
+          "outputShape" : [
+            1,
+            256,
+            89
+          ],
+          "realTokens" : 10
+        }
+      ]
+    },
+    {
+      "id" : "prefix_1",
+      "inputUtf8Bytes" : 108,
+      "labels" : [
+        "EMAIL"
+      ],
+      "windows" : [
+        {
+          "argmaxHistogram" : {
+            "nonfinite_row" : 21
+          },
+          "finiteAbsoluteMax" : 0,
+          "finiteValues" : 0,
+          "nonfiniteValues" : 22784,
+          "outputShape" : [
+            1,
+            256,
+            89
+          ],
+          "realTokens" : 21
+        }
+      ]
+    },
+    {
+      "id" : "prefix_3",
+      "inputUtf8Bytes" : 208,
+      "labels" : [
+        "EMAIL"
+      ],
+      "windows" : [
+        {
+          "argmaxHistogram" : {
+            "nonfinite_row" : 43
+          },
+          "finiteAbsoluteMax" : 0,
+          "finiteValues" : 0,
+          "nonfiniteValues" : 22784,
+          "outputShape" : [
+            1,
+            256,
+            89
+          ],
+          "realTokens" : 43
+        }
+      ]
+    },
+    {
+      "id" : "prefix_5",
+      "inputUtf8Bytes" : 308,
+      "labels" : [
+        "EMAIL"
+      ],
+      "windows" : [
+        {
+          "argmaxHistogram" : {
+            "nonfinite_row" : 65
+          },
+          "finiteAbsoluteMax" : 0,
+          "finiteValues" : 0,
+          "nonfiniteValues" : 22784,
+          "outputShape" : [
+            1,
+            256,
+            89
+          ],
+          "realTokens" : 65
+        }
+      ]
+    },
+    {
+      "id" : "prefix_10",
+      "inputUtf8Bytes" : 558,
+      "labels" : [
+        "EMAIL"
+      ],
+      "windows" : [
+        {
+          "argmaxHistogram" : {
+            "nonfinite_row" : 120
+          },
+          "finiteAbsoluteMax" : 0,
+          "finiteValues" : 0,
+          "nonfiniteValues" : 22784,
+          "outputShape" : [
+            1,
+            256,
+            89
+          ],
+          "realTokens" : 120
+        }
+      ]
+    },
+    {
+      "id" : "prefix_50",
+      "inputUtf8Bytes" : 2558,
+      "labels" : [
+        "EMAIL"
+      ],
+      "windows" : [
+        {
+          "argmaxHistogram" : {
+            "nonfinite_row" : 256
+          },
+          "finiteAbsoluteMax" : 0,
+          "finiteValues" : 0,
+          "nonfiniteValues" : 22784,
+          "outputShape" : [
+            1,
+            256,
+            89
+          ],
+          "realTokens" : 256
+        },
+        {
+          "argmaxHistogram" : {
+            "nonfinite_row" : 256
+          },
+          "finiteAbsoluteMax" : 0,
+          "finiteValues" : 0,
+          "nonfiniteValues" : 22784,
+          "outputShape" : [
+            1,
+            256,
+            89
+          ],
+          "realTokens" : 256
+        },
+        {
+          "argmaxHistogram" : {
+            "nonfinite_row" : 180
+          },
+          "finiteAbsoluteMax" : 0,
+          "finiteValues" : 0,
+          "nonfiniteValues" : 22784,
+          "outputShape" : [
+            1,
+            256,
+            89
+          ],
+          "realTokens" : 180
+        }
+      ]
+    }
+  ],
+  "sdkSource" : "c015d5d95028caba783e802442e30ddd66c9247e"
+}

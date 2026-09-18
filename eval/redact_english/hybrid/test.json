@@ -1,0 +1,715 @@
+[
+  {
+    "id": "test-00",
+    "family": "test-00",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Return authorization: direct the envelope to Tessa Morgan at 482 Willow Drive, Boise, ID 83702.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 45,
+        "byte_end": 57
+      },
+      {
+        "entity": "location",
+        "byte_start": 61,
+        "byte_end": 94
+      }
+    ]
+  },
+  {
+    "id": "test-01",
+    "family": "test-01",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "We corrected the invoice. Its postal destination now reads 19 Harbour Road, Edinburgh EH6 6LA.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 59,
+        "byte_end": 93
+      }
+    ]
+  },
+  {
+    "id": "test-02",
+    "family": "test-02",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Carrier handoff\nDeliver to: Élodie Marchand\nApartment 7, 260 Maple Street, Burlington, VT 05401\nSignature required.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 28,
+        "byte_end": 44
+      },
+      {
+        "entity": "location",
+        "byte_start": 45,
+        "byte_end": 96
+      }
+    ]
+  },
+  {
+    "id": "test-03",
+    "family": "test-03",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "The subscriber typed \"73 King Street West, Toronto, ON M5H 1A1\" into the checkout comments.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 22,
+        "byte_end": 62
+      }
+    ]
+  },
+  {
+    "id": "test-04",
+    "family": "test-04",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "A technician should report to 8 Wattle Road, Adelaide SA 5000 and ask for Mina Okafor.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 30,
+        "byte_end": 61
+      },
+      {
+        "entity": "person",
+        "byte_start": 74,
+        "byte_end": 85
+      }
+    ]
+  },
+  {
+    "id": "test-05",
+    "family": "test-05",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Could you update the saved destination to PO Box 418, Helena, MT 59601? The old label was discarded.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 42,
+        "byte_end": 70
+      }
+    ]
+  },
+  {
+    "id": "test-06",
+    "family": "test-06",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Naomi Tanaka confirmed this location: Suite 210, 935 Beacon Avenue, Tacoma, WA 98402. Call (303) 555-0106 on arrival.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 0,
+        "byte_end": 12
+      },
+      {
+        "entity": "location",
+        "byte_start": 38,
+        "byte_end": 84
+      },
+      {
+        "entity": "phone",
+        "byte_start": 91,
+        "byte_end": 105
+      }
+    ]
+  },
+  {
+    "id": "test-07",
+    "family": "test-07",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Delivery exception — 14 Rue des Érables, Ottawa, ON K1N 5T5 — access code omitted.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 23,
+        "byte_end": 62
+      }
+    ]
+  },
+  {
+    "id": "test-08",
+    "family": "test-08",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "😀 Forwarding instruction from Tessa Morgan: 650 North Pine Road\nMadison, WI 53703. Thanks!",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 33,
+        "byte_end": 45
+      },
+      {
+        "entity": "location",
+        "byte_start": 47,
+        "byte_end": 84
+      }
+    ]
+  },
+  {
+    "id": "test-09",
+    "family": "test-09",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "The warranty form lists recipient=Victor Ramos; destination=Unit 12, 48 Victoria Street, Manchester M1 6DP; email=contact9@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 34,
+        "byte_end": 46
+      },
+      {
+        "entity": "location",
+        "byte_start": 60,
+        "byte_end": 106
+      },
+      {
+        "entity": "email",
+        "byte_start": 114,
+        "byte_end": 135
+      }
+    ]
+  },
+  {
+    "id": "test-10",
+    "family": "test-10",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Billing details were supplied in chat: 1225 Lakeview Boulevard, Austin, TX 78701. Keep the original spelling.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 39,
+        "byte_end": 80
+      }
+    ]
+  },
+  {
+    "id": "test-11",
+    "family": "test-11",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Please arrange collection at Flat 3B, 61 Mill Road, Cambridge CB1 2AW. A reply may be sent to contact11@example.test.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 29,
+        "byte_end": 69
+      },
+      {
+        "entity": "email",
+        "byte_start": 94,
+        "byte_end": 116
+      }
+    ]
+  },
+  {
+    "id": "test-12",
+    "family": "test-12",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "We received a scanned label:\nMina Okafor\n482 Willow Drive, Boise, ID 83702\nEnd of label.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 29,
+        "byte_end": 40
+      },
+      {
+        "entity": "location",
+        "byte_start": 41,
+        "byte_end": 74
+      }
+    ]
+  },
+  {
+    "id": "test-13",
+    "family": "test-13",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "The drop-off address was transcribed as 19 Harbour Road, Edinburgh EH6 6LA; please verify it.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 40,
+        "byte_end": 74
+      }
+    ]
+  },
+  {
+    "id": "test-14",
+    "family": "test-14",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Registered correspondence should be delivered to Apartment 7, 260 Maple Street, Burlington, VT 05401, for Naomi Tanaka.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 49,
+        "byte_end": 100
+      },
+      {
+        "entity": "person",
+        "byte_start": 106,
+        "byte_end": 118
+      }
+    ]
+  },
+  {
+    "id": "test-15",
+    "family": "test-15",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "The driver could not locate 73 King Street West, Toronto, ON M5H 1A1. The recipient is Felix Meyer.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 28,
+        "byte_end": 68
+      },
+      {
+        "entity": "person",
+        "byte_start": 87,
+        "byte_end": 98
+      }
+    ]
+  },
+  {
+    "id": "test-16",
+    "family": "test-16",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "The customer supplied 8 Wattle Road, Adelaide SA 5000 but left the company field blank.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 22,
+        "byte_end": 53
+      }
+    ]
+  },
+  {
+    "id": "test-17",
+    "family": "test-17",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Please mail the access card to:\nVictor Ramos\nPO Box 418, Helena, MT 59601\nUse tracked postage.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 32,
+        "byte_end": 44
+      },
+      {
+        "entity": "location",
+        "byte_start": 45,
+        "byte_end": 73
+      }
+    ]
+  },
+  {
+    "id": "test-18",
+    "family": "test-18",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Our meeting takes place in Vancouver; Élodie Marchand will join remotely.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 27,
+        "byte_end": 36
+      },
+      {
+        "entity": "person",
+        "byte_start": 38,
+        "byte_end": 54
+      }
+    ]
+  },
+  {
+    "id": "test-19",
+    "family": "test-19",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "The customer named Darius Cole wants an email at contact19@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 19,
+        "byte_end": 30
+      },
+      {
+        "entity": "email",
+        "byte_start": 49,
+        "byte_end": 71
+      }
+    ]
+  },
+  {
+    "id": "test-20",
+    "family": "test-20",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Incident record: ip=192.0.2.74; contact=contact20@example.test.",
+    "gold": [
+      {
+        "entity": "ip_address",
+        "byte_start": 20,
+        "byte_end": 30
+      },
+      {
+        "entity": "email",
+        "byte_start": 40,
+        "byte_end": 62
+      }
+    ]
+  },
+  {
+    "id": "test-21",
+    "family": "test-21",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "A callback for Patrick Walsh is pending on (303) 555-0121.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 15,
+        "byte_end": 28
+      },
+      {
+        "entity": "phone",
+        "byte_start": 43,
+        "byte_end": 57
+      }
+    ]
+  },
+  {
+    "id": "test-22",
+    "family": "test-22",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Dispatch staff in Vancouver could not reach Naomi Tanaka.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 18,
+        "byte_end": 27
+      },
+      {
+        "entity": "person",
+        "byte_start": 44,
+        "byte_end": 56
+      }
+    ]
+  },
+  {
+    "id": "test-23",
+    "family": "test-23",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Dear Felix Meyer, your appointment has been moved. Please check contact23@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 5,
+        "byte_end": 16
+      },
+      {
+        "entity": "email",
+        "byte_start": 64,
+        "byte_end": 86
+      }
+    ]
+  },
+  {
+    "id": "test-24",
+    "family": "test-24",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "City field: Denver. Street field: not supplied.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 12,
+        "byte_end": 18
+      }
+    ]
+  },
+  {
+    "id": "test-25",
+    "family": "test-25",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "The signature reads Victor Ramos; no postal information was provided.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 20,
+        "byte_end": 32
+      }
+    ]
+  },
+  {
+    "id": "test-26",
+    "family": "test-26",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Form input\nFull name: Élodie Marchand\nTelephone: (303) 555-0126\n",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 22,
+        "byte_end": 38
+      },
+      {
+        "entity": "phone",
+        "byte_start": 50,
+        "byte_end": 64
+      }
+    ]
+  },
+  {
+    "id": "test-27",
+    "family": "test-27",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "User address in the network log: 2001:db8:8::45.",
+    "gold": [
+      {
+        "entity": "ip_address",
+        "byte_start": 33,
+        "byte_end": 47
+      }
+    ]
+  },
+  {
+    "id": "test-28",
+    "family": "test-28",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The building has 42 floors and three lifts, all working.",
+    "gold": []
+  },
+  {
+    "id": "test-29",
+    "family": "test-29",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "Read chapter 17 before opening the street map.",
+    "gold": []
+  },
+  {
+    "id": "test-30",
+    "family": "test-30",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The address sanitizer rejected an empty buffer.",
+    "gold": []
+  },
+  {
+    "id": "test-31",
+    "family": "test-31",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "Build number 730 passed; ZIP extraction took 12 seconds.",
+    "gold": []
+  },
+  {
+    "id": "test-32",
+    "family": "test-32",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The state transition table contains a city column with no values.",
+    "gold": []
+  },
+  {
+    "id": "test-33",
+    "family": "test-33",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "Number the avenues for discussion, starting with option 4.",
+    "gold": []
+  },
+  {
+    "id": "test-34",
+    "family": "test-34",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The account has no name, address, telephone or email on file.",
+    "gold": []
+  },
+  {
+    "id": "test-35",
+    "family": "test-35",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The article discusses how postal codes vary by country.",
+    "gold": []
+  },
+  {
+    "id": "test-36",
+    "family": "test-36",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "We have 200 sample labels and 16 empty boxes in stock.",
+    "gold": []
+  },
+  {
+    "id": "test-37",
+    "family": "test-37",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The documentation says to replace STREET_NAME with user input.",
+    "gold": []
+  },
+  {
+    "id": "test-38",
+    "family": "test-38",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The second address line must remain empty until checkout.",
+    "gold": []
+  },
+  {
+    "id": "test-39",
+    "family": "test-39",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The service runs on port 8080 and accepts at most 512 records.",
+    "gold": []
+  },
+  {
+    "id": "test-40",
+    "family": "test-40",
+    "kind": "long",
+    "supplemental": false,
+    "text": "The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The final destination is 8 Wattle Road, Adelaide SA 5000, for Tessa Morgan.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 2609,
+        "byte_end": 2640
+      },
+      {
+        "entity": "person",
+        "byte_start": 2646,
+        "byte_end": 2658
+      }
+    ]
+  },
+  {
+    "id": "test-41",
+    "family": "test-41",
+    "kind": "long",
+    "supplemental": false,
+    "text": "Victor Ramos requested delivery to PO Box 418, Helena, MT 59601. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 0,
+        "byte_end": 12
+      },
+      {
+        "entity": "location",
+        "byte_start": 35,
+        "byte_end": 63
+      }
+    ]
+  },
+  {
+    "id": "test-42",
+    "family": "test-42",
+    "kind": "long",
+    "supplemental": false,
+    "text": "The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. Carrier destination: Suite 210, 935 Beacon Avenue, Tacoma, WA 98402. Contact contact42@example.test. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. ",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 1313,
+        "byte_end": 1359
+      },
+      {
+        "entity": "email",
+        "byte_start": 1369,
+        "byte_end": 1391
+      }
+    ]
+  },
+  {
+    "id": "test-43",
+    "family": "test-43",
+    "kind": "long",
+    "supplemental": false,
+    "text": "The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The address field is still empty; no recipient has been assigned.",
+    "gold": []
+  },
+  {
+    "id": "test-44",
+    "family": "test-44",
+    "kind": "long",
+    "supplemental": false,
+    "text": "Case summary: The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. \nDispatch label\nMina Okafor\n650 North Pine Road\nMadison, WI 53703\nThe replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. ",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1645,
+        "byte_end": 1656
+      },
+      {
+        "entity": "location",
+        "byte_start": 1657,
+        "byte_end": 1694
+      }
+    ]
+  },
+  {
+    "id": "test-45",
+    "family": "test-45",
+    "kind": "long",
+    "supplemental": false,
+    "text": "Notes: The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The caller is Patrick Walsh and their number is (303) 555-0145.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 1959,
+        "byte_end": 1972
+      },
+      {
+        "entity": "phone",
+        "byte_start": 1993,
+        "byte_end": 2007
+      }
+    ]
+  },
+  {
+    "id": "test-46",
+    "family": "test-46",
+    "kind": "long",
+    "supplemental": false,
+    "text": "😀 The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The client entered 1225 Lakeview Boulevard, Austin, TX 78701 in the form.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 1962,
+        "byte_end": 2003
+      }
+    ]
+  },
+  {
+    "id": "test-47",
+    "family": "test-47",
+    "kind": "long",
+    "supplemental": false,
+    "text": "The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. The replacement procedure begins with a review of the returned item. Staff compare its condition with the original shipment record and inspect the packaging. The inspection notes are attached to the return authorization before a new label is printed. A supervisor checks the inventory and chooses a suitable dispatch date. We checked the manual; the system uses port 3000 and build 14.",
+    "gold": []
+  }
+]

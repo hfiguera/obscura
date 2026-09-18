@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "sdk_release_source": "9e11fdf9566df2e34b9516ac76403b1ff0f839d8",
+  "original_diagnostic_source": "c015d5d95028caba783e802442e30ddd66c9247e",
+  "swift_observer_sha256": "a7ef31c244f1f3e9b3b331efcfcf4725300d04772798591cd9fe525cc3159a82",
+  "source_sha256": "12989f4c465af7105530cd5c0a1fc61aab590b1ddcbbb7fa9ba3847f3e75401f",
+  "swift_dependency_pins": [
+    {
+      "identity": "swift-numerics",
+      "kind": "remoteSourceControl",
+      "location": "https://github.com/apple/swift-numerics",
+      "state": {
+        "revision": "0c0290ff6b24942dadb83a929ffaaa1481df04a2",
+        "version": "1.1.1"
+      }
+    }
+  ],
+  "results": {
+    "all": {
+      "report": "tensors-darwin-release-all.json",
+      "sha256": "f9bc94f43c94e8558dbbb514ed7b5f98bbe4b188822752bbbe4f474a0f016fd2",
+      "windows": 8,
+      "nonfinite_values": 0
+    },
+    "cpu": {
+      "report": "tensors-darwin-release-cpu.json",
+      "sha256": "7ea936049903c03a6729a4b39b271100486c4c2b7724a33f6387b153250b45f5",
+      "windows": 8,
+      "nonfinite_values": 182272
+    }
+  },
+  "purpose": "Release-source replay; original source snapshot results preserved separately. Telemetry remains enabled."
+}

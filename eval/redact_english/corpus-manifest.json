@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "provenance": "Assistant-authored synthetic English during this evaluation; no external dataset or evaluated-model predictions used",
+  "limitations": "Template families and a finite name pool; not sampled production data, human-audited language coverage, or an estimate of population accuracy",
+  "primary_entities": [
+    "person",
+    "location",
+    "email",
+    "phone",
+    "us_ssn",
+    "credit_card",
+    "ip_address",
+    "url",
+    "iban"
+  ],
+  "files": {
+    "development": {
+      "sha256": "758d212cfa23d6426ac6d35b5cc7b962449f3369ff73ea1e61215fa2ac802dcd",
+      "rows": 40,
+      "families": 20,
+      "gold_spans": 60,
+      "negative_rows": 8,
+      "long_rows": 4
+    },
+    "test": {
+      "sha256": "408bcd829fcf5a779f06ceb265e01c04299df4561b597b237678ec3455cbb148",
+      "rows": 144,
+      "families": 48,
+      "gold_spans": 207,
+      "negative_rows": 27,
+      "long_rows": 21
+    }
+  }
+}

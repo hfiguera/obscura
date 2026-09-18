@@ -1,0 +1,668 @@
+{
+  "schema": 1,
+  "patch": {
+    "original_source_sha256": "7d6637ac06202e8549b2c0fe0ad9366ea5031721f94f80e30b2a50a3e9e78001",
+    "observed_source_sha256": "b20a3a3e47a8faf5cef3f8edb2bde87b75a0ead8146eb447e4ed87e5a57dfd5a",
+    "change": "Aggregate native MLMultiArray diagnostics before SDK readTensor conversion; no computation or telemetry change"
+  },
+  "results": {
+    "cpu": {
+      "native_arrays": [
+        {
+          "configured_cpu_only": true,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 0,
+          "nonfinite": 22784,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": true,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 0,
+          "nonfinite": 22784,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": true,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 0,
+          "nonfinite": 22784,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": true,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 0,
+          "nonfinite": 22784,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": true,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 0,
+          "nonfinite": 22784,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": true,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 0,
+          "nonfinite": 22784,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": true,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 0,
+          "nonfinite": 22784,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": true,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 0,
+          "nonfinite": 22784,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        }
+      ],
+      "converted": {
+        "computeUnits": "cpu",
+        "rows": [
+          {
+            "id": "prefix_0",
+            "inputUtf8Bytes": 58,
+            "labels": [
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "nonfinite_row": 10
+                },
+                "finiteAbsoluteMax": 0,
+                "finiteValues": 0,
+                "nonfiniteValues": 22784,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 10
+              }
+            ]
+          },
+          {
+            "id": "prefix_1",
+            "inputUtf8Bytes": 108,
+            "labels": [
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "nonfinite_row": 21
+                },
+                "finiteAbsoluteMax": 0,
+                "finiteValues": 0,
+                "nonfiniteValues": 22784,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 21
+              }
+            ]
+          },
+          {
+            "id": "prefix_3",
+            "inputUtf8Bytes": 208,
+            "labels": [
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "nonfinite_row": 43
+                },
+                "finiteAbsoluteMax": 0,
+                "finiteValues": 0,
+                "nonfiniteValues": 22784,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 43
+              }
+            ]
+          },
+          {
+            "id": "prefix_5",
+            "inputUtf8Bytes": 308,
+            "labels": [
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "nonfinite_row": 65
+                },
+                "finiteAbsoluteMax": 0,
+                "finiteValues": 0,
+                "nonfiniteValues": 22784,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 65
+              }
+            ]
+          },
+          {
+            "id": "prefix_10",
+            "inputUtf8Bytes": 558,
+            "labels": [
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "nonfinite_row": 120
+                },
+                "finiteAbsoluteMax": 0,
+                "finiteValues": 0,
+                "nonfiniteValues": 22784,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 120
+              }
+            ]
+          },
+          {
+            "id": "prefix_50",
+            "inputUtf8Bytes": 2558,
+            "labels": [
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "nonfinite_row": 256
+                },
+                "finiteAbsoluteMax": 0,
+                "finiteValues": 0,
+                "nonfiniteValues": 22784,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 256
+              },
+              {
+                "argmaxHistogram": {
+                  "nonfinite_row": 256
+                },
+                "finiteAbsoluteMax": 0,
+                "finiteValues": 0,
+                "nonfiniteValues": 22784,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 256
+              },
+              {
+                "argmaxHistogram": {
+                  "nonfinite_row": 180
+                },
+                "finiteAbsoluteMax": 0,
+                "finiteValues": 0,
+                "nonfiniteValues": 22784,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 180
+              }
+            ]
+          }
+        ],
+        "sdkSource": "c015d5d95028caba783e802442e30ddd66c9247e"
+      }
+    },
+    "all": {
+      "native_arrays": [
+        {
+          "configured_cpu_only": false,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 20.03125,
+          "nonfinite": 0,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": false,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 24.125,
+          "nonfinite": 0,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": false,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 24.0625,
+          "nonfinite": 0,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": false,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 23.96875,
+          "nonfinite": 0,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": false,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 23.390625,
+          "nonfinite": 0,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": false,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 23.0625,
+          "nonfinite": 0,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": false,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 23,
+          "nonfinite": 0,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        },
+        {
+          "configured_cpu_only": false,
+          "count": 22784,
+          "data_type": 65552,
+          "event": "coreml_array_observation",
+          "finite_absolute_max": 23.15625,
+          "nonfinite": 0,
+          "shape": [
+            1,
+            256,
+            89
+          ],
+          "strides": [
+            24576,
+            96,
+            1
+          ]
+        }
+      ],
+      "converted": {
+        "computeUnits": "all",
+        "rows": [
+          {
+            "id": "prefix_0",
+            "inputUtf8Bytes": 58,
+            "labels": [
+              "GIVEN_NAME",
+              "SURNAME",
+              "CITY",
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "0": 7,
+                  "24": 1,
+                  "28": 1,
+                  "72": 1
+                },
+                "finiteAbsoluteMax": 20.03125,
+                "finiteValues": 22784,
+                "nonfiniteValues": 0,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 10
+              }
+            ]
+          },
+          {
+            "id": "prefix_1",
+            "inputUtf8Bytes": 108,
+            "labels": [
+              "GIVEN_NAME",
+              "SURNAME",
+              "CITY",
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "0": 18,
+                  "24": 1,
+                  "28": 1,
+                  "72": 1
+                },
+                "finiteAbsoluteMax": 24.125,
+                "finiteValues": 22784,
+                "nonfiniteValues": 0,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 21
+              }
+            ]
+          },
+          {
+            "id": "prefix_3",
+            "inputUtf8Bytes": 208,
+            "labels": [
+              "GIVEN_NAME",
+              "SURNAME",
+              "CITY",
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "0": 40,
+                  "24": 1,
+                  "28": 1,
+                  "72": 1
+                },
+                "finiteAbsoluteMax": 24.0625,
+                "finiteValues": 22784,
+                "nonfiniteValues": 0,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 43
+              }
+            ]
+          },
+          {
+            "id": "prefix_5",
+            "inputUtf8Bytes": 308,
+            "labels": [
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "0": 65
+                },
+                "finiteAbsoluteMax": 23.96875,
+                "finiteValues": 22784,
+                "nonfiniteValues": 0,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 65
+              }
+            ]
+          },
+          {
+            "id": "prefix_10",
+            "inputUtf8Bytes": 558,
+            "labels": [
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "0": 120
+                },
+                "finiteAbsoluteMax": 23.390625,
+                "finiteValues": 22784,
+                "nonfiniteValues": 0,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 120
+              }
+            ]
+          },
+          {
+            "id": "prefix_50",
+            "inputUtf8Bytes": 2558,
+            "labels": [
+              "EMAIL"
+            ],
+            "windows": [
+              {
+                "argmaxHistogram": {
+                  "0": 256
+                },
+                "finiteAbsoluteMax": 23.0625,
+                "finiteValues": 22784,
+                "nonfiniteValues": 0,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 256
+              },
+              {
+                "argmaxHistogram": {
+                  "0": 256
+                },
+                "finiteAbsoluteMax": 23,
+                "finiteValues": 22784,
+                "nonfiniteValues": 0,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 256
+              },
+              {
+                "argmaxHistogram": {
+                  "0": 180
+                },
+                "finiteAbsoluteMax": 23.15625,
+                "finiteValues": 22784,
+                "nonfiniteValues": 0,
+                "outputShape": [
+                  1,
+                  256,
+                  89
+                ],
+                "realTokens": 180
+              }
+            ]
+          }
+        ],
+        "sdkSource": "c015d5d95028caba783e802442e30ddd66c9247e"
+      }
+    }
+  }
+}

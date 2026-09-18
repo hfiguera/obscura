@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "created_unix": 1789357575.924007,
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "logs_checked": 56,
+  "logs": {
+    "workload-Darwin-balanced-1-0.log": {
+      "sha256": "0143588c785f4305e8e4c5a57773564a216f944249098e690edbcc8a82655802",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-balanced-2-0.log": {
+      "sha256": "387bb410fd642dc57c90099b72f3dbd78faa3f2d91b5be358c08d124c6acd7f2",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-balanced-2-1.log": {
+      "sha256": "5548633b50432de7d872c14bf73b2a1950d71fc4efc53d018f7b9a3f4e5e86e7",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-balanced-3-0.log": {
+      "sha256": "96733332f6e5452179b4dc00df2455a205dc2252903305c2437b8bc25fa15601",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-balanced-3-1.log": {
+      "sha256": "cce4e52f7a7ad809002acb500798ec5d2a227df5047c7a6b07a7340beee63a09",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-balanced-3-2.log": {
+      "sha256": "6f014642781668ac9cb640e226434e17d18d2297c9658059ba2055e13828ef99",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-balanced-4-0.log": {
+      "sha256": "2aa7565833d45a00e37d3c337e5d37e8cb7a581d6171e521bba63a4d8149e3e0",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-balanced-4-1.log": {
+      "sha256": "7348827138798a5a48a37c2a12d1ee9a1f074296ec988df2a0cbec8e5cdff157",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-balanced-4-2.log": {
+      "sha256": "0c6e99dbe555eb265fc97c5c41243fd2206996c111fb42b7dc5549bb1973457f",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-balanced-4-3.log": {
+      "sha256": "de1d1e5f30cf9a4b4d1b47a1674484494bee29a2f657fdef8f0941fdc452c1c3",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-1-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-2-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-2-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-3-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-3-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-3-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-4-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-4-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-4-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-efficient-4-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-1-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-2-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-2-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-3-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-3-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-3-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-4-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-4-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-4-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-fast-4-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-1-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-2-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-2-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-3-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-3-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-3-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-4-0.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-4-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-4-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "workload-Darwin-redact_cpu-4-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-balanced-1.log": {
+      "sha256": "cc18fb852c362c5f569e874c9594858e9d7bef9a7eaa05ce8ca34dd5a2b4ebd0",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-balanced-2.log": {
+      "sha256": "301600924241eced932a12cea7b441c44a7d8aa8afda7c91b76244cdb3871da1",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-balanced-3.log": {
+      "sha256": "c29ae715f8d7178e68197538a9206e676df34992a1815a5bf177bfc0e744969b",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-balanced-4.log": {
+      "sha256": "69d6d0845c5a0b530e6b17b18aa1928efa277863817a8945f3890b6a5c992ec0",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-efficient-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-efficient-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-efficient-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-efficient-4.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-fast-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-fast-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-fast-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-fast-4.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-redact_cpu-1.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-redact_cpu-2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-redact_cpu-3.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    },
+    "recovery-Darwin-redact_cpu-4.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fatal_signature_count": 0
+    }
+  },
+  "remaining_candidate_workers": [],
+  "source_sha256": "39b20f59cf0dde962694a40c7185966affc95438ecdf5b5e9dc31dc9a8469f00",
+  "limits": "Checks known fatal log signatures and current process names. Graceful shutdown return codes were not retained; this is not proof that every exit was zero."
+}

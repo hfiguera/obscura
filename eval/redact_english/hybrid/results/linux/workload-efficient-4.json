@@ -1,0 +1,353 @@
+{
+  "profile": "efficient",
+  "workers": 4,
+  "seconds_requested": 60,
+  "elapsed_seconds": 60.01723056996707,
+  "platform": "Linux-7.1.5-76070105-generic-x86_64-with-glibc2.39",
+  "sources": {
+    "hybrid/POLICY.md": "ee719210c0bab3cba8aa981385a2669a82f54fbb47f65ec7c5743c4bc968de27",
+    "hybrid/adapter.py": "d245f08ffa498128a4ead3f760d4a7c9a71a75a04be8764e11bbbb1c86ae81e8",
+    "hybrid/run.py": "07272710c21599b1c8d7befc75c7a385d95f8457da47ddafeb7233e75a95bcc4",
+    "hybrid/development.json": "dd3fe62ee119b0c57318164290a94ae4d3063b97b0dd6dd64c7891a93ee15c3e",
+    "hybrid/test.json": "29a8a78fbcdaa1032815df57c4666acbd556e5ea9ce73cea5ded166185559629",
+    "hybrid/manifest.json": "bdcd0240bbe7b58dc0bc1d06b61809f246b57ec56cdd118cc64c1c387f6e9ed3",
+    "harness.py": "ec4ebf764d9cfdcfd23442d99e023acb69d4e5d66f8f876c31ba8869d8a3508b",
+    "worker.exs": "c55f9f8f320115fd08124044fcc8b8642b8cd6476ee5df764d22bbac0d4a5757",
+    "redact_worker.mjs": "b29a56d56301e486c0c20d093dc3529af577500b59fa49fef91be52897ee5204",
+    "spans.mjs": "856318cc2a6e8e25f29fd3db0374e7bfbec7c45920b08e7d4222c406bb44213d",
+    "score.py": "1e3996055c62bd416332b255e9b629cd89899fb3a25c536cac18a87ec85d76cc",
+    "workload.py": "8ffd1eb9996c53e830ebcc6a007388b76a8c2a253d63a9e677c79f3baf49f475",
+    "model-manifest.json": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+    "consumer/mix.lock": "5453df860ab248f1c153dabb72a0ee5648eb7c7a1f23505a16c4a0868e76af3b"
+  },
+  "cpu_quality_valid": true,
+  "requests": 63252,
+  "requests_per_second": 1053.8973458007513,
+  "counts_by_input": {
+    "development-00": 10542,
+    "development-01": 10542,
+    "development-03": 10542,
+    "development-04": 10542,
+    "development-05": 10542,
+    "development-10": 10542
+  },
+  "errors": {},
+  "latency": {
+    "count": 63252,
+    "p50_ms": 3.66490101441741,
+    "p95_ms": 5.550991976633668,
+    "p99_ms": 6.615336984395981,
+    "mean_ms": 3.784277544653814
+  },
+  "cold": [
+    {
+      "startup_ms": 1877.1679569617845,
+      "first_ms": 54.147747985552996,
+      "fingerprint": "65f1b90155aad3bf4d3b9d6603bfd14a2e7ff2cc20f66c080da6590820e8ec97",
+      "metadata": [
+        {
+          "elixir": "1.18.4",
+          "engine": {
+            "backend": "native_spacy",
+            "device": "cpu"
+          },
+          "event": "ready",
+          "obscura": "0.2.0",
+          "otp": "25",
+          "pid": "524894",
+          "preparation_ms": 974.743,
+          "profile": "efficient",
+          "schedulers": 8,
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ]
+        }
+      ]
+    },
+    {
+      "startup_ms": 2077.2121629561298,
+      "first_ms": 53.571440977975726,
+      "fingerprint": "65f1b90155aad3bf4d3b9d6603bfd14a2e7ff2cc20f66c080da6590820e8ec97",
+      "metadata": [
+        {
+          "elixir": "1.18.4",
+          "engine": {
+            "backend": "native_spacy",
+            "device": "cpu"
+          },
+          "event": "ready",
+          "obscura": "0.2.0",
+          "otp": "25",
+          "pid": "524941",
+          "preparation_ms": 1018.747,
+          "profile": "efficient",
+          "schedulers": 8,
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ]
+        }
+      ]
+    },
+    {
+      "startup_ms": 1770.2393020153977,
+      "first_ms": 47.55465098423883,
+      "fingerprint": "65f1b90155aad3bf4d3b9d6603bfd14a2e7ff2cc20f66c080da6590820e8ec97",
+      "metadata": [
+        {
+          "elixir": "1.18.4",
+          "engine": {
+            "backend": "native_spacy",
+            "device": "cpu"
+          },
+          "event": "ready",
+          "obscura": "0.2.0",
+          "otp": "25",
+          "pid": "524988",
+          "preparation_ms": 878.26,
+          "profile": "efficient",
+          "schedulers": 8,
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ]
+        }
+      ]
+    },
+    {
+      "startup_ms": 1811.9900900055654,
+      "first_ms": 49.701920012012124,
+      "fingerprint": "65f1b90155aad3bf4d3b9d6603bfd14a2e7ff2cc20f66c080da6590820e8ec97",
+      "metadata": [
+        {
+          "elixir": "1.18.4",
+          "engine": {
+            "backend": "native_spacy",
+            "device": "cpu"
+          },
+          "event": "ready",
+          "obscura": "0.2.0",
+          "otp": "25",
+          "pid": "525035",
+          "preparation_ms": 897.377,
+          "profile": "efficient",
+          "schedulers": 8,
+          "supported_entities": [
+            "credit_card",
+            "date_time",
+            "domain",
+            "email",
+            "iban",
+            "ip_address",
+            "location",
+            "person",
+            "phone",
+            "street_address",
+            "title",
+            "url",
+            "us_ssn"
+          ]
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "elapsed": 0.0002170789521187544,
+      "rss_kib": 556380,
+      "pss_kib": 428774,
+      "process_count": 12,
+      "load_average": [
+        3.11474609375,
+        2.22802734375,
+        2.2822265625
+      ]
+    },
+    {
+      "elapsed": 5.0422450109617785,
+      "rss_kib": 504520,
+      "pss_kib": 376914,
+      "process_count": 12,
+      "load_average": [
+        3.26611328125,
+        2.2744140625,
+        2.296875
+      ]
+    },
+    {
+      "elapsed": 10.080433600000106,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        3.4052734375,
+        2.31982421875,
+        2.3115234375
+      ]
+    },
+    {
+      "elapsed": 15.12348521797685,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        3.693359375,
+        2.39794921875,
+        2.3369140625
+      ]
+    },
+    {
+      "elapsed": 20.16814412997337,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        4.03857421875,
+        2.4912109375,
+        2.36767578125
+      ]
+    },
+    {
+      "elapsed": 25.227310805988964,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        4.19580078125,
+        2.5498046875,
+        2.38720703125
+      ]
+    },
+    {
+      "elapsed": 30.26906905695796,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        4.34033203125,
+        2.607421875,
+        2.40673828125
+      ]
+    },
+    {
+      "elapsed": 35.321446757006925,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        4.4736328125,
+        2.6640625,
+        2.42626953125
+      ]
+    },
+    {
+      "elapsed": 40.36346732400125,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        4.51611328125,
+        2.703125,
+        2.4404296875
+      ]
+    },
+    {
+      "elapsed": 45.42291742499219,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        4.55517578125,
+        2.74169921875,
+        2.45458984375
+      ]
+    },
+    {
+      "elapsed": 50.46635869995225,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        5.1513671875,
+        2.8955078125,
+        2.505859375
+      ]
+    },
+    {
+      "elapsed": 55.51321967598051,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        5.2998046875,
+        2.9638671875,
+        2.5302734375
+      ]
+    },
+    {
+      "elapsed": 60.01723056996707,
+      "rss_kib": 484796,
+      "pss_kib": 357190,
+      "process_count": 12,
+      "load_average": [
+        5.275390625,
+        2.998046875,
+        2.5439453125
+      ]
+    }
+  ],
+  "peak_rss_mib": 543.33984375,
+  "rss_growth_mib": -69.90625,
+  "peak_pss_mib": 418.724609375,
+  "burst": {
+    "requests": 32,
+    "errors": 0,
+    "completion": {
+      "count": 32,
+      "p50_ms": 22.485595021862537,
+      "p95_ms": 41.19979101233184,
+      "p99_ms": 41.348122991621494,
+      "mean_ms": 23.393561197735835
+    }
+  },
+  "recovery": {
+    "failure_observed": true,
+    "restart_and_request_ms": 2488.4039250318892,
+    "output_restored": true,
+    "survivors_unchanged": true
+  }
+}

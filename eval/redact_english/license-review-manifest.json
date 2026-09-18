@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "retrieved_utc": "2026-09-14",
+  "license_url": "https://license.desertant.com/1.0.txt",
+  "license_declared_version": "1.0",
+  "license_declared_effective_date": "2026-07-03",
+  "license_sha256": "ea8390d86f46e0818616d50a7b1b3364200b8ffc9232e42d20f353814c85528f",
+  "license_bytes": 16751,
+  "sdk_source_revision": "c015d5d95028caba783e802442e30ddd66c9247e",
+  "source_sha256": {
+    "Sources/Usage/Wire.swift": "09b41aa783feece3273052e82b25bec0c10ea54b4e80b30d9c03a8dfedf93581",
+    "Sources/Usage/Transport.swift": "1e30dc91f8955d38f9896eaaf8866d3d4cbbbaacc131b21fe2fc36f4449340fe",
+    "Sources/Inference/UsageTracking.swift": "86873adca4b3e72f214f9c05e0f835ebd8c5d4a0c16767e334fdee42fa416df2"
+  },
+  "notes": "Source inspection, not packet capture or a legal compatibility determination. No telemetry disabled, no endpoint overrides, no vendor contact."
+}

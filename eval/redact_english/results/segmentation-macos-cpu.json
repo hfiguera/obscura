@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "purpose": "Separate sentence segmentation diagnostic; not default behavior or a validated production workaround",
+  "node": "v26.8.2",
+  "platform": "darwin",
+  "compute_units": "cpu",
+  "results": [
+    {
+      "repeats": 0,
+      "utf8_bytes": 58,
+      "full_labels": [
+        "EMAIL"
+      ],
+      "segmented_labels": [
+        "EMAIL"
+      ]
+    },
+    {
+      "repeats": 5,
+      "utf8_bytes": 308,
+      "full_labels": [
+        "EMAIL"
+      ],
+      "segmented_labels": [
+        "EMAIL"
+      ]
+    },
+    {
+      "repeats": 20,
+      "utf8_bytes": 1058,
+      "full_labels": [
+        "EMAIL"
+      ],
+      "segmented_labels": [
+        "EMAIL"
+      ]
+    },
+    {
+      "repeats": 150,
+      "utf8_bytes": 7558,
+      "full_labels": [
+        "EMAIL"
+      ],
+      "segmented_labels": [
+        "EMAIL"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1587 @@
+{
+  "schema": 1,
+  "purpose": "Recomputed accuracy audit and synthetic family-mix sensitivity; not population confidence intervals",
+  "source_reports_sha256": {
+    "results/linux/development-fast.json": "091ede01e0c2a23726371b9757aa9110303db45aea214a370e0c17c972f000b9",
+    "results/linux/development-efficient.json": "bccd36fd394ed4c13472e420526045772c77c3ee5670fc5b413b5e9d88b773ac",
+    "results/linux/development-balanced.json": "948090ca4bb781d6c7640f91f6ba750d7181dc097e354b3b97c78c6eddf54a26",
+    "results/linux/development-redact_cpu.json": "b5b5b35428579ba935c7d77de4937ce133bd82bdd7256b830df3d3cbe255457d",
+    "results/macos/development-fast.json": "c5fccf4d0c679ff753e330f31c00728c0496974cbf189ed347b0e4b6879c9e3d",
+    "results/macos/development-efficient.json": "a01b7460e28f7098f4d3f266a35f70b5d17eb5be3641f074d15115dfd44ae1ce",
+    "results/macos/development-balanced.json": "2a34fac02ce60e7935da0704fb5b45defcbc8ff07c3d92cec881f1389be7bb61",
+    "results/macos/development-redact_cpu.json": "63a15e64ae2f85f9819559786d2c354cb41c27f41e9e0ecddff89b4c91847004",
+    "results/macos/development-redact_default.json": "22001c64ae901e6c0a9a26b7bbd4b1ca999a4b664efdb8ea62d720b688f74269",
+    "results/linux/test-fast.json": "9268de88c71ae792648ec25bc8013960d3dfe38ac6aa8013940755f07120149c",
+    "results/linux/test-efficient.json": "f80ecf9e5f5b658ee307e82e21b0de6f7522fedc4a04d50fb4bd73782cc1c5bf",
+    "results/linux/test-balanced.json": "8d196f88440feea197eabd3fb4d5332c8b5c54d6cfa31b6a122a5e83734e8f0a",
+    "results/linux/test-redact_cpu.json": "6111716801b67417b6f1ffd2401d9761ebcefb1fa4702fc049ff4c6b68c5e141",
+    "results/macos/test-fast.json": "19f9fdd3fdcba9d841cbd0379ca9b78ed163bfe0226abf4749452bed11ba0180",
+    "results/macos/test-efficient.json": "542bd04a25617ee8b001e793f0a16123cef1045bb31cf57b2322c3f4d03db772",
+    "results/macos/test-balanced.json": "8c00bdfd074896fa45228fc05b49e597ffa78a77ff05906fa674426af12f8c2d",
+    "results/macos/test-redact_cpu.json": "98c6c105c0d126b6b61146758df42400c3c2886b483c3f4cbdc8bef25c7e5f6b",
+    "results/macos/test-redact_default.json": "b146d34627675fa5b498b6fe8b7796947e5d08476ebc9a8a50af9420a9f3e4ff"
+  },
+  "analysis_source_sha256": "feb27ca08e4a7ccc51d7e73527e26f33d24527d187f8dbba735f3803802e351b",
+  "corpus": {
+    "development": {
+      "rows": 40,
+      "families": 20,
+      "unique_texts": 36,
+      "primary_rows": 40,
+      "primary_gold": 60,
+      "negative_families": 4,
+      "utf8_bytes_min": 46,
+      "utf8_bytes_max": 1505
+    },
+    "test": {
+      "rows": 144,
+      "families": 48,
+      "unique_texts": 114,
+      "primary_rows": 132,
+      "primary_gold": 195,
+      "negative_families": 9,
+      "utf8_bytes_min": 53,
+      "utf8_bytes_max": 3672
+    }
+  },
+  "baseline_cross_platform_span_parity": [
+    {
+      "split": "development",
+      "profile": "fast",
+      "rows": 40,
+      "different_row_ids": []
+    },
+    {
+      "split": "development",
+      "profile": "efficient",
+      "rows": 40,
+      "different_row_ids": []
+    },
+    {
+      "split": "development",
+      "profile": "balanced",
+      "rows": 40,
+      "different_row_ids": []
+    },
+    {
+      "split": "test",
+      "profile": "fast",
+      "rows": 144,
+      "different_row_ids": []
+    },
+    {
+      "split": "test",
+      "profile": "efficient",
+      "rows": 144,
+      "different_row_ids": []
+    },
+    {
+      "split": "test",
+      "profile": "balanced",
+      "rows": 144,
+      "different_row_ids": []
+    }
+  ],
+  "family_resampling": {
+    "seed": 20260913,
+    "draws": 2000,
+    "primary_families": 44,
+    "redact_cpu_linux_minus": {
+      "fast": {
+        "observed_redact_minus_baseline_f1": 0.3277575757575758,
+        "family_resampling_percentile_2_5": 0.1581366459627329,
+        "family_resampling_percentile_97_5": 0.5029478458049886
+      },
+      "efficient": {
+        "observed_redact_minus_baseline_f1": 0.04699557913351016,
+        "family_resampling_percentile_2_5": -0.07206417808827448,
+        "family_resampling_percentile_97_5": 0.16291753470190307
+      },
+      "balanced": {
+        "observed_redact_minus_baseline_f1": 0.03200000000000003,
+        "family_resampling_percentile_2_5": -0.09031250469282637,
+        "family_resampling_percentile_97_5": 0.15909186462055913
+      }
+    }
+  },
+  "test_metrics": {
+    "linux/fast": {
+      "exact": {
+        "tp": 73,
+        "fp": 7,
+        "fn": 122,
+        "precision": 0.9125,
+        "recall": 0.37435897435897436,
+        "f1": 0.5309090909090909
+      },
+      "per_entity": {
+        "person": {
+          "tp": 5,
+          "fp": 4,
+          "fn": 73,
+          "precision": 0.5555555555555556,
+          "recall": 0.0641025641025641,
+          "f1": 0.11494252873563218
+        },
+        "location": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 42,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "email": {
+          "tp": 27,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 15,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 5,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        "url": {
+          "tp": 3,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5
+        },
+        "iban": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        }
+      },
+      "coverage": {
+        "fully_exposed": 118,
+        "alnum_characters": 2685,
+        "covered_alnum_characters": 1245,
+        "strict_nonspace_characters": 2901,
+        "covered_strict_nonspace_characters": 1413,
+        "fully_covered": 76,
+        "partially_exposed": 1
+      },
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {
+        "date_time": 3,
+        "domain": 3
+      },
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    },
+    "linux/efficient": {
+      "exact": {
+        "tp": 153,
+        "fp": 29,
+        "fn": 42,
+        "precision": 0.8406593406593407,
+        "recall": 0.7846153846153846,
+        "f1": 0.8116710875331565
+      },
+      "per_entity": {
+        "person": {
+          "tp": 61,
+          "fp": 8,
+          "fn": 17,
+          "precision": 0.8840579710144928,
+          "recall": 0.782051282051282,
+          "f1": 0.8299319727891156
+        },
+        "location": {
+          "tp": 24,
+          "fp": 18,
+          "fn": 18,
+          "precision": 0.5714285714285714,
+          "recall": 0.5714285714285714,
+          "f1": 0.5714285714285714
+        },
+        "email": {
+          "tp": 27,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 15,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 5,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        "url": {
+          "tp": 3,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5
+        },
+        "iban": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        }
+      },
+      "coverage": {
+        "fully_covered": 159,
+        "alnum_characters": 2685,
+        "covered_alnum_characters": 2132,
+        "strict_nonspace_characters": 2901,
+        "covered_strict_nonspace_characters": 2304,
+        "partially_exposed": 16,
+        "fully_exposed": 20
+      },
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {
+        "date_time": 3,
+        "domain": 3
+      },
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    },
+    "linux/balanced": {
+      "exact": {
+        "tp": 155,
+        "fp": 25,
+        "fn": 40,
+        "precision": 0.8611111111111112,
+        "recall": 0.7948717948717948,
+        "f1": 0.8266666666666667
+      },
+      "per_entity": {
+        "person": {
+          "tp": 71,
+          "fp": 1,
+          "fn": 7,
+          "precision": 0.9861111111111112,
+          "recall": 0.9102564102564102,
+          "f1": 0.9466666666666667
+        },
+        "location": {
+          "tp": 16,
+          "fp": 21,
+          "fn": 26,
+          "precision": 0.43243243243243246,
+          "recall": 0.38095238095238093,
+          "f1": 0.4050632911392405
+        },
+        "email": {
+          "tp": 27,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 15,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 5,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        "url": {
+          "tp": 3,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5
+        },
+        "iban": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        }
+      },
+      "coverage": {
+        "fully_covered": 158,
+        "alnum_characters": 2685,
+        "covered_alnum_characters": 2096,
+        "strict_nonspace_characters": 2901,
+        "covered_strict_nonspace_characters": 2272,
+        "fully_exposed": 24,
+        "partially_exposed": 13
+      },
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {
+        "organization": 3,
+        "domain": 3
+      },
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    },
+    "linux/redact_cpu": {
+      "exact": {
+        "tp": 161,
+        "fp": 19,
+        "fn": 34,
+        "precision": 0.8944444444444445,
+        "recall": 0.8256410256410256,
+        "f1": 0.8586666666666667
+      },
+      "per_entity": {
+        "person": {
+          "tp": 67,
+          "fp": 0,
+          "fn": 11,
+          "precision": 1.0,
+          "recall": 0.8589743589743589,
+          "f1": 0.9241379310344827
+        },
+        "location": {
+          "tp": 40,
+          "fp": 2,
+          "fn": 2,
+          "precision": 0.9523809523809523,
+          "recall": 0.9523809523809523,
+          "f1": 0.9523809523809523
+        },
+        "email": {
+          "tp": 27,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 0,
+          "fp": 15,
+          "fn": 15,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 0,
+          "fp": 2,
+          "fn": 6,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "url": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "iban": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "coverage": {
+        "fully_covered": 177,
+        "alnum_characters": 2685,
+        "covered_alnum_characters": 2530,
+        "strict_nonspace_characters": 2901,
+        "covered_strict_nonspace_characters": 2681,
+        "fully_exposed": 16,
+        "partially_exposed": 2
+      },
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {
+        "unmapped:GOVERNMENT_ID": 3
+      },
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_covered"
+        }
+      ]
+    },
+    "macos/fast": {
+      "exact": {
+        "tp": 73,
+        "fp": 7,
+        "fn": 122,
+        "precision": 0.9125,
+        "recall": 0.37435897435897436,
+        "f1": 0.5309090909090909
+      },
+      "per_entity": {
+        "person": {
+          "tp": 5,
+          "fp": 4,
+          "fn": 73,
+          "precision": 0.5555555555555556,
+          "recall": 0.0641025641025641,
+          "f1": 0.11494252873563218
+        },
+        "location": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 42,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "email": {
+          "tp": 27,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 15,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 5,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        "url": {
+          "tp": 3,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5
+        },
+        "iban": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        }
+      },
+      "coverage": {
+        "fully_exposed": 118,
+        "alnum_characters": 2685,
+        "covered_alnum_characters": 1245,
+        "strict_nonspace_characters": 2901,
+        "covered_strict_nonspace_characters": 1413,
+        "fully_covered": 76,
+        "partially_exposed": 1
+      },
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {
+        "date_time": 3,
+        "domain": 3
+      },
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    },
+    "macos/efficient": {
+      "exact": {
+        "tp": 153,
+        "fp": 29,
+        "fn": 42,
+        "precision": 0.8406593406593407,
+        "recall": 0.7846153846153846,
+        "f1": 0.8116710875331565
+      },
+      "per_entity": {
+        "person": {
+          "tp": 61,
+          "fp": 8,
+          "fn": 17,
+          "precision": 0.8840579710144928,
+          "recall": 0.782051282051282,
+          "f1": 0.8299319727891156
+        },
+        "location": {
+          "tp": 24,
+          "fp": 18,
+          "fn": 18,
+          "precision": 0.5714285714285714,
+          "recall": 0.5714285714285714,
+          "f1": 0.5714285714285714
+        },
+        "email": {
+          "tp": 27,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 15,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 5,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        "url": {
+          "tp": 3,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5
+        },
+        "iban": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        }
+      },
+      "coverage": {
+        "fully_covered": 159,
+        "alnum_characters": 2685,
+        "covered_alnum_characters": 2132,
+        "strict_nonspace_characters": 2901,
+        "covered_strict_nonspace_characters": 2304,
+        "partially_exposed": 16,
+        "fully_exposed": 20
+      },
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {
+        "date_time": 3,
+        "domain": 3
+      },
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    },
+    "macos/balanced": {
+      "exact": {
+        "tp": 155,
+        "fp": 25,
+        "fn": 40,
+        "precision": 0.8611111111111112,
+        "recall": 0.7948717948717948,
+        "f1": 0.8266666666666667
+      },
+      "per_entity": {
+        "person": {
+          "tp": 71,
+          "fp": 1,
+          "fn": 7,
+          "precision": 0.9861111111111112,
+          "recall": 0.9102564102564102,
+          "f1": 0.9466666666666667
+        },
+        "location": {
+          "tp": 16,
+          "fp": 21,
+          "fn": 26,
+          "precision": 0.43243243243243246,
+          "recall": 0.38095238095238093,
+          "f1": 0.4050632911392405
+        },
+        "email": {
+          "tp": 27,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 15,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 5,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        "url": {
+          "tp": 3,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5
+        },
+        "iban": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        }
+      },
+      "coverage": {
+        "fully_covered": 158,
+        "alnum_characters": 2685,
+        "covered_alnum_characters": 2096,
+        "strict_nonspace_characters": 2901,
+        "covered_strict_nonspace_characters": 2272,
+        "fully_exposed": 24,
+        "partially_exposed": 13
+      },
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {
+        "organization": 3,
+        "domain": 3
+      },
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    },
+    "macos/redact_cpu": {
+      "exact": {
+        "tp": 48,
+        "fp": 50,
+        "fn": 147,
+        "precision": 0.4897959183673469,
+        "recall": 0.24615384615384617,
+        "f1": 0.3276450511945393
+      },
+      "per_entity": {
+        "person": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 78,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "location": {
+          "tp": 0,
+          "fp": 44,
+          "fn": 42,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "email": {
+          "tp": 24,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.8888888888888888,
+          "f1": 0.9411764705882353
+        },
+        "phone": {
+          "tp": 0,
+          "fp": 6,
+          "fn": 15,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8
+        },
+        "ip_address": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 6,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "url": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "iban": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "coverage": {
+        "fully_exposed": 123,
+        "alnum_characters": 2685,
+        "covered_alnum_characters": 1355,
+        "strict_nonspace_characters": 2901,
+        "covered_strict_nonspace_characters": 1469,
+        "fully_covered": 54,
+        "partially_exposed": 18
+      },
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    },
+    "macos/redact_default": {
+      "exact": {
+        "tp": 155,
+        "fp": 20,
+        "fn": 40,
+        "precision": 0.8857142857142857,
+        "recall": 0.7948717948717948,
+        "f1": 0.8378378378378378
+      },
+      "per_entity": {
+        "person": {
+          "tp": 62,
+          "fp": 2,
+          "fn": 16,
+          "precision": 0.96875,
+          "recall": 0.7948717948717948,
+          "f1": 0.8732394366197183
+        },
+        "location": {
+          "tp": 38,
+          "fp": 2,
+          "fn": 4,
+          "precision": 0.95,
+          "recall": 0.9047619047619048,
+          "f1": 0.9268292682926829
+        },
+        "email": {
+          "tp": 27,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 0,
+          "fp": 15,
+          "fn": 15,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 1,
+          "fp": 1,
+          "fn": 5,
+          "precision": 0.5,
+          "recall": 0.16666666666666666,
+          "f1": 0.25
+        },
+        "url": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "iban": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "coverage": {
+        "fully_covered": 171,
+        "alnum_characters": 2685,
+        "covered_alnum_characters": 2478,
+        "strict_nonspace_characters": 2901,
+        "covered_strict_nonspace_characters": 2630,
+        "fully_exposed": 21,
+        "partially_exposed": 3
+      },
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "partially_exposed"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "partially_exposed"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "partially_exposed"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    }
+  }
+}

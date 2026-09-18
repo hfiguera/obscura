@@ -1,0 +1,325 @@
+{
+  "profile": "redact_cpu",
+  "workers": 4,
+  "seconds_requested": 60,
+  "elapsed_seconds": 60.44149800494779,
+  "platform": "Linux-7.1.5-76070105-generic-x86_64-with-glibc2.39",
+  "sources": {
+    "hybrid/POLICY.md": "ee719210c0bab3cba8aa981385a2669a82f54fbb47f65ec7c5743c4bc968de27",
+    "hybrid/adapter.py": "d245f08ffa498128a4ead3f760d4a7c9a71a75a04be8764e11bbbb1c86ae81e8",
+    "hybrid/run.py": "07272710c21599b1c8d7befc75c7a385d95f8457da47ddafeb7233e75a95bcc4",
+    "hybrid/development.json": "dd3fe62ee119b0c57318164290a94ae4d3063b97b0dd6dd64c7891a93ee15c3e",
+    "hybrid/test.json": "29a8a78fbcdaa1032815df57c4666acbd556e5ea9ce73cea5ded166185559629",
+    "hybrid/manifest.json": "bdcd0240bbe7b58dc0bc1d06b61809f246b57ec56cdd118cc64c1c387f6e9ed3",
+    "harness.py": "ec4ebf764d9cfdcfd23442d99e023acb69d4e5d66f8f876c31ba8869d8a3508b",
+    "worker.exs": "c55f9f8f320115fd08124044fcc8b8642b8cd6476ee5df764d22bbac0d4a5757",
+    "redact_worker.mjs": "b29a56d56301e486c0c20d093dc3529af577500b59fa49fef91be52897ee5204",
+    "spans.mjs": "856318cc2a6e8e25f29fd3db0374e7bfbec7c45920b08e7d4222c406bb44213d",
+    "score.py": "1e3996055c62bd416332b255e9b629cd89899fb3a25c536cac18a87ec85d76cc",
+    "workload.py": "8ffd1eb9996c53e830ebcc6a007388b76a8c2a253d63a9e677c79f3baf49f475",
+    "model-manifest.json": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+    "consumer/mix.lock": "5453df860ab248f1c153dabb72a0ee5648eb7c7a1f23505a16c4a0868e76af3b"
+  },
+  "cpu_quality_valid": true,
+  "requests": 2652,
+  "requests_per_second": 43.87713884561407,
+  "counts_by_input": {
+    "development-00": 442,
+    "development-01": 442,
+    "development-03": 442,
+    "development-04": 442,
+    "development-05": 442,
+    "development-10": 442
+  },
+  "errors": {},
+  "latency": {
+    "count": 2652,
+    "p50_ms": 82.91311102220789,
+    "p95_ms": 141.37082995148376,
+    "p99_ms": 209.03600397286937,
+    "mean_ms": 90.95785037626608
+  },
+  "cold": [
+    {
+      "startup_ms": 588.8363539706916,
+      "first_ms": 391.88041200395674,
+      "fingerprint": "afdf7f6f7bd8828831006b696a4487cd0ee039a78c7718c5aad1de2f192c810e",
+      "metadata": [
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "linux",
+          "arch": "x64",
+          "pid": 525298,
+          "binaries": {
+            "libLiteRt.so": "d46eca60880d6e28c1992d136459f06ab642e30eb423bdc14d56e928f398ce19",
+            "libRedactNode.so": "890321ef9216302fe93b61394d913370623cb09a13a4a7ff9af11ce4b4db3f97",
+            "libdalcpushim.so": "d86892fb16510716c706e25f6d66e1e47deb701c1b60af41e05bdd53b26bc103"
+          },
+          "preparation_ms": 526.351539,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "LiteRT/XNNPACK",
+            "device": "cpu",
+            "evidence": "Same native binary/runtime as CPU-only diagnostic run"
+          }
+        }
+      ]
+    },
+    {
+      "startup_ms": 603.9647930301726,
+      "first_ms": 338.7974030338228,
+      "fingerprint": "afdf7f6f7bd8828831006b696a4487cd0ee039a78c7718c5aad1de2f192c810e",
+      "metadata": [
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "linux",
+          "arch": "x64",
+          "pid": 525332,
+          "binaries": {
+            "libLiteRt.so": "d46eca60880d6e28c1992d136459f06ab642e30eb423bdc14d56e928f398ce19",
+            "libRedactNode.so": "890321ef9216302fe93b61394d913370623cb09a13a4a7ff9af11ce4b4db3f97",
+            "libdalcpushim.so": "d86892fb16510716c706e25f6d66e1e47deb701c1b60af41e05bdd53b26bc103"
+          },
+          "preparation_ms": 535.069531,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "LiteRT/XNNPACK",
+            "device": "cpu",
+            "evidence": "Same native binary/runtime as CPU-only diagnostic run"
+          }
+        }
+      ]
+    },
+    {
+      "startup_ms": 476.3449800084345,
+      "first_ms": 280.43998102657497,
+      "fingerprint": "afdf7f6f7bd8828831006b696a4487cd0ee039a78c7718c5aad1de2f192c810e",
+      "metadata": [
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "linux",
+          "arch": "x64",
+          "pid": 525349,
+          "binaries": {
+            "libLiteRt.so": "d46eca60880d6e28c1992d136459f06ab642e30eb423bdc14d56e928f398ce19",
+            "libRedactNode.so": "890321ef9216302fe93b61394d913370623cb09a13a4a7ff9af11ce4b4db3f97",
+            "libdalcpushim.so": "d86892fb16510716c706e25f6d66e1e47deb701c1b60af41e05bdd53b26bc103"
+          },
+          "preparation_ms": 419.057148,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "LiteRT/XNNPACK",
+            "device": "cpu",
+            "evidence": "Same native binary/runtime as CPU-only diagnostic run"
+          }
+        }
+      ]
+    },
+    {
+      "startup_ms": 430.5166880367324,
+      "first_ms": 306.97846302064136,
+      "fingerprint": "afdf7f6f7bd8828831006b696a4487cd0ee039a78c7718c5aad1de2f192c810e",
+      "metadata": [
+        {
+          "event": "ready",
+          "profile": "redact",
+          "sdk": "3.1.0",
+          "node": "v26.8.2",
+          "platform": "linux",
+          "arch": "x64",
+          "pid": 525366,
+          "binaries": {
+            "libLiteRt.so": "d46eca60880d6e28c1992d136459f06ab642e30eb423bdc14d56e928f398ce19",
+            "libRedactNode.so": "890321ef9216302fe93b61394d913370623cb09a13a4a7ff9af11ce4b4db3f97",
+            "libdalcpushim.so": "d86892fb16510716c706e25f6d66e1e47deb701c1b60af41e05bdd53b26bc103"
+          },
+          "preparation_ms": 373.18301,
+          "model_revision": "3ed5033aeb544f454ebde77dc76fd7b7e76cc572",
+          "model_manifest_sha256": "4f804b2db1840fcf27c01e36a2d933e78a05c9600be3a93adf4ebb41532bc16f",
+          "engine": {
+            "backend": "LiteRT/XNNPACK",
+            "device": "cpu",
+            "evidence": "Same native binary/runtime as CPU-only diagnostic run"
+          }
+        }
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "elapsed": 0.0001664989977143705,
+      "rss_kib": 722028,
+      "pss_kib": 464475,
+      "process_count": 4,
+      "load_average": [
+        4.9326171875,
+        2.96484375,
+        2.53564453125
+      ]
+    },
+    {
+      "elapsed": 5.044340365973767,
+      "rss_kib": 729920,
+      "pss_kib": 471023,
+      "process_count": 4,
+      "load_average": [
+        5.0185546875,
+        3.015625,
+        2.5546875
+      ]
+    },
+    {
+      "elapsed": 10.088990344956983,
+      "rss_kib": 732492,
+      "pss_kib": 473403,
+      "process_count": 4,
+      "load_average": [
+        4.9365234375,
+        3.0322265625,
+        2.5625
+      ]
+    },
+    {
+      "elapsed": 15.15886689198669,
+      "rss_kib": 729696,
+      "pss_kib": 470607,
+      "process_count": 4,
+      "load_average": [
+        5.42236328125,
+        3.16455078125,
+        2.60791015625
+      ]
+    },
+    {
+      "elapsed": 20.202370289945975,
+      "rss_kib": 730072,
+      "pss_kib": 470983,
+      "process_count": 4,
+      "load_average": [
+        5.68408203125,
+        3.2919921875,
+        2.65576171875
+      ]
+    },
+    {
+      "elapsed": 25.257793404976837,
+      "rss_kib": 730256,
+      "pss_kib": 471167,
+      "process_count": 4,
+      "load_average": [
+        5.548828125,
+        3.30419921875,
+        2.6630859375
+      ]
+    },
+    {
+      "elapsed": 30.299192347971257,
+      "rss_kib": 730620,
+      "pss_kib": 471531,
+      "process_count": 4,
+      "load_average": [
+        5.42431640625,
+        3.31591796875,
+        2.67041015625
+      ]
+    },
+    {
+      "elapsed": 35.37371770996833,
+      "rss_kib": 730716,
+      "pss_kib": 471540,
+      "process_count": 4,
+      "load_average": [
+        5.39013671875,
+        3.34423828125,
+        2.68310546875
+      ]
+    },
+    {
+      "elapsed": 40.471010009991005,
+      "rss_kib": 730780,
+      "pss_kib": 471691,
+      "process_count": 4,
+      "load_average": [
+        5.439453125,
+        3.388671875,
+        2.701171875
+      ]
+    },
+    {
+      "elapsed": 45.514245180995204,
+      "rss_kib": 740628,
+      "pss_kib": 481539,
+      "process_count": 4,
+      "load_average": [
+        5.32373046875,
+        3.39892578125,
+        2.70849609375
+      ]
+    },
+    {
+      "elapsed": 50.574674227973446,
+      "rss_kib": 740828,
+      "pss_kib": 481739,
+      "process_count": 4,
+      "load_average": [
+        5.3779296875,
+        3.4423828125,
+        2.7265625
+      ]
+    },
+    {
+      "elapsed": 55.72982869198313,
+      "rss_kib": 741484,
+      "pss_kib": 482395,
+      "process_count": 4,
+      "load_average": [
+        5.42822265625,
+        3.48486328125,
+        2.74462890625
+      ]
+    },
+    {
+      "elapsed": 60.44149800494779,
+      "rss_kib": 761556,
+      "pss_kib": 487683,
+      "process_count": 4,
+      "load_average": [
+        5.3134765625,
+        3.49365234375,
+        2.75146484375
+      ]
+    }
+  ],
+  "peak_rss_mib": 743.70703125,
+  "rss_growth_mib": 38.6015625,
+  "peak_pss_mib": 476.2529296875,
+  "burst": {
+    "requests": 32,
+    "errors": 0,
+    "completion": {
+      "count": 32,
+      "p50_ms": 426.4577520079911,
+      "p95_ms": 770.9432779811323,
+      "p99_ms": 784.286368987523,
+      "mean_ms": 439.6521802627831
+    }
+  },
+  "recovery": {
+    "failure_observed": true,
+    "restart_and_request_ms": 1107.2702020173892,
+    "output_restored": true,
+    "survivors_unchanged": true
+  }
+}

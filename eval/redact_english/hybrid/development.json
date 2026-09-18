@@ -1,0 +1,187 @@
+[
+  {
+    "id": "development-00",
+    "family": "development-00",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Courier note: Selena Woods can receive the box at 615 Juniper Lane, Salem, OR 97301.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 14,
+        "byte_end": 26
+      },
+      {
+        "entity": "location",
+        "byte_start": 50,
+        "byte_end": 83
+      }
+    ]
+  },
+  {
+    "id": "development-01",
+    "family": "development-01",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Delivery label\nHugo Martins\n29 Orchard Road, York YO1 7HF\nTelephone (303) 555-0101",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 15,
+        "byte_end": 27
+      },
+      {
+        "entity": "location",
+        "byte_start": 28,
+        "byte_end": 57
+      },
+      {
+        "entity": "phone",
+        "byte_start": 68,
+        "byte_end": 82
+      }
+    ]
+  },
+  {
+    "id": "development-02",
+    "family": "development-02",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Payment location changed to 84 Hill Street, Bristol BS1 5TR; notify contact2@example.test.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 28,
+        "byte_end": 59
+      },
+      {
+        "entity": "email",
+        "byte_start": 68,
+        "byte_end": 89
+      }
+    ]
+  },
+  {
+    "id": "development-03",
+    "family": "development-03",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "We have only the town, Perth, and no delivery destination.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 23,
+        "byte_end": 28
+      }
+    ]
+  },
+  {
+    "id": "development-04",
+    "family": "development-04",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Name: Hugo Martins. Email: contact4@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 6,
+        "byte_end": 18
+      },
+      {
+        "entity": "email",
+        "byte_start": 27,
+        "byte_end": 48
+      }
+    ]
+  },
+  {
+    "id": "development-05",
+    "family": "development-05",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The warehouse has 90 empty shelves and 6 loading bays.",
+    "gold": []
+  },
+  {
+    "id": "development-06",
+    "family": "development-06",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "The state machine processes a zip archive without extracting it.",
+    "gold": []
+  },
+  {
+    "id": "development-07",
+    "family": "development-07",
+    "kind": "negative",
+    "supplemental": false,
+    "text": "An address will be requested when checkout opens.",
+    "gold": []
+  },
+  {
+    "id": "development-08",
+    "family": "development-08",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Destination=84 Hill Street, Bristol BS1 5TR; retry=true.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 12,
+        "byte_end": 43
+      }
+    ]
+  },
+  {
+    "id": "development-09",
+    "family": "development-09",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Please confirm 615 Juniper Lane, Salem, OR 97301 before printing the manifest.",
+    "gold": [
+      {
+        "entity": "location",
+        "byte_start": 15,
+        "byte_end": 48
+      }
+    ]
+  },
+  {
+    "id": "development-10",
+    "family": "development-10",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "😀 Account holder Hugo Martins lives at 29 Orchard Road, York YO1 7HF.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 20,
+        "byte_end": 32
+      },
+      {
+        "entity": "location",
+        "byte_start": 42,
+        "byte_end": 71
+      }
+    ]
+  },
+  {
+    "id": "development-11",
+    "family": "development-11",
+    "kind": "positive",
+    "supplemental": false,
+    "text": "Report downloaded by Imani Drake at contact11@example.test.",
+    "gold": [
+      {
+        "entity": "person",
+        "byte_start": 21,
+        "byte_end": 32
+      },
+      {
+        "entity": "email",
+        "byte_start": 36,
+        "byte_end": 58
+      }
+    ]
+  }
+]

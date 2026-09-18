@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "tokenizers_version": "0.22.2",
+  "tokenizer_sha256": "f2c1a2749a3ec41e56d9b65221918391f62d339869f8ac937fc3c581d99c74ec",
+  "all_equal": true,
+  "windows": [
+    {
+      "case": "prefix_0",
+      "window": 0,
+      "real_tokens": 10,
+      "different_elements": {
+        "input_ids": 0,
+        "attention_mask": 0,
+        "position_ids": 0,
+        "token_type_ids": 0
+      },
+      "equal": true
+    },
+    {
+      "case": "prefix_1",
+      "window": 1,
+      "real_tokens": 21,
+      "different_elements": {
+        "input_ids": 0,
+        "attention_mask": 0,
+        "position_ids": 0,
+        "token_type_ids": 0
+      },
+      "equal": true
+    },
+    {
+      "case": "prefix_3",
+      "window": 2,
+      "real_tokens": 43,
+      "different_elements": {
+        "input_ids": 0,
+        "attention_mask": 0,
+        "position_ids": 0,
+        "token_type_ids": 0
+      },
+      "equal": true
+    },
+    {
+      "case": "prefix_5",
+      "window": 3,
+      "real_tokens": 65,
+      "different_elements": {
+        "input_ids": 0,
+        "attention_mask": 0,
+        "position_ids": 0,
+        "token_type_ids": 0
+      },
+      "equal": true
+    },
+    {
+      "case": "prefix_10",
+      "window": 4,
+      "real_tokens": 120,
+      "different_elements": {
+        "input_ids": 0,
+        "attention_mask": 0,
+        "position_ids": 0,
+        "token_type_ids": 0
+      },
+      "equal": true
+    },
+    {
+      "case": "prefix_50",
+      "window": 5,
+      "real_tokens": 256,
+      "different_elements": {
+        "input_ids": 0,
+        "attention_mask": 0,
+        "position_ids": 0,
+        "token_type_ids": 0
+      },
+      "equal": true
+    },
+    {
+      "case": "prefix_50",
+      "window": 6,
+      "real_tokens": 256,
+      "different_elements": {
+        "input_ids": 0,
+        "attention_mask": 0,
+        "position_ids": 0,
+        "token_type_ids": 0
+      },
+      "equal": true
+    },
+    {
+      "case": "prefix_50",
+      "window": 7,
+      "real_tokens": 180,
+      "different_elements": {
+        "input_ids": 0,
+        "attention_mask": 0,
+        "position_ids": 0,
+        "token_type_ids": 0
+      },
+      "equal": true
+    }
+  ]
+}

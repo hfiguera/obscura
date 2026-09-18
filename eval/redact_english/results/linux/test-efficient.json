@@ -1,0 +1,3661 @@
+{
+  "schema": 1,
+  "purpose": "Fresh synthetic English evaluation; not population accuracy",
+  "profile": "efficient",
+  "platform": "Linux-7.1.5-76070105-generic-x86_64-with-glibc2.39",
+  "split": "test",
+  "input_sha256": "408bcd829fcf5a779f06ceb265e01c04299df4561b597b237678ec3455cbb148",
+  "mapping_sha256": "32f8e3c337ad417869e913689343766e5a21c40653a374b499074749c7a37867",
+  "worker_source_sha256": "c55f9f8f320115fd08124044fcc8b8642b8cd6476ee5df764d22bbac0d4a5757",
+  "created_unix": 1789351448.8935304,
+  "startup_ms": 2001.760541985277,
+  "metadata": {
+    "elixir": "1.18.4",
+    "engine": {
+      "backend": "native_spacy",
+      "device": "cpu"
+    },
+    "event": "ready",
+    "obscura": "0.2.0",
+    "otp": "25",
+    "pid": "495847",
+    "preparation_ms": 1031.243,
+    "profile": "efficient",
+    "schedulers": 8,
+    "supported_entities": [
+      "credit_card",
+      "date_time",
+      "domain",
+      "email",
+      "iban",
+      "ip_address",
+      "location",
+      "person",
+      "phone",
+      "street_address",
+      "title",
+      "url",
+      "us_ssn"
+    ]
+  },
+  "metrics": {
+    "exact": {
+      "tp": 153,
+      "fp": 29,
+      "fn": 42,
+      "precision": 0.8406593406593407,
+      "recall": 0.7846153846153846,
+      "f1": 0.8116710875331565
+    },
+    "per_entity": {
+      "person": {
+        "tp": 61,
+        "fp": 8,
+        "fn": 17,
+        "precision": 0.8840579710144928,
+        "recall": 0.782051282051282,
+        "f1": 0.8299319727891156
+      },
+      "location": {
+        "tp": 24,
+        "fp": 18,
+        "fn": 18,
+        "precision": 0.5714285714285714,
+        "recall": 0.5714285714285714,
+        "f1": 0.5714285714285714
+      },
+      "email": {
+        "tp": 27,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "phone": {
+        "tp": 15,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "us_ssn": {
+        "tp": 6,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "credit_card": {
+        "tp": 9,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ip_address": {
+        "tp": 5,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1": 0.9090909090909091
+      },
+      "url": {
+        "tp": 3,
+        "fp": 3,
+        "fn": 3,
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1": 0.5
+      },
+      "iban": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666
+      }
+    },
+    "coverage": {
+      "fully_covered": 159,
+      "alnum_characters": 2685,
+      "covered_alnum_characters": 2132,
+      "strict_nonspace_characters": 2901,
+      "covered_strict_nonspace_characters": 2304,
+      "partially_exposed": 16,
+      "fully_exposed": 20
+    },
+    "negative_text": {
+      "rows": 27,
+      "changed_rows": 0,
+      "detections": 0
+    },
+    "error_rows": 0,
+    "additional_raw_labels": {
+      "date_time": 3,
+      "domain": 3
+    },
+    "supplemental": [
+      {
+        "id": "test-44-0",
+        "entity": "date_time",
+        "coverage": "fully_covered"
+      },
+      {
+        "id": "test-44-1",
+        "entity": "date_time",
+        "coverage": "fully_covered"
+      },
+      {
+        "id": "test-44-2",
+        "entity": "date_time",
+        "coverage": "fully_covered"
+      },
+      {
+        "id": "test-45-0",
+        "entity": "organization",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-45-1",
+        "entity": "organization",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-45-2",
+        "entity": "organization",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-46-0",
+        "entity": "domain",
+        "coverage": "fully_covered"
+      },
+      {
+        "id": "test-46-1",
+        "entity": "domain",
+        "coverage": "fully_covered"
+      },
+      {
+        "id": "test-46-2",
+        "entity": "domain",
+        "coverage": "fully_covered"
+      },
+      {
+        "id": "test-47-0",
+        "entity": "government_id",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-47-1",
+        "entity": "government_id",
+        "coverage": "fully_exposed"
+      },
+      {
+        "id": "test-47-2",
+        "entity": "government_id",
+        "coverage": "fully_exposed"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "id": "test-00-0",
+      "inference_ms": 46.308,
+      "predictions": [
+        {
+          "byte_end": 24,
+          "byte_start": 13,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 48.56125504011288,
+      "raw_predictions": [
+        {
+          "byte_end": 24,
+          "byte_start": 13,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-00-1",
+      "inference_ms": 2.468,
+      "predictions": [
+        {
+          "byte_end": 23,
+          "byte_start": 13,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.7337560313753784,
+      "raw_predictions": [
+        {
+          "byte_end": 23,
+          "byte_start": 13,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-00-2",
+      "inference_ms": 2.218,
+      "predictions": [
+        {
+          "byte_end": 17,
+          "byte_start": 13,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.476725960150361,
+      "raw_predictions": [
+        {
+          "byte_end": 17,
+          "byte_start": 13,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-01-0",
+      "inference_ms": 1.759,
+      "predictions": [
+        {
+          "byte_end": 16,
+          "byte_start": 4,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.975056016817689,
+      "raw_predictions": [
+        {
+          "byte_end": 16,
+          "byte_start": 4,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-01-1",
+      "inference_ms": 1.605,
+      "predictions": [
+        {
+          "byte_end": 17,
+          "byte_start": 4,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.7975510563701391,
+      "raw_predictions": [
+        {
+          "byte_end": 17,
+          "byte_start": 4,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-01-2",
+      "inference_ms": 1.722,
+      "predictions": [
+        {
+          "byte_end": 14,
+          "byte_start": 4,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.9793090177699924,
+      "raw_predictions": [
+        {
+          "byte_end": 14,
+          "byte_start": 4,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-02-0",
+      "inference_ms": 1.652,
+      "predictions": [
+        {
+          "byte_end": 8,
+          "byte_start": 0,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.879771996755153,
+      "raw_predictions": [
+        {
+          "byte_end": 8,
+          "byte_start": 0,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-02-1",
+      "inference_ms": 1.669,
+      "predictions": [
+        {
+          "byte_end": 10,
+          "byte_start": 0,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.930962025653571,
+      "raw_predictions": [
+        {
+          "byte_end": 10,
+          "byte_start": 0,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-02-2",
+      "inference_ms": 1.722,
+      "predictions": [
+        {
+          "byte_end": 13,
+          "byte_start": 0,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.911423052661121,
+      "raw_predictions": [
+        {
+          "byte_end": 13,
+          "byte_start": 0,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-03-0",
+      "inference_ms": 2.086,
+      "predictions": [
+        {
+          "byte_end": 33,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 61,
+          "byte_start": 52,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.256354026030749,
+      "raw_predictions": [
+        {
+          "byte_end": 33,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 61,
+          "byte_start": 52,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-03-1",
+      "inference_ms": 1.947,
+      "predictions": [
+        {
+          "byte_end": 33,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 65,
+          "byte_start": 52,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.118124975822866,
+      "raw_predictions": [
+        {
+          "byte_end": 33,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 65,
+          "byte_start": 52,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-03-2",
+      "inference_ms": 1.998,
+      "predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 23,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.3126000305637717,
+      "raw_predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 23,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-04-0",
+      "inference_ms": 1.598,
+      "predictions": [
+        {
+          "byte_end": 26,
+          "byte_start": 13,
+          "entity": "person"
+        },
+        {
+          "byte_end": 59,
+          "byte_start": 53,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 1.8997890292666852,
+      "raw_predictions": [
+        {
+          "byte_end": 26,
+          "byte_start": 13,
+          "entity": "person"
+        },
+        {
+          "byte_end": 59,
+          "byte_start": 53,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-04-1",
+      "inference_ms": 1.647,
+      "predictions": [
+        {
+          "byte_end": 23,
+          "byte_start": 13,
+          "entity": "person"
+        },
+        {
+          "byte_end": 57,
+          "byte_start": 50,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 1.9112669979222119,
+      "raw_predictions": [
+        {
+          "byte_end": 23,
+          "byte_start": 13,
+          "entity": "person"
+        },
+        {
+          "byte_end": 57,
+          "byte_start": 50,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-04-2",
+      "inference_ms": 1.854,
+      "predictions": [
+        {
+          "byte_end": 22,
+          "byte_start": 13,
+          "entity": "person"
+        },
+        {
+          "byte_end": 55,
+          "byte_start": 49,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.0810780115425587,
+      "raw_predictions": [
+        {
+          "byte_end": 22,
+          "byte_start": 13,
+          "entity": "person"
+        },
+        {
+          "byte_end": 55,
+          "byte_start": 49,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-05-0",
+      "inference_ms": 1.429,
+      "predictions": [
+        {
+          "byte_end": 51,
+          "byte_start": 38,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.570472028106451,
+      "raw_predictions": [
+        {
+          "byte_end": 51,
+          "byte_start": 38,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-05-1",
+      "inference_ms": 1.425,
+      "predictions": [
+        {
+          "byte_end": 53,
+          "byte_start": 38,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.6350049991160631,
+      "raw_predictions": [
+        {
+          "byte_end": 53,
+          "byte_start": 38,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-05-2",
+      "inference_ms": 1.419,
+      "predictions": [],
+      "roundtrip_ms": 1.6957329935394228,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-06-0",
+      "inference_ms": 2.121,
+      "predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 21,
+          "entity": "person"
+        },
+        {
+          "byte_end": 76,
+          "byte_start": 54,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 2.3703459883108735,
+      "raw_predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 21,
+          "entity": "person"
+        },
+        {
+          "byte_end": 76,
+          "byte_start": 54,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-06-1",
+      "inference_ms": 1.837,
+      "predictions": [
+        {
+          "byte_end": 75,
+          "byte_start": 53,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 2.077341021504253,
+      "raw_predictions": [
+        {
+          "byte_end": 75,
+          "byte_start": 53,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-06-2",
+      "inference_ms": 2.051,
+      "predictions": [
+        {
+          "byte_end": 25,
+          "byte_start": 21,
+          "entity": "person"
+        },
+        {
+          "byte_end": 79,
+          "byte_start": 57,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 2.2846789797767997,
+      "raw_predictions": [
+        {
+          "byte_end": 25,
+          "byte_start": 21,
+          "entity": "person"
+        },
+        {
+          "byte_end": 79,
+          "byte_start": 57,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-07-0",
+      "inference_ms": 3.227,
+      "predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 14,
+          "entity": "phone"
+        },
+        {
+          "byte_end": 58,
+          "byte_start": 46,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 3.4879620070569217,
+      "raw_predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 14,
+          "entity": "phone"
+        },
+        {
+          "byte_end": 58,
+          "byte_start": 46,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-07-1",
+      "inference_ms": 2.259,
+      "predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 14,
+          "entity": "phone"
+        },
+        {
+          "byte_end": 59,
+          "byte_start": 46,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.489733975380659,
+      "raw_predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 14,
+          "entity": "phone"
+        },
+        {
+          "byte_end": 59,
+          "byte_start": 46,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-07-2",
+      "inference_ms": 1.95,
+      "predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 14,
+          "entity": "phone"
+        },
+        {
+          "byte_end": 56,
+          "byte_start": 46,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.202112984377891,
+      "raw_predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 14,
+          "entity": "phone"
+        },
+        {
+          "byte_end": 56,
+          "byte_start": 46,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-08-0",
+      "inference_ms": 1.915,
+      "predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 10,
+          "entity": "email"
+        },
+        {
+          "byte_end": 97,
+          "byte_start": 89,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.112191985361278,
+      "raw_predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 10,
+          "entity": "email"
+        },
+        {
+          "byte_end": 97,
+          "byte_start": 89,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-08-1",
+      "inference_ms": 1.939,
+      "predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 10,
+          "entity": "email"
+        },
+        {
+          "byte_end": 99,
+          "byte_start": 89,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.175508998334408,
+      "raw_predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 10,
+          "entity": "email"
+        },
+        {
+          "byte_end": 99,
+          "byte_start": 89,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-08-2",
+      "inference_ms": 2.025,
+      "predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 10,
+          "entity": "email"
+        },
+        {
+          "byte_end": 102,
+          "byte_start": 89,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.271676028613001,
+      "raw_predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 10,
+          "entity": "email"
+        },
+        {
+          "byte_end": 102,
+          "byte_start": 89,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-09-0",
+      "inference_ms": 1.679,
+      "predictions": [
+        {
+          "byte_end": 55,
+          "byte_start": 33,
+          "entity": "email"
+        },
+        {
+          "byte_end": 80,
+          "byte_start": 66,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 1.9118820200674236,
+      "raw_predictions": [
+        {
+          "byte_end": 55,
+          "byte_start": 33,
+          "entity": "email"
+        },
+        {
+          "byte_end": 80,
+          "byte_start": 66,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-09-1",
+      "inference_ms": 1.634,
+      "predictions": [
+        {
+          "byte_end": 55,
+          "byte_start": 33,
+          "entity": "email"
+        },
+        {
+          "byte_end": 80,
+          "byte_start": 66,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 1.999859989155084,
+      "raw_predictions": [
+        {
+          "byte_end": 55,
+          "byte_start": 33,
+          "entity": "email"
+        },
+        {
+          "byte_end": 80,
+          "byte_start": 66,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-09-2",
+      "inference_ms": 1.554,
+      "predictions": [
+        {
+          "byte_end": 56,
+          "byte_start": 34,
+          "entity": "email"
+        },
+        {
+          "byte_end": 81,
+          "byte_start": 67,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 1.868901017587632,
+      "raw_predictions": [
+        {
+          "byte_end": 56,
+          "byte_start": 34,
+          "entity": "email"
+        },
+        {
+          "byte_end": 81,
+          "byte_start": 67,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-10-0",
+      "inference_ms": 1.881,
+      "predictions": [
+        {
+          "byte_end": 54,
+          "byte_start": 41,
+          "entity": "person"
+        },
+        {
+          "byte_end": 81,
+          "byte_start": 75,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.294943027663976,
+      "raw_predictions": [
+        {
+          "byte_end": 54,
+          "byte_start": 41,
+          "entity": "person"
+        },
+        {
+          "byte_end": 81,
+          "byte_start": 75,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-10-1",
+      "inference_ms": 1.766,
+      "predictions": [
+        {
+          "byte_end": 51,
+          "byte_start": 41,
+          "entity": "person"
+        },
+        {
+          "byte_end": 79,
+          "byte_start": 72,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.1476889960467815,
+      "raw_predictions": [
+        {
+          "byte_end": 51,
+          "byte_start": 41,
+          "entity": "person"
+        },
+        {
+          "byte_end": 79,
+          "byte_start": 72,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-10-2",
+      "inference_ms": 1.743,
+      "predictions": [
+        {
+          "byte_end": 50,
+          "byte_start": 41,
+          "entity": "person"
+        },
+        {
+          "byte_end": 77,
+          "byte_start": 71,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.122343983501196,
+      "raw_predictions": [
+        {
+          "byte_end": 50,
+          "byte_start": 41,
+          "entity": "person"
+        },
+        {
+          "byte_end": 77,
+          "byte_start": 71,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-11-0",
+      "inference_ms": 2.013,
+      "predictions": [
+        {
+          "byte_end": 16,
+          "byte_start": 3,
+          "entity": "person"
+        },
+        {
+          "byte_end": 88,
+          "byte_start": 74,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 2.3641950101591647,
+      "raw_predictions": [
+        {
+          "byte_end": 16,
+          "byte_start": 3,
+          "entity": "person"
+        },
+        {
+          "byte_end": 88,
+          "byte_start": 74,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-11-1",
+      "inference_ms": 2.064,
+      "predictions": [
+        {
+          "byte_end": 90,
+          "byte_start": 76,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 2.372494956944138,
+      "raw_predictions": [
+        {
+          "byte_end": 90,
+          "byte_start": 76,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-11-2",
+      "inference_ms": 1.859,
+      "predictions": [
+        {
+          "byte_end": 86,
+          "byte_start": 72,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 2.2597929928451777,
+      "raw_predictions": [
+        {
+          "byte_end": 86,
+          "byte_start": 72,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-12-0",
+      "inference_ms": 1.533,
+      "predictions": [
+        {
+          "byte_end": 15,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 52,
+          "byte_start": 46,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 1.8810799811035395,
+      "raw_predictions": [
+        {
+          "byte_end": 15,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 52,
+          "byte_start": 46,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-12-1",
+      "inference_ms": 1.41,
+      "predictions": [
+        {
+          "byte_end": 14,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 52,
+          "byte_start": 45,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 1.7377700423821807,
+      "raw_predictions": [
+        {
+          "byte_end": 14,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 52,
+          "byte_start": 45,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-12-2",
+      "inference_ms": 1.737,
+      "predictions": [
+        {
+          "byte_end": 18,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 55,
+          "byte_start": 49,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.0583639852702618,
+      "raw_predictions": [
+        {
+          "byte_end": 18,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 55,
+          "byte_start": 49,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-13-0",
+      "inference_ms": 3.042,
+      "predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 22,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 3.2841970096342266,
+      "raw_predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 22,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-13-1",
+      "inference_ms": 1.996,
+      "predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 22,
+          "entity": "location"
+        },
+        {
+          "byte_end": 87,
+          "byte_start": 76,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.3289239616133273,
+      "raw_predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 22,
+          "entity": "location"
+        },
+        {
+          "byte_end": 87,
+          "byte_start": 76,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-13-2",
+      "inference_ms": 2.121,
+      "predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 22,
+          "entity": "location"
+        },
+        {
+          "byte_end": 88,
+          "byte_start": 82,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.44059698889032,
+      "raw_predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 22,
+          "entity": "location"
+        },
+        {
+          "byte_end": 88,
+          "byte_start": 82,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-14-0",
+      "inference_ms": 2.152,
+      "predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 24,
+          "entity": "person"
+        },
+        {
+          "byte_end": 50,
+          "byte_start": 38,
+          "entity": "location"
+        },
+        {
+          "byte_end": 59,
+          "byte_start": 52,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.4618380120955408,
+      "raw_predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 24,
+          "entity": "person"
+        },
+        {
+          "byte_end": 50,
+          "byte_start": 38,
+          "entity": "location"
+        },
+        {
+          "byte_end": 59,
+          "byte_start": 52,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-14-1",
+      "inference_ms": 2.007,
+      "predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 24,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.3168869665823877,
+      "raw_predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 24,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-14-2",
+      "inference_ms": 2.043,
+      "predictions": [
+        {
+          "byte_end": 37,
+          "byte_start": 24,
+          "entity": "person"
+        },
+        {
+          "byte_end": 68,
+          "byte_start": 57,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.351428964175284,
+      "raw_predictions": [
+        {
+          "byte_end": 37,
+          "byte_start": 24,
+          "entity": "person"
+        },
+        {
+          "byte_end": 68,
+          "byte_start": 57,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-15-0",
+      "inference_ms": 2.164,
+      "predictions": [
+        {
+          "byte_end": 47,
+          "byte_start": 41,
+          "entity": "location"
+        },
+        {
+          "byte_end": 91,
+          "byte_start": 81,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.4708760320208967,
+      "raw_predictions": [
+        {
+          "byte_end": 47,
+          "byte_start": 41,
+          "entity": "location"
+        },
+        {
+          "byte_end": 91,
+          "byte_start": 81,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-15-1",
+      "inference_ms": 1.963,
+      "predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 22,
+          "entity": "location"
+        },
+        {
+          "byte_end": 43,
+          "byte_start": 36,
+          "entity": "location"
+        },
+        {
+          "byte_end": 87,
+          "byte_start": 77,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.229061967227608,
+      "raw_predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 22,
+          "entity": "location"
+        },
+        {
+          "byte_end": 43,
+          "byte_start": 36,
+          "entity": "location"
+        },
+        {
+          "byte_end": 87,
+          "byte_start": 77,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-15-2",
+      "inference_ms": 1.902,
+      "predictions": [
+        {
+          "byte_end": 83,
+          "byte_start": 72,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.195415028836578,
+      "raw_predictions": [
+        {
+          "byte_end": 83,
+          "byte_start": 72,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-16-0",
+      "inference_ms": 2.479,
+      "predictions": [
+        {
+          "byte_end": 18,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 32,
+          "byte_start": 19,
+          "entity": "person"
+        },
+        {
+          "byte_end": 62,
+          "byte_start": 51,
+          "entity": "location"
+        },
+        {
+          "byte_end": 95,
+          "byte_start": 81,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 2.787744044326246,
+      "raw_predictions": [
+        {
+          "byte_end": 18,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 32,
+          "byte_start": 19,
+          "entity": "person"
+        },
+        {
+          "byte_end": 62,
+          "byte_start": 51,
+          "entity": "location"
+        },
+        {
+          "byte_end": 95,
+          "byte_start": 81,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-16-1",
+      "inference_ms": 2.5,
+      "predictions": [
+        {
+          "byte_end": 18,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 29,
+          "byte_start": 19,
+          "entity": "person"
+        },
+        {
+          "byte_end": 59,
+          "byte_start": 53,
+          "entity": "location"
+        },
+        {
+          "byte_end": 92,
+          "byte_start": 78,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 2.7687629917636514,
+      "raw_predictions": [
+        {
+          "byte_end": 18,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 29,
+          "byte_start": 19,
+          "entity": "person"
+        },
+        {
+          "byte_end": 59,
+          "byte_start": 53,
+          "entity": "location"
+        },
+        {
+          "byte_end": 92,
+          "byte_start": 78,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-16-2",
+      "inference_ms": 2.475,
+      "predictions": [
+        {
+          "byte_end": 18,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 28,
+          "byte_start": 19,
+          "entity": "person"
+        },
+        {
+          "byte_end": 45,
+          "byte_start": 33,
+          "entity": "location"
+        },
+        {
+          "byte_end": 54,
+          "byte_start": 47,
+          "entity": "location"
+        },
+        {
+          "byte_end": 87,
+          "byte_start": 73,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 2.8218119987286627,
+      "raw_predictions": [
+        {
+          "byte_end": 18,
+          "byte_start": 0,
+          "entity": "person"
+        },
+        {
+          "byte_end": 28,
+          "byte_start": 19,
+          "entity": "person"
+        },
+        {
+          "byte_end": 45,
+          "byte_start": 33,
+          "entity": "location"
+        },
+        {
+          "byte_end": 54,
+          "byte_start": 47,
+          "entity": "location"
+        },
+        {
+          "byte_end": 87,
+          "byte_start": 73,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-17-0",
+      "inference_ms": 1.844,
+      "predictions": [],
+      "roundtrip_ms": 2.0571380155161023,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-17-1",
+      "inference_ms": 2.253,
+      "predictions": [
+        {
+          "byte_end": 67,
+          "byte_start": 56,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.492378989700228,
+      "raw_predictions": [
+        {
+          "byte_end": 67,
+          "byte_start": 56,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-17-2",
+      "inference_ms": 2.149,
+      "predictions": [
+        {
+          "byte_end": 67,
+          "byte_start": 61,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 2.417351002804935,
+      "raw_predictions": [
+        {
+          "byte_end": 67,
+          "byte_start": 61,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-18-0",
+      "inference_ms": 1.647,
+      "predictions": [
+        {
+          "byte_end": 40,
+          "byte_start": 34,
+          "entity": "location"
+        },
+        {
+          "byte_end": 63,
+          "byte_start": 52,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.8310430459678173,
+      "raw_predictions": [
+        {
+          "byte_end": 40,
+          "byte_start": 34,
+          "entity": "location"
+        },
+        {
+          "byte_end": 63,
+          "byte_start": 52,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-18-1",
+      "inference_ms": 1.859,
+      "predictions": [
+        {
+          "byte_end": 41,
+          "byte_start": 34,
+          "entity": "location"
+        },
+        {
+          "byte_end": 63,
+          "byte_start": 53,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.111519977916032,
+      "raw_predictions": [
+        {
+          "byte_end": 41,
+          "byte_start": 34,
+          "entity": "location"
+        },
+        {
+          "byte_end": 63,
+          "byte_start": 53,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-18-2",
+      "inference_ms": 1.73,
+      "predictions": [
+        {
+          "byte_end": 40,
+          "byte_start": 34,
+          "entity": "location"
+        },
+        {
+          "byte_end": 66,
+          "byte_start": 52,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 1.9568440038710833,
+      "raw_predictions": [
+        {
+          "byte_end": 40,
+          "byte_start": 34,
+          "entity": "location"
+        },
+        {
+          "byte_end": 66,
+          "byte_start": 52,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-19-0",
+      "inference_ms": 1.489,
+      "predictions": [
+        {
+          "byte_end": 46,
+          "byte_start": 34,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 84,
+          "byte_start": 62,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 1.6329859499819577,
+      "raw_predictions": [
+        {
+          "byte_end": 46,
+          "byte_start": 34,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 84,
+          "byte_start": 62,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-19-1",
+      "inference_ms": 1.437,
+      "predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 34,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 82,
+          "byte_start": 60,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 1.6294019878841937,
+      "raw_predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 34,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 82,
+          "byte_start": 60,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-19-2",
+      "inference_ms": 1.679,
+      "predictions": [
+        {
+          "byte_end": 46,
+          "byte_start": 34,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 84,
+          "byte_start": 62,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 1.8826230079866946,
+      "raw_predictions": [
+        {
+          "byte_end": 46,
+          "byte_start": 34,
+          "entity": "ip_address"
+        },
+        {
+          "byte_end": 84,
+          "byte_start": 62,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-20-0",
+      "inference_ms": 2.3,
+      "predictions": [
+        {
+          "byte_end": 64,
+          "byte_start": 25,
+          "entity": "url"
+        }
+      ],
+      "roundtrip_ms": 2.5614899932406843,
+      "raw_predictions": [
+        {
+          "byte_end": 64,
+          "byte_start": 25,
+          "entity": "url"
+        }
+      ]
+    },
+    {
+      "id": "test-20-1",
+      "inference_ms": 2.049,
+      "predictions": [
+        {
+          "byte_end": 64,
+          "byte_start": 25,
+          "entity": "url"
+        }
+      ],
+      "roundtrip_ms": 2.2539549972862005,
+      "raw_predictions": [
+        {
+          "byte_end": 64,
+          "byte_start": 25,
+          "entity": "url"
+        }
+      ]
+    },
+    {
+      "id": "test-20-2",
+      "inference_ms": 1.819,
+      "predictions": [
+        {
+          "byte_end": 64,
+          "byte_start": 25,
+          "entity": "url"
+        }
+      ],
+      "roundtrip_ms": 2.0491580362431705,
+      "raw_predictions": [
+        {
+          "byte_end": 64,
+          "byte_start": 25,
+          "entity": "url"
+        }
+      ]
+    },
+    {
+      "id": "test-21-0",
+      "inference_ms": 1.962,
+      "predictions": [
+        {
+          "byte_end": 74,
+          "byte_start": 36,
+          "entity": "url"
+        },
+        {
+          "byte_end": 92,
+          "byte_start": 80,
+          "entity": "ip_address"
+        }
+      ],
+      "roundtrip_ms": 2.1630620467476547,
+      "raw_predictions": [
+        {
+          "byte_end": 74,
+          "byte_start": 36,
+          "entity": "url"
+        },
+        {
+          "byte_end": 92,
+          "byte_start": 80,
+          "entity": "ip_address"
+        }
+      ]
+    },
+    {
+      "id": "test-21-1",
+      "inference_ms": 1.957,
+      "predictions": [
+        {
+          "byte_end": 74,
+          "byte_start": 36,
+          "entity": "url"
+        }
+      ],
+      "roundtrip_ms": 2.237970009446144,
+      "raw_predictions": [
+        {
+          "byte_end": 74,
+          "byte_start": 36,
+          "entity": "url"
+        }
+      ]
+    },
+    {
+      "id": "test-21-2",
+      "inference_ms": 1.915,
+      "predictions": [
+        {
+          "byte_end": 74,
+          "byte_start": 36,
+          "entity": "url"
+        },
+        {
+          "byte_end": 92,
+          "byte_start": 80,
+          "entity": "ip_address"
+        }
+      ],
+      "roundtrip_ms": 2.277555991895497,
+      "raw_predictions": [
+        {
+          "byte_end": 74,
+          "byte_start": 36,
+          "entity": "url"
+        },
+        {
+          "byte_end": 92,
+          "byte_start": 80,
+          "entity": "ip_address"
+        }
+      ]
+    },
+    {
+      "id": "test-22-0",
+      "inference_ms": 3.569,
+      "predictions": [
+        {
+          "byte_end": 58,
+          "byte_start": 39,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 78,
+          "byte_start": 65,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 3.9685809751972556,
+      "raw_predictions": [
+        {
+          "byte_end": 58,
+          "byte_start": 39,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 78,
+          "byte_start": 65,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-22-1",
+      "inference_ms": 2.133,
+      "predictions": [
+        {
+          "byte_end": 58,
+          "byte_start": 39,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 75,
+          "byte_start": 65,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.4179070023819804,
+      "raw_predictions": [
+        {
+          "byte_end": 58,
+          "byte_start": 39,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 75,
+          "byte_start": 65,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-22-2",
+      "inference_ms": 2.17,
+      "predictions": [
+        {
+          "byte_end": 58,
+          "byte_start": 39,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 74,
+          "byte_start": 65,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.499968046322465,
+      "raw_predictions": [
+        {
+          "byte_end": 58,
+          "byte_start": 39,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 74,
+          "byte_start": 65,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-23-0",
+      "inference_ms": 2.213,
+      "predictions": [],
+      "roundtrip_ms": 2.517363987863064,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-23-1",
+      "inference_ms": 2.253,
+      "predictions": [],
+      "roundtrip_ms": 2.5401479797437787,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-23-2",
+      "inference_ms": 2.093,
+      "predictions": [],
+      "roundtrip_ms": 2.325779991224408,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-24-0",
+      "inference_ms": 4.928,
+      "predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 33,
+          "entity": "us_ssn"
+        }
+      ],
+      "roundtrip_ms": 5.156498984433711,
+      "raw_predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 33,
+          "entity": "us_ssn"
+        }
+      ]
+    },
+    {
+      "id": "test-24-1",
+      "inference_ms": 1.851,
+      "predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 33,
+          "entity": "us_ssn"
+        }
+      ],
+      "roundtrip_ms": 2.0771840354427695,
+      "raw_predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 33,
+          "entity": "us_ssn"
+        }
+      ]
+    },
+    {
+      "id": "test-24-2",
+      "inference_ms": 1.854,
+      "predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 33,
+          "entity": "us_ssn"
+        }
+      ],
+      "roundtrip_ms": 2.140606986358762,
+      "raw_predictions": [
+        {
+          "byte_end": 44,
+          "byte_start": 33,
+          "entity": "us_ssn"
+        }
+      ]
+    },
+    {
+      "id": "test-25-0",
+      "inference_ms": 1.945,
+      "predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 23,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 62,
+          "byte_start": 51,
+          "entity": "us_ssn"
+        }
+      ],
+      "roundtrip_ms": 2.313130011316389,
+      "raw_predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 23,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 62,
+          "byte_start": 51,
+          "entity": "us_ssn"
+        }
+      ]
+    },
+    {
+      "id": "test-25-1",
+      "inference_ms": 1.911,
+      "predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 23,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 62,
+          "byte_start": 51,
+          "entity": "us_ssn"
+        }
+      ],
+      "roundtrip_ms": 2.3422330268658698,
+      "raw_predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 23,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 62,
+          "byte_start": 51,
+          "entity": "us_ssn"
+        }
+      ]
+    },
+    {
+      "id": "test-25-2",
+      "inference_ms": 1.778,
+      "predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 23,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 62,
+          "byte_start": 51,
+          "entity": "us_ssn"
+        }
+      ],
+      "roundtrip_ms": 2.268439973704517,
+      "raw_predictions": [
+        {
+          "byte_end": 42,
+          "byte_start": 23,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 62,
+          "byte_start": 51,
+          "entity": "us_ssn"
+        }
+      ]
+    },
+    {
+      "id": "test-26-0",
+      "inference_ms": 1.745,
+      "predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 27,
+          "entity": "email"
+        },
+        {
+          "byte_end": 97,
+          "byte_start": 75,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 2.2009570384398103,
+      "raw_predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 27,
+          "entity": "email"
+        },
+        {
+          "byte_end": 97,
+          "byte_start": 75,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-26-1",
+      "inference_ms": 1.707,
+      "predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 27,
+          "entity": "email"
+        },
+        {
+          "byte_end": 97,
+          "byte_start": 75,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 2.175666973926127,
+      "raw_predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 27,
+          "entity": "email"
+        },
+        {
+          "byte_end": 97,
+          "byte_start": 75,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-26-2",
+      "inference_ms": 1.615,
+      "predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 27,
+          "entity": "email"
+        },
+        {
+          "byte_end": 97,
+          "byte_start": 75,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 1.9064709777012467,
+      "raw_predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 27,
+          "entity": "email"
+        },
+        {
+          "byte_end": 97,
+          "byte_start": 75,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-27-0",
+      "inference_ms": 1.96,
+      "predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 39,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.369333989918232,
+      "raw_predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 39,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-27-1",
+      "inference_ms": 2.039,
+      "predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 39,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.2320470307022333,
+      "raw_predictions": [
+        {
+          "byte_end": 49,
+          "byte_start": 39,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-27-2",
+      "inference_ms": 2.356,
+      "predictions": [
+        {
+          "byte_end": 50,
+          "byte_start": 39,
+          "entity": "person"
+        }
+      ],
+      "roundtrip_ms": 2.5677160010673106,
+      "raw_predictions": [
+        {
+          "byte_end": 50,
+          "byte_start": 39,
+          "entity": "person"
+        }
+      ]
+    },
+    {
+      "id": "test-28-0",
+      "inference_ms": 1.881,
+      "predictions": [],
+      "roundtrip_ms": 2.044599037617445,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-28-1",
+      "inference_ms": 1.844,
+      "predictions": [],
+      "roundtrip_ms": 2.1246870164759457,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-28-2",
+      "inference_ms": 1.808,
+      "predictions": [],
+      "roundtrip_ms": 2.116579038556665,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-29-0",
+      "inference_ms": 1.912,
+      "predictions": [],
+      "roundtrip_ms": 2.168064995203167,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-29-1",
+      "inference_ms": 1.944,
+      "predictions": [],
+      "roundtrip_ms": 2.193416003137827,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-29-2",
+      "inference_ms": 1.876,
+      "predictions": [],
+      "roundtrip_ms": 2.0181440049782395,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-30-0",
+      "inference_ms": 1.823,
+      "predictions": [],
+      "roundtrip_ms": 2.0961749833077192,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-30-1",
+      "inference_ms": 1.814,
+      "predictions": [],
+      "roundtrip_ms": 2.1048340131528676,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-30-2",
+      "inference_ms": 1.785,
+      "predictions": [],
+      "roundtrip_ms": 1.9809890072792768,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-31-0",
+      "inference_ms": 1.937,
+      "predictions": [],
+      "roundtrip_ms": 2.245974028483033,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-31-1",
+      "inference_ms": 1.646,
+      "predictions": [],
+      "roundtrip_ms": 1.8267679843120277,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-31-2",
+      "inference_ms": 1.615,
+      "predictions": [],
+      "roundtrip_ms": 1.8123650224879384,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-32-0",
+      "inference_ms": 1.568,
+      "predictions": [],
+      "roundtrip_ms": 1.7917410004884005,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-32-1",
+      "inference_ms": 1.775,
+      "predictions": [],
+      "roundtrip_ms": 2.1046660258434713,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-32-2",
+      "inference_ms": 1.972,
+      "predictions": [],
+      "roundtrip_ms": 2.7160790050402284,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-33-0",
+      "inference_ms": 2.175,
+      "predictions": [],
+      "roundtrip_ms": 2.6169089833274484,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-33-1",
+      "inference_ms": 2.247,
+      "predictions": [],
+      "roundtrip_ms": 2.4780710227787495,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-33-2",
+      "inference_ms": 2.185,
+      "predictions": [],
+      "roundtrip_ms": 2.5759339914657176,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-34-0",
+      "inference_ms": 2.2,
+      "predictions": [],
+      "roundtrip_ms": 2.5499550392851233,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-34-1",
+      "inference_ms": 2.496,
+      "predictions": [],
+      "roundtrip_ms": 2.7918920386582613,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-34-2",
+      "inference_ms": 1.943,
+      "predictions": [],
+      "roundtrip_ms": 2.2257889504544437,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-35-0",
+      "inference_ms": 2.085,
+      "predictions": [],
+      "roundtrip_ms": 2.508827019482851,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-35-1",
+      "inference_ms": 2.273,
+      "predictions": [],
+      "roundtrip_ms": 2.6158359833061695,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-35-2",
+      "inference_ms": 2.143,
+      "predictions": [],
+      "roundtrip_ms": 2.4760260130278766,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-36-0",
+      "inference_ms": 8.495,
+      "predictions": [
+        {
+          "byte_end": 579,
+          "byte_start": 568,
+          "entity": "person"
+        },
+        {
+          "byte_end": 596,
+          "byte_start": 590,
+          "entity": "location"
+        },
+        {
+          "byte_end": 636,
+          "byte_start": 613,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 8.94631794653833,
+      "raw_predictions": [
+        {
+          "byte_end": 579,
+          "byte_start": 568,
+          "entity": "person"
+        },
+        {
+          "byte_end": 596,
+          "byte_start": 590,
+          "entity": "location"
+        },
+        {
+          "byte_end": 636,
+          "byte_start": 613,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-36-1",
+      "inference_ms": 7.277,
+      "predictions": [
+        {
+          "byte_end": 596,
+          "byte_start": 589,
+          "entity": "location"
+        },
+        {
+          "byte_end": 636,
+          "byte_start": 613,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 7.554906944278628,
+      "raw_predictions": [
+        {
+          "byte_end": 596,
+          "byte_start": 589,
+          "entity": "location"
+        },
+        {
+          "byte_end": 636,
+          "byte_start": 613,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-36-2",
+      "inference_ms": 6.956,
+      "predictions": [
+        {
+          "byte_end": 599,
+          "byte_start": 593,
+          "entity": "location"
+        },
+        {
+          "byte_end": 639,
+          "byte_start": 616,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 7.451987999957055,
+      "raw_predictions": [
+        {
+          "byte_end": 599,
+          "byte_start": 593,
+          "entity": "location"
+        },
+        {
+          "byte_end": 639,
+          "byte_start": 616,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-37-0",
+      "inference_ms": 7.329,
+      "predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 16,
+          "entity": "person"
+        },
+        {
+          "byte_end": 39,
+          "byte_start": 32,
+          "entity": "location"
+        },
+        {
+          "byte_end": 70,
+          "byte_start": 47,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 7.590675028041005,
+      "raw_predictions": [
+        {
+          "byte_end": 28,
+          "byte_start": 16,
+          "entity": "person"
+        },
+        {
+          "byte_end": 39,
+          "byte_start": 32,
+          "entity": "location"
+        },
+        {
+          "byte_end": 70,
+          "byte_start": 47,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-37-1",
+      "inference_ms": 6.906,
+      "predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 16,
+          "entity": "person"
+        },
+        {
+          "byte_end": 39,
+          "byte_start": 33,
+          "entity": "location"
+        },
+        {
+          "byte_end": 70,
+          "byte_start": 47,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 7.181717024650425,
+      "raw_predictions": [
+        {
+          "byte_end": 29,
+          "byte_start": 16,
+          "entity": "person"
+        },
+        {
+          "byte_end": 39,
+          "byte_start": 33,
+          "entity": "location"
+        },
+        {
+          "byte_end": 70,
+          "byte_start": 47,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-37-2",
+      "inference_ms": 7.719,
+      "predictions": [
+        {
+          "byte_end": 26,
+          "byte_start": 16,
+          "entity": "person"
+        },
+        {
+          "byte_end": 37,
+          "byte_start": 30,
+          "entity": "location"
+        },
+        {
+          "byte_end": 68,
+          "byte_start": 45,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 8.016212959773839,
+      "raw_predictions": [
+        {
+          "byte_end": 26,
+          "byte_start": 16,
+          "entity": "person"
+        },
+        {
+          "byte_end": 37,
+          "byte_start": 30,
+          "entity": "location"
+        },
+        {
+          "byte_end": 68,
+          "byte_start": 45,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-38-0",
+      "inference_ms": 11.885,
+      "predictions": [
+        {
+          "byte_end": 565,
+          "byte_start": 557,
+          "entity": "person"
+        },
+        {
+          "byte_end": 583,
+          "byte_start": 569,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 12.260705989319831,
+      "raw_predictions": [
+        {
+          "byte_end": 565,
+          "byte_start": 557,
+          "entity": "person"
+        },
+        {
+          "byte_end": 583,
+          "byte_start": 569,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-38-1",
+      "inference_ms": 11.088,
+      "predictions": [
+        {
+          "byte_end": 567,
+          "byte_start": 557,
+          "entity": "person"
+        },
+        {
+          "byte_end": 585,
+          "byte_start": 571,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 11.398647970054299,
+      "raw_predictions": [
+        {
+          "byte_end": 567,
+          "byte_start": 557,
+          "entity": "person"
+        },
+        {
+          "byte_end": 585,
+          "byte_start": 571,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-38-2",
+      "inference_ms": 10.516,
+      "predictions": [
+        {
+          "byte_end": 570,
+          "byte_start": 557,
+          "entity": "person"
+        },
+        {
+          "byte_end": 588,
+          "byte_start": 574,
+          "entity": "phone"
+        }
+      ],
+      "roundtrip_ms": 10.84479398559779,
+      "raw_predictions": [
+        {
+          "byte_end": 570,
+          "byte_start": 557,
+          "entity": "person"
+        },
+        {
+          "byte_end": 588,
+          "byte_start": 574,
+          "entity": "phone"
+        }
+      ]
+    },
+    {
+      "id": "test-39-0",
+      "inference_ms": 18.441,
+      "predictions": [
+        {
+          "byte_end": 1677,
+          "byte_start": 1667,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1710,
+          "byte_start": 1704,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 19.04632296646014,
+      "raw_predictions": [
+        {
+          "byte_end": 1677,
+          "byte_start": 1667,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1710,
+          "byte_start": 1704,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-39-1",
+      "inference_ms": 17.976,
+      "predictions": [
+        {
+          "byte_end": 1697,
+          "byte_start": 1685,
+          "entity": "location"
+        },
+        {
+          "byte_end": 1706,
+          "byte_start": 1699,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 18.30174500355497,
+      "raw_predictions": [
+        {
+          "byte_end": 1697,
+          "byte_start": 1685,
+          "entity": "location"
+        },
+        {
+          "byte_end": 1706,
+          "byte_start": 1699,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-39-2",
+      "inference_ms": 15.668,
+      "predictions": [
+        {
+          "byte_end": 1678,
+          "byte_start": 1667,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1695,
+          "byte_start": 1682,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 16.166314017027617,
+      "raw_predictions": [
+        {
+          "byte_end": 1678,
+          "byte_start": 1667,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1695,
+          "byte_start": 1682,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-40-0",
+      "inference_ms": 15.772,
+      "predictions": [
+        {
+          "byte_end": 36,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 2022,
+          "byte_start": 1999,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 16.207894019316882,
+      "raw_predictions": [
+        {
+          "byte_end": 36,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 2022,
+          "byte_start": 1999,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-40-1",
+      "inference_ms": 15.84,
+      "predictions": [
+        {
+          "byte_end": 33,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 2019,
+          "byte_start": 1996,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 16.155020974110812,
+      "raw_predictions": [
+        {
+          "byte_end": 33,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 2019,
+          "byte_start": 1996,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-40-2",
+      "inference_ms": 15.604,
+      "predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 2018,
+          "byte_start": 1995,
+          "entity": "email"
+        }
+      ],
+      "roundtrip_ms": 15.833109035156667,
+      "raw_predictions": [
+        {
+          "byte_end": 32,
+          "byte_start": 23,
+          "entity": "person"
+        },
+        {
+          "byte_end": 2018,
+          "byte_start": 1995,
+          "entity": "email"
+        }
+      ]
+    },
+    {
+      "id": "test-41-0",
+      "inference_ms": 17.127,
+      "predictions": [
+        {
+          "byte_end": 1134,
+          "byte_start": 1121,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1146,
+          "byte_start": 1138,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 17.469011014327407,
+      "raw_predictions": [
+        {
+          "byte_end": 1134,
+          "byte_start": 1121,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1146,
+          "byte_start": 1138,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-41-1",
+      "inference_ms": 17.224,
+      "predictions": [
+        {
+          "byte_end": 1136,
+          "byte_start": 1121,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1146,
+          "byte_start": 1140,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 17.611221002880484,
+      "raw_predictions": [
+        {
+          "byte_end": 1136,
+          "byte_start": 1121,
+          "entity": "person"
+        },
+        {
+          "byte_end": 1146,
+          "byte_start": 1140,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-41-2",
+      "inference_ms": 16.198,
+      "predictions": [
+        {
+          "byte_end": 1143,
+          "byte_start": 1136,
+          "entity": "location"
+        }
+      ],
+      "roundtrip_ms": 16.660894034430385,
+      "raw_predictions": [
+        {
+          "byte_end": 1143,
+          "byte_start": 1136,
+          "entity": "location"
+        }
+      ]
+    },
+    {
+      "id": "test-42-0",
+      "inference_ms": 25.347,
+      "predictions": [],
+      "roundtrip_ms": 25.679785991087556,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-42-1",
+      "inference_ms": 25.418,
+      "predictions": [],
+      "roundtrip_ms": 25.847636978141963,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-42-2",
+      "inference_ms": 25.523,
+      "predictions": [],
+      "roundtrip_ms": 25.998670025728643,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-43-0",
+      "inference_ms": 8.612,
+      "predictions": [
+        {
+          "byte_end": 539,
+          "byte_start": 520,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 571,
+          "byte_start": 544,
+          "entity": "iban"
+        }
+      ],
+      "roundtrip_ms": 9.1365150292404,
+      "raw_predictions": [
+        {
+          "byte_end": 539,
+          "byte_start": 520,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 571,
+          "byte_start": 544,
+          "entity": "iban"
+        }
+      ]
+    },
+    {
+      "id": "test-43-1",
+      "inference_ms": 8.537,
+      "predictions": [
+        {
+          "byte_end": 539,
+          "byte_start": 520,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 571,
+          "byte_start": 544,
+          "entity": "iban"
+        }
+      ],
+      "roundtrip_ms": 8.90694500412792,
+      "raw_predictions": [
+        {
+          "byte_end": 539,
+          "byte_start": 520,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 571,
+          "byte_start": 544,
+          "entity": "iban"
+        }
+      ]
+    },
+    {
+      "id": "test-43-2",
+      "inference_ms": 8.449,
+      "predictions": [
+        {
+          "byte_end": 539,
+          "byte_start": 520,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 571,
+          "byte_start": 544,
+          "entity": "iban"
+        }
+      ],
+      "roundtrip_ms": 8.754304028116167,
+      "raw_predictions": [
+        {
+          "byte_end": 539,
+          "byte_start": 520,
+          "entity": "credit_card"
+        },
+        {
+          "byte_end": 571,
+          "byte_start": 544,
+          "entity": "iban"
+        }
+      ]
+    },
+    {
+      "id": "test-44-0",
+      "inference_ms": 1.732,
+      "predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 24,
+          "entity": "date_time"
+        }
+      ],
+      "roundtrip_ms": 1.9693360081873834,
+      "raw_predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 24,
+          "entity": "date_time"
+        }
+      ]
+    },
+    {
+      "id": "test-44-1",
+      "inference_ms": 1.702,
+      "predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 24,
+          "entity": "date_time"
+        }
+      ],
+      "roundtrip_ms": 1.936490007210523,
+      "raw_predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 24,
+          "entity": "date_time"
+        }
+      ]
+    },
+    {
+      "id": "test-44-2",
+      "inference_ms": 1.842,
+      "predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 24,
+          "entity": "date_time"
+        }
+      ],
+      "roundtrip_ms": 2.085254993289709,
+      "raw_predictions": [
+        {
+          "byte_end": 34,
+          "byte_start": 24,
+          "entity": "date_time"
+        }
+      ]
+    },
+    {
+      "id": "test-45-0",
+      "inference_ms": 1.459,
+      "predictions": [],
+      "roundtrip_ms": 1.5866489848122,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-45-1",
+      "inference_ms": 1.363,
+      "predictions": [],
+      "roundtrip_ms": 1.578947005327791,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-45-2",
+      "inference_ms": 1.334,
+      "predictions": [],
+      "roundtrip_ms": 1.451342017389834,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-46-0",
+      "inference_ms": 1.754,
+      "predictions": [
+        {
+          "byte_end": 43,
+          "byte_start": 22,
+          "entity": "domain"
+        }
+      ],
+      "roundtrip_ms": 1.9587450078688562,
+      "raw_predictions": [
+        {
+          "byte_end": 43,
+          "byte_start": 22,
+          "entity": "domain"
+        }
+      ]
+    },
+    {
+      "id": "test-46-1",
+      "inference_ms": 1.565,
+      "predictions": [
+        {
+          "byte_end": 43,
+          "byte_start": 22,
+          "entity": "domain"
+        }
+      ],
+      "roundtrip_ms": 1.6763050225563347,
+      "raw_predictions": [
+        {
+          "byte_end": 43,
+          "byte_start": 22,
+          "entity": "domain"
+        }
+      ]
+    },
+    {
+      "id": "test-46-2",
+      "inference_ms": 1.537,
+      "predictions": [
+        {
+          "byte_end": 43,
+          "byte_start": 22,
+          "entity": "domain"
+        }
+      ],
+      "roundtrip_ms": 1.747055968735367,
+      "raw_predictions": [
+        {
+          "byte_end": 43,
+          "byte_start": 22,
+          "entity": "domain"
+        }
+      ]
+    },
+    {
+      "id": "test-47-0",
+      "inference_ms": 1.863,
+      "predictions": [],
+      "roundtrip_ms": 2.1062360028736293,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-47-1",
+      "inference_ms": 1.82,
+      "predictions": [],
+      "roundtrip_ms": 1.9802270107902586,
+      "raw_predictions": []
+    },
+    {
+      "id": "test-47-2",
+      "inference_ms": 1.818,
+      "predictions": [],
+      "roundtrip_ms": 2.031546027865261,
+      "raw_predictions": []
+    }
+  ],
+  "by_kind": {
+    "long": {
+      "exact": {
+        "tp": 41,
+        "fp": 4,
+        "fn": 7,
+        "precision": 0.9111111111111111,
+        "recall": 0.8541666666666666,
+        "f1": 0.8817204301075269
+      },
+      "per_entity": {
+        "person": {
+          "tp": 14,
+          "fp": 0,
+          "fn": 4,
+          "precision": 1.0,
+          "recall": 0.7777777777777778,
+          "f1": 0.8750000000000001
+        },
+        "location": {
+          "tp": 9,
+          "fp": 4,
+          "fn": 3,
+          "precision": 0.6923076923076923,
+          "recall": 0.75,
+          "f1": 0.7199999999999999
+        },
+        "email": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "credit_card": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "url": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "iban": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "coverage": {
+        "fully_covered": 41,
+        "alnum_characters": 651,
+        "covered_alnum_characters": 568,
+        "strict_nonspace_characters": 686,
+        "covered_strict_nonspace_characters": 596,
+        "fully_exposed": 4,
+        "partially_exposed": 3
+      },
+      "negative_text": {},
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": []
+    },
+    "negative": {
+      "exact": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "per_entity": {
+        "person": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "location": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "email": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "phone": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "us_ssn": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "credit_card": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "ip_address": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "url": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "iban": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      },
+      "coverage": {},
+      "negative_text": {
+        "rows": 27,
+        "changed_rows": 0,
+        "detections": 0
+      },
+      "error_rows": 0,
+      "additional_raw_labels": {},
+      "supplemental": []
+    },
+    "positive": {
+      "exact": {
+        "tp": 112,
+        "fp": 25,
+        "fn": 35,
+        "precision": 0.8175182481751825,
+        "recall": 0.7619047619047619,
+        "f1": 0.7887323943661972
+      },
+      "per_entity": {
+        "person": {
+          "tp": 47,
+          "fp": 8,
+          "fn": 13,
+          "precision": 0.8545454545454545,
+          "recall": 0.7833333333333333,
+          "f1": 0.817391304347826
+        },
+        "location": {
+          "tp": 15,
+          "fp": 14,
+          "fn": 15,
+          "precision": 0.5172413793103449,
+          "recall": 0.5,
+          "f1": 0.5084745762711865
+        },
+        "email": {
+          "tp": 18,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "phone": {
+          "tp": 12,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "us_ssn": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "credit_card": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "ip_address": {
+          "tp": 5,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        "url": {
+          "tp": 3,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5
+        },
+        "iban": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      },
+      "coverage": {
+        "fully_covered": 118,
+        "alnum_characters": 2034,
+        "covered_alnum_characters": 1564,
+        "strict_nonspace_characters": 2215,
+        "covered_strict_nonspace_characters": 1708,
+        "partially_exposed": 13,
+        "fully_exposed": 16
+      },
+      "negative_text": {},
+      "error_rows": 0,
+      "additional_raw_labels": {
+        "date_time": 3,
+        "domain": 3
+      },
+      "supplemental": [
+        {
+          "id": "test-44-0",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-1",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-44-2",
+          "entity": "date_time",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-45-0",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-1",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-45-2",
+          "entity": "organization",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-46-0",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-1",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-46-2",
+          "entity": "domain",
+          "coverage": "fully_covered"
+        },
+        {
+          "id": "test-47-0",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-1",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        },
+        {
+          "id": "test-47-2",
+          "entity": "government_id",
+          "coverage": "fully_exposed"
+        }
+      ]
+    }
+  }
+}
