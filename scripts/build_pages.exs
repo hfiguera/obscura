@@ -183,10 +183,18 @@ defmodule Obscura.PagesBuilder do
       """
       </h1>
       <p class="article-meta">Published #{article.published_on} · Obscura #{Map.get(article, :version, "0.1.x")}</p>
-      <p class="article-author">By #{@author_name} · <a href="#{@author_x_url}">X @hfiguera</a> · <a href="#{@author_github_url}">GitHub @hfiguera</a></p>
+      #{author_byline()}
       """
       |> String.trim(),
       global: false
+    )
+  end
+
+  defp author_byline do
+    EEx.eval_file("docs/blog/author.html.eex",
+      author_name: @author_name,
+      author_x_url: @author_x_url,
+      author_github_url: @author_github_url
     )
   end
 
