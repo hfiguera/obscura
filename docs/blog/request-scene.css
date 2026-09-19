@@ -1,0 +1,154 @@
+/* A single continuous request-logging scene, in Obscura's existing palette. */
+.request-scene {
+  --scene-text: #f4f7f5;
+  --scene-muted: #aebfb8;
+  --scene-accent: #80d9c3;
+  margin: 40px 0 0;
+  overflow: hidden;
+  color: var(--scene-text);
+  background: var(--header);
+  border-radius: 6px;
+}
+
+.request-scene-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 34px 32px 30px;
+}
+
+.request-scene-heading h2 {
+  flex: 1 0 auto;
+  margin: 0;
+  padding: 0;
+  color: var(--scene-text);
+  font-size: clamp(27px, 3.2vw, 36px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.request-scene-heading p {
+  max-width: 270px;
+  margin: 0;
+  color: var(--scene-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.request-scene-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.request-scene-narrow { display: none; }
+.request-scene-art text { font-family: inherit; }
+.request-scene-art .scene-label { fill: var(--scene-muted); font-size: 11px; font-weight: 600; letter-spacing: 1.4px; }
+.scene-wire { stroke: #46544e; stroke-width: 1; }
+.scene-active-wire { stroke: var(--scene-accent); stroke-width: 2; }
+.scene-boundary { stroke: #438977; stroke-width: 1; stroke-dasharray: 3 5; }
+.scene-boundary-label { fill: var(--scene-accent); font-size: 9px; letter-spacing: 1px; }
+.scene-gate circle { fill: var(--header); stroke: #438977; }
+.scene-gate path { stroke: var(--scene-accent); stroke-width: 1.5; stroke-linejoin: round; }
+.scene-document { fill: #202826; stroke: #46544e; }
+.scene-rule { stroke: #46544e; }
+.request-scene-art .scene-code-label { fill: #c7d0cd; font: 13px "SFMono-Regular", Consolas, monospace; }
+.scene-original-dot { fill: #d9ab69; }
+.scene-key { fill: var(--scene-muted); font-size: 12px; }
+.request-scene-art .scene-raw { fill: #efcf9e; font: 15px "SFMono-Regular", Consolas, monospace; }
+.scene-controller { fill: #202e28; }
+.scene-check { stroke: var(--scene-accent); stroke-width: 1.6; }
+.scene-controller-label { fill: #c6ded3; font-size: 12px; }
+.scene-copy-outline { stroke: #438977; stroke-dasharray: 3 5; }
+.scene-copy-paper { fill: var(--teal-soft); }
+.scene-copy-rule { stroke: #b5d5ca; }
+.request-scene-art .scene-copy-title { fill: #365b4f; font: 13px "SFMono-Regular", Consolas, monospace; }
+.scene-copy-key { fill: #41675a; font-size: 12px; }
+.request-scene-art .scene-copy-raw { fill: var(--ink); font: 15px "SFMono-Regular", Consolas, monospace; }
+.request-scene-art .scene-token-text { fill: var(--teal-dark); font: 600 15px "SFMono-Regular", Consolas, monospace; }
+.scene-mask { fill: var(--teal); }
+.scene-scanner { stroke: var(--teal); stroke-width: 1.5; }
+.request-scene-art .scene-function { fill: var(--scene-muted); font: 12px "SFMono-Regular", Consolas, monospace; }
+.scene-log-key { fill: var(--scene-muted); font-size: 12px; }
+.request-scene-art .scene-log-value { fill: var(--scene-accent); font: 600 15px "SFMono-Regular", Consolas, monospace; }
+.scene-receipt { fill: var(--scene-accent); font-size: 12px; }
+.scene-flight-paper { fill: var(--teal); }
+.request-scene-art .scene-flight-text { fill: #fff; font: 600 13px "SFMono-Regular", Consolas, monospace; }
+
+.request-scene-footer { padding: 0 32px 24px; }
+.request-scene-caption { min-height: 48px; margin: 0 0 20px; color: var(--scene-text); font-size: 15px; line-height: 1.6; }
+.request-scene-controls { display: flex; align-items: center; gap: 16px; padding-top: 18px; border-top: 1px solid #38443e; }
+.request-scene-controls[hidden] { display: none; }
+.request-scene-play { display: flex; align-items: center; gap: 8px; min-width: 96px; min-height: 44px; padding: 8px 10px 8px 0; color: var(--scene-text); background: transparent; border: 0; border-radius: 3px; font: inherit; font-size: 13px; cursor: pointer; }
+.request-scene-play svg { width: 20px; height: 20px; }
+.scene-play-icon { fill: var(--scene-accent); }
+.scene-pause-icon { display: none; stroke: var(--scene-accent); stroke-width: 3; }
+.request-scene[data-playing] .scene-play-icon { display: none; }
+.request-scene[data-playing] .scene-pause-icon { display: block; }
+.request-scene-play:hover { color: var(--scene-accent); }
+.request-scene-play:focus-visible, .request-scene-seek:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 5px; }
+.request-scene-seek { flex: 1; min-width: 0; height: 32px; margin: 0; accent-color: var(--scene-accent); cursor: pointer; }
+.request-scene-time { color: var(--scene-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.request-scene figcaption { margin-top: 12px; color: var(--scene-muted); font-size: 11px; line-height: 1.6; }
+.request-scene ::selection { color: var(--header); background: var(--scene-accent); }
+
+@media (max-width: 600px) {
+  .request-scene-heading { display: block; padding: 26px 22px 24px; }
+  .request-scene-heading h2 { font-size: 30px; }
+  .request-scene-heading p { max-width: none; margin-top: 14px; }
+  .request-scene-wide { display: none; }
+  .request-scene-narrow { display: block; }
+  .request-scene-footer { padding: 18px 22px 22px; }
+  .request-scene-caption { min-height: 72px; font-size: 14px; }
+  .request-scene-controls { gap: 10px; }
+  .request-scene-play { min-width: 84px; }
+}
+
+/* Geometry and semantic colors for the article-specific compositions. */
+.request-scene-art .art-label { fill: var(--scene-muted); font-size: 11px; font-weight: 600; letter-spacing: .7px; }
+.request-scene-art .art-body { fill: var(--scene-text); font-size: 15px; }
+.request-scene-art .art-muted { fill: var(--scene-muted); font-size: 13px; }
+.request-scene-art .art-code { fill: #c7d0cd; font: 14px "SFMono-Regular", Consolas, monospace; }
+.request-scene-art .art-raw { fill: #efcf9e; font: 15px "SFMono-Regular", Consolas, monospace; }
+.request-scene-art .art-token { fill: var(--scene-accent); font: 600 15px "SFMono-Regular", Consolas, monospace; }
+.art-panel { fill: #202826; stroke: #46544e; }
+.art-outline { fill: none; stroke: #46544e; }
+.art-safe { fill: #203b31; stroke: #438977; }
+.art-rule, .art-wire { stroke: #46544e; }
+.art-signal { stroke: var(--scene-accent); stroke-width: 1.5; }
+.art-borrow { stroke: #d9ab69; stroke-width: 1.5; stroke-dasharray: 5 4; }
+.art-boundary { stroke: #438977; stroke-dasharray: 3 5; }
+.art-chip { fill: #06685c; }
+.art-chip + .art-token { fill: #fff; }
+.art-mask { fill: var(--teal); }
+.art-recognition { fill: none; stroke: #80d9c3; }
+.art-memory { fill: #aa824b; }
+.art-positive { fill: var(--scene-accent); font-size: 14px; }
+.art-warning { fill: #efcf9e; font-size: 14px; }
+
+/* Long article-specific headings remain in their column at tablet sizes. */
+.request-scene-heading h2 { flex: 1 1 55%; min-width: 0; }
+.request-scene-heading p { flex: 1 1 35%; }
+.request-scene-caption { min-height: 72px; }
+@media (min-width: 601px) and (max-width: 820px) {
+  .request-scene-heading { align-items: flex-start; }
+  .request-scene-heading h2 { font-size: 27px; }
+}
+
+/* Progressive enhancement: the source image is the default representation. */
+.request-scene[hidden],
+.motion-fallback[hidden] {
+  display: none;
+}
+
+@media print, (prefers-reduced-motion: reduce) {
+  .request-scene {
+    display: none !important;
+  }
+
+  .motion-fallback {
+    display: block !important;
+  }
+}

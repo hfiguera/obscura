@@ -3,6 +3,7 @@ defmodule Obscura.PagesBuilder do
 
   @output_root "_site"
   @stylesheet_source "docs/blog/site.css"
+  @scene_catalog "docs/blog/scenes/catalog.json" |> File.read!() |> Jason.decode!()
   @site_url "https://hfiguera.github.io/obscura/"
   @analytics_token "f968ea7d6e614cc9a3e2d537ced91a10"
   @author_name "Humberto Figuera"
@@ -176,6 +177,7 @@ defmodule Obscura.PagesBuilder do
     |> ExDoc.DocAST.highlight(ExDoc.Language.Elixir)
     |> ExDoc.DocAST.to_html()
     |> rewrite_article_links()
+    |> add_motion_figure(article)
     |> String.replace(
       "</h1>",
       """
@@ -184,6 +186,32 @@ defmodule Obscura.PagesBuilder do
       <p class="article-author">By #{@author_name} · <a href="#{@author_x_url}">X @hfiguera</a> · <a href="#{@author_github_url}">GitHub @hfiguera</a></p>
       """
       |> String.trim(),
+      global: false
+    )
+  end
+
+  defp add_motion_figure(html, article) do
+    template =
+      if article.slug == "privacy-safe-phoenix-request-logging",
+        do: "docs/blog/request-scene.html.eex",
+        else: "docs/blog/scenes/figure.html.eex"
+
+    figure =
+      EEx.eval_file(template,
+        story: Map.get(@scene_catalog, article.slug),
+        slug: article.slug,
+        escape: &xml_escape/1
+      )
+
+    # The original is visible until the player successfully enhances the figure.
+    Regex.replace(
+      ~r/<p>\s*<img\b.*?<\/p>(?:\s*<p><em>.*?<\/em><\/p>)?/s,
+      html,
+      fn original ->
+        figure <>
+          "<div class=\"motion-fallback\" tabindex=\"-1\">" <>
+          original <> "</div>"
+      end,
       global: false
     )
   end
@@ -224,6 +252,8 @@ defmodule Obscura.PagesBuilder do
         <link rel="alternate" type="application/rss+xml" title="Obscura articles" href="#{@site_url}feed.xml">
         <link rel="stylesheet" href="../../assets/syntax.css">
         <link rel="stylesheet" href="../../assets/site.css">
+        <link rel="stylesheet" href="../../assets/request-scene.css">
+        <script src="../../assets/request-scene.js" defer></script>
 
         <meta property="og:type" content="article">
         <meta property="og:site_name" content="Obscura">
@@ -432,6 +462,8 @@ defmodule Obscura.PagesBuilder do
 
   defp copy_shared_assets do
     File.cp!(@stylesheet_source, Path.join(@output_root, "assets/site.css"))
+    File.cp!("docs/blog/request-scene.css", Path.join(@output_root, "assets/request-scene.css"))
+    File.cp!("docs/blog/request-scene.js", Path.join(@output_root, "assets/request-scene.js"))
 
     File.write!(
       Path.join(@output_root, "assets/syntax.css"),

@@ -1,0 +1,102 @@
+<figure class="request-scene" aria-labelledby="motion-title" hidden>
+  <header class="request-scene-heading">
+    <h2 id="motion-title">The request stays.<br>The copy crosses.</h2>
+    <p>One request, an unchanged controller, and a deliberate boundary before the log.</p>
+  </header>
+  <%= for {variant, width, height, source_x, source_y, copy_x, copy_y, log_x, log_y} <- [
+    {"wide", 960, 418, 26, 66, 350, 66, 694, 66},
+    {"narrow", 380, 746, 24, 42, 24, 310, 24, 574}
+  ] do %>
+    <svg class="request-scene-art request-scene-<%= variant %>" viewBox="0 0 <%= width %> <%= height %>" fill="none" role="img" aria-labelledby="scene-title-<%= variant %> scene-desc-<%= variant %>" data-variant="<%= variant %>">
+      <title id="scene-title-<%= variant %>">A redacted copy crosses the logging boundary</title>
+      <desc id="scene-desc-<%= variant %>">The synthetic email jane@example.com and password summer-secret remain in conn.params for the controller. A separate copy replaces them with EMAIL and REDACTED markers. Only that copy reaches Obscura.Phoenix.Logger. Phoenix's default logger is disabled.</desc>
+      <defs>
+        <clipPath id="email-clip-<%= variant %>"><rect data-part="email-clip" x="0" y="0" width="0" height="24"/></clipPath>
+        <clipPath id="password-clip-<%= variant %>"><rect data-part="password-clip" x="0" y="0" width="0" height="24"/></clipPath>
+      </defs>
+      <%= if variant == "wide" do %>
+        <text class="scene-label" x="26" y="30">APPLICATION</text>
+        <text class="scene-label" x="350" y="30">REDACTED COPY</text>
+        <text class="scene-label" x="694" y="30">REQUEST LOG</text>
+        <path class="scene-wire" d="M278 148H350M602 148H694M152 242V302"/>
+        <path data-part="original-route" class="scene-active-wire" d="M152 242V302"/>
+        <path class="scene-boundary" d="M648 50V340"/>
+        <g transform="translate(648 148)" class="scene-gate"><circle r="19"/><path d="M-6-1V-6a6 6 0 0 1 12 0V-1M-8-1H8V11H-8Z"/></g>
+        <text class="scene-boundary-label" transform="translate(654 380) rotate(-90)">LOGGING BOUNDARY</text>
+      <% else %>
+        <text class="scene-label" x="24" y="24">APPLICATION</text>
+        <text class="scene-label" x="24" y="294">REDACTED COPY</text>
+        <text class="scene-label" x="24" y="558">REQUEST LOG</text>
+        <path class="scene-wire" d="M276 122H342V392H276M150 486V574M150 218V232"/>
+        <path data-part="original-route" class="scene-active-wire" d="M150 218V232"/>
+        <path class="scene-boundary" d="M24 530H356"/>
+        <g transform="translate(150 530)" class="scene-gate"><circle r="17"/><path d="M-6-1V-6a6 6 0 0 1 12 0V-1M-8-1H8V11H-8Z"/></g>
+        <text class="scene-boundary-label" x="180" y="523">LOGGING BOUNDARY</text>
+      <% end %>
+      <g transform="translate(<%= source_x %> <%= source_y %>)">
+        <rect class="scene-document" width="252" height="176" rx="7"/>
+        <path class="scene-rule" d="M0 42H252"/>
+        <text class="scene-code-label" x="18" y="27">conn.params</text>
+        <circle class="scene-original-dot" cx="230" cy="23" r="3"/>
+        <text class="scene-key" x="18" y="72">email</text>
+        <text class="scene-raw" x="18" y="97">jane@example.com</text>
+        <text class="scene-key" x="18" y="127">password</text>
+        <text class="scene-raw" x="18" y="152">summer-secret</text>
+      </g>
+      <g transform="translate(<%= source_x %> <%= variant == "wide" && 302 || 232 %>)">
+        <rect class="scene-controller" width="252" height="42" rx="5"/>
+        <path class="scene-check" d="M16 21L21 26L31 16"/>
+        <text class="scene-controller-label" x="43" y="26">Controller input unchanged</text>
+      </g>
+      <g transform="translate(<%= copy_x %> <%= copy_y %>)">
+        <rect class="scene-copy-outline" width="252" height="176" rx="7"/>
+        <g data-part="copy" data-x="<%= source_x - copy_x %>" data-y="<%= source_y - copy_y %>">
+          <rect class="scene-copy-paper" width="252" height="176" rx="7"/>
+          <path class="scene-copy-rule" d="M0 42H252"/>
+          <text class="scene-copy-title" x="18" y="27">conn.assigns</text>
+          <text class="scene-copy-key" x="18" y="72">email</text>
+          <text class="scene-copy-key" x="18" y="127">password</text>
+          <g transform="translate(18 78)">
+            <text data-part="email-token" class="scene-token-text" x="0" y="19">[EMAIL]</text>
+            <g clip-path="url(#email-clip-<%= variant %>)"><rect class="scene-copy-paper" width="216" height="24"/><text class="scene-copy-raw" x="0" y="19">jane@example.com</text></g>
+            <rect data-part="email-mask" class="scene-mask" width="0" height="24" rx="2"/>
+          </g>
+          <g transform="translate(18 133)">
+            <text data-part="password-token" class="scene-token-text" x="0" y="19">[REDACTED]</text>
+            <g clip-path="url(#password-clip-<%= variant %>)"><rect class="scene-copy-paper" width="216" height="24"/><text class="scene-copy-raw" x="0" y="19">summer-secret</text></g>
+            <rect data-part="password-mask" class="scene-mask" width="0" height="24" rx="2"/>
+          </g>
+          <path data-part="scan" class="scene-scanner" d="M8 0H244" opacity="0"/>
+        </g>
+        <text class="scene-function" x="0" y="207">Obscura.Phoenix.Plug</text>
+      </g>
+      <g transform="translate(<%= log_x %> <%= log_y %>)">
+        <path class="scene-rule" d="M0 0H240M0 42H240"/>
+        <text class="scene-code-label" x="0" y="27">Obscura.Phoenix.Logger</text>
+        <g data-part="log-email"><text class="scene-log-key" x="0" y="74">email</text><text class="scene-log-value" x="0" y="99">[EMAIL]</text></g>
+        <g data-part="log-password"><text class="scene-log-key" x="0" y="129">password</text><text class="scene-log-value" x="0" y="154">[REDACTED]</text></g>
+        <%= if variant == "wide" do %>
+          <g data-part="receipt"><path class="scene-check" d="M0 205L5 210L15 200"/><text class="scene-receipt" x="26" y="209">Sanitized fields only</text></g>
+        <% end %>
+      </g>
+      <%= for {kind, text, offset} <- [{"email", "[EMAIL]", 78}, {"password", "[REDACTED]", 133}] do %>
+        <g data-part="flight-<%= kind %>" data-from-x="<%= copy_x + 18 %>" data-from-y="<%= copy_y + offset %>" data-to-x="<%= log_x %>" data-to-y="<%= log_y + offset %>" opacity="0">
+          <rect class="scene-flight-paper" width="122" height="28" rx="3"/>
+          <text class="scene-flight-text" x="10" y="19"><%= text %></text>
+        </g>
+      <% end %>
+    </svg>
+  <% end %>
+  <div class="request-scene-footer">
+    <p class="request-scene-caption">Original parameters stay in the application. Only the sanitized copy reaches the log.</p>
+    <div class="request-scene-controls" hidden>
+      <button class="request-scene-play" type="button" aria-label="Play animation">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path class="scene-play-icon" d="M6 3L16 10L6 17Z"/><path class="scene-pause-icon" d="M6 4V16M14 4V16"/></svg>
+        <span>Play</span>
+      </button>
+      <input class="request-scene-seek" type="range" min="0" max="11000" step="50" value="11000" aria-label="Animation position">
+      <span class="request-scene-time" aria-hidden="true">0:11</span>
+    </div>
+    <figcaption>Illustrative sequence · synthetic values · default Phoenix logger disabled</figcaption>
+  </div>
+</figure>

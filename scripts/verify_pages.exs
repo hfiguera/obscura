@@ -66,6 +66,8 @@ defmodule Obscura.PagesVerifier do
     verify_privacy()
 
     assert_file("assets/site.css")
+    assert_file("assets/request-scene.js")
+    assert_file("assets/request-scene.css")
     assert_file("assets/syntax.css")
     assert_file("feed.xml")
     assert_file("sitemap.xml")
@@ -88,6 +90,26 @@ defmodule Obscura.PagesVerifier do
     assert_contains(html, ~s(href="https://x.com/hfiguera"))
     assert_contains(html, ~s(href="https://github.com/hfiguera"))
     refute_contains(html, "TODO(media)")
+    assert_contains(html, ~s(<script src="../../assets/request-scene.js" defer></script>))
+    assert_contains(html, ~s(href="../../assets/request-scene.css"))
+    assert_contains(html, ~s(<div class="motion-fallback" tabindex="-1">))
+    assert_contains(html, ~s(aria-labelledby="motion-title" hidden>))
+    refute_contains(html, "View original figure")
+
+    assert_contains(html, ~s(aria-labelledby="motion-title"))
+    assert_contains(html, ~s(class="request-scene-art request-scene-wide"))
+    assert_contains(html, ~s(class="request-scene-art request-scene-narrow"))
+    assert_contains(html, ~s(aria-label="Animation position"))
+    refute_contains(html, ~s(class="motion-step"))
+
+    if article.slug == "privacy-safe-phoenix-request-logging" do
+      assert_contains(html, ~s(data-part="flight-email"))
+      assert_contains(html, ~s(data-part="flight-password"))
+    else
+      assert_contains(html, ~s(data-timeline="declarative"))
+      assert_contains(html, ~s(class="scene-captions"))
+    end
+
     refute_contains(html, "localhost")
     refute_contains(html, "cloudspaces.litng.ai")
     assert_analytics_beacon(html)
