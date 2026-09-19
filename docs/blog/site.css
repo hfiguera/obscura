@@ -134,6 +134,26 @@ a:hover {
   padding: 72px 0 88px;
 }
 
+.article-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  margin-bottom: 24px;
+  padding-block: 6px;
+  font-size: 14px;
+}
+
+.article-back-link svg {
+  flex: none;
+}
+
+.article-back-link:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
 .index-intro {
   max-width: 760px;
   margin-bottom: 52px;
@@ -221,13 +241,32 @@ article h1 {
 }
 
 .article-author {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
   margin: 0 0 36px;
   color: var(--muted);
   font-size: 14px;
 }
 
 .article-author a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
   font-weight: 700;
+}
+
+.article-author a:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.profile-icon {
+  flex: none;
+  fill: currentColor;
 }
 
 article h2 {

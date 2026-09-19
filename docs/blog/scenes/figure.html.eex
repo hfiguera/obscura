@@ -1,0 +1,20 @@
+<figure class="request-scene" data-timeline="declarative" aria-labelledby="motion-title" hidden>
+  <header class="request-scene-heading">
+    <h2 id="motion-title"><%= escape.(story["title"]) |> String.replace("\n", "<br>") %></h2>
+    <p><%= escape.(story["intro"]) %></p>
+  </header>
+  <%= File.read!(Path.join("docs/blog/scenes", slug <> ".html")) %>
+  <div class="request-scene-footer">
+    <p class="request-scene-caption"><%= escape.(story["captions"] |> List.last() |> List.last()) %></p>
+    <div class="request-scene-controls" hidden>
+      <button class="request-scene-play" type="button" aria-label="Play animation">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path class="scene-play-icon" d="M6 3L16 10L6 17Z"/><path class="scene-pause-icon" d="M6 4V16M14 4V16"/></svg>
+        <span>Play</span>
+      </button>
+      <input class="request-scene-seek" type="range" min="0" max="11000" step="50" value="11000" aria-label="Animation position">
+      <span class="request-scene-time" aria-hidden="true">0:11</span>
+    </div>
+    <figcaption><%= escape.(story["note"]) %></figcaption>
+  </div>
+  <script type="application/json" class="scene-captions"><%= story["captions"] |> Jason.encode!() |> String.replace("<", "\\u003c") %></script>
+</figure>

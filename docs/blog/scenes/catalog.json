@@ -1,0 +1,254 @@
+{
+  "making-pii-detection-faster-without-keeping-input-alive": {
+    "title": "Let the input go.\nKeep only the result.",
+    "intro": "Watch a borrowed slice become an owned result before the backing allocation is released.",
+    "description": "A small sub-binary retains a large request. Copying the selected result gives it independent ownership, allowing the input allocation to be reclaimed when no references remain. The owned email is still PII.",
+    "captions": [
+      [
+        0,
+        "A 17-byte match can retain the allocation behind a roughly one-megabyte request."
+      ],
+      [
+        3800,
+        "Copy only the selected data that will escape, after filtering."
+      ],
+      [
+        5800,
+        "The result now owns its bytes. The borrowed reference detaches."
+      ],
+      [
+        8500,
+        "The input can be reclaimed when no other references remain. This does not erase the PII in the result."
+      ]
+    ],
+    "note": "Illustrative sequence · synthetic examples"
+  },
+  "the-agent-needs-identity-the-model-does-not": {
+    "title": "Identity stays here.\nTokens make the trip.",
+    "intro": "A stable pseudonym travels through the model and tools. Its mapping stays in the application.",
+    "description": "A local vault maps a synthetic email to EMAIL_001. Only the token reaches the model. A trusted tool restores identity for a local lookup and protects the result again. The complete answer is restored in the trusted application view.",
+    "captions": [
+      [
+        0,
+        "Create a session-scoped mapping inside the trusted application."
+      ],
+      [
+        1600,
+        "Only the pseudonym crosses into the model request."
+      ],
+      [
+        4400,
+        "A trusted tool restores one identifier for a narrow local lookup."
+      ],
+      [
+        6500,
+        "Protect the tool result before returning it to the model."
+      ],
+      [
+        9000,
+        "Keep streaming tokenized. Restore only after the complete answer reaches the trusted view."
+      ]
+    ],
+    "note": "Illustrative sequence · synthetic examples"
+  },
+  "protecting-pii-in-elixir": {
+    "title": "Find it locally.\nProtect each exit.",
+    "intro": "One input branches into a redacted log record and a pseudonymized model message.",
+    "description": "Local detection identifies an email and phone number. Redaction replaces values with entity labels for logs. Pseudonymization preserves stable references for model messages. Detection is not a guarantee that all sensitive data is found.",
+    "captions": [
+      [
+        0,
+        "Recognize structured identifiers locally, before they reach a downstream system."
+      ],
+      [
+        2600,
+        "For a log record, replace the sensitive values with entity labels."
+      ],
+      [
+        4200,
+        "For a model message, keep relationships through stable pseudonyms."
+      ],
+      [
+        6200,
+        "Send the representation selected for each boundary."
+      ],
+      [
+        9500,
+        "Every exit needs a policy. Detection can still miss sensitive values."
+      ]
+    ],
+    "note": "Illustrative sequence · synthetic examples"
+  },
+  "privacy-safe-phoenix-realtime-logging": {
+    "title": "Keep the event.\nLeave the payload.",
+    "intro": "Raw telemetry stays on one side. A small, controlled vocabulary reaches the log.",
+    "description": "A raw channel topic becomes room:*, an allowlisted new_message event is retained, parameters become OMITTED, and connect_info is excluded from the record. The raw telemetry itself is not rewritten.",
+    "captions": [
+      [
+        0,
+        "Socket and channel telemetry already contains raw, client-controlled values."
+      ],
+      [
+        2600,
+        "Use the configured topic pattern instead of a raw topic identifier."
+      ],
+      [
+        4400,
+        "Emit event names from the startup allowlist. Unknown names get a fixed label."
+      ],
+      [
+        6300,
+        "Omit payloads by default and exclude connect_info."
+      ],
+      [
+        9000,
+        "The handler protects only the record it emits. Other telemetry consumers need their own policy."
+      ]
+    ],
+    "note": "Illustrative sequence · synthetic examples"
+  },
+  "beyond-regex-why-we-shipped-a-cpu-profile-for-pii-detection": {
+    "title": "Same request.\nMore context.",
+    "intro": "Two profiles inspect the same email, person, and place from the article’s synthetic request.",
+    "description": "Both profiles mask the email. In this example the fast profile misses Rachel Chen and London, while efficient masks them as person and location. The heldout evaluation also has more false positives with efficient.",
+    "captions": [
+      [
+        0,
+        "The input and requested entity types are the same for both profiles."
+      ],
+      [
+        2000,
+        "Both profiles recognize and pseudonymize the structured email."
+      ],
+      [
+        4000,
+        "Local CPU NER recognizes the name Rachel Chen."
+      ],
+      [
+        5700,
+        "It also recognizes London. The fast output keeps both spans in this example."
+      ],
+      [
+        8500,
+        "The heldout tradeoff matters: 1,993 fewer missed exact spans and 3,044 more false positives."
+      ]
+    ],
+    "note": "Illustrative sequence · article’s Obscura 0.2.0 outputs and heldout counts"
+  },
+  "an-ai-hybrid-improved-pii-detection-we-still-did-not-ship-it": {
+    "title": "A better score.\nA closer look.",
+    "intro": "Watch 163 added spans sort into the outcomes that changed the shipping decision.",
+    "description": "The contact hybrid added 163 spans: 69 exact phones, 18 exact URLs, and 76 other outcomes comprising 3 boundary mismatches, 26 wrong types, and 47 false positives. A deterministic probe recovered all 18 URL gains and six more.",
+    "captions": [
+      [
+        0,
+        "The contact-only hybrid improved the aggregate exact-span F1. What did it actually add?"
+      ],
+      [
+        1200,
+        "Sort the added spans by outcome instead of judging only the total score."
+      ],
+      [
+        5500,
+        "87 exact additions are phones and URLs. The other 76 are boundary mismatches, wrong types, or false positives."
+      ],
+      [
+        7000,
+        "The deterministic URL probe recovers all 18 URL gains and finds six more."
+      ],
+      [
+        9000,
+        "Use that evidence to improve smaller recognizers. Do not add the hybrid runtime dependency."
+      ]
+    ],
+    "note": "Illustrative sorting · counts from the article’s incremental error analysis"
+  },
+  "should-pii-detection-live-inside-the-beam": {
+    "title": "Two routes.\nTwo kinds of ownership.",
+    "intro": "Follow the request through a separate privacy service, then through a local BEAM boundary.",
+    "description": "A separate Presidio service receives a request and returns a protected representation across a network boundary. An Obscura local boundary transforms values inside the Elixir application. Either can be valid; the architectures have different operating and failure boundaries.",
+    "captions": [
+      [
+        0,
+        "A service architecture separates the application from the privacy runtime."
+      ],
+      [
+        1500,
+        "The request crosses a network boundary to the independently operated service."
+      ],
+      [
+        3500,
+        "The protected representation returns to the application."
+      ],
+      [
+        5800,
+        "With a local Obscura boundary, the transformation stays next to the Elixir values."
+      ],
+      [
+        9200,
+        "Both architectures can be correct. Choose deployment ownership, data movement, and failure handling deliberately."
+      ]
+    ],
+    "note": "Illustrative sequence · synthetic examples"
+  },
+  "running-obscura-on-nvidia-exla": {
+    "title": "Installed is not\nthe same as executing.",
+    "intro": "A GPU claim earns its way through five separate validation gates.",
+    "description": "First establish the CPU app baseline. Discover CUDA, run a compiled Nx operation returning an EXLA.Backend tensor, observe beam.smp as a GPU consumer, then exercise both model profiles. This is the reported Tesla T4 compatibility path, not a performance recommendation.",
+    "captions": [
+      [
+        0,
+        "Start with a working Phoenix application and the fast profile on CPU."
+      ],
+      [
+        2300,
+        "EXLA discovers a CUDA device. Discovery alone is not execution proof."
+      ],
+      [
+        4200,
+        "Run a compiled operation and inspect the EXLA.Backend tensor."
+      ],
+      [
+        6100,
+        "Observe beam.smp as a CUDA consumer on the Tesla T4."
+      ],
+      [
+        8000,
+        "Prepare and reuse both model-serving paths. This validates the tested configuration, not all GPU deployments."
+      ]
+    ],
+    "note": "Illustrative proof sequence · the article’s Tesla T4 validation path"
+  },
+  "model-card-is-not-a-license": {
+    "title": "Follow the provenance.\nKeep the questions open.",
+    "intro": "A model is assembled from separate artifacts, each with its own review questions.",
+    "description": "Follow the model card to base weights, tokenizer assets, training data, the exact checkpoint, and intended deployment. Terms and provenance must be reviewed at each layer. This schematic review sequence does not determine licensing permission.",
+    "captions": [
+      [
+        0,
+        "The model card is a starting point: metadata and links, not the whole permission story."
+      ],
+      [
+        1600,
+        "Identify the original weights and their applicable terms."
+      ],
+      [
+        3100,
+        "Trace the tokenizer assets as well as the model."
+      ],
+      [
+        4600,
+        "Follow the training data and the dataset agreement."
+      ],
+      [
+        6100,
+        "Pin the exact checkpoint revision that will be loaded."
+      ],
+      [
+        7600,
+        "Review the intended deployment and keep unresolved conditions explicit."
+      ]
+    ],
+    "note": "Illustrative engineering review · not a licensing determination"
+  }
+}
