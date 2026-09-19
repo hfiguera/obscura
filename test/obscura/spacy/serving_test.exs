@@ -128,9 +128,17 @@ defmodule Obscura.Spacy.ServingTest do
   end
 
   test "caller death cancels an active request", context do
-    server = pool(context, :hang)
+    server = pool(context, :hang, 5_000)
     caller = spawn(fn -> Serving.predict(server, "PRIVATE_SOURCE") end)
-    eventually(fn -> Serving.status(server).busy == 1 end)
+
+    # Busy includes reservations. Wait until prediction has actually started so
+    # caller death exercises worker cancellation, not an unused lease release.
+    eventually(fn ->
+      Enum.any?(:sys.get_state(server).slots, fn {_id, slot} ->
+        match?(%{caller: ^caller, from: {^caller, _}}, slot.busy)
+      end)
+    end)
+
     Process.exit(caller, :kill)
     eventually(fn -> match?(%{workers: 1, busy: 0, failures: 1}, Serving.status(server)) end)
   end
